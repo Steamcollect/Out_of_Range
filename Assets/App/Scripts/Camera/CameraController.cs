@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
 
     void Awake()
     {
-        rso_MainCamera.Set(cam);
+        rso_MainCamera.Set(this);
     }
 
     public Camera GetCamera() { return cam; }
