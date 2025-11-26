@@ -13,6 +13,11 @@ public class EntityHealth : MonoBehaviour, IHealth
     //[Header("Input")]
     //[Header("Output")]
 
+    private void Start()
+    {
+        currentHealth = maxHealth;
+    }
+
     public void TakeDamage(int damage)
     {
         if (shield != null && !shield.Value.IsDestroy())

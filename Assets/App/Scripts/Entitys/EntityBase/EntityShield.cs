@@ -10,6 +10,11 @@ public class EntityShield : MonoBehaviour, IShield
     //[Header("Input")]
     //[Header("Output")]
 
+    void Start()
+    {
+        currentShield = maxShield;
+    }
+
     public int TakeDamage(int damage)
     {
         currentShield -= damage;
