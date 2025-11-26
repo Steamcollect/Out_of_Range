@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,7 +23,6 @@ namespace MVsToolkit.Dev
             public FieldInfo field;
             public HandleAttribute attribute;
         }
-
 
         private void OnEnable()
         {
@@ -71,14 +69,12 @@ namespace MVsToolkit.Dev
                 {
                     Vector3 localValue = (Vector3)h.field.GetValue(target);
 
-                    // Convertit en monde si Local
                     Vector3 worldValue = h.attribute.HandleType == TransformLocationType.Local
                         ? go.transform.TransformPoint(localValue)
                         : localValue;
 
                     Vector3 newWorldValue = Handles.PositionHandle(worldValue, Quaternion.identity);
 
-                    // Convertit inverse si Local
                     Vector3 newLocalValue = h.attribute.HandleType == TransformLocationType.Local
                         ? go.transform.InverseTransformPoint(newWorldValue)
                         : newWorldValue;
@@ -128,11 +124,7 @@ namespace MVsToolkit.Dev
                 if (iterator.name == "m_Script")
                     continue;
 
-                FieldInfo field = targetObj.GetType().GetField(
-                    iterator.name,
-                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance
-                );
-
+                FieldInfo field = GetFieldRecursive(targetObj.GetType(), iterator.name);
                 if (field == null)
                     continue;
 
@@ -202,6 +194,22 @@ namespace MVsToolkit.Dev
                 }
 
             } while (iterator.NextVisible(false));
+        }
+
+        private static FieldInfo GetFieldRecursive(System.Type type, string fieldName)
+        {
+            while (type != null)
+            {
+                FieldInfo field = type.GetField(
+                    fieldName,
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance
+                );
+                if (field != null)
+                    return field;
+
+                type = type.BaseType;
+            }
+            return null;
         }
         #endregion
 
@@ -291,59 +299,59 @@ namespace MVsToolkit.Dev
         }
 
         private void DrawButtons()
+    {
+        bool firstButton = true;
+        var methods = target.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+        foreach (var method in methods)
         {
-            bool firstButton = true;
-            var methods = target.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            var buttonAttr = method.GetCustomAttribute<ButtonAttribute>();
+            if (buttonAttr == null)
+                continue;
 
-            foreach (var method in methods)
+            if (firstButton)
             {
-                var buttonAttr = method.GetCustomAttribute<ButtonAttribute>();
-                if (buttonAttr == null)
-                    continue;
+                firstButton = false;
+                EditorGUILayout.Space(2);
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.Space(2);
+            }
 
-                if (firstButton)
+            if (GUILayout.Button(ObjectNames.NicifyVariableName(method.Name)))
+            {
+                foreach (var t in targets)
                 {
-                    firstButton = false;
-                    EditorGUILayout.Space(2);
-                    EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-                    EditorGUILayout.Space(2);
-                }
-
-                if (GUILayout.Button(ObjectNames.NicifyVariableName(method.Name)))
-                {
-                    foreach (var t in targets)
-                    {
-                        object[] parameters = ResolveButtonsParameters(buttonAttr.Parameters, t);
-                        method.Invoke(t, parameters);
-                    }
+                    object[] parameters = ResolveButtonsParameters(buttonAttr.Parameters, t);
+                    method.Invoke(t, parameters);
                 }
             }
         }
-        #endregion
-
-        #region Helpers
-        private object[] ResolveButtonsParameters(object[] rawParams, object target)
-        {
-            if (rawParams == null)
-                return null;
-
-            object[] resolved = new object[rawParams.Length];
-            for (int i = 0; i < rawParams.Length; i++)
-            {
-                object param = rawParams[i];
-                if (param is string s)
-                {
-                    var field = target.GetType().GetField(s, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                    if (field != null)
-                    {
-                        resolved[i] = field.GetValue(target);
-                        continue;
-                    }
-                }
-                resolved[i] = param;
-            }
-            return resolved;
-        }
-        #endregion
     }
+    #endregion
+
+    #region Helpers
+    private object[] ResolveButtonsParameters(object[] rawParams, object target)
+    {
+        if (rawParams == null)
+            return null;
+
+        object[] resolved = new object[rawParams.Length];
+        for (int i = 0; i < rawParams.Length; i++)
+        {
+            object param = rawParams[i];
+            if (param is string s)
+            {
+                var field = target.GetType().GetField(s, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                if (field != null)
+                {
+                    resolved[i] = field.GetValue(target);
+                    continue;
+                }
+            }
+            resolved[i] = param;
+        }
+        return resolved;
+    }
+    #endregion
+}
 }

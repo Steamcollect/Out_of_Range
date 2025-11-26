@@ -1,9 +1,11 @@
 using UnityEngine;
 using MVsToolkit.Dev;
 
-public class EntityController : MonoBehaviour
+public class EntityController : MonoBehaviour, ITargetable
 {
-    //[Header("Settings")]
+    [Header("Settings")]
+    [SerializeField, Handle(TransformLocationType.Local)] Vector3 targetPos;
+
     [Header("References")]
     [SerializeField] protected EntityHealth health;
     [SerializeField] protected EntityTrigger trigger;
@@ -12,6 +14,11 @@ public class EntityController : MonoBehaviour
 
     //[Header("Input")]
     //[Header("Output")]
+
+    public Vector3 GetTargetPosition()
+    {
+        return transform.position + targetPos;
+    }
 
     public EntityHealth GetHealth() {  return health; }
     public EntityTrigger GetTrigger() { return trigger; }

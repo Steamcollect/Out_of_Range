@@ -3,7 +3,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : EntityController
 {
-    //[Header("Settings")]
+    [Header("Settings")]
+    [SerializeField] LayerMask lookAtPossible;
+
     //[Header("References")]
 
     [Header("Input")]
@@ -42,11 +44,16 @@ public class PlayerController : EntityController
     {
         Ray ray = cam.Get().GetCamera().ScreenPointToRay(mousePositionIA.action.ReadValue<Vector2>());
 
-        if (Mathf.Abs(ray.direction.y) < 0.0001f)
-            return Vector3.zero;
+        if (Physics.Raycast(ray, out RaycastHit hit, 30, lookAtPossible))
+        {
+            if(hit.collider.TryGetComponent(out ITargetable targetable))
+            {
+                return targetable.GetTargetPosition();
+            }
 
-        float t = (transform.position.y - ray.origin.y) / ray.direction.y;
+            return hit.point;
+        }
 
-        return ray.origin + ray.direction * t;
+        return Vector3.zero;
     }
 }

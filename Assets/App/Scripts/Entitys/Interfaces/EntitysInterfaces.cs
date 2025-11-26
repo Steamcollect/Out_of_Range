@@ -20,3 +20,8 @@ public interface IShield
     int TakeDamage(int damage);
     bool IsDestroy();
 }
+
+public interface ITargetable
+{
+    Vector3 GetTargetPosition();
+}
