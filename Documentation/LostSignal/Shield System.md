@@ -1,7 +1,7 @@
 Le joueur a 100 SP (Shield Point) au lancement du jeu.
 
 Au lancement d'une run, le shield est à son maximum. Les dégâts reçus vont en priorité sur le Shield.
-Arrivé à 0 SP, les dégâts sont redirigés vers les HP.
+Arrivé à 0 SP, les dégâts sont redirigés vers les [[Health System|HP]].
 
 Le shield se régénère automatiquement pendant la run.
 

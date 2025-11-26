@@ -1,0 +1,1 @@
+L'extraction se déclenche depuis une [[Radio]] libérée.
