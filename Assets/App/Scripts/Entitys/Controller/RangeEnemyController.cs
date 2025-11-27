@@ -26,38 +26,68 @@ public class RangeEnemyController : EntityController
         agent.updateRotation = false;
     }
 
+    private void Update()
+    {
+        agent.nextPosition = transform.position;
+    }
+
     private void FixedUpdate()
     {
         if (!isChasingPlayer)
         {
             if (IsPlayerInRange(detectionRange) && CanSeePlayer())
                 isChasingPlayer = true;
+            return;
         }
-        else
-        {
-            combat.LookAt(player.Get().GetTargetPosition());
 
-            if (CanSeePlayer())
-            {
-                if(!IsPlayerInRange(detectionRange))
-                {
-                    MoveTowardPlayer();
-                }
-                else
-                {
-                    combat.Attack();
-                }
-            }
-            else
+        combat.LookAt(player.Get().GetTargetPosition());
+
+        if (CanSeePlayer())
+        {
+            if (!IsPlayerInRange(detectionRange))
             {
                 MoveTowardPlayer();
             }
+            else if (IsPlayerInRange(closeRange))
+            {
+                StayBack();
+            }
+            else
+            {
+                combat.Attack();
+            }
         }
+        else
+        {
+            MoveTowardPlayer();
+        }
+    }
+
+    void StayBack()
+    {
+        Vector3 awayDir = (GetTargetPosition() - player.Get().GetTargetPosition()).normalized;
+        Vector3 target = GetTargetPosition() + awayDir * closeRange;
+
+        NavMeshHit navHit;
+        if (NavMesh.SamplePosition(target, out navHit, 2f, agent.areaMask))
+        {
+            agent.SetDestination(navHit.position);
+            movement.Value.Move(agent.desiredVelocity.normalized);
+        }
+
+        Debug.DrawLine(GetTargetPosition(), target, Color.blue);
     }
 
     void MoveTowardPlayer()
     {
-        agent.SetDestination(player.Get().GetTargetPosition());
+        Vector3 enemyPos = transform.position;
+        Vector3 playerPos = player.Get().GetTargetPosition();
+
+        agent.SetDestination(playerPos);
+
+        if (!agent.hasPath || agent.pathStatus == NavMeshPathStatus.PathInvalid)
+            return;
+
         movement.Value.Move(agent.desiredVelocity.normalized);
     }
 
