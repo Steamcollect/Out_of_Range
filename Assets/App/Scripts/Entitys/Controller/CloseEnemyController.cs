@@ -36,7 +36,10 @@ public class CloseEnemyController : EntityController
         if (!isChasingPlayer)
         {
             if (IsPlayerInRange(detectionRange) && CanSeePlayer())
+            {
+                m_OnFightStarted.Call(); // Déclenche le changement de caméra
                 isChasingPlayer = true;
+            }
             return;
         }
 

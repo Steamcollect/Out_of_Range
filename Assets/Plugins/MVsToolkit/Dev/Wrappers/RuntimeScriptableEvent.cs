@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace MVsToolkit.Wrappers
@@ -6,24 +7,28 @@ namespace MVsToolkit.Wrappers
     public class RuntimeScriptableEvent : ScriptableObject
     {
         public event Action Action;
+        [Button]
         public void Call() => Action?.Invoke();
     }
 
     public class RuntimeScriptableEvent<T> : ScriptableObject
     {
         public event Action<T> Action;
+        [Button]
         public void Call(T t) => Action?.Invoke(t);
     }
 
     public class RuntimeScriptableEvent<T, T1> : ScriptableObject
     {
         public event Action<T, T1> Action;
+        [Button]
         public void Call(T t, T1 t1) => Action?.Invoke(t, t1);
     }
 
     public class RuntimeScriptableEvent<T, T1, T2> : ScriptableObject
     {
         public event Action<T, T1, T2> Action;
+        [Button]
         public void Call(T t, T1 t1, T2 t2) => Action?.Invoke(t, t1, t2);
     }
 }

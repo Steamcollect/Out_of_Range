@@ -281,11 +281,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   turnSmoothTime: 0.03
-  minMaxVerticalAngle: {x: 0, y: 0}
+  currentCombatStyle: {fileID: 2704835463185484815}
   verticalPivot: {fileID: 6504119424866204772}
   horizontalPivot: {fileID: 8508021338843581821}
-  currentCombatStyle: {fileID: 2704835463185484815}
   attackIA: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_AimTarget: {fileID: 11400000, guid: 09f66405bedce16448f02f1b689a9c4a, type: 2}
 --- !u!1 &2528724873083000088
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,13 +441,7 @@ MonoBehaviour:
     _object: {fileID: 4600652507870665905}
   combat: {fileID: 1149920520322700606}
   rb: {fileID: 7817365298629724350}
-  lookAtPossible:
-    serializedVersion: 2
-    m_Bits: 55
-  cam: {fileID: 11400000, guid: 70cd5213f1bae7344a3e3bf0871f82e4, type: 2}
   moveIA: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  mousePositionIA: {fileID: 3186695138886981126, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  setCameraTarget: {fileID: 11400000, guid: e13a30c934dbcf84bbf62c6bb411c300, type: 2}
   controller: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!114 &4332319120167915156
 MonoBehaviour:

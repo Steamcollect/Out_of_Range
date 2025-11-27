@@ -23,7 +23,6 @@ public class RadioAntennaTrigger : MonoBehaviour
 
     [Header("Input")]
     [SerializeField] InputActionReference interactIA;
-    [SerializeField] RSO_MainCamera cam;
 
     //[Header("Output")]
     public Action OnPlayerInteract;
@@ -42,7 +41,7 @@ public class RadioAntennaTrigger : MonoBehaviour
     {
         if(currentPointer != null && isPlayerDetected)
         {
-            currentPointer.transform.position = cam.Get().GetCamera().WorldToScreenPoint(transform.position + pointerPosition);
+            currentPointer.transform.position = Camera.main.WorldToScreenPoint(transform.position + pointerPosition);
         }
     }
 

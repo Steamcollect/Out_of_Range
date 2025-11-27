@@ -11,12 +11,14 @@ public class EntityController : MonoBehaviour, ITargetable
     [SerializeField] protected EntityTrigger trigger;
     [SerializeField] protected InterfaceReference<IMovement> movement;
     [SerializeField] protected EntityCombat combat;
-
+    
+    
     [Space(10)]
     [SerializeField] protected Rigidbody rb;
 
     //[Header("Input")]
-    //[Header("Output")]
+    [Header("Output")]
+    [SerializeField] protected RSE_OnFightStarted m_OnFightStarted;
 
     void Awake()
     {
