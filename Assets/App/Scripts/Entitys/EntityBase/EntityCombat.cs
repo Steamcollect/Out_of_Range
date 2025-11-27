@@ -6,13 +6,20 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
     [Header("Settings")]
     [SerializeField] float turnSmoothTime;
     Vector3 turnSmoothHozirontalVelocity, turnSmoothVerticalVelocity;
-    [SerializeField] Vector2 minMaxVerticalAngle;
 
     [Header("References")]
+    [SerializeField] protected CombatStyle currentCombatStyle;
+
+    [Space(10)]
     [SerializeField] Transform verticalPivot;
     [SerializeField] Transform horizontalPivot;
 
-    public void LookAt(Vector3 targetPos)
+    public virtual void Attack()
+    {
+        currentCombatStyle.Attack();
+    }
+
+    public virtual void LookAt(Vector3 targetPos)
     {
         Vector3 direction = targetPos - horizontalPivot.position;
         if (direction.sqrMagnitude < 0.0001f) return;

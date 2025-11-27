@@ -1058,24 +1058,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3829805101114100210}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1149920518764560831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2502887801337893811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd3093f820b8dfa488213e1791221b81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
-  turnSmoothTime: 0.03
-  minMaxVerticalAngle: {x: 0, y: 0}
-  verticalPivot: {fileID: 6504119426529323237}
-  horizontalPivot: {fileID: 8508021340368165372}
-  currentCombatStyle: {fileID: 2704835462432659598}
-  attackIA: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &1219821042515450689
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,7 +1085,7 @@ Transform:
   m_GameObject: {fileID: 2790283752126541721}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.07, y: 0, z: 10.73}
+  m_LocalPosition: {x: -2.16, y: 0, z: 15.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1313,7 +1295,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2074092411228786609}
-  - component: {fileID: 1149920518764560831}
+  - component: {fileID: 2502887801337893812}
   m_Layer: 0
   m_Name: Combat
   m_TagString: Untagged
@@ -1321,6 +1303,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2502887801337893812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2502887801337893811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199ab14d3c1dbb540b94fb51e9100eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityCombat
+  turnSmoothTime: 0.03
+  currentCombatStyle: {fileID: 2704835462432659598}
+  verticalPivot: {fileID: 6504119426529323237}
+  horizontalPivot: {fileID: 8508021340368165372}
 --- !u!1 &2528724872766407065
 GameObject:
   m_ObjectHideFlags: 0
@@ -1533,10 +1531,6 @@ PrefabInstance:
     - target: {fileID: 2790283750333397784, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790283750333397784, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2141,13 +2135,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangeEnemyController
   targetPos: {x: 0, y: 1.65, z: 0}
-  health: {fileID: 0}
+  health: {fileID: 8231817659918157424}
   trigger: {fileID: 4332319119813417493}
   movement:
     _object: {fileID: 4600652508623620144}
-  combat: {fileID: 0}
-  rb: {fileID: 0}
+  combat: {fileID: 2502887801337893812}
+  rb: {fileID: 7817365299118414911}
   detectionRange: 12
+  closeRange: 5
   detectionMask:
     serializedVersion: 2
     m_Bits: 319

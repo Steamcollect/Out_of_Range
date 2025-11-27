@@ -3,9 +3,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerCombat : EntityCombat
 {
-    [Header("Internal References")]
-    [SerializeField] CombatStyle currentCombatStyle;
-
     [Header("Internal Input")]
     [SerializeField] InputActionReference attackIA;
 
@@ -20,7 +17,7 @@ public class PlayerCombat : EntityCombat
             Attack();
     }
 
-    void Attack()
+    public override void Attack()
     {
         currentCombatStyle.Attack();
     }
