@@ -280,7 +280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd3093f820b8dfa488213e1791221b81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
-  turnSmoothTime: 0.08
+  turnSmoothTime: 0.03
+  minMaxVerticalAngle: {x: 0, y: 0}
   verticalPivot: {fileID: 6504119424866204772}
   horizontalPivot: {fileID: 8508021338843581821}
   currentCombatStyle: {fileID: 2704835463185484815}
@@ -439,6 +440,7 @@ MonoBehaviour:
   movement:
     _object: {fileID: 4600652507870665905}
   combat: {fileID: 1149920520322700606}
+  rb: {fileID: 7817365298629724350}
   lookAtPossible:
     serializedVersion: 2
     m_Bits: 55
@@ -446,7 +448,7 @@ MonoBehaviour:
   moveIA: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   mousePositionIA: {fileID: 3186695138886981126, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   setCameraTarget: {fileID: 11400000, guid: e13a30c934dbcf84bbf62c6bb411c300, type: 2}
-  playerTransform: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
+  playerRb: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!114 &4332319120167915156
 MonoBehaviour:
   m_ObjectHideFlags: 0

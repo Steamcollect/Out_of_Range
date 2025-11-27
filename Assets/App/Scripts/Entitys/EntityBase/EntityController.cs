@@ -12,6 +12,9 @@ public class EntityController : MonoBehaviour, ITargetable
     [SerializeField] protected InterfaceReference<IMovement> movement;
     [SerializeField] protected EntityCombat combat;
 
+    [Space(10)]
+    [SerializeField] protected Rigidbody rb;
+
     //[Header("Input")]
     //[Header("Output")]
 
@@ -24,4 +27,6 @@ public class EntityController : MonoBehaviour, ITargetable
     public EntityTrigger GetTrigger() { return trigger; }
     public EntityCombat GetCombat() { return combat; }
     public IMovement GetMovement() { return movement.Value; }
+
+    public Rigidbody GetRigidbody() { return rb; }
 }

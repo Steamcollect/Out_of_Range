@@ -17,12 +17,12 @@ public class PlayerController : EntityController
 
     [Header("Output")]
     [SerializeField] RSE_SetCameraTarget setCameraTarget;
-    [SerializeField] RSO_PlayerTransform playerTransform;
+    [SerializeField] RSO_PlayerRigidbody playerRb;
 
     private void Start()
     {
         setCameraTarget.Call(transform);
-        playerTransform.Set(transform);
+        playerRb.Set(rb);
 
         moveIA.action.Enable();
         mousePositionIA.action.Enable();

@@ -6,6 +6,7 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
     [Header("Settings")]
     [SerializeField] float turnSmoothTime;
     Vector3 turnSmoothHozirontalVelocity, turnSmoothVerticalVelocity;
+    [SerializeField] Vector2 minMaxVerticalAngle;
 
     [Header("References")]
     [SerializeField] Transform verticalPivot;
@@ -16,33 +17,32 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
         Vector3 direction = targetPos - horizontalPivot.position;
         if (direction.sqrMagnitude < 0.0001f) return;
 
-        //
-        // 1) ROTATION HORIZONTALE (Y)
-        //
-        Vector3 horizontalDir = direction;
-        horizontalDir.y = 0f; // On ignore la hauteur pour le yaw
-        if (horizontalDir.sqrMagnitude > 0.0001f)
+        if (horizontalPivot)
         {
-            Quaternion targetRotY = Quaternion.LookRotation(horizontalDir);
-            horizontalPivot.LookAtSmoothDamp(
-                horizontalPivot.position + horizontalDir,
-                ref turnSmoothHozirontalVelocity,
+            Vector3 horizontalDir = direction;
+            horizontalDir.y = 0f;
+            if (horizontalDir.sqrMagnitude > 0.0001f)
+            {
+                Quaternion targetRotY = Quaternion.LookRotation(horizontalDir);
+                horizontalPivot.LookAtSmoothDamp(
+                    horizontalPivot.position + horizontalDir,
+                    ref turnSmoothHozirontalVelocity,
+                    turnSmoothTime
+                );
+            }
+        }
+
+        if (verticalPivot)
+        {
+            Vector3 verticalDir = direction.normalized;
+
+            Vector3 verticalLookPoint = verticalPivot.position + verticalDir;
+
+            verticalPivot.LookAtSmoothDamp(
+                verticalLookPoint,
+                ref turnSmoothVerticalVelocity,
                 turnSmoothTime
             );
         }
-
-        //
-        // 2) ROTATION VERTICALE (X)
-        //
-        Vector3 verticalDir = direction.normalized;
-
-        // Point vers lequel le pivot vertical doit regarder
-        Vector3 verticalLookPoint = verticalPivot.position + verticalDir;
-
-        verticalPivot.LookAtSmoothDamp(
-            verticalLookPoint,
-            ref turnSmoothVerticalVelocity,
-            turnSmoothTime
-        );
     }
 }

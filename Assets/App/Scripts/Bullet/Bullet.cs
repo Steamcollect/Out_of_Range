@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour
     int damage;
 
     [Header("References")]
-    [SerializeField] RSO_PlayerTransform playerTransform;
+    [SerializeField] RSO_PlayerRigidbody playerTransform;
     [SerializeField] Rigidbody rb;
 
     //[Header("Input")]
