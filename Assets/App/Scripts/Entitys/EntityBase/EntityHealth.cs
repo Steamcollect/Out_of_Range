@@ -11,7 +11,7 @@ public class EntityHealth : MonoBehaviour, IHealth
     [Header("References")]
     [SerializeField] InterfaceReference<IShield> shield;
 
-    public Action OnDeath;
+    public Action OnTakeDamage, OnDeath;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -36,6 +36,10 @@ public class EntityHealth : MonoBehaviour, IHealth
         if(currentHealth <= 0)
         {
             Die();
+        }
+        else
+        {
+            OnTakeDamage?.Invoke();
         }
     }
 

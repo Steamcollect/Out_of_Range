@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour
     {
         if(other.TryGetComponent(out EntityTrigger trigger))
         {
-            trigger.GetController().GetHealth().TakeDamage(damage);
+            trigger.GetController()?.GetHealth().TakeDamage(damage);
         }
 
         if (other.isTrigger) return;

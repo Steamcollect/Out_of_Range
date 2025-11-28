@@ -18,8 +18,7 @@ public class EntityController : MonoBehaviour, ITargetable
     [SerializeField] protected Rigidbody rb;
 
     //[Header("Input")]
-    [Header("Output")]
-    [SerializeField] protected RSE_OnFightStarted m_OnFightStarted;
+    //[Header("Output")]
 
     public Action<EntityController> OnDeath;
 

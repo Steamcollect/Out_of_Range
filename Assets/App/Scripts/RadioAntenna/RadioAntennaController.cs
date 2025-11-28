@@ -5,9 +5,7 @@ public class RadioAntennaController : MonoBehaviour
 {
     bool asInteract = false;
 
-    [Header("References")]
-    [SerializeField] RadioAntennaState state;
-    enum RadioAntennaState { Enable, Disable, Active}
+    //[Header("References")]
 
     [Header("References")]
     [SerializeField] RadioAntennaTrigger trigger;

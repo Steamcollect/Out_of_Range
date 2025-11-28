@@ -8,6 +8,7 @@ public class WaveSystem : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float timeBetweenWaves;
     int currentWave = 0;
+    [HideInInspector] public bool IsInFight = false;
 
     [Header("References")]
     [SerializeField] WaveSpawner[] spawners;
@@ -28,24 +29,34 @@ public class WaveSystem : MonoBehaviour
     public void SpawnWave()
     {
         int biggestWave = spawners.OrderByDescending(x => x.entitiesPerWave.Length).ToArray()[0].entitiesPerWave.Length;
-        if (currentWave >= biggestWave) return;
-
-        foreach (WaveSpawner spawner in spawners)
+        if (currentWave >= biggestWave)
         {
-            if (spawner.entitiesPerWave.Length <= currentWave 
-                || spawner.entitiesPerWave[currentWave] == null) 
-                continue;
-
-            EntityController entity = Instantiate(
-                spawner.entitiesPerWave[currentWave], 
-                spawner.spawnPoint.position, 
-                Quaternion.identity,
-                transform);
-
-            entity.transform.position = spawner.spawnPoint.position;
-            entity.OnDeath += OnEntityDie;
-            currentEntitiesAlive.Add(entity);
+            FightDetectorManager.Instance?.OnWaveEnd(this);
+            IsInFight = false;
+            return;
         }
+        else
+        {
+            FightDetectorManager.Instance?.OnWaveStart(this);
+            IsInFight = true;
+        }
+
+            foreach (WaveSpawner spawner in spawners)
+            {
+                if (spawner.entitiesPerWave.Length <= currentWave
+                    || spawner.entitiesPerWave[currentWave] == null)
+                    continue;
+
+                EntityController entity = Instantiate(
+                    spawner.entitiesPerWave[currentWave],
+                    spawner.spawnPoint.position,
+                    Quaternion.identity,
+                    transform);
+
+                entity.transform.position = spawner.spawnPoint.position;
+                entity.OnDeath += OnEntityDie;
+                currentEntitiesAlive.Add(entity);
+            }
     }
 
     void OnEntityDie(EntityController entity)

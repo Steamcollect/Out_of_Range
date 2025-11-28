@@ -24,6 +24,8 @@ public class RangeEnemyController : EntityController
     {
         agent.updatePosition = false;
         agent.updateRotation = false;
+
+        health.OnTakeDamage += OnTakeDamage;
     }
 
     private void Update()
@@ -37,8 +39,8 @@ public class RangeEnemyController : EntityController
         {
             if (IsPlayerInRange(detectionRange) && CanSeePlayer())
             {
-                m_OnFightStarted.Call(); // Déclenche le changement de caméra
                 isChasingPlayer = true;
+                FightDetectorManager.Instance?.OnEnemyStartCombat(this);
             }
             return;
         }
@@ -79,6 +81,12 @@ public class RangeEnemyController : EntityController
         }
 
         Debug.DrawLine(GetTargetPosition(), target, Color.blue);
+    }
+
+    void OnTakeDamage()
+    {
+        FightDetectorManager.Instance?.OnEnemyStartCombat(this);
+        isChasingPlayer = true;
     }
 
     void MoveTowardPlayer()

@@ -24,6 +24,8 @@ public class CloseEnemyController : EntityController
     {
         agent.updatePosition = false;
         agent.updateRotation = false;
+
+        health.OnTakeDamage += OnTakeDamage;
     }
 
     private void Update()
@@ -37,8 +39,8 @@ public class CloseEnemyController : EntityController
         {
             if (IsPlayerInRange(detectionRange) && CanSeePlayer())
             {
-                m_OnFightStarted.Call(); // Déclenche le changement de caméra
                 isChasingPlayer = true;
+                FightDetectorManager.Instance?.OnEnemyStartCombat(this);
             }
             return;
         }
@@ -75,6 +77,11 @@ public class CloseEnemyController : EntityController
         movement.Value.Move(agent.desiredVelocity.normalized);
     }
 
+    void OnTakeDamage()
+    {
+        FightDetectorManager.Instance?.OnEnemyStartCombat(this);
+        isChasingPlayer = true;
+    }
     bool CanSeePlayer()
     {
         Vector3 dir = (player.Get().GetTargetPosition() - GetTargetPosition()).normalized;
