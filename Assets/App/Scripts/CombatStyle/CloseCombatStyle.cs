@@ -9,6 +9,9 @@ public class CloseCombatStyle : CombatStyle
     [Header("Settings")]
     [SerializeField] int damage;
     [SerializeField] float attackCooldown;
+    [SerializeField] float attackBeginDelay = .2f;
+    [SerializeField] float attackFinishedDelay = .2f;
+    //STOPPER LES ENNEMIS QUAND ILS ATTAQUENT
 
     bool canAttack = true;
 
@@ -34,7 +37,7 @@ public class CloseCombatStyle : CombatStyle
             weaponPivot.gameObject.SetActive(true);
             weaponPivot.DOLocalRotate(
                 new Vector3(0, -20, 0),
-                .2f,
+                attackBeginDelay,
                 RotateMode.FastBeyond360
             ).OnComplete(() =>
             {
@@ -50,7 +53,7 @@ public class CloseCombatStyle : CombatStyle
                     CoroutineUtils.Delay(this, () =>
                     {
                         weaponPivot.gameObject.SetActive(false);
-                    }, .2f);
+                    }, attackFinishedDelay);
                 });
             });
         }
@@ -67,7 +70,12 @@ public class CloseCombatStyle : CombatStyle
     IEnumerator AttackCooldown()
     {
         canAttack = false;
-        yield return new WaitForSeconds(attackCooldown);
+        if(attackCooldown < attackBeginDelay + attackFinishedDelay + 0.1f)
+        {
+            attackCooldown = attackBeginDelay + attackFinishedDelay + 0.2f;
+            Debug.LogWarning("Attack cooldown too small, adjusted to fit attack animation.");
+        }
+            yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
     }
 }
