@@ -1,9 +1,11 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class DamageVisual : MonoBehaviour
 {
     private MeshRenderer[] m_Renderers;
     private MaterialPropertyBlock m_Block;
+    [Range(0f, 1f)] [SerializeField] private float m_DamageAmount;
 
     void Awake()
     {
@@ -15,6 +17,11 @@ public class DamageVisual : MonoBehaviour
     private void Start()
     {
         SetDamage(0);
+    }
+
+    private void Update()
+    {
+        SetDamage(m_DamageAmount);
     }
 
     public void SetDamage(float value)
