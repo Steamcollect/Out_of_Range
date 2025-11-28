@@ -46,8 +46,23 @@ public class PlayerController : EntityController
     {
         Vector2 moveInput = moveIA.action.ReadValue<Vector2>();
 
-        float angle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + (m_CamController.Get().GetCamera().transform.eulerAngles.y);
-        moveDir = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+        float angle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg
+                      + m_CamController.Get().GetCamera().transform.eulerAngles.y;
+
+        // Direction brute par rapport à la caméra
+        Vector3 rawDir = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+
+        // Raycast vers le sol pour obtenir la normale
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 2f))
+        {
+            // Projection de la direction sur le plan du sol
+            moveDir = Vector3.ProjectOnPlane(rawDir, hit.normal).normalized;
+        }
+        else
+        {
+            // Si pas de sol détecté, on garde la direction brute
+            moveDir = rawDir;
+        }
 
         if (moveInput.sqrMagnitude <= .1f)
         {
@@ -61,6 +76,7 @@ public class PlayerController : EntityController
             movement.Value.Move(moveDir);
         }
     }
+
 
     void Dash(InputAction.CallbackContext ctx)
     {
