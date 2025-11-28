@@ -1,4 +1,3 @@
-using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -9,6 +8,9 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] private CinemachineCamera m_ExplorationCamera;
     [SerializeField] private RSE_OnFightEnded m_OnFightEnded;
     [SerializeField] private RSE_OnFightStarted m_OnFightStarted;
+
+    [SerializeField] RSO_PlayerCameraController m_PlayerCamera;
+    [SerializeField] Camera m_Camera;
 
     [SerializeField] private float m_DelayBeforeSwitchingToExploration = 5f;
     private float m_Timer = 0f;
@@ -27,6 +29,7 @@ public class PlayerCameraController : MonoBehaviour
 
     private void Start()
     {
+        m_PlayerCamera.Set(this);
         m_ExplorationCamera.Follow = m_PlayerController.Get().transform;
         SetExplorationParameters();
     }
@@ -59,4 +62,6 @@ public class PlayerCameraController : MonoBehaviour
         m_FightCamera.enabled = false;
         m_ExplorationCamera.enabled = true;
     }
+
+    public Camera GetCamera() => m_Camera;
 }

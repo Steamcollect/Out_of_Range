@@ -344,6 +344,7 @@ GameObject:
   - component: {fileID: 4710385784493003900}
   - component: {fileID: 384362440837574710}
   - component: {fileID: 4332319120167915156}
+  - component: {fileID: 7784260504962584145}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -441,7 +442,9 @@ MonoBehaviour:
     _object: {fileID: 4600652507870665905}
   combat: {fileID: 1149920520322700606}
   rb: {fileID: 7817365298629724350}
+  m_OnFightStarted: {fileID: 11400000, guid: ea956defac7656f4a833ee2b31c389b7, type: 2}
   moveIA: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_CamController: {fileID: 11400000, guid: 452bdeba678d33f45929b40fb180f382, type: 2}
   controller: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!114 &4332319120167915156
 MonoBehaviour:
@@ -455,6 +458,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a45729c946d4c347ae5a141e95849c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityTrigger
+--- !u!208 &7784260504962584145
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2790283750333397784}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &3233522183667764025
 GameObject:
   m_ObjectHideFlags: 0

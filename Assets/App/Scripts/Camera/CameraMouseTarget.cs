@@ -14,6 +14,9 @@ public class CameraMouseTarget : MonoBehaviour
     [SerializeField] private float m_MaxDistance = 20f;
     [SerializeField] private float m_MinDistance = 5f;
     private EntityCombat m_EntityCombat;
+
+    [SerializeField] RSO_PlayerCameraController m_CamController;
+
     private void OnEnable()
     {
         m_MousePositionAction = m_MousePositionActionReference.action;
@@ -25,14 +28,14 @@ public class CameraMouseTarget : MonoBehaviour
     void Update()
     {
         var screenPoint = m_MousePositionAction.ReadValue<Vector2>();
-        Ray ray = Camera.main.ScreenPointToRay(screenPoint);
+        Ray ray = m_CamController.Get().GetCamera().ScreenPointToRay(screenPoint);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
         {
             Vector3 playerPosition = m_PlayerController.Get().transform.position;
             float distanceToTarget = Vector3.Distance(playerPosition, hit.point);
             Vector3 pos;
 
-            if (hit.collider.TryGetComponent<ITargetable>(out ITargetable target))
+            if (hit.collider.TryGetComponent(out ITargetable target))
             {
                 pos = target.GetTargetPosition();
             }
