@@ -1,3 +1,4 @@
+using System;
 using MVsToolkit.Dev;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class EntityHealth : MonoBehaviour, IHealth
     [Header("References")]
     [SerializeField] InterfaceReference<IShield> shield;
 
+    public Action OnDeath;
+
     //[Header("Input")]
     //[Header("Output")]
 
@@ -20,7 +23,7 @@ public class EntityHealth : MonoBehaviour, IHealth
 
     public void TakeDamage(int damage)
     {
-        if (shield != null && !shield.Value.IsDestroy())
+        if (shield.Value != null && !shield.Value.IsDestroy())
         {
             int remainingDmg = shield.Value.TakeDamage(damage);
             if(remainingDmg > 0) TakeDamage(remainingDmg);
@@ -38,6 +41,6 @@ public class EntityHealth : MonoBehaviour, IHealth
 
     void Die()
     {
-        Debug.Log("Dead");
+        OnDeath.Invoke();
     }
 }

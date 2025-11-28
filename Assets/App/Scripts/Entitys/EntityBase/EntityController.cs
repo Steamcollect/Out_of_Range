@@ -23,6 +23,7 @@ public class EntityController : MonoBehaviour, ITargetable
     void Awake()
     {
         trigger.SetController(this);
+        health.OnDeath += () => gameObject.SetActive(false);
     }
 
     public Vector3 GetTargetPosition()
