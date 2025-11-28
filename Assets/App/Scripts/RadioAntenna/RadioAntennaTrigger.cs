@@ -37,6 +37,11 @@ public class RadioAntennaTrigger : MonoBehaviour
         interactIA.action.started -= OnInteractInput;
     }
 
+    private void Start()
+    {
+        interactIA.action.Enable();
+    }
+
     private void Update()
     {
         if(currentPointer != null && isPlayerDetected)

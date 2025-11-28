@@ -1,5 +1,6 @@
 using UnityEngine;
 using MVsToolkit.Dev;
+using System;
 
 public class EntityController : MonoBehaviour, ITargetable
 {
@@ -20,10 +21,18 @@ public class EntityController : MonoBehaviour, ITargetable
     [Header("Output")]
     [SerializeField] protected RSE_OnFightStarted m_OnFightStarted;
 
+    public Action<EntityController> OnDeath;
+
     void Awake()
     {
         trigger.SetController(this);
-        health.OnDeath += () => gameObject.SetActive(false);
+        health.OnDeath += OnEntityDie;
+    }
+
+    void OnEntityDie()
+    {
+        OnDeath?.Invoke(this);
+        gameObject.SetActive(false);
     }
 
     public Vector3 GetTargetPosition()

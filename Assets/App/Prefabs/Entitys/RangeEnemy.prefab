@@ -79,8 +79,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5032425267638652952}
+  m_Children: []
   m_Father: {fileID: 6768313355697838407}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5167803564463502938
@@ -95,9 +94,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  maxHealth: 100
+  maxHealth: 30
   shield:
-    _object: {fileID: 5834670219832249688}
+    _object: {fileID: 0}
 --- !u!1 &3004979328398178934
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,51 +637,6 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
---- !u!1 &8783046600547414539
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5032425267638652952}
-  - component: {fileID: 5834670219832249688}
-  m_Layer: 0
-  m_Name: Shield
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5032425267638652952
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8783046600547414539}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7013517476833380996}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5834670219832249688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8783046600547414539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 535abbb2feda753419a7ede80a94244b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EntityShield
-  maxShield: 100
 --- !u!1001 &8375161189317463743
 PrefabInstance:
   m_ObjectHideFlags: 0

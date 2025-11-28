@@ -19,6 +19,8 @@ namespace MVsToolkit.Utils
 
         public static void Delay(this MonoBehaviour hook, Action ev, float time)
         {
+            if (!hook.gameObject.activeInHierarchy) return;
+
             IEnumerator DelayCoroutine()
             {
                 yield return new WaitForSeconds(time);

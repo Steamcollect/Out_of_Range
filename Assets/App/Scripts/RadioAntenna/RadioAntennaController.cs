@@ -1,13 +1,19 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RadioAntennaController : MonoBehaviour
 {
+    bool asInteract = false;
+
     [Header("References")]
     [SerializeField] RadioAntennaState state;
     enum RadioAntennaState { Enable, Disable, Active}
 
     [Header("References")]
     [SerializeField] RadioAntennaTrigger trigger;
+
+    [Header("Output")]
+    [SerializeField] UnityEvent _OnPlayerInteract;
 
     private void OnEnable()
     {
@@ -20,11 +26,15 @@ public class RadioAntennaController : MonoBehaviour
 
     private void Start()
     {
+        asInteract = false;
         trigger.SetCanPlayerInteract(true);
     }
 
     void OnPlayerInteract()
     {
-        Debug.Log("Player interact with " + gameObject.name);
+        if (asInteract) return;
+
+        asInteract = true;
+        _OnPlayerInteract.Invoke();
     }
 }

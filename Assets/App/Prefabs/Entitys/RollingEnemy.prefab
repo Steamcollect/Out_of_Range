@@ -311,51 +311,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a45729c946d4c347ae5a141e95849c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityTrigger
---- !u!1 &5614697424551463533
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1875685303303960624}
-  - component: {fileID: 7200059626292354471}
-  m_Layer: 0
-  m_Name: Shield
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1875685303303960624
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5614697424551463533}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 190048977679862580}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7200059626292354471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5614697424551463533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 535abbb2feda753419a7ede80a94244b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EntityShield
-  maxShield: 100
 --- !u!1 &6471507896716519561
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,8 +432,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1875685303303960624}
+  m_Children: []
   m_Father: {fileID: 6444925138847866450}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6991730320770280612
@@ -493,9 +447,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  maxHealth: 100
+  maxHealth: 10
   shield:
-    _object: {fileID: 7200059626292354471}
+    _object: {fileID: 0}
 --- !u!1 &8018458179140365607
 GameObject:
   m_ObjectHideFlags: 0

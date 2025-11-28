@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -9,7 +8,6 @@ public class Bullet : MonoBehaviour
     int damage;
 
     [Header("References")]
-    [SerializeField] RSO_PlayerController playerTransform;
     [SerializeField] Rigidbody rb;
 
     //[Header("Input")]
@@ -37,18 +35,14 @@ public class Bullet : MonoBehaviour
 
         if (other.isTrigger) return;
 
+        transform.position = Vector3.zero;
         BulletManager.Instance.ReturnBullet(this);
     }
 
     IEnumerator CheckDistanceFromPlayer()
     {
-        if(Vector3.Distance(playerTransform.Get().GetTargetPosition(), transform.position) > 50)
-        {
-            BulletManager.Instance.ReturnBullet(this);
-            yield break;
-        }
-
         yield return new WaitForSeconds(5);
+        transform.position = Vector3.zero;
         BulletManager.Instance.ReturnBullet(this);
     }
 }
