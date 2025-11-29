@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
 
     [Header("References")]
     [SerializeField] Rigidbody rb;
+    [SerializeField] private GameObject m_HitPrefab;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -34,15 +35,27 @@ public class Bullet : MonoBehaviour
         rb.position += transform.up * speed * Time.deltaTime;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if(other.TryGetComponent(out EntityTrigger trigger))
+        Debug.Log("Bullet hit: " + other.gameObject.name);
+        if (!other.gameObject.CompareTag("Bullet") || other.gameObject.CompareTag("Player"))
+        {
+            ContactPoint contact = other.contacts[0];
+            Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
+            Vector3 pos = contact.point;
+
+            if (m_HitPrefab)
+            {
+                GameObject hitVFX = Instantiate(m_HitPrefab, pos, rot);
+
+                Destroy(hitVFX, hitVFX.GetComponent<ParticleSystem>().main.duration);
+            }
+        }
+            if (other.gameObject.TryGetComponent(out EntityTrigger trigger))
         {
             if(knockback > 0) trigger.GetController().GetRigidbody().AddForce(transform.up * knockback);
             trigger.GetController()?.GetHealth().TakeDamage(damage);
         }
-
-        if (other.isTrigger) return;
 
         transform.position = Vector3.zero;
         BulletManager.Instance.ReturnBullet(this);
