@@ -37,9 +37,9 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Bullet hit: " + other.gameObject.name);
-        if (!other.gameObject.CompareTag("Bullet") || other.gameObject.CompareTag("Player"))
+        if (!other.gameObject.CompareTag("Bullet") || !other.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Bullet hit: " + other.gameObject.tag);
             ContactPoint contact = other.contacts[0];
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
             Vector3 pos = contact.point;
