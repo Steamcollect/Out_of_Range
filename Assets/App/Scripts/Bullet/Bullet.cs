@@ -11,6 +11,8 @@ public class Bullet : MonoBehaviour
     [Header("References")]
     [SerializeField] Rigidbody rb;
 
+    [SerializeField] private GameObject m_ImpactVFX;
+    
     //[Header("Input")]
     //[Header("Output")]
 
@@ -43,8 +45,11 @@ public class Bullet : MonoBehaviour
         }
 
         if (other.isTrigger) return;
-
+        Instantiate(m_ImpactVFX, transform.position, Quaternion.identity);
         transform.position = Vector3.zero;
+        
+        
+        
         BulletManager.Instance.ReturnBullet(this);
     }
 
