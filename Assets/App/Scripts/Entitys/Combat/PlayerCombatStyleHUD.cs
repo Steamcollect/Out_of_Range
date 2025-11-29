@@ -17,8 +17,8 @@ public class PlayerCombatStyleHUD : MonoBehaviour
         playerController.Get().GetCombat().GetCombatStyle().OnAmmoChange += SetFillValue;
     }
 
-    public void SetFillValue(int value, int max)
+    public void SetFillValue(float value,float max)
     {
-        fillImg.fillAmount = (float)Mathf.Clamp(value, 0, max) / max;
+        fillImg.fillAmount = Mathf.Clamp(value, 0, max) / max;
     }
 }

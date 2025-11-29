@@ -1,12 +1,18 @@
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class PlayerHealthUI : MonoBehaviour
 {
-    //[Header("Settings")]
+    [Header("Settings")]
+    [SerializeField] Color enableColor;
+    [SerializeField] Color disableColor;
+
     [Header("References")]
-    [SerializeField] Image fillImg;
+    [SerializeField] Transform content;
+    [SerializeField] Image healthPointRefImg;
+
+    List<Image> points = new();
 
     [Header("Input")]
     [SerializeField] RSO_PlayerController playerController;
@@ -31,6 +37,27 @@ public class PlayerHealthUI : MonoBehaviour
 
     public void SetFillValue(int value, int max)
     {
-        fillImg.fillAmount = (float)Mathf.Clamp(value, 0, max) / max;
+        if (points.Count != max)
+        {
+            foreach (Image point in points)
+            {
+                Destroy(point.gameObject);
+                points.Clear();
+            }
+
+            for (int i = 0; i < max; i++)
+            {
+                points.Add(Instantiate(healthPointRefImg, content));
+                points[i].gameObject.SetActive(true);
+            }
+        }
+
+        for (int i = 0; i < points.Count; i++)
+        {
+            if (i + 1 <= value)
+                points[i].color = enableColor;
+            else 
+                points[i].color = disableColor;
+        }
     }
 }

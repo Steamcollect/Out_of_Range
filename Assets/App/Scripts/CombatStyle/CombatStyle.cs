@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CombatStyle : MonoBehaviour
 {
-    public Action<int /*current*/, int /*max*/> OnAmmoChange;
+    public Action<float /*current*/,float /*max*/> OnAmmoChange;
     public Action OnReload;
 
     public virtual void Attack() { }

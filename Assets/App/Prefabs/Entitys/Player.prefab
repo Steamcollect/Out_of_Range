@@ -267,7 +267,7 @@ Transform:
   m_Children:
   - {fileID: 6504119424866204772}
   - {fileID: 8508021338843581821}
-  - {fileID: 2497293611321796718}
+  - {fileID: 5371318777814390314}
   m_Father: {fileID: 1409431294601431814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1149920520322700606
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   turnSmoothTime: 0.03
-  currentCombatStyle: {fileID: 2704835463185484815}
+  currentCombatStyle: {fileID: 1129812706102528412}
   verticalPivot: {fileID: 6504119424866204772}
   horizontalPivot: {fileID: 8508021338843581821}
   attackIA: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -309,11 +309,11 @@ MonoBehaviour:
     Path: event:/Player/Blaster/Fire
   m_ReloadSFX:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1660106770
+      Data2: 1083784041
+      Data3: 721724083
+      Data4: 667032653
+    Path: event:/Player/Blaster/Reload
   m_FirePitchVariance: 0.2
   m_ReloadVolume: 1
   m_FireVolume: 1
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  maxHealth: 100
+  maxHealth: 3
   invincibilityDelay: 0
   m_DamageSFXManager: {fileID: 1866026752504187138}
 --- !u!114 &1866026752504187138
@@ -612,6 +612,91 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5283047779086152633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5371318777814390314}
+  - component: {fileID: 1129812706102528412}
+  - component: {fileID: 968097293021133466}
+  m_Layer: 0
+  m_Name: RangeOverloadCombatStyle
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5371318777814390314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5283047779086152633}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2074092412787055408}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1129812706102528412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5283047779086152633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 859ea51f3471d7b428dea5580c45ff77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RangeOverloadCombatStyle
+  maxTemperature: 100
+  shootTemperature: 5
+  temperatureLostPerSec: 7
+  attackCooldown: 0.4
+  overloadCooldown: 2
+  timeToCoolsAfterShoot: 0.5
+  bulletDamage: 1
+  bulletSpeed: 30
+  knockBackForce: 0
+  attackPoint: {fileID: 874208509811087154}
+  m_SFXManager: {fileID: 658399684848975888}
+--- !u!114 &968097293021133466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5283047779086152633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4f536c8d61aa246aa0df0e338e4ee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponSFXManager
+  m_FireSFX:
+    Guid:
+      Data1: 344776424
+      Data2: 1330948824
+      Data3: -895585402
+      Data4: 1304699698
+    Path: event:/Player/Blaster/Fire
+  m_ReloadSFX:
+    Guid:
+      Data1: -1660106770
+      Data2: 1083784041
+      Data3: 721724083
+      Data4: 667032653
+    Path: event:/Player/Blaster/Reload
+  m_FirePitchVariance: 0.2
+  m_ReloadVolume: 1
+  m_FireVolume: 1
 --- !u!1 &5439680732867493737
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,89 +915,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &7396382280707165853
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2497293611321796718}
-  - component: {fileID: 2704835463185484815}
-  - component: {fileID: 3515853690559759183}
-  m_Layer: 0
-  m_Name: DefaultCombatStyle
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2497293611321796718
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7396382280707165853}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2074092412787055408}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2704835463185484815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7396382280707165853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a447bb131288f1d4bb0e2c4ba38d706d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RangeReloadingCombatStyle
-  maxBulletCount: 10
-  bulletDamage: 5
-  bulletSpeed: 30
-  knockBackForce: 0
-  attackCooldown: 0.3
-  reloadCooldown: 0.8
-  attackPoint: {fileID: 874208509811087154}
-  m_MuzzleFlashPrefab: {fileID: 4186470608034871016, guid: e1532b720bdc5ad4cb310a851a0a304a, type: 3}
-  m_SFXManager: {fileID: 3515853690559759183}
---- !u!114 &3515853690559759183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7396382280707165853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba4f536c8d61aa246aa0df0e338e4ee3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponSFXManager
-  m_FireSFX:
-    Guid:
-      Data1: 344776424
-      Data2: 1330948824
-      Data3: -895585402
-      Data4: 1304699698
-    Path: event:/Player/Blaster/Fire
-  m_ReloadSFX:
-    Guid:
-      Data1: -1660106770
-      Data2: 1083784041
-      Data3: 721724083
-      Data4: 667032653
-    Path: event:/Player/Blaster/Reload
-  m_FirePitchVariance: 0.2
-  m_ReloadVolume: 1
-  m_FireVolume: 1
 --- !u!1001 &71215866602588187
 PrefabInstance:
   m_ObjectHideFlags: 0
