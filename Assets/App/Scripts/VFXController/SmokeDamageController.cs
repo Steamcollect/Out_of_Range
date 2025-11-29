@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.VFX;
 
+[DefaultExecutionOrder(10)]
 public class SmokeDamageController : MonoBehaviour
 {
 
@@ -12,7 +13,8 @@ public class SmokeDamageController : MonoBehaviour
     
     private void OnEnable()
     {
-        if (!m_EntityHealth) m_EntityHealth.OnTakeDamage += HandleTakeDamage;
+        if (m_EntityHealth) HandleTakeDamage();
+        if (m_EntityHealth) m_EntityHealth.OnTakeDamage += HandleTakeDamage;
     }
 
     private void OnDisable()
