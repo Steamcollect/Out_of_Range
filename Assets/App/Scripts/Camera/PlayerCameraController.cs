@@ -31,12 +31,14 @@ public class PlayerCameraController : MonoBehaviour
     {
         m_PlayerCamera.Set(this);
         m_ExplorationCamera.Follow = m_PlayerController.Get().transform;
-        SetExplorationParameters();
+        SetFightParameters();
     }
 
     // TODO: Utiliser le RSE_OnFightEnded pour switcher la caméra.
     private void Update()
     {
+        return; // On reste tout le temps sur la cam de fight
+        
         if (m_ExplorationCamera.isActiveAndEnabled) return;
 
         m_Timer += Time.deltaTime;
@@ -59,6 +61,8 @@ public class PlayerCameraController : MonoBehaviour
     
     private void SetExplorationParameters()
     {
+        return; // On ne switch jamais en mode exploration pour l'instant
+        
         m_FightCamera.enabled = false;
         m_ExplorationCamera.enabled = true;
     }

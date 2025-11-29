@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1183931398300175265
 Transform:
   m_ObjectHideFlags: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1163136840326637916}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
@@ -136,7 +136,7 @@ Transform:
   m_GameObject: {fileID: 1743177669425214954}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: -0.000008583069, y: 10.621853, z: -10.59135}
+  m_LocalPosition: {x: -0.000009536743, y: 10.624213, z: -10.58899}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -176,8 +176,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60.000004
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 10
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -386,7 +386,7 @@ MonoBehaviour:
     m_Bits: 513
   m_PlayerController: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
   m_MaxDistance: 20
-  m_MinDistance: 5
+  m_MinDistance: 1
   m_CamController: {fileID: 11400000, guid: 452bdeba678d33f45929b40fb180f382, type: 2}
 --- !u!1 &6430292755315460749
 GameObject:
@@ -415,7 +415,7 @@ Transform:
   m_GameObject: {fileID: 6430292755315460749}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: -0.00000834465, y: 10.621854, z: -10.59135}
+  m_LocalPosition: {x: -0.000009536743, y: 10.624213, z: -10.58899}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -446,7 +446,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60.000004
-    OrthographicSize: 5
+    OrthographicSize: 10
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -479,20 +479,20 @@ MonoBehaviour:
   CameraDistance: 15
   DeadZoneDepth: 0
   Composition:
-    ScreenPosition: {x: 0.0000002831221, y: 0.001245327}
+    ScreenPosition: {x: 0.0000006593764, y: 0.001245662}
     DeadZone:
       Enabled: 1
-      Size: {x: 0.1887955, y: 0.2}
+      Size: {x: 0.02916384, y: 0.03083232}
     HardLimits:
-      Enabled: 1
-      Size: {x: 0.6179268, y: 0.6978826}
+      Enabled: 0
+      Size: {x: 0.7376508, y: 0.6978826}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 0, y: 0, z: 0}
   Damping: {x: 1, y: 1, z: 1}
   Lookahead:
-    Enabled: 0
-    Time: 1
+    Enabled: 1
+    Time: 0.5
     Smoothing: 8
     IgnoreY: 0
 --- !u!1 &6552931435784802270
