@@ -78,7 +78,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CloseCombatStyle
   damage: 10
-  attackCooldown: 0.8
+  attackCooldown: 5
+  attackBeginDelay: 0.2
+  attackFinishedDelay: 0.2
   weaponPivot: {fileID: 9060113417848896024}
   callback: {fileID: 5189970067126118701}
 --- !u!1 &4661395275915666384
@@ -221,7 +223,6 @@ MonoBehaviour:
     _object: {fileID: 9046917041710665271}
   combat: {fileID: 7315905735496179703}
   rb: {fileID: 847507863784800633}
-  m_OnFightStarted: {fileID: 11400000, guid: ea956defac7656f4a833ee2b31c389b7, type: 2}
   detectionRange: 14
   attackRange: 3
   detectionMask:
@@ -754,6 +755,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3967571892288779133}
   - component: {fileID: 1408150523670328044}
+  - component: {fileID: 3234812715928615529}
   m_Layer: 0
   m_Name: Health
   m_TagString: Untagged
@@ -789,5 +791,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
   maxHealth: 50
-  shield:
-    _object: {fileID: 0}
+  invincibilityDelay: 0
+  m_DamageSFXManager: {fileID: 3234812715928615529}
+--- !u!114 &3234812715928615529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8989291384880957242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7605808726bcb4c9486433f7d84cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSFXManager
+  m_DamageSFX:
+    Guid:
+      Data1: -260134075
+      Data2: 1168716630
+      Data3: -2039845967
+      Data4: -922633430
+    Path: event:/Player/Blaster/EnemyHit
+  m_DeathSFX:
+    Guid:
+      Data1: 1487547990
+      Data2: 1177124610
+      Data3: 1681320836
+      Data4: 1193930256
+    Path: event:/EnemyDeath
+  m_DamageVolume: 1
+  m_DeathVolume: 1
+  m_DamagePitchVariance: 0.2
