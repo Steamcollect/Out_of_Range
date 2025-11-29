@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
     [Header("Settings")]
     float speed;
     int damage;
+    float knockback;
 
     [Header("References")]
     [SerializeField] Rigidbody rb;
@@ -13,12 +14,19 @@ public class Bullet : MonoBehaviour
     //[Header("Input")]
     //[Header("Output")]
 
-    public void Setup(int damage, float speed)
+    public Bullet Setup(int damage, float speed)
     {
         this.damage = damage;
         this.speed = speed;
 
         StartCoroutine(CheckDistanceFromPlayer());
+
+        return this;
+    }
+    public Bullet SetKnockback(float knockback)
+    {
+        this.knockback = knockback;
+        return this;
     }
 
     private void Update()
@@ -30,6 +38,7 @@ public class Bullet : MonoBehaviour
     {
         if(other.TryGetComponent(out EntityTrigger trigger))
         {
+            if(knockback > 0) trigger.GetController().GetRigidbody().AddForce(transform.up * knockback);
             trigger.GetController()?.GetHealth().TakeDamage(damage);
         }
 

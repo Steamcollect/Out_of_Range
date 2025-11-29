@@ -10,7 +10,8 @@ public class RangeReloadingCombatStyle : CombatStyle
     [Space(10)]
     [SerializeField] int bulletDamage;
     [SerializeField] float bulletSpeed;
-    
+    [SerializeField] float knockBackForce;
+
     [Space(10)]
     [SerializeField] float attackCooldown;
     [SerializeField] float reloadCooldown;
@@ -50,7 +51,8 @@ public class RangeReloadingCombatStyle : CombatStyle
                 bullet.transform.position = attackPoint.position;
                 bullet.transform.up = attackPoint.forward;
 
-                bullet.Setup(bulletDamage, bulletSpeed);
+                bullet.Setup(bulletDamage, bulletSpeed)
+                    .SetKnockback(knockBackForce);
 
                 StartCoroutine(AttackCooldown());
                 
