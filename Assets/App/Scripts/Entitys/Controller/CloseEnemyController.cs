@@ -14,6 +14,7 @@ public class CloseEnemyController : EntityController
 
     [Header("Internal References")]
     [SerializeField] NavMeshAgent agent;
+    [SerializeField] GameObject detectionLight;
 
     [Header("Input")]
     [SerializeField] RSO_PlayerController player;
@@ -24,7 +25,9 @@ public class CloseEnemyController : EntityController
     {
         agent.updatePosition = false;
         agent.updateRotation = false;
-
+        
+        detectionLight.SetActive(false);
+        
         health.OnTakeDamage += OnTakeDamage;
     }
 
@@ -41,6 +44,7 @@ public class CloseEnemyController : EntityController
             {
                 isChasingPlayer = true;
                 FightDetectorManager.Instance?.OnEnemyStartCombat(this);
+                detectionLight.SetActive(true);
             }
             return;
         }
@@ -81,6 +85,7 @@ public class CloseEnemyController : EntityController
     {
         FightDetectorManager.Instance?.OnEnemyStartCombat(this);
         isChasingPlayer = true;
+        detectionLight.SetActive(true);
     }
     bool CanSeePlayer()
     {
