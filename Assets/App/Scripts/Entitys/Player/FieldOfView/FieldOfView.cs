@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -16,6 +17,8 @@ public class FieldOfView : MonoBehaviour
     [SerializeField] private float meshResolution;
     [SerializeField] private MeshFilter viewMeshFilter;
 
+    [SerializeField] private Transform m_Canon;
+    
     private List<Transform> m_VisibleTargets = new List<Transform>();
 
     private int edgeResolveIterations;
@@ -43,6 +46,15 @@ public class FieldOfView : MonoBehaviour
         {
             yield return new WaitForSeconds(delay);
             FindVisibleTargets();
+        }
+    }
+
+    private void Update()
+    {
+        if (m_Canon != null)
+        {
+            Quaternion newRotation = Quaternion.Euler(0, m_Canon.rotation.eulerAngles.y, 0);
+            transform.rotation = newRotation;
         }
     }
 

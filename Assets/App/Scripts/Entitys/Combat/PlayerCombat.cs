@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,7 +15,10 @@ public class PlayerCombat : EntityCombat
 
     private void Update()
     {
-        LookAt(m_AimTarget.Get().position);
+        Vector3 targetPosition = m_AimTarget.Get().position;
+        targetPosition.y = verticalPivot.position.y;
+        
+        LookAt(targetPosition);
         if (attackIA.action.IsPressed())
             Attack();
     }

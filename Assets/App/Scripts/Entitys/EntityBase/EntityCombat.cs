@@ -11,8 +11,8 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
     [SerializeField] protected CombatStyle currentCombatStyle;
 
     [Space(10)]
-    [SerializeField] Transform verticalPivot;
-    [SerializeField] Transform horizontalPivot;
+    [SerializeField] protected Transform verticalPivot;
+    [SerializeField] protected Transform horizontalPivot;
 
     public virtual void Attack()
     {

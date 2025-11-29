@@ -48,6 +48,7 @@ MonoBehaviour:
   maxBulletCount: 10
   bulletDamage: 5
   bulletSpeed: 30
+  knockBackForce: 0
   attackCooldown: 0.3
   reloadCooldown: 0.8
   attackPoint: {fileID: 5309297015634064110}
@@ -127,9 +128,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
   maxHealth: 30
-  shield:
-    _object: {fileID: 0}
+  invincibilityDelay: 0
   m_DamageSFXManager: {fileID: 449631955636452469}
+  m_ImpactVFX: {fileID: 740644479027730593, guid: 9adf318a55913aa449ec4f8cfecc5008, type: 3}
+  m_DeathVFX: {fileID: 3143492528487257720, guid: 1513c5d12a12159469eb9b706aa2e14d, type: 3}
 --- !u!114 &449631955636452469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,6 +671,7 @@ MonoBehaviour:
     m_Bits: 319
   playertag: Player
   agent: {fileID: 1790455450395899670}
+  detectionLight: {fileID: 0}
   player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!114 &3147133673151223813
 MonoBehaviour:

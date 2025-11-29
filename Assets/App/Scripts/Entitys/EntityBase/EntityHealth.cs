@@ -58,4 +58,6 @@ public class EntityHealth : MonoBehaviour, IHealth
 
     public int GetMaxHealth() => maxHealth;
     public int GetCurrentHealth() => currentHealth;
+    
+    public float GetHealthPercentage() => (float)currentHealth / maxHealth;
 }
