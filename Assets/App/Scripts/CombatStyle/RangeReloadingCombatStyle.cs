@@ -28,6 +28,12 @@ public class RangeReloadingCombatStyle : CombatStyle
 
     private void Start()
     {
+        StartCoroutine(LateStart());
+    }
+
+    IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(.1f);
         currentBulletCount = maxBulletCount;
     }
 
@@ -38,6 +44,7 @@ public class RangeReloadingCombatStyle : CombatStyle
             if(currentBulletCount > 0)
             {
                 currentBulletCount--;
+                OnAMMOChange?.Invoke(currentBulletCount, maxBulletCount);
 
                 Bullet bullet = BulletManager.Instance.GetBullet();
                 bullet.transform.position = attackPoint.position;
@@ -61,9 +68,11 @@ public class RangeReloadingCombatStyle : CombatStyle
     {
         if (!isReloading)
         {
+            OnReload?.Invoke();
+
             if(m_SFXManager)
                 m_SFXManager.PlayReloadSFX();
-            StartCoroutine(ReloadCooldown());
+            StartCoroutine(ReloadCooldown());         
         }
     }
 
@@ -79,6 +88,7 @@ public class RangeReloadingCombatStyle : CombatStyle
         isReloading = true;
         yield return new WaitForSeconds(reloadCooldown);
         currentBulletCount = maxBulletCount;
+        OnAMMOChange?.Invoke(currentBulletCount, maxBulletCount);
         isReloading = false;
     }
 }

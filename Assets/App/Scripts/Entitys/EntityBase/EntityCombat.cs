@@ -52,4 +52,6 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
             );
         }
     }
+
+    public CombatStyle GetCombatStyle() => currentCombatStyle;
 }
