@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using MVsToolkit.Utils;
+using UnityEngine.Events;
 
 public class WaveSystem : MonoBehaviour
 {
@@ -24,7 +25,9 @@ public class WaveSystem : MonoBehaviour
     }
 
     //[Header("Input")]
-    //[Header("Output")]
+    [Header("Output")]
+    [SerializeField] UnityEvent OnWavesStart;
+    [SerializeField] UnityEvent OnWavesClear;
 
     public void SpawnWave()
     {
@@ -33,12 +36,14 @@ public class WaveSystem : MonoBehaviour
         {
             FightDetectorManager.Instance?.OnWaveEnd(this);
             IsInFight = false;
+            OnWavesClear?.Invoke();
             return;
         }
         else
         {
             FightDetectorManager.Instance?.OnWaveStart(this);
             IsInFight = true;
+            OnWavesStart?.Invoke();
         }
 
             foreach (WaveSpawner spawner in spawners)
