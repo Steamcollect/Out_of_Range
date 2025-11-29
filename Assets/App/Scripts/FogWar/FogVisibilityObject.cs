@@ -26,9 +26,9 @@ namespace FischlWorks_FogWar
         [SerializeField] [Range(0, 2)] private int m_AdditionalRadius = 0;
         
         [Header("References")]
-        [SerializeField] private List<MeshRenderer> m_MeshRenderers = null;
-        [SerializeField] private List<SkinnedMeshRenderer> m_SkinnedMeshRenderers = null;
+        [SerializeField] private List<Renderer> m_Renderers;
 
+        [SerializeField] private List<GameObject> m_Objects;
         private void Update()
         {
             if (!IsInRangeFogWar()) return;
@@ -42,14 +42,13 @@ namespace FischlWorks_FogWar
         {
             m_Visibility = FogWarManager.Instance.CheckVisibility(transform.position, m_AdditionalRadius);
 
-            foreach (MeshRenderer meshRenderer in m_MeshRenderers)
+            foreach (Renderer rend in m_Renderers)
             {
-                meshRenderer.enabled = m_Visibility;
+                rend.enabled = m_Visibility;
             }
-
-            foreach (SkinnedMeshRenderer skinnedMeshRenderer in m_SkinnedMeshRenderers)
+            foreach (GameObject obj in m_Objects)
             {
-                skinnedMeshRenderer.enabled = m_Visibility;
+                obj.SetActive(m_Visibility);
             }
         }
 
