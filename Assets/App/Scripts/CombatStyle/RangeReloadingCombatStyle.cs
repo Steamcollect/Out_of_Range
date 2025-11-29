@@ -21,6 +21,7 @@ public class RangeReloadingCombatStyle : CombatStyle
 
     [Header("References")]
     [SerializeField] Transform attackPoint;
+    [SerializeField] private GameObject m_MuzzleFlashPrefab;
 
     [SerializeField] private RangeReloadingWeaponSFXManager m_SFXManager;
 
@@ -45,8 +46,9 @@ public class RangeReloadingCombatStyle : CombatStyle
             if(currentBulletCount > 0)
             {
                 currentBulletCount--;
-                OnAMMOChange?.Invoke(currentBulletCount, maxBulletCount);
-
+                OnAmmoChange?.Invoke(currentBulletCount, maxBulletCount);
+                var muzzleVFX = Instantiate(m_MuzzleFlashPrefab, attackPoint);
+                Destroy(muzzleVFX, muzzleVFX.GetComponent<ParticleSystem>().main.duration);
                 Bullet bullet = BulletManager.Instance.GetBullet();
                 bullet.transform.position = attackPoint.position;
                 bullet.transform.up = attackPoint.forward;
@@ -90,7 +92,7 @@ public class RangeReloadingCombatStyle : CombatStyle
         isReloading = true;
         yield return new WaitForSeconds(reloadCooldown);
         currentBulletCount = maxBulletCount;
-        OnAMMOChange?.Invoke(currentBulletCount, maxBulletCount);
+        OnAmmoChange?.Invoke(currentBulletCount, maxBulletCount);
         isReloading = false;
     }
 }
