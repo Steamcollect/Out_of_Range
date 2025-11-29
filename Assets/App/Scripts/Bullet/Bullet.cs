@@ -20,6 +20,9 @@ public class Bullet : MonoBehaviour
         this.damage = damage;
         this.speed = speed;
 
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
         StartCoroutine(CheckDistanceFromPlayer());
 
         return this;
