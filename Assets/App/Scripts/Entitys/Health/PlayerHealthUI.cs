@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,6 @@ public class PlayerHealthUI : MonoBehaviour
 
     public void SetFillValue(int value, int max)
     {
-        fillImg.fillAmount = Mathf.Max(value, max) / max;
+        fillImg.fillAmount = (float)Mathf.Clamp(value, 0, max) / max;
     }
 }

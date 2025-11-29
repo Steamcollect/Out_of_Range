@@ -38,7 +38,7 @@ public class EntityHealth : MonoBehaviour, IHealth
     void Die()
     {
         m_DamageSFXManager.PlayDeathSFX();
-        OnDeath.Invoke();
+        OnDeath?.Invoke();
     }
 
     public int GetMaxHealth() => maxHealth;
