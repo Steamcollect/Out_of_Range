@@ -52,7 +52,7 @@ MonoBehaviour:
     m_Bits: 256
   m_ObstacleMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 8
   meshResolution: 1
   viewMeshFilter: {fileID: 5114071651880906620}
 --- !u!1 &1118554796467632986
@@ -490,6 +490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
   maxHealth: 100
+  invincibilityDelay: 0
   m_DamageSFXManager: {fileID: 1866026752504187138}
 --- !u!114 &1866026752504187138
 MonoBehaviour:
@@ -875,6 +876,7 @@ MonoBehaviour:
   maxBulletCount: 10
   bulletDamage: 5
   bulletSpeed: 30
+  knockBackForce: 0
   attackCooldown: 0.3
   reloadCooldown: 0.8
   attackPoint: {fileID: 874208509811087154}
