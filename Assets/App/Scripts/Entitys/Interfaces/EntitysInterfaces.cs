@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public interface IMovement
 {
@@ -26,4 +27,9 @@ public interface IShield
 public interface ITargetable
 {
     Vector3 GetTargetPosition();
+}
+
+public interface ISpawnable
+{
+    void OnSpawn();
 }

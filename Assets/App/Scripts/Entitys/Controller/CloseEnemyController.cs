@@ -3,7 +3,7 @@ using MVsToolkit.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CloseEnemyController : EntityController
+public class CloseEnemyController : EntityController, ISpawnable
 {
     [Header("Settings")]
     [SerializeField] float detectionRange;
@@ -155,5 +155,10 @@ public class CloseEnemyController : EntityController
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+    public void OnSpawn()
+    {
+        isChasingPlayer = true;
     }
 }

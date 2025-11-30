@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RangeEnemyController : EntityController
+public class RangeEnemyController : EntityController, ISpawnable
 {
     [Header("Settings")]
     [SerializeField] float detectionRange;
@@ -134,5 +134,10 @@ public class RangeEnemyController : EntityController
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, closeRange);
+    }
+
+    public void OnSpawn()
+    {
+        isChasingPlayer = true;
     }
 }

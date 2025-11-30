@@ -14,7 +14,7 @@ public class WaveSystem : MonoBehaviour
     [Header("References")]
     [SerializeField] WaveSpawner[] spawners;
 
-    public List<EntityController> currentEntitiesAlive = new();
+    List<EntityController> currentEntitiesAlive = new();
 
     [System.Serializable]
     public struct WaveSpawner
@@ -46,22 +46,24 @@ public class WaveSystem : MonoBehaviour
             OnWavesStart?.Invoke();
         }
 
-            foreach (WaveSpawner spawner in spawners)
-            {
-                if (spawner.entitiesPerWave.Length <= currentWave
-                    || spawner.entitiesPerWave[currentWave] == null)
-                    continue;
+        foreach (WaveSpawner spawner in spawners)
+        {
+            if (spawner.entitiesPerWave.Length <= currentWave
+                || spawner.entitiesPerWave[currentWave] == null)
+                continue;
 
-                EntityController entity = Instantiate(
-                    spawner.entitiesPerWave[currentWave],
-                    spawner.spawnPoint.position,
-                    Quaternion.identity,
-                    transform);
+            EntityController entity = Instantiate(
+                spawner.entitiesPerWave[currentWave],
+                spawner.spawnPoint.position,
+                Quaternion.identity,
+                transform);
 
-                entity.transform.position = spawner.spawnPoint.position;
-                entity.OnDeath += OnEntityDie;
-                currentEntitiesAlive.Add(entity);
-            }
+            if (entity.TryGetComponent(out ISpawnable spawnable)) spawnable.OnSpawn();
+
+            entity.transform.position = spawner.spawnPoint.position;
+            entity.OnDeath += OnEntityDie;
+            currentEntitiesAlive.Add(entity);
+        }
     }
 
     void OnEntityDie(EntityController entity)
