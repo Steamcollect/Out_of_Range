@@ -10,7 +10,7 @@ public class RangeOverloadCombatStyle : CombatStyle
     [SerializeField] float temperatureLostPerSec;
     float curentTemperature;
 
-    [Space(10)]
+    [Space(5)]
     [SerializeField] float attackCooldown;
     [SerializeField] float overloadCooldown;
     [SerializeField] float timeToCoolsAfterShoot;
@@ -25,6 +25,11 @@ public class RangeOverloadCombatStyle : CombatStyle
 
     float coolsTimer;
 
+    [Header("Visual")]
+    [SerializeField] MeshRenderer meshRenderer;
+    [SerializeField] Gradient colorOverTemperature;
+    Material rendererMat;
+
     [Header("References")]
     [SerializeField] Transform attackPoint;
     [SerializeField] private GameObject m_MuzzleFlashPrefab;
@@ -34,6 +39,13 @@ public class RangeOverloadCombatStyle : CombatStyle
     //[Header("Input")]
     //[Header("Output")]
 
+    private void Start()
+    {
+        rendererMat = new Material(meshRenderer.material);
+        meshRenderer.material = rendererMat;
+        SetRendererColor();
+    }
+
     private void Update()
     {
         coolsTimer += Time.deltaTime;
@@ -41,6 +53,7 @@ public class RangeOverloadCombatStyle : CombatStyle
         if(coolsTimer > timeToCoolsAfterShoot && !isOverload)
         {
             Mathf.Clamp(curentTemperature -= temperatureLostPerSec * Time.deltaTime, 0, maxTemperature);
+            SetRendererColor();
             OnAmmoChange?.Invoke(curentTemperature, maxTemperature);
         }
     }
@@ -71,6 +84,7 @@ public class RangeOverloadCombatStyle : CombatStyle
                 Overload();
             }
 
+            SetRendererColor();
             OnAmmoChange?.Invoke(curentTemperature, maxTemperature);
         }
     }
@@ -99,5 +113,11 @@ public class RangeOverloadCombatStyle : CombatStyle
         isOverload = true;
         yield return new WaitForSeconds(overloadCooldown);
         isOverload = false;
+    }
+
+    void SetRendererColor()
+    {
+        float value = Mathf.Clamp01(curentTemperature / maxTemperature);
+        rendererMat.color = colorOverTemperature.Evaluate(value);
     }
 }
