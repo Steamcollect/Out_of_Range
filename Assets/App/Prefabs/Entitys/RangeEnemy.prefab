@@ -239,6 +239,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Entity_HorizontalLinearMovement
   moveSpeed: 30
   rb: {fileID: 5189926587359084582}
+--- !u!1 &3815577572755010280
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5188514075616049392}
+  - component: {fileID: 4584786856088110171}
+  m_Layer: 0
+  m_Name: FogVisibility
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5188514075616049392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3815577572755010280}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6768313355697838407}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4584786856088110171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3815577572755010280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 985add12ee4836e40b7241671b1d892c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FischlWorks_FogWar.FogVisibilityObject
+  m_Visibility: 0
+  m_AdditionalRadius: 0
+  m_Renderers:
+  - {fileID: 8492754452489568597}
+  - {fileID: 3232189753623392808}
+  m_Objects:
+  - {fileID: 4458644276942394988}
 --- !u!1 &4107096721611965925
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,6 +806,7 @@ Transform:
   - {fileID: 8370843007976899593}
   - {fileID: 6407472825269025806}
   - {fileID: 4611355899032683051}
+  - {fileID: 5188514075616049392}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &5189926587359084582
@@ -995,6 +1047,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5924270626294041275, guid: 4da4c116a0a9d1846a02da99b631dea0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8664795022339886569, guid: 4da4c116a0a9d1846a02da99b631dea0, type: 3}
+      propertyPath: m_InitialEventNameOverriden
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8742898005285152904, guid: 4da4c116a0a9d1846a02da99b631dea0, type: 3}

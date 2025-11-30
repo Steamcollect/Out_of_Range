@@ -1,16 +1,16 @@
-﻿using UnityEngine;
+﻿using MoreMountains.Tools;
+using UnityEngine;
 
 [DefaultExecutionOrder(-10)]
 public abstract class RegularSingleton<T> : MonoBehaviour where T : RegularSingleton<T>
 {
-        
         private static T s_Instance;
 
         public static T Instance => s_Instance;
         
         protected virtual void Awake()
         {
-                if (!s_Instance && s_Instance != this)
+                if (!s_Instance || (s_Instance && !s_Instance.Equals(this)))
                 { 
                         s_Instance = (T)this;
                 }

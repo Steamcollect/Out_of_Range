@@ -9,7 +9,7 @@ public abstract class PersistantSingleton<T> : MonoBehaviour where T : Persistan
         
     protected virtual void Awake()
     {
-        if (!s_Instance && s_Instance != this)
+        if (!s_Instance || (s_Instance && !s_Instance.Equals(this)))
         { 
             s_Instance = (T)this;
         }
