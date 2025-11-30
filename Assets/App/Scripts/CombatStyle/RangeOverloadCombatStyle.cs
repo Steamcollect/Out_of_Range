@@ -13,6 +13,7 @@ public class RangeOverloadCombatStyle : CombatStyle
     [Space(5)]
     [SerializeField] float attackCooldown;
     [SerializeField] float overloadCooldown;
+    [SerializeField] float overloadRecorverySpeed;
     [SerializeField] float timeToCoolsAfterShoot;
 
     [Space(10)]
@@ -52,7 +53,7 @@ public class RangeOverloadCombatStyle : CombatStyle
 
         if(coolsTimer > timeToCoolsAfterShoot && !isOverload)
         {
-            Mathf.Clamp(curentTemperature -= temperatureLostPerSec * Time.deltaTime, 0, maxTemperature);
+            curentTemperature = Mathf.Clamp(curentTemperature - temperatureLostPerSec * Time.deltaTime, 0, maxTemperature);
             SetRendererColor();
             OnAmmoChange?.Invoke(curentTemperature, maxTemperature);
         }
@@ -113,6 +114,16 @@ public class RangeOverloadCombatStyle : CombatStyle
     {
         isOverload = true;
         yield return new WaitForSeconds(overloadCooldown);
+
+        while(curentTemperature > 0)
+        {
+            curentTemperature -= overloadRecorverySpeed * Time.deltaTime;
+            SetRendererColor();
+            OnAmmoChange?.Invoke(curentTemperature, maxTemperature);
+            yield return null;
+        }
+        curentTemperature = 0;
+
         isOverload = false;
     }
 
