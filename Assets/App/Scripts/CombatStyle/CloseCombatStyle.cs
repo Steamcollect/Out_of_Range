@@ -13,6 +13,7 @@ public class CloseCombatStyle : CombatStyle
     //STOPPER LES ENNEMIS QUAND ILS ATTAQUENT
 
     bool canAttack = true;
+    bool isAttacking = false;
 
     [Header("References")]
     [SerializeField] Transform weaponPivot;
@@ -44,6 +45,7 @@ public class CloseCombatStyle : CombatStyle
             ).OnComplete(() =>
             {
                 OnAttack?.Invoke();
+                isAttacking = true;
 
                 float rot = -20f;
                 DOTween.To(() => rot, x => rot = x, 200f, 0.1f)
@@ -54,11 +56,12 @@ public class CloseCombatStyle : CombatStyle
                     })
                     .OnComplete(() =>
                     {
-                    CoroutineUtils.Delay(this, () =>
-                    {
-                        weaponPivot.gameObject.SetActive(false);
-                        combatHandler.SetActiveLookAt(true);
-                    }, attackFinishedDelay);
+                        isAttacking = false;
+                        CoroutineUtils.Delay(this, () =>
+                        {
+                            weaponPivot.gameObject.SetActive(false);
+                            combatHandler.SetActiveLookAt(true);
+                        }, attackFinishedDelay);
                 });
             });
         }
@@ -66,6 +69,8 @@ public class CloseCombatStyle : CombatStyle
 
     void OnWeaponTouchSomething(Collider collid)
     {
+        if (!isAttacking) return;
+
         if (collid.TryGetComponent(out EntityTrigger trigger))
         {
             trigger.GetController().GetHealth().TakeDamage(damage);
