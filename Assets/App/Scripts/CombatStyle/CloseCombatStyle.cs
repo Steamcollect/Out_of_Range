@@ -17,6 +17,7 @@ public class CloseCombatStyle : CombatStyle
     [Header("References")]
     [SerializeField] Transform weaponPivot;
     [SerializeField] ColliderCallback callback;
+    [SerializeField] EntityCombat combatHandler;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -30,9 +31,10 @@ public class CloseCombatStyle : CombatStyle
     {
         if (canAttack)
         {
+            combatHandler.SetActiveLookAt(false);
+
             StartCoroutine(AttackCooldown());
             weaponPivot.localRotation = Quaternion.identity;
-            OnAttack?.Invoke();
 
             weaponPivot.gameObject.SetActive(true);
             weaponPivot.DOLocalRotate(
@@ -41,6 +43,8 @@ public class CloseCombatStyle : CombatStyle
                 RotateMode.FastBeyond360
             ).OnComplete(() =>
             {
+                OnAttack?.Invoke();
+
                 float rot = -20f;
                 DOTween.To(() => rot, x => rot = x, 200f, 0.1f)
                     .SetEase(Ease.Linear)
@@ -53,6 +57,7 @@ public class CloseCombatStyle : CombatStyle
                     CoroutineUtils.Delay(this, () =>
                     {
                         weaponPivot.gameObject.SetActive(false);
+                        combatHandler.SetActiveLookAt(true);
                     }, attackFinishedDelay);
                 });
             });
