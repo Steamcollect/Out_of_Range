@@ -34,6 +34,57 @@ Transform:
   - {fileID: 5308874991480580794}
   m_Father: {fileID: 4972967181453631696}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1946456123642405382
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5192635791613929587}
+  - component: {fileID: 2106936325101846559}
+  m_Layer: 0
+  m_Name: FogVisibility
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5192635791613929587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946456123642405382}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -38.011703, y: 0, z: 27.31411}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9217086084772404929}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2106936325101846559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946456123642405382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 985add12ee4836e40b7241671b1d892c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FischlWorks_FogWar.FogVisibilityObject
+  m_Visibility: 0
+  m_AdditionalRadius: 0
+  m_Renderers:
+  - {fileID: 0}
+  - {fileID: 0}
+  m_Objects:
+  - {fileID: 0}
 --- !u!1 &2831026936502396038
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,10 +163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bebb4a9feb584547972b4eee300dfef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CloseCombatStyle
-  damage: 10
-  attackCooldown: 5
-  attackBeginDelay: 0.2
-  attackFinishedDelay: 0.2
+  damage: 1
+  attackCooldown: 2
+  attackBeginDelay: 0.5
+  attackFinishedDelay: 0.5
   weaponPivot: {fileID: 9060113417848896024}
   callback: {fileID: 5189970067126118701}
 --- !u!1 &4661395275915666384
@@ -188,6 +239,7 @@ Transform:
   - {fileID: 4972967181453631696}
   - {fileID: 2625123350018413212}
   - {fileID: 5108886101496074843}
+  - {fileID: 5192635791613929587}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &847507863784800633
@@ -732,7 +784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 135eba6dc3255e44a8dd62d801c88833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_HorizontalLinearMovement
-  moveSpeed: 40
+  moveSpeed: 60
   rb: {fileID: 847507863784800633}
 --- !u!1 &7407349663285629216
 GameObject:
@@ -954,7 +1006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  maxHealth: 50
+  maxHealth: 5
   invincibilityDelay: 0
   m_DamageSFXManager: {fileID: 3234812715928615529}
 --- !u!114 &3234812715928615529
