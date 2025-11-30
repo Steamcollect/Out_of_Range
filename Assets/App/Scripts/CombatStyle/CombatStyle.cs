@@ -8,6 +8,12 @@ public class CombatStyle : MonoBehaviour
 
     public Action OnAttack;
 
+    protected bool canAttack = true;
+    protected bool isAttacking = false;
+    
     public virtual void Attack() { }
     public virtual void Reload() { }
+
+    public bool IsAttacking() => isAttacking;
+    public bool CanAttack() => canAttack;
 }

@@ -64,5 +64,7 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
 
     public CombatStyle GetCombatStyle() => currentCombatStyle;
 
+    public Vector3 GetVerticalPivotPos() => verticalPivot.position;
+
     public void SetActiveLookAt(bool canLookAt) => this.canLookAt = canLookAt;
 }

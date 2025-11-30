@@ -55,7 +55,7 @@ public class CloseEnemyController : EntityController
 
     private void Update()
     {
-        agent.nextPosition = transform.position;
+        agent.nextPosition = rb.position;
     }
 
     private void FixedUpdate()
@@ -81,10 +81,15 @@ public class CloseEnemyController : EntityController
             {
                 MoveTowardPlayer();
             }
-            else 
+            else
             {
-                combat.Attack();
+                if (!combat.GetCombatStyle().IsAttacking()
+                    && combat.GetCombatStyle().CanAttack())
+                {
+                    combat.Attack();
+                }
             }
+
         }
         else
         {
@@ -119,7 +124,8 @@ public class CloseEnemyController : EntityController
     bool CanSeePlayer()
     {
         Vector3 dir = (player.Get().GetTargetPosition() - GetTargetPosition()).normalized;
-        Ray ray = new Ray(transform.position, dir);
+        Vector3 eyePos = combat.GetVerticalPivotPos(); // bien plus robuste
+        Ray ray = new Ray(eyePos, dir);
 
         RaycastHit hit;
 
@@ -133,7 +139,13 @@ public class CloseEnemyController : EntityController
 
     bool IsPlayerInRange(float range)
     {
-        return Vector3.Distance(player.Get().GetTargetPosition(), GetTargetPosition()) < range;
+        Vector3 enemyPos = GetTargetPosition();
+        Vector3 playerPos = player.Get().GetTargetPosition();
+
+        enemyPos.y = 0;
+        playerPos.y = 0;
+
+        return Vector3.Distance(enemyPos, playerPos) < range;
     }
 
     private void OnDrawGizmosSelected()

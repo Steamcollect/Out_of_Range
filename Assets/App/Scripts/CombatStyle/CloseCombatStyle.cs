@@ -12,9 +12,6 @@ public class CloseCombatStyle : CombatStyle
     [SerializeField] float attackFinishedDelay = .2f;
     //STOPPER LES ENNEMIS QUAND ILS ATTAQUENT
 
-    bool canAttack = true;
-    bool isAttacking = false;
-
     [Header("References")]
     [SerializeField] Transform weaponPivot;
     [SerializeField] ColliderCallback callback;
