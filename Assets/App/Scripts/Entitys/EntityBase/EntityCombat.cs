@@ -7,6 +7,7 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
     [Header("Settings")]
     [SerializeField] float turnSmoothTime;
     Vector3 turnSmoothHozirontalVelocity, turnSmoothVerticalVelocity;
+    bool canLookAt = true;
 
     [Header("References")]
     [SerializeField] protected CombatStyle currentCombatStyle;
@@ -22,6 +23,8 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
 
     public virtual void LookAt(Vector3 targetPos)
     {
+        if (!canLookAt) return;
+
         Vector3 direction = targetPos - horizontalPivot.position;
         if (direction.sqrMagnitude < 0.0001f) return;
 
@@ -54,5 +57,12 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
         }
     }
 
+    public Vector3 GetLookAtDirection()
+    {
+        return (verticalPivot.forward + horizontalPivot.forward).normalized;
+    }
+
     public CombatStyle GetCombatStyle() => currentCombatStyle;
+
+    public void SetActiveLookAt(bool canLookAt) => this.canLookAt = canLookAt;
 }

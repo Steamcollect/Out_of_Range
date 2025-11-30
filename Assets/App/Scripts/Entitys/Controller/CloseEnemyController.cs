@@ -14,6 +14,10 @@ public class CloseEnemyController : EntityController
     [Space(10)]
     [SerializeField] float stopMovementOnAttackDelay;
 
+    [Space(10)]
+    [SerializeField] float attackDashForce;
+    [SerializeField] ForceMode attackDashForceMode;
+
     bool isChasingPlayer = false;
     bool canChasePlayer = true;
 
@@ -45,6 +49,8 @@ public class CloseEnemyController : EntityController
                 canChasePlayer = true;
             }, stopMovementOnAttackDelay);
         };
+
+        combat.GetCombatStyle().OnAttack += DashOnAttack;
     }
 
     private void Update()
@@ -97,6 +103,11 @@ public class CloseEnemyController : EntityController
             return;
 
         movement.Value.Move(agent.desiredVelocity.normalized);
+    }
+
+    void DashOnAttack()
+    {
+        rb.AddForce(combat.GetLookAtDirection() * attackDashForce, attackDashForceMode);
     }
 
     void OnTakeDamage()
