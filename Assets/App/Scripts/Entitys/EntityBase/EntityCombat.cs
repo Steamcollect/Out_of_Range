@@ -1,4 +1,5 @@
 using MVsToolkit.Utils;
+using System;
 using UnityEngine;
 
 public class EntityCombat : MonoBehaviour, ILookAtTarget

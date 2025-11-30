@@ -6,6 +6,8 @@ public class CombatStyle : MonoBehaviour
     public Action<float /*current*/,float /*max*/> OnAmmoChange;
     public Action OnReload;
 
+    public Action OnAttack;
+
     public virtual void Attack() { }
     public virtual void Reload() { }
 }

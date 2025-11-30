@@ -2,7 +2,6 @@ using System.Collections;
 using DG.Tweening;
 using MVsToolkit.Utils;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public class CloseCombatStyle : CombatStyle
 {
@@ -33,6 +32,7 @@ public class CloseCombatStyle : CombatStyle
         {
             StartCoroutine(AttackCooldown());
             weaponPivot.localRotation = Quaternion.identity;
+            OnAttack?.Invoke();
 
             weaponPivot.gameObject.SetActive(true);
             weaponPivot.DOLocalRotate(

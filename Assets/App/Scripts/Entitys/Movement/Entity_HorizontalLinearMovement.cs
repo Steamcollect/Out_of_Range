@@ -15,4 +15,10 @@ public class Entity_HorizontalLinearMovement : MonoBehaviour, IMovement
     {
         rb.AddForce(input * moveSpeed);
     }
+
+    public void ResetVelocity()
+    {
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+    }
 }

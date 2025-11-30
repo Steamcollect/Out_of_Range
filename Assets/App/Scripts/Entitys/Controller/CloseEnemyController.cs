@@ -1,4 +1,5 @@
 using MVsToolkit.Dev;
+using MVsToolkit.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,7 +11,11 @@ public class CloseEnemyController : EntityController
     [SerializeField] LayerMask detectionMask;
     [SerializeField, TagName] string playertag;
 
+    [Space(10)]
+    [SerializeField] float stopMovementOnAttackDelay;
+
     bool isChasingPlayer = false;
+    bool canChasePlayer = true;
 
     [Header("Internal References")]
     [SerializeField] NavMeshAgent agent;
@@ -29,6 +34,17 @@ public class CloseEnemyController : EntityController
         detectionLight.SetActive(false);
         
         health.OnTakeDamage += OnTakeDamage;
+
+        combat.GetCombatStyle().OnAttack += () =>
+        {
+            canChasePlayer = false;
+            movement.Value.ResetVelocity();
+
+            CoroutineUtils.Delay(this, () =>
+            {
+                canChasePlayer = true;
+            }, stopMovementOnAttackDelay);
+        };
     }
 
     private void Update()
@@ -38,6 +54,8 @@ public class CloseEnemyController : EntityController
 
     private void FixedUpdate()
     {
+        if (!canChasePlayer) return;
+
         if (!isChasingPlayer)
         {
             if (IsPlayerInRange(detectionRange) && CanSeePlayer())

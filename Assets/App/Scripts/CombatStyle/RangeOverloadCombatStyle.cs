@@ -62,6 +62,7 @@ public class RangeOverloadCombatStyle : CombatStyle
     {
         if (canAttack && !isOverload)
         {
+            OnAttack?.Invoke();
             coolsTimer = 0;
 
             Bullet bullet = BulletManager.Instance.GetBullet();

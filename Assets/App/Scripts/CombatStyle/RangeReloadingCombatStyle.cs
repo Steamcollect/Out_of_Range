@@ -45,6 +45,8 @@ public class RangeReloadingCombatStyle : CombatStyle
         {
             if(currentBulletCount > 0)
             {
+                OnAttack?.Invoke();
+
                 currentBulletCount--;
                 OnAmmoChange?.Invoke(currentBulletCount, maxBulletCount);
                 var muzzleVFX = Instantiate(m_MuzzleFlashPrefab, attackPoint);

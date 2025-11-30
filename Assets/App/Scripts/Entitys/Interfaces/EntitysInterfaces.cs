@@ -2,6 +2,8 @@ using UnityEngine;
 
 public interface IMovement
 {
+    void ResetVelocity();
+
     void Move(Vector3 input);
 }
 
