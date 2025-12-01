@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : EntityController
 {
@@ -29,12 +30,24 @@ public class PlayerController : EntityController
         dashIA.action.started -= Dash;
     }
 
-    public override void OnAwake()
+    void Awake()
     {
+        health.OnDeath += () =>
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        };
+
+        base.Awake();
+
         controller.Set(this);
 
         dashIA.action.Enable();
         moveIA.action.Enable();
+    }
+
+    private void Start()
+    {
+        rb.position = PlayerSpawnPoint.position;
     }
 
     private void FixedUpdate()
@@ -76,7 +89,6 @@ public class PlayerController : EntityController
             movement.Value.Move(moveDir);
         }
     }
-
 
     void Dash(InputAction.CallbackContext ctx)
     {

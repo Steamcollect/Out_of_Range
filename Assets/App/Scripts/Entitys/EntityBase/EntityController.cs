@@ -26,11 +26,7 @@ public class EntityController : MonoBehaviour, ITargetable
     {
         trigger.SetController(this);
         health.OnDeath += OnEntityDie;
-
-        OnAwake();
     }
-
-    public virtual void OnAwake() { }
 
     void OnEntityDie()
     {
