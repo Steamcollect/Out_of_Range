@@ -23,7 +23,6 @@ public class RangeOverloadCombatStyle : CombatStyle
     [SerializeField] float bulletSpeed;
     [SerializeField] float knockBackForce;
 
-    bool canAttack = true;
     bool isOverload = false;
 
     float coolsTimer;

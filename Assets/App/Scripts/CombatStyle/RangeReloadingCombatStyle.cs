@@ -16,7 +16,6 @@ public class RangeReloadingCombatStyle : CombatStyle
     [SerializeField] float attackCooldown;
     [SerializeField] float reloadCooldown;
 
-    bool canAttack = true;
     bool isReloading = false;
 
     [Header("References")]

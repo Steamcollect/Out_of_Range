@@ -96,8 +96,6 @@ namespace MoreMountains.FeedbacksForThirdParty
 			#elif MM_CINEMACHINE3
 			_virtualCamera = this.gameObject.GetComponent<CinemachineCamera>();
 			_perlin = _virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Noise) as CinemachineBasicMultiChannelPerlin;
-			
-			print(_perlin);
 			#endif
 		}
 
