@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 912340376721108132}
   - component: {fileID: 7203644731894032029}
   - component: {fileID: 5945376124683939565}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +123,8 @@ GameObject:
   - component: {fileID: 5905662655432016645}
   - component: {fileID: 1350394007301062495}
   - component: {fileID: 6371654549988710004}
-  m_Layer: 0
+  - component: {fileID: 3435679075363178528}
+  m_Layer: 2
   m_Name: Barricade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +184,7 @@ MonoBehaviour:
   m_BulletLayer:
     serializedVersion: 2
     m_Bits: 2048
-  m_Health: {fileID: 0}
+  m_Health: {fileID: 3435679075363178528}
   m_TriggerCollider: {fileID: 5905662655432016645}
 --- !u!208 &6371654549988710004
 NavMeshObstacle:
@@ -201,3 +202,23 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &3435679075363178528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7070944917311746327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
+  maxHealth: 3
+  currentHealth: 0
+  m_InvincibilityRegainDuration: 0
+  m_IsInvincible: 0
+  m_OnDeathFeedback:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DamageSFXManager: {fileID: 0}
