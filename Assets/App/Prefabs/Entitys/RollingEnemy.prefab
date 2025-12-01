@@ -414,7 +414,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3b13c191107a7c44cbb54282a54d09b8, type: 2}
+  - {fileID: 2100000, guid: 2abe227e004228d47aced524b41f1c5b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -447,6 +447,7 @@ GameObject:
   m_Component:
   - component: {fileID: 190048977679862580}
   - component: {fileID: 6991730320770280612}
+  - component: {fileID: 6615593394261181246}
   m_Layer: 0
   m_Name: Health
   m_TagString: Untagged
@@ -482,8 +483,66 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
   maxHealth: 10
-  invincibilityDelay: 0
+  currentHealth: 0
+  m_InvincibilityRegainDuration: 5
+  m_IsInvincible: 0
+  m_OnDeathFeedback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8491995952157397158}
+        m_TargetAssemblyTypeName: VFXHandler, Assembly-CSharp
+        m_MethodName: CreateVfx
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5575907461903844312}
+        m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMF_Player, MoreMountains.Tools
+        m_MethodName: PlayFeedbacks
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_DamageSFXManager: {fileID: 0}
+--- !u!114 &6615593394261181246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7478611349794216688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7605808726bcb4c9486433f7d84cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSFXManager
+  m_DamageSFX:
+    Guid:
+      Data1: -260134075
+      Data2: 1168716630
+      Data3: -2039845967
+      Data4: -922633430
+    Path: event:/Player/Blaster/EnemyHit
+  m_DeathSFX:
+    Guid:
+      Data1: 1487547990
+      Data2: 1177124610
+      Data3: 1681320836
+      Data4: 1193930256
+    Path: event:/EnemyDeath
+  m_DamageVolume: 1
+  m_DeathVolume: 1
+  m_DamagePitchVariance: 0.2
 --- !u!1 &8018458179140365607
 GameObject:
   m_ObjectHideFlags: 0
@@ -884,3 +943,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5924270626294041275, guid: 4da4c116a0a9d1846a02da99b631dea0, type: 3}
   m_PrefabInstance: {fileID: 6681125353353800124}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5575907461903844312 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1286264051780348516, guid: 4da4c116a0a9d1846a02da99b631dea0, type: 3}
+  m_PrefabInstance: {fileID: 6681125353353800124}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MoreMountains.Tools::MoreMountains.Feedbacks.MMF_Player
+--- !u!114 &8491995952157397158 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2981806605284669722, guid: 4da4c116a0a9d1846a02da99b631dea0, type: 3}
+  m_PrefabInstance: {fileID: 6681125353353800124}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0932982a3bfc61443b65ca4e7bd71127, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeathFeedback

@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 
 public class RangeOverloadCombatStyle : CombatStyle
 {
@@ -36,7 +38,7 @@ public class RangeOverloadCombatStyle : CombatStyle
     [SerializeField] private GameObject m_MuzzleFlashPrefab;
 
     [SerializeField] private RangeReloadingWeaponSFXManager m_SFXManager;
-
+    [SerializeField] private UnityEvent m_OnAttackFeedback;
     //[Header("Input")]
     //[Header("Output")]
 
@@ -63,6 +65,7 @@ public class RangeOverloadCombatStyle : CombatStyle
     {
         if (canAttack && !isOverload)
         {
+            m_OnAttackFeedback?.Invoke();
             OnAttack?.Invoke();
             coolsTimer = 0;
 

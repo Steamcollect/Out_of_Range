@@ -2,6 +2,7 @@ using MVsToolkit.Utils;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EntityHealth : MonoBehaviour, IHealth
 {
@@ -14,6 +15,7 @@ public class EntityHealth : MonoBehaviour, IHealth
     [SerializeField] protected bool m_IsInvincible = false;
 
     [Header("REFERENCES")]
+    [SerializeField] protected UnityEvent m_OnDeathFeedback;
     [SerializeField] protected DamageSFXManager m_DamageSFXManager;
     
     public Action OnTakeDamage, OnDeath;
@@ -48,6 +50,7 @@ public class EntityHealth : MonoBehaviour, IHealth
     void Die()
     {
         m_DamageSFXManager?.PlayDeathSFX();
+        m_OnDeathFeedback.Invoke();
         OnDeath?.Invoke();
     }
 

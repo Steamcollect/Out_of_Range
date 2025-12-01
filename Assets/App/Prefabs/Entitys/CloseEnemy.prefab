@@ -1011,7 +1011,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
   maxHealth: 5
-  invincibilityDelay: 0
+  currentHealth: 0
+  m_InvincibilityRegainDuration: 5
+  m_IsInvincible: 0
+  m_OnDeathFeedback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 519389600526753731}
+        m_TargetAssemblyTypeName: VFXHandler, Assembly-CSharp
+        m_MethodName: CreateVfx
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4579321957051452605}
+        m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMF_Player, MoreMountains.Tools
+        m_MethodName: PlayFeedbacks
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_DamageSFXManager: {fileID: 3234812715928615529}
 --- !u!114 &3234812715928615529
 MonoBehaviour:
@@ -1197,6 +1226,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4da4c116a0a9d1846a02da99b631dea0, type: 3}
+--- !u!114 &519389600526753731 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2981806605284669722, guid: 4da4c116a0a9d1846a02da99b631dea0, type: 3}
+  m_PrefabInstance: {fileID: 3338503616377530073}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0932982a3bfc61443b65ca4e7bd71127, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeathFeedback
+--- !u!114 &4579321957051452605 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1286264051780348516, guid: 4da4c116a0a9d1846a02da99b631dea0, type: 3}
+  m_PrefabInstance: {fileID: 3338503616377530073}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MoreMountains.Tools::MoreMountains.Feedbacks.MMF_Player
 --- !u!4 &8963152710719482978 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5924270626294041275, guid: 4da4c116a0a9d1846a02da99b631dea0, type: 3}
