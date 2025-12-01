@@ -4,60 +4,57 @@ using System.Collections.Generic;
 
 public class PlayerHealthUI : MonoBehaviour
 {
-    [Header("Settings")]
-    [SerializeField] Color enableColor;
-    [SerializeField] Color disableColor;
+    [Header("HEALTH")]
+    [SerializeField] private Color m_HealthPointEnableColor;
+    [SerializeField] private Color m_HealthPointDisableColor;
+    [Space(5)]
+    [SerializeField] private Transform m_HealthPointParentTransform;
+    [SerializeField] private Image m_HealthPointImage;
 
-    [Header("References")]
-    [SerializeField] Transform content;
-    [SerializeField] Image healthPointRefImg;
-
-    List<Image> points = new();
+    private List<Image> m_HealthPoints = new();
 
     [Header("Input")]
-    [SerializeField] RSO_PlayerController playerController;
-
-    //[Header("Output")]
+    [SerializeField] private RSO_PlayerController m_PlayerController;
 
     private void Start()
     {
-        EntityHealth health = playerController.Get().GetHealth();
-        health.OnTakeDamage += ()=>
+        EntityHealth entityHealth = m_PlayerController.Get().GetHealth();
+        entityHealth.OnTakeDamage += ()=>
         {
-            SetFillValue(health.GetCurrentHealth(), health.GetMaxHealth());
+            SetHealthFillValue(entityHealth.GetCurrentHealth(), entityHealth.GetMaxHealth());
         };
         
-        health.OnDeath+= ()=>
+        entityHealth.OnDeath+= ()=>
         {
-            SetFillValue(0, health.GetMaxHealth());
+            SetHealthFillValue(0, entityHealth.GetMaxHealth());
         };
 
-        SetFillValue(health.GetCurrentHealth(), health.GetMaxHealth());
+        SetHealthFillValue(entityHealth.GetCurrentHealth(), entityHealth.GetMaxHealth());
     }
 
-    public void SetFillValue(int value, int max)
+    public void SetHealthFillValue(int value, int max)
     {
-        if (points.Count != max)
+        if (m_HealthPoints.Count != max)
         {
-            foreach (Image point in points)
+            foreach (Image point in m_HealthPoints)
             {
                 Destroy(point.gameObject);
-                points.Clear();
+                m_HealthPoints.Clear();
             }
 
             for (int i = 0; i < max; i++)
             {
-                points.Add(Instantiate(healthPointRefImg, content));
-                points[i].gameObject.SetActive(true);
+                m_HealthPoints.Add(Instantiate(m_HealthPointImage, m_HealthPointParentTransform));
+                m_HealthPoints[i].gameObject.SetActive(true);
             }
         }
 
-        for (int i = 0; i < points.Count; i++)
+        for (int i = 0; i < m_HealthPoints.Count; i++)
         {
             if (i + 1 <= value)
-                points[i].color = enableColor;
+                m_HealthPoints[i].color = m_HealthPointEnableColor;
             else 
-                points[i].color = disableColor;
+                m_HealthPoints[i].color = m_HealthPointDisableColor;
         }
     }
 }

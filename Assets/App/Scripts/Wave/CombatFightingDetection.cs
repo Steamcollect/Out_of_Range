@@ -12,7 +12,8 @@ public class CombatFightingDetection : MonoBehaviour
     {
         foreach (EntityController entity in entities)
         {
-            entity.OnDeath += OnEntityKilled;
+            if(entity != null)
+                entity.OnDeath += OnEntityKilled;
         }
     }
 
