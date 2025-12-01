@@ -59,7 +59,6 @@ public class Bullet : MonoBehaviour
     {
         if (!other.gameObject.CompareTag("Bullet"))
         {
-            Debug.Log("Bullet hit: " + other.gameObject.tag);
             ContactPoint contact = other.contacts[0];
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
             Vector3 pos = contact.point;
