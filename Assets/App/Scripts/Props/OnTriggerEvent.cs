@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,11 +10,17 @@ public class OnTriggerEvent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        enterEvent.Invoke();
+        if(other.tag == "Player")
+        {
+            enterEvent.Invoke();
+        }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit(Collider other)
     {
-        exitEvent.Invoke();
+        if (other.tag == "Player")
+        {
+            exitEvent.Invoke();
+        }
     }
 }
