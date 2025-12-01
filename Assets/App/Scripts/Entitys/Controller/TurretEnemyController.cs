@@ -1,60 +1,100 @@
 using System.Collections;
 using System.Linq;
 using MVsToolkit.Dev;
+using MVsToolkit.Utils;
 using UnityEngine;
 
 public class TurretEnemyController : EntityController, ISpawnable
 {
     [Header("Settings")]
-    [SerializeField] float detectionRange;
-    [SerializeField] LayerMask detectionMask;
-    [SerializeField, TagName] string playertag;
-
+    [SerializeField] private float m_AttackRange;
+    [SerializeField] private float m_DetectionRange;
+    [SerializeField] private float bonusRangeWhenAttacked;
+    [SerializeField] private float delayWhenAttacked;
+    [SerializeField] private LayerMask detectionMask;
+    [SerializeField, TagName] private string playertag;
     [Space(10)]
-    [SerializeField] float delayToAim;
-    [SerializeField] float delayBeforeAttack;
-    [SerializeField] float delayAfterAttack;
-
-    bool isTargetingPlayer = false;
-    bool canLookAtPlayer = true;
-    bool isAttacking = false;
-
-    Vector3 lastPlayerPos;
+    [SerializeField] private float delayToAim;
+    [SerializeField] private float delayBeforeAttack;
+    [SerializeField] private float delayAfterAttack;
+    [Space(10)]
+    [SerializeField] private LayerMask laserMask;
+    [SerializeField] private float laserMaxDistance;
 
     [Header("Internal References")]
-    [SerializeField] GameObject detectionLight;
+    [SerializeField] private GameObject detectionLight;
+    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private Transform laserOrigin;
 
     [Header("Input")]
-    [SerializeField] RSO_PlayerController player;
+    [SerializeField] private RSO_PlayerController player;
 
-    //[Header("Output")]
+    private bool isTargetingPlayer = false;
+    private bool canLookAtPlayer = true;
+    private bool isAttacking = false;
+
+    private Vector3 lastPlayerPos;
 
     private void Start()
     {
-        detectionLight.SetActive(false);
+        SetInactive();
 
         health.OnTakeDamage += OnTakeDamage;
     }
 
-    private void FixedUpdate()
+    private void SetInactive()
     {
-        bool canSeePlayer = CanSeePlayer();
+        isTargetingPlayer = false;
+        detectionLight.SetActive(false);
+        lineRenderer.enabled = false;
+    }
 
-        if (!isTargetingPlayer && IsPlayerInRange(detectionRange) && canSeePlayer)
+    private void SetAware()
+    {
+        if (!isTargetingPlayer)
         {
             isTargetingPlayer = true;
             detectionLight.SetActive(true);
+            lineRenderer.enabled = true;
+
+            FightDetectorManager.Instance?.OnEnemyStartCombat(this);
+        }
+    }
+
+    private void SetAttacking()
+    {
+        if (!isAttacking) StartCoroutine(Attack());
+    }
+
+    private void Update()
+    {
+        UpdateLaserPosition(lastPlayerPos);
+
+        if (CanSeePlayer() && canLookAtPlayer)
+        {
+            combat.LookAt(lastPlayerPos);
+            lastPlayerPos = player.Get().GetTargetPosition();
         }
 
-        if (isTargetingPlayer)
+        if (IsPlayerInRange(m_DetectionRange) && CanSeePlayer())
         {
-            if (canLookAtPlayer && canSeePlayer)
-            {
-                combat.LookAt(lastPlayerPos);
-                lastPlayerPos = player.Get().GetTargetPosition();
-            }
+            SetAware();
+        }
 
-            if (!isAttacking) StartCoroutine(Attack());
+        if (IsPlayerInRange(m_AttackRange))
+        {
+            SetAttacking();
+        }
+
+        if(IsPlayerInRange(m_AttackRange) && !CanSeePlayer())
+        {
+            isTargetingPlayer = false;
+            SetAttacking();
+        }
+
+        if(!IsPlayerInRange(m_DetectionRange) && !IsPlayerInRange(m_AttackRange))
+        {
+            SetInactive();
         }
     }
 
@@ -65,19 +105,43 @@ public class TurretEnemyController : EntityController, ISpawnable
 
         canLookAtPlayer = false;
         yield return new WaitForSeconds(delayBeforeAttack);
+
         combat.Attack();
+        combat.GetCombatStyle().Reload();
         yield return new WaitForSeconds(delayAfterAttack);
 
         canLookAtPlayer = true;
         isAttacking = false;
     }
 
+    private void UpdateLaserPosition(Vector3 targetPosition)
+    {
+        if (lineRenderer == null) return;
+
+        lineRenderer.SetPosition(0, laserOrigin.position);
+
+        Ray ray = new Ray(laserOrigin.position, laserOrigin.forward);
+        RaycastHit hit;
+
+        if(Physics.Raycast(ray, out hit, laserMaxDistance, laserMask))
+        {
+            lineRenderer.SetPosition(1, hit.point);
+        }
+        else
+        {
+            Vector3 endPoint = laserOrigin.position + (laserOrigin.forward * laserMaxDistance);
+            lineRenderer.SetPosition(1, endPoint);
+        }
+    }
+
     void OnTakeDamage()
     {
-        FightDetectorManager.Instance?.OnEnemyStartCombat(this);
-        detectionLight.SetActive(true);
+        m_DetectionRange += bonusRangeWhenAttacked;
+        m_AttackRange += bonusRangeWhenAttacked;
+        CoroutineUtils.Delay(this, () => m_DetectionRange -= bonusRangeWhenAttacked, new WaitForSeconds(delayWhenAttacked));
+        CoroutineUtils.Delay(this, () => m_AttackRange -= bonusRangeWhenAttacked, new WaitForSeconds(delayWhenAttacked));
     }
-    bool CanSeePlayer()
+    private bool CanSeePlayer()
     {
         Vector3 dir = (player.Get().GetTargetPosition() - GetTargetPosition()).normalized;
         Vector3 eyePos = combat.GetVerticalPivotPos(); // bien plus robuste
@@ -85,7 +149,7 @@ public class TurretEnemyController : EntityController, ISpawnable
 
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, detectionRange, detectionMask))
+        if (Physics.Raycast(ray, out hit, m_DetectionRange, detectionMask))
         {
             if (hit.collider.CompareTag(playertag)) return true;
         }
@@ -93,7 +157,7 @@ public class TurretEnemyController : EntityController, ISpawnable
         return false;
     }
 
-    bool IsPlayerInRange(float range)
+    private bool IsPlayerInRange(float range)
     {
         Vector3 enemyPos = GetTargetPosition();
         Vector3 playerPos = player.Get().GetTargetPosition();
@@ -107,11 +171,13 @@ public class TurretEnemyController : EntityController, ISpawnable
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
+        Gizmos.DrawWireSphere(transform.position, m_AttackRange); 
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, m_DetectionRange);
     }
 
     public void OnSpawn()
     {
-        isTargetingPlayer = true;
+        SetAware();
     }
 }
