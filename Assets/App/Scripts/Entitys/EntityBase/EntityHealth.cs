@@ -47,6 +47,16 @@ public class EntityHealth : MonoBehaviour, IHealth
         }
     }
 
+    public void TakeHealth(int health)
+    {
+        currentHealth += health;
+
+        if (currentHealth > maxHealth)
+            currentHealth = maxHealth;
+
+        OnTakeDamage?.Invoke();
+    }
+
     void Die()
     {
         m_DamageSFXManager?.PlayDeathSFX();

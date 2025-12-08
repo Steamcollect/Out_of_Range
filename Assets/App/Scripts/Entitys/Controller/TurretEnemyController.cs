@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Linq;
 using MVsToolkit.Dev;
 using MVsToolkit.Utils;
 using UnityEngine;
@@ -21,6 +20,10 @@ public class TurretEnemyController : EntityController, ISpawnable
     [SerializeField] private LayerMask laserMask;
     [SerializeField] private float laserMaxDistance;
 
+    [Space(10)]
+    [SerializeField] Gradient TargetGradient;
+    [SerializeField] Gradient OnShootGradient;
+    
     [Header("Internal References")]
     [SerializeField] private GameObject detectionLight;
     [SerializeField] private LineRenderer lineRenderer;
@@ -101,13 +104,18 @@ public class TurretEnemyController : EntityController, ISpawnable
     IEnumerator Attack()
     {
         isAttacking = true;
+        lineRenderer.material.color = Color.red;
         yield return new WaitForSeconds(delayToAim);
+
+        lineRenderer.material.color = Color.white;
 
         canLookAtPlayer = false;
         yield return new WaitForSeconds(delayBeforeAttack);
 
         combat.Attack();
         combat.GetCombatStyle().Reload();
+        lineRenderer.material.color = Color.red;
+
         yield return new WaitForSeconds(delayAfterAttack);
 
         canLookAtPlayer = true;

@@ -108,20 +108,80 @@ MonoBehaviour:
   combat: {fileID: 3776052241868365976}
   rb: {fileID: 6320683322575009121}
   m_AttackRange: 30
-  m_DetectionRange: 30
+  m_DetectionRange: 19.44
   bonusRangeWhenAttacked: 50
   delayWhenAttacked: 0
   detectionMask:
     serializedVersion: 2
     m_Bits: 2555
   playertag: Player
-  delayToAim: 1
-  delayBeforeAttack: 0.2
+  delayToAim: 2
+  delayBeforeAttack: 0.3
   delayAfterAttack: 0.3
   laserMask:
     serializedVersion: 2
     m_Bits: 777
   laserMaxDistance: 100
+  TargetGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 0, b: 0, a: 1}
+    key1: {r: 1, g: 0, b: 0, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: 0
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  OnShootGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
   detectionLight: {fileID: 2836167661221501659}
   lineRenderer: {fileID: 4321076071013759798}
   laserOrigin: {fileID: 5114947788963044225}
@@ -707,7 +767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  maxHealth: 5
+  maxHealth: 8
   currentHealth: 0
   m_InvincibilityRegainDuration: 0
   m_IsInvincible: 0
@@ -921,7 +981,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RangeReloadingCombatStyle
   maxBulletCount: 1
   bulletDamage: 1
-  bulletSpeed: 30
+  bulletSpeed: 80
   knockBackForce: 0
   attackCooldown: 0.1
   reloadCooldown: 0.1
