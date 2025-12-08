@@ -7,7 +7,6 @@ public class CloseEnemyCombat : EntityCombat
 {
     [Header("Settings")]
     [SerializeField] int m_Damage;
-    [SerializeField] float m_AttackCooldown;
 
     [Space(5)]
     [SerializeField] float m_AttackBeginDelay = .2f;
@@ -17,7 +16,6 @@ public class CloseEnemyCombat : EntityCombat
     [SerializeField] float attackDashForce;
     [SerializeField] ForceMode dashForceMode;
 
-    bool m_CanAttack = true;
     bool m_IsAttacking = false;
 
     [Header("References")]
@@ -36,54 +34,37 @@ public class CloseEnemyCombat : EntityCombat
 
     public override IEnumerator Attack()
     {
-        if (m_CanAttack)
-        {
-            SetActiveLookAt(false);
+        SetActiveLookAt(false);
 
-            StartCoroutine(AttackCooldown());
-            m_WeaponPivot.localRotation = Quaternion.identity;
+        m_WeaponPivot.localRotation = Quaternion.identity;
 
-            m_WeaponPivot.gameObject.SetActive(true);
-            m_WeaponPivot.DOLocalRotate(
-                new Vector3(0, -20, 0),
-                m_AttackBeginDelay,
-                RotateMode.FastBeyond360
-            );
+        m_WeaponPivot.gameObject.SetActive(true);
+        m_WeaponPivot.DOLocalRotate(
+            new Vector3(0, -20, 0),
+            m_AttackBeginDelay,
+            RotateMode.FastBeyond360
+        );
 
-            yield return new WaitForSeconds(m_AttackBeginDelay);
+        yield return new WaitForSeconds(m_AttackBeginDelay);
 
-            OnAttack?.Invoke();
-            m_IsAttacking = true;
+        OnAttack?.Invoke();
+        m_IsAttacking = true;
 
-            m_Rb.AddForce(GetLookAtDirection() * attackDashForce, dashForceMode);
+        m_Rb.AddForce(GetLookAtDirection() * attackDashForce, dashForceMode);
 
-            float rot = -20f;
-            DOTween.To(() => rot, x => rot = x, 200f, 0.1f)
-                .SetEase(Ease.Linear)
-                .OnUpdate(() => { m_WeaponPivot.localRotation = Quaternion.Euler(0, rot, 0); });
+        float rot = -20f;
+        DOTween.To(() => rot, x => rot = x, 200f, 0.1f)
+            .SetEase(Ease.Linear)
+            .OnUpdate(() => { m_WeaponPivot.localRotation = Quaternion.Euler(0, rot, 0); });
 
-            yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.1f);
 
-            m_IsAttacking = false;
+        m_IsAttacking = false;
 
-            yield return new WaitForSeconds(m_AttackFinishedDelay);
+        yield return new WaitForSeconds(m_AttackFinishedDelay);
 
-            m_WeaponPivot.gameObject.SetActive(false);
-            SetActiveLookAt(true);
-        }
-    }
-
-    IEnumerator AttackCooldown()
-    {
-        m_CanAttack = false;
-        if (m_AttackCooldown < m_AttackBeginDelay + m_AttackFinishedDelay + 0.1f)
-        {
-            m_AttackCooldown = m_AttackBeginDelay + m_AttackFinishedDelay + 0.2f;
-            Debug.LogWarning("Attack cooldown too small, adjusted to fit attack animation.");
-        }
-
-        yield return new WaitForSeconds(m_AttackCooldown);
-        m_CanAttack = true;
+        m_WeaponPivot.gameObject.SetActive(false);
+        SetActiveLookAt(true);
     }
 
     void OnWeaponTouchSomething(Collider collid)

@@ -45,4 +45,21 @@ public class PlayerDetector : MonoBehaviour
 
         return Vector3.Distance(enemyPos, playerPos) < range;
     }
+
+    public bool IsLookDirectionWithinAngle(Vector3 current, Vector3 lookDir, float angleDegrees)
+    {
+        if (lookDir.sqrMagnitude <= 0f)
+        {
+            return false;
+        }
+
+        Vector3 toTarget = m_Player.Get().GetTargetPosition() - current;
+        if (toTarget.sqrMagnitude <= 0f)
+        {
+            return false;
+        }
+
+        float angleBetween = Vector3.Angle(lookDir.normalized, toTarget.normalized);
+        return angleBetween <= Mathf.Abs(angleDegrees);
+    }
 }
