@@ -1,18 +1,19 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TimerManager : MonoBehaviour
 {
-    [SerializeField] float timerSpeed = 1;
+    [FormerlySerializedAs("timerSpeed")] [SerializeField] private float m_TimerSpeed = 1;
 
-    [SerializeField] RSO_GameTimer timer;
+    [FormerlySerializedAs("timer")] [SerializeField] private RSO_GameTimer m_Timer;
 
     private void Start()
     {
-        timer.Set(0);
+        m_Timer.Set(0);
     }
 
     private void Update()
     {
-        timer.Set(timer.Get() + Time.deltaTime * timerSpeed);
+        m_Timer.Set(m_Timer.Get() + Time.deltaTime * m_TimerSpeed);
     }
 }

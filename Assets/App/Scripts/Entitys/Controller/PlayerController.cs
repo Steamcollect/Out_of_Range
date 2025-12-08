@@ -1,53 +1,46 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class PlayerController : EntityController
 {
-    Vector3 moveDir;
-    bool isMoving = false;
-
+    [FormerlySerializedAs("moveIA")]
     [Header("Internal References")]
-    [SerializeField] InputActionReference moveIA;
-    [SerializeField] RSO_PlayerCameraController m_CamController;
+    [SerializeField] private InputActionReference m_MoveIa;
 
-    [Space(10)]
-    [SerializeField] EntityRotationVisual m_RotationVisual;
-    [SerializeField] Entity_Dash dash;
+    [SerializeField] private RSO_PlayerCameraController m_CamController;
 
+    [Space(10)] [SerializeField] private EntityRotationVisual m_RotationVisual;
+
+    [FormerlySerializedAs("dash")] [SerializeField] private Entity_Dash m_Dash;
+
+    [FormerlySerializedAs("dashIA")]
     [Header("Input")]
-    [SerializeField] InputActionReference dashIA;
+    [SerializeField] private InputActionReference m_DashIa;
 
+    [FormerlySerializedAs("controller")]
     [Header("Output")]
-    [SerializeField] RSO_PlayerController controller;
+    [SerializeField] private RSO_PlayerController m_Controller;
 
-    private void OnEnable()
-    {
-        dashIA.action.started += Dash;
-    }
-    private void OnDisable()
-    {
-        dashIA.action.started -= Dash;
-    }
+    private bool m_IsMoving;
+    private Vector3 m_MoveDir;
 
-    void Awake()
+    private void Awake()
     {
-        health.OnDeath += () =>
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        };
+        m_Health.OnDeath += () => { SceneManager.LoadScene(SceneManager.GetActiveScene().name); };
 
         base.Awake();
 
-        controller.Set(this);
+        m_Controller.Set(this);
 
-        dashIA.action.Enable();
-        moveIA.action.Enable();
+        m_DashIa.action.Enable();
+        m_MoveIa.action.Enable();
     }
 
     private void Start()
     {
-        rb.position = PlayerSpawnPoint.position;
+        m_Rb.position = PlayerSpawnPoint.S_Position;
     }
 
     private void FixedUpdate()
@@ -55,9 +48,19 @@ public class PlayerController : EntityController
         HandleMovement();
     }
 
-    void HandleMovement()
+    private void OnEnable()
     {
-        Vector2 moveInput = moveIA.action.ReadValue<Vector2>();
+        m_DashIa.action.started += Dash;
+    }
+
+    private void OnDisable()
+    {
+        m_DashIa.action.started -= Dash;
+    }
+
+    private void HandleMovement()
+    {
+        Vector2 moveInput = m_MoveIa.action.ReadValue<Vector2>();
 
         float angle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg
                       + m_CamController.Get().GetCamera().transform.eulerAngles.y;
@@ -67,33 +70,29 @@ public class PlayerController : EntityController
 
         // Raycast vers le sol pour obtenir la normale
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 2f))
-        {
             // Projection de la direction sur le plan du sol
-            moveDir = Vector3.ProjectOnPlane(rawDir, hit.normal).normalized;
-        }
+            m_MoveDir = Vector3.ProjectOnPlane(rawDir, hit.normal).normalized;
         else
-        {
             // Si pas de sol d�tect�, on garde la direction brute
-            moveDir = rawDir;
-        }
+            m_MoveDir = rawDir;
 
         if (moveInput.sqrMagnitude <= .1f)
         {
-            isMoving = false;
+            m_IsMoving = false;
             m_RotationVisual.Rotate(Vector2.zero);
         }
         else
         {
-            isMoving = true;
-            m_RotationVisual.Rotate(moveDir);
-            movement.Value.Move(moveDir);
+            m_IsMoving = true;
+            m_RotationVisual.Rotate(m_MoveDir);
+            m_Movement.Value.Move(m_MoveDir);
         }
     }
 
-    void Dash(InputAction.CallbackContext ctx)
+    private void Dash(InputAction.CallbackContext ctx)
     {
-        if (!isMoving) return;
+        if (!m_IsMoving) return;
 
-        dash.Dash(moveDir);
+        m_Dash.Dash(m_MoveDir);
     }
 }

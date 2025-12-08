@@ -6,10 +6,10 @@ public class AmbianceManager : MonoBehaviour
 {
     [SerializeField] private EventReference m_Ambiance;
     private EventInstance m_MusicInstance;
-    
-    void Start()
+
+    private void Start()
     {
-        m_MusicInstance = FMODUnity.RuntimeManager.CreateInstance(m_Ambiance);
+        m_MusicInstance = RuntimeManager.CreateInstance(m_Ambiance);
         m_MusicInstance.start();
     }
 }

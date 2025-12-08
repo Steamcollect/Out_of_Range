@@ -1,85 +1,92 @@
+using System;
+using DG.Tweening;
 using MVsToolkit.Dev;
 using UnityEngine;
-using System;
 using UnityEngine.InputSystem;
-using DG.Tweening;
+using UnityEngine.Serialization;
 
 public class RadioAntennaTrigger : MonoBehaviour
 {
+    [FormerlySerializedAs("playerTag")]
     [Header("Settings")]
-    [SerializeField, TagName] string playerTag;
-    [SerializeField] string interactInput = "E";
-    [SerializeField, Handle(TransformLocationType.Local)] Vector3 pointerPosition;
+    [SerializeField] [TagName] private string m_PlayerTag;
 
-    [Space(10)]
-    [SerializeField] float bumpScaleValue;
-    [SerializeField] float bumpScaleTime;
+    [FormerlySerializedAs("interactInput")] [SerializeField] private string m_InteractInput = "E";
 
-    bool canPlayerInteract = false;
-    bool isPlayerDetected = false;
+    [FormerlySerializedAs("pointerPosition")] [SerializeField] [Handle(TransformLocationType.Local)]
+    private Vector3 m_PointerPosition;
+
+    [FormerlySerializedAs("bumpScaleValue")] [Space(10)] [SerializeField] private float m_BumpScaleValue;
+
+    [FormerlySerializedAs("bumpScaleTime")] [SerializeField] private float m_BumpScaleTime;
+
+    [FormerlySerializedAs("interactIA")]
+    [Header("Input")]
+    [SerializeField] private InputActionReference m_InteractIa;
+
+    private bool m_CanPlayerInteract;
 
     //[Header("References")]
-    PointerUI currentPointer;
-
-    [Header("Input")]
-    [SerializeField] InputActionReference interactIA;
+    private PointerUI m_CurrentPointer;
+    private bool m_IsPlayerDetected;
 
     //[Header("Output")]
     public Action OnPlayerInteract;
 
-    private void OnEnable()
-    {
-        interactIA.action.started += OnInteractInput;
-    }
-
-    private void OnDisable()
-    {
-        interactIA.action.started -= OnInteractInput;
-    }
-
     private void Start()
     {
-        interactIA.action.Enable();
+        m_InteractIa.action.Enable();
     }
 
     private void Update()
     {
-        if(currentPointer != null && isPlayerDetected)
-        {
-            currentPointer.transform.position = Camera.main.WorldToScreenPoint(transform.position + pointerPosition);
-        }
+        if (m_CurrentPointer != null && m_IsPlayerDetected)
+            m_CurrentPointer.transform.position = Camera.main.WorldToScreenPoint(transform.position + m_PointerPosition);
     }
 
-    void OnInteractInput(InputAction.CallbackContext ctx)
+    private void OnEnable()
     {
-        if (!isPlayerDetected) return;
-
-        OnPlayerInteract?.Invoke();
+        m_InteractIa.action.started += OnInteractInput;
     }
 
-    public void SetCanPlayerInteract(bool canPlayerInteract) { this.canPlayerInteract = canPlayerInteract; }
+    private void OnDisable()
+    {
+        m_InteractIa.action.started -= OnInteractInput;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!canPlayerInteract) return;
+        if (!m_CanPlayerInteract) return;
 
-        if (!isPlayerDetected && other.CompareTag(playerTag))
+        if (!m_IsPlayerDetected && other.CompareTag(m_PlayerTag))
         {
-            isPlayerDetected = true;
-            currentPointer = InteractionUIManager.Instance.GetPointer();
-            currentPointer.SetText(interactInput);
+            m_IsPlayerDetected = true;
+            m_CurrentPointer = InteractionUIManager.S_Instance.GetPointer();
+            m_CurrentPointer.SetText(m_InteractInput);
 
-            currentPointer.transform.DOKill();
-            currentPointer.transform.DOScale(bumpScaleValue, bumpScaleTime).SetLoops(2, LoopType.Yoyo);
+            m_CurrentPointer.transform.DOKill();
+            m_CurrentPointer.transform.DOScale(m_BumpScaleValue, m_BumpScaleTime).SetLoops(2, LoopType.Yoyo);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (isPlayerDetected && other.CompareTag(playerTag))
+        if (m_IsPlayerDetected && other.CompareTag(m_PlayerTag))
         {
-            isPlayerDetected = false;
-            InteractionUIManager.Instance.ReturnPointer(currentPointer);
+            m_IsPlayerDetected = false;
+            InteractionUIManager.S_Instance.ReturnPointer(m_CurrentPointer);
         }
+    }
+
+    private void OnInteractInput(InputAction.CallbackContext ctx)
+    {
+        if (!m_IsPlayerDetected) return;
+
+        OnPlayerInteract?.Invoke();
+    }
+
+    public void SetCanPlayerInteract(bool canPlayerInteract)
+    {
+        this.m_CanPlayerInteract = canPlayerInteract;
     }
 }

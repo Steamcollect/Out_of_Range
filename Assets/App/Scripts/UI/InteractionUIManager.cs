@@ -1,42 +1,43 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class InteractionUIManager : MonoBehaviour
 {
+    public static InteractionUIManager S_Instance;
+
+    [FormerlySerializedAs("startingPointerCount")]
     [Header("Settings")]
-    [SerializeField] int startingPointerCount = 3;
+    [SerializeField] private int m_StartingPointerCount = 3;
 
+    [FormerlySerializedAs("pointerUIPrefab")]
     [Header("References")]
-    [SerializeField] PointerUI pointerUIPrefab;
-    [SerializeField] Transform content;
+    [SerializeField] private PointerUI m_PointerUIPrefab;
 
-    Queue<PointerUI> pointers = new();
+    [FormerlySerializedAs("content")] [SerializeField] private Transform m_Content;
 
-    public static InteractionUIManager Instance;
+    private readonly Queue<PointerUI> m_Pointers = new();
 
     private void Awake()
     {
-        Instance = this;
+        S_Instance = this;
     }
 
     private void Start()
     {
-        for (int i = 0; i < startingPointerCount; i++)
+        for (int i = 0; i < m_StartingPointerCount; i++)
         {
             PointerUI pointer = CreatePointerUI();
             pointer.gameObject.SetActive(false);
-            pointers.Enqueue(pointer);
+            m_Pointers.Enqueue(pointer);
         }
     }
 
     public PointerUI GetPointer()
     {
-        if (pointers.Count <= 0)
-        {
-            return CreatePointerUI();
-        }
+        if (m_Pointers.Count <= 0) return CreatePointerUI();
 
-        PointerUI pointer = pointers.Dequeue();
+        PointerUI pointer = m_Pointers.Dequeue();
         pointer.gameObject.SetActive(true);
         return pointer;
     }
@@ -44,11 +45,11 @@ public class InteractionUIManager : MonoBehaviour
     public void ReturnPointer(PointerUI pointer)
     {
         pointer.gameObject.SetActive(false);
-        pointers.Enqueue(pointer);
+        m_Pointers.Enqueue(pointer);
     }
 
     public PointerUI CreatePointerUI()
     {
-        return Instantiate(pointerUIPrefab, content);
+        return Instantiate(m_PointerUIPrefab, m_Content);
     }
 }

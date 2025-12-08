@@ -1,13 +1,12 @@
 using UnityEngine;
-using MVsToolkit.Wrappers;
 
 public static class PlayerSpawnPoint
 {
-    public static Vector3 position;
+    public static Vector3 S_Position;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Chepa()
     {
-        position = Vector3.zero;
+        S_Position = Vector3.zero;
     }
 }

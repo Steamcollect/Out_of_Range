@@ -1,30 +1,32 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerCombat : EntityCombat
 {
+    [FormerlySerializedAs("attackIA")]
     [Header("Internal Input")]
-    [SerializeField] InputActionReference attackIA;
+    [SerializeField] private InputActionReference m_AttackIa;
+
     [SerializeField] private RSO_PlayerAimTarget m_AimTarget;
-    
+
     private void Start()
     {
-        attackIA.action.Enable();
+        m_AttackIa.action.Enable();
     }
 
     private void Update()
     {
         Vector3 targetPosition = m_AimTarget.Get().position;
-        targetPosition.y = verticalPivot.position.y;
-        
+        targetPosition.y = m_VerticalPivot.position.y;
+
         LookAt(targetPosition);
-        if (attackIA.action.IsPressed())
+        if (m_AttackIa.action.IsPressed())
             Attack();
     }
 
     public override void Attack()
     {
-        currentCombatStyle.Attack();
+        m_CurrentCombatStyle.Attack();
     }
 }

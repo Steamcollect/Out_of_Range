@@ -1,70 +1,71 @@
 ﻿using MVsToolkit.Dev;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 public class RangeEnemyController : EntityController, ISpawnable
 {
+    [FormerlySerializedAs("detectionRange")]
     [Header("Settings")]
-    [SerializeField] float detectionRange;
-    [SerializeField] float closeRange;
-    [SerializeField] LayerMask detectionMask;
-    [SerializeField, TagName] string playertag;
+    [SerializeField] private float m_DetectionRange;
 
-    bool isChasingPlayer = false;
+    [FormerlySerializedAs("closeRange")] [SerializeField] private float m_CloseRange;
+    [FormerlySerializedAs("detectionMask")] [SerializeField] private LayerMask m_DetectionMask;
+    [FormerlySerializedAs("playertag")] [SerializeField] [TagName] private string m_Playertag;
 
+    [FormerlySerializedAs("agent")]
     [Header("Internal References")]
-    [SerializeField] NavMeshAgent agent;
-    [SerializeField] GameObject detectionLight;
+    [SerializeField] private NavMeshAgent m_Agent;
 
+    [FormerlySerializedAs("detectionLight")] [SerializeField] private GameObject m_DetectionLight;
+
+    [FormerlySerializedAs("player")]
     [Header("Input")]
-    [SerializeField] RSO_PlayerController player;
+    [SerializeField] private RSO_PlayerController m_Player;
+
+    private bool m_IsChasingPlayer;
 
     //[Header("Output")]
 
     private void Start()
     {
-        agent.updatePosition = false;
-        agent.updateRotation = false;
+        m_Agent.updatePosition = false;
+        m_Agent.updateRotation = false;
 
-        detectionLight.SetActive(false);
+        m_DetectionLight.SetActive(false);
 
-        health.OnTakeDamage += OnTakeDamage;
+        m_Health.OnTakeDamage += OnTakeDamage;
     }
 
     private void Update()
     {
-        agent.nextPosition = transform.position;
+        m_Agent.nextPosition = transform.position;
     }
 
     private void FixedUpdate()
     {
-        if (!isChasingPlayer)
+        if (!m_IsChasingPlayer)
         {
-            if (IsPlayerInRange(detectionRange) && CanSeePlayer())
+            if (IsPlayerInRange(m_DetectionRange) && CanSeePlayer())
             {
-                isChasingPlayer = true;
-                FightDetectorManager.Instance?.OnEnemyStartCombat(this);
-                detectionLight.SetActive(true);
+                m_IsChasingPlayer = true;
+                FightDetectorManager.S_Instance?.OnEnemyStartCombat(this);
+                m_DetectionLight.SetActive(true);
             }
+
             return;
         }
 
-        combat.LookAt(player.Get().GetTargetPosition());
+        m_Combat.LookAt(m_Player.Get().GetTargetPosition());
 
         if (CanSeePlayer())
         {
-            if (!IsPlayerInRange(detectionRange))
-            {
+            if (!IsPlayerInRange(m_DetectionRange))
                 MoveTowardPlayer();
-            }
-            else if (IsPlayerInRange(closeRange))
-            {
+            else if (IsPlayerInRange(m_CloseRange))
                 StayBack();
-            }
             else
-            {
-                combat.Attack();
-            }
+                m_Combat.Attack();
         }
         else
         {
@@ -72,72 +73,71 @@ public class RangeEnemyController : EntityController, ISpawnable
         }
     }
 
-    void StayBack()
+    private void OnDrawGizmosSelected()
     {
-        Vector3 awayDir = (GetTargetPosition() - player.Get().GetTargetPosition()).normalized;
-        Vector3 target = GetTargetPosition() + awayDir * closeRange;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, m_DetectionRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, m_CloseRange);
+    }
+
+    public void OnSpawn()
+    {
+        m_IsChasingPlayer = true;
+    }
+
+    private void StayBack()
+    {
+        Vector3 awayDir = (GetTargetPosition() - m_Player.Get().GetTargetPosition()).normalized;
+        Vector3 target = GetTargetPosition() + awayDir * m_CloseRange;
 
         NavMeshHit navHit;
-        if (NavMesh.SamplePosition(target, out navHit, 2f, agent.areaMask))
+        if (NavMesh.SamplePosition(target, out navHit, 2f, m_Agent.areaMask))
         {
-            agent.SetDestination(navHit.position);
-            movement.Value.Move(agent.desiredVelocity.normalized);
+            m_Agent.SetDestination(navHit.position);
+            m_Movement.Value.Move(m_Agent.desiredVelocity.normalized);
         }
 
         Debug.DrawLine(GetTargetPosition(), target, Color.blue);
     }
 
-    void OnTakeDamage()
+    private void OnTakeDamage()
     {
-        FightDetectorManager.Instance?.OnEnemyStartCombat(this);
-        isChasingPlayer = true;
-        detectionLight.SetActive(true);
+        FightDetectorManager.S_Instance?.OnEnemyStartCombat(this);
+        m_IsChasingPlayer = true;
+        m_DetectionLight.SetActive(true);
     }
 
-    void MoveTowardPlayer()
+    private void MoveTowardPlayer()
     {
         Vector3 enemyPos = transform.position;
-        Vector3 playerPos = player.Get().GetTargetPosition();
+        Vector3 playerPos = m_Player.Get().GetTargetPosition();
 
-        agent.SetDestination(playerPos);
+        m_Agent.SetDestination(playerPos);
 
-        if (!agent.hasPath || agent.pathStatus == NavMeshPathStatus.PathInvalid)
+        if (!m_Agent.hasPath || m_Agent.pathStatus == NavMeshPathStatus.PathInvalid)
             return;
 
-        movement.Value.Move(agent.desiredVelocity.normalized);
+        m_Movement.Value.Move(m_Agent.desiredVelocity.normalized);
     }
 
-    bool CanSeePlayer()
+    private bool CanSeePlayer()
     {
-        Vector3 dir = (player.Get().GetTargetPosition() - GetTargetPosition()).normalized;
-        Ray ray = new Ray(transform.position, dir);
+        Vector3 dir = (m_Player.Get().GetTargetPosition() - GetTargetPosition()).normalized;
+        Ray ray = new(transform.position, dir);
 
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, detectionRange, detectionMask))
-        {
-            if (hit.collider.CompareTag(playertag)) return true;
-        }
+        if (Physics.Raycast(ray, out hit, m_DetectionRange, m_DetectionMask))
+            if (hit.collider.CompareTag(m_Playertag))
+                return true;
 
         return false;
     }
 
-    bool IsPlayerInRange(float range)
+    private bool IsPlayerInRange(float range)
     {
-        return Vector3.Distance(player.Get().GetTargetPosition(), GetTargetPosition()) < range;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, closeRange);
-    }
-
-    public void OnSpawn()
-    {
-        isChasingPlayer = true;
+        return Vector3.Distance(m_Player.Get().GetTargetPosition(), GetTargetPosition()) < range;
     }
 }

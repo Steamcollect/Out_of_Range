@@ -1,12 +1,13 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PointerUI : MonoBehaviour
 {
-    [SerializeField] TMP_Text txt;
+    [FormerlySerializedAs("txt")] [SerializeField] private TMP_Text m_Txt;
 
     public void SetText(string text)
     {
-        txt.text = text;
+        m_Txt.text = text;
     }
 }

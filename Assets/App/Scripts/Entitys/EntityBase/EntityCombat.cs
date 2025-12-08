@@ -1,70 +1,82 @@
 using MVsToolkit.Utils;
-using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EntityCombat : MonoBehaviour, ILookAtTarget
 {
+    [FormerlySerializedAs("turnSmoothTime")]
     [Header("Settings")]
-    [SerializeField] float turnSmoothTime;
-    Vector3 turnSmoothHozirontalVelocity, turnSmoothVerticalVelocity;
-    bool canLookAt = true;
+    [SerializeField] private float m_TurnSmoothTime;
 
+    [FormerlySerializedAs("currentCombatStyle")]
     [Header("References")]
-    [SerializeField] protected CombatStyle currentCombatStyle;
+    [SerializeField] protected CombatStyle m_CurrentCombatStyle;
 
-    [Space(10)]
-    [SerializeField] protected Transform verticalPivot;
-    [SerializeField] protected Transform horizontalPivot;
+    [FormerlySerializedAs("verticalPivot")] [Space(10)] [SerializeField] protected Transform m_VerticalPivot;
 
-    public virtual void Attack()
-    {
-        currentCombatStyle.Attack();
-    }
+    [FormerlySerializedAs("horizontalPivot")] [SerializeField] protected Transform m_HorizontalPivot;
+    private bool m_CanLookAt = true;
+
+    private Vector3 m_TurnSmoothHozirontalVelocity, m_TurnSmoothVerticalVelocity;
 
     public virtual void LookAt(Vector3 targetPos)
     {
-        if (!canLookAt) return;
+        if (!m_CanLookAt) return;
 
-        Vector3 direction = targetPos - horizontalPivot.position;
+        Vector3 direction = targetPos - m_HorizontalPivot.position;
         if (direction.sqrMagnitude < 0.0001f) return;
 
-        if (horizontalPivot)
+        if (m_HorizontalPivot)
         {
             Vector3 horizontalDir = direction;
             horizontalDir.y = 0f;
             if (horizontalDir.sqrMagnitude > 0.0001f)
             {
                 Quaternion targetRotY = Quaternion.LookRotation(horizontalDir);
-                horizontalPivot.LookAtSmoothDamp(
-                    horizontalPivot.position + horizontalDir,
-                    ref turnSmoothHozirontalVelocity,
-                    turnSmoothTime
+                m_HorizontalPivot.LookAtSmoothDamp(
+                    m_HorizontalPivot.position + horizontalDir,
+                    ref m_TurnSmoothHozirontalVelocity,
+                    m_TurnSmoothTime
                 );
             }
         }
 
-        if (verticalPivot)
+        if (m_VerticalPivot)
         {
             Vector3 verticalDir = direction.normalized;
 
-            Vector3 verticalLookPoint = verticalPivot.position + verticalDir;
+            Vector3 verticalLookPoint = m_VerticalPivot.position + verticalDir;
 
-            verticalPivot.LookAtSmoothDamp(
+            m_VerticalPivot.LookAtSmoothDamp(
                 verticalLookPoint,
-                ref turnSmoothVerticalVelocity,
-                turnSmoothTime
+                ref m_TurnSmoothVerticalVelocity,
+                m_TurnSmoothTime
             );
         }
     }
 
-    public Vector3 GetLookAtDirection()
+    public virtual void Attack()
     {
-        return (verticalPivot.forward + horizontalPivot.forward).normalized;
+        m_CurrentCombatStyle.Attack();
     }
 
-    public CombatStyle GetCombatStyle() => currentCombatStyle;
+    public Vector3 GetLookAtDirection()
+    {
+        return (m_VerticalPivot.forward + m_HorizontalPivot.forward).normalized;
+    }
 
-    public Vector3 GetVerticalPivotPos() => verticalPivot.position;
+    public CombatStyle GetCombatStyle()
+    {
+        return m_CurrentCombatStyle;
+    }
 
-    public void SetActiveLookAt(bool canLookAt) => this.canLookAt = canLookAt;
+    public Vector3 GetVerticalPivotPos()
+    {
+        return m_VerticalPivot.position;
+    }
+
+    public void SetActiveLookAt(bool canLookAt)
+    {
+        this.m_CanLookAt = canLookAt;
+    }
 }

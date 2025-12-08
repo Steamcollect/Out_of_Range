@@ -2,50 +2,52 @@ using FMOD.Studio;
 using FMODUnity;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class RangeReloadingWeaponSFXManager : MonoBehaviour
 {
-    [SerializeField] private EventReference m_FireSFX;
-    [SerializeField] private EventReference m_ReloadSFX;
-    private EventInstance m_FireSFXInstance;
-    private EventInstance m_ReloadSFXInstance;
-    
+    [FormerlySerializedAs("m_FireSFX")] [SerializeField] private EventReference m_FireSfx;
+    [FormerlySerializedAs("m_ReloadSFX")] [SerializeField] private EventReference m_ReloadSfx;
+
     [SerializeField] private float m_FirePitchVariance = 0.2f;
     [SerializeField] private float m_ReloadVolume = 1.0f;
     [SerializeField] private float m_FireVolume = 1.0f;
-    
+    private EventInstance m_FireSfxInstance;
+    private EventInstance m_ReloadSfxInstance;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-        if (!m_FireSFX.IsNull)
+        if (!m_FireSfx.IsNull)
         {
-            m_FireSFXInstance = FMODUnity.RuntimeManager.CreateInstance(m_FireSFX);
-            m_FireSFXInstance.setVolume(m_FireVolume);
+            m_FireSfxInstance = RuntimeManager.CreateInstance(m_FireSfx);
+            m_FireSfxInstance.setVolume(m_FireVolume);
         }
 
-        if (!m_ReloadSFX.IsNull)
+        if (!m_ReloadSfx.IsNull)
         {
-            m_ReloadSFXInstance = FMODUnity.RuntimeManager.CreateInstance(m_ReloadSFX);
-            m_ReloadSFXInstance.setVolume(m_ReloadVolume);
+            m_ReloadSfxInstance = RuntimeManager.CreateInstance(m_ReloadSfx);
+            m_ReloadSfxInstance.setVolume(m_ReloadVolume);
         }
     }
-    
+
     [Button("Attack SFX")]
-    public void PlayAttackSFX()
+    public void PlayAttackSfx()
     {
-        if (!m_FireSFXInstance.isValid()) return;
-        
-        m_FireSFXInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        m_FireSFXInstance.setPitch(Random.value * m_FirePitchVariance + (1 - m_FirePitchVariance / 2));
-        m_FireSFXInstance.start();
+        if (!m_FireSfxInstance.isValid()) return;
+
+        m_FireSfxInstance.stop(STOP_MODE.IMMEDIATE);
+        m_FireSfxInstance.setPitch(Random.value * m_FirePitchVariance + (1 - m_FirePitchVariance / 2));
+        m_FireSfxInstance.start();
     }
 
     [Button("Reload SFX")]
-    public void PlayReloadSFX()
+    public void PlayReloadSfx()
     {
-        if (!m_ReloadSFXInstance.isValid()) return;
-        
-        m_ReloadSFXInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        m_ReloadSFXInstance.start();
+        if (!m_ReloadSfxInstance.isValid()) return;
+
+        m_ReloadSfxInstance.stop(STOP_MODE.IMMEDIATE);
+        m_ReloadSfxInstance.start();
     }
 }

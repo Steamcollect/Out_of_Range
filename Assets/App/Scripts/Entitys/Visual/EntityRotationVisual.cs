@@ -1,25 +1,29 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EntityRotationVisual : MonoBehaviour
 {
+    [FormerlySerializedAs("rotationTime")]
     [Header("Settings")]
-    [SerializeField] float rotationTime;
-    [SerializeField] float maxRotationAngle;
+    [SerializeField] private float m_RotationTime;
 
-    Vector3 currentRot;
-    Vector3 rotationVelocity;
+    [FormerlySerializedAs("maxRotationAngle")] [SerializeField] private float m_MaxRotationAngle;
 
+    [FormerlySerializedAs("rotationPivot")]
     [Header("References")]
-    [SerializeField] Transform rotationPivot;
-    
+    [SerializeField] private Transform m_RotationPivot;
+
+    private Vector3 m_CurrentRot;
+    private Vector3 m_RotationVelocity;
+
     //[Header("Input")]
     //[Header("Output")]
 
     public void Rotate(Vector3 input)
     {
-        Vector3 target = new Vector3(input.z, 0, -input.x) * maxRotationAngle;
+        Vector3 target = new Vector3(input.z, 0, -input.x) * m_MaxRotationAngle;
 
-        currentRot = Vector3.SmoothDamp(currentRot, target, ref rotationVelocity, rotationTime);
-        rotationPivot.localEulerAngles = currentRot;
+        m_CurrentRot = Vector3.SmoothDamp(m_CurrentRot, target, ref m_RotationVelocity, m_RotationTime);
+        m_RotationPivot.localEulerAngles = m_CurrentRot;
     }
 }

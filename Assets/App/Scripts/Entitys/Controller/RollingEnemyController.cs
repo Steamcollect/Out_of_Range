@@ -1,97 +1,96 @@
 using System.Collections;
 using MVsToolkit.Dev;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 public class RollingEnemyController : EntityController
 {
+    [FormerlySerializedAs("detectionRange")]
     [Header("Settings")]
-    [SerializeField] float detectionRange;
-    [SerializeField] float rotationTime;
-    [SerializeField] int damage;
+    [SerializeField] private float m_DetectionRange;
 
-    Vector3 rollDir, dirVelocity;
+    [FormerlySerializedAs("rotationTime")] [SerializeField] private float m_RotationTime;
+    [FormerlySerializedAs("damage")] [SerializeField] private int m_Damage;
 
-    [SerializeField] float stunDelay;
+    [FormerlySerializedAs("stunDelay")] [SerializeField] private float m_StunDelay;
 
-    [Space(10)]
-    [SerializeField] LayerMask detectionMask;
-    [SerializeField, TagName] string playerTag;
+    [FormerlySerializedAs("detectionMask")] [Space(10)] [SerializeField] private LayerMask m_DetectionMask;
 
-    bool isChasingPlayer = false;
+    [FormerlySerializedAs("playerTag")] [SerializeField] [TagName] private string m_PlayerTag;
 
-    bool isStun = false;
-
+    [FormerlySerializedAs("player")]
     [Header("References")]
-    [SerializeField] RSO_PlayerController player;
+    [SerializeField] private RSO_PlayerController m_Player;
+
+    private bool m_IsChasingPlayer;
+
+    private bool m_IsStun;
+
+    private Vector3 m_RollDir, m_DirVelocity;
 
     private void FixedUpdate()
     {
-        if (!isStun && !isChasingPlayer)
+        if (!m_IsStun && !m_IsChasingPlayer)
         {
-            if (IsPlayerInRange(detectionRange) && CanSeePlayer())
+            if (IsPlayerInRange(m_DetectionRange) && CanSeePlayer())
             {
-                rollDir = (player.Get().GetTargetPosition() - GetTargetPosition()).normalized;
-                isChasingPlayer = true;
+                m_RollDir = (m_Player.Get().GetTargetPosition() - GetTargetPosition()).normalized;
+                m_IsChasingPlayer = true;
             }
+
             return;
         }
 
-        if (isChasingPlayer)
+        if (m_IsChasingPlayer)
         {
-            Vector3 targetDir = (player.Get().GetTargetPosition() - GetTargetPosition()).normalized;
-            rollDir = Vector3.SmoothDamp(rollDir, targetDir, ref dirVelocity, rotationTime);
+            Vector3 targetDir = (m_Player.Get().GetTargetPosition() - GetTargetPosition()).normalized;
+            m_RollDir = Vector3.SmoothDamp(m_RollDir, targetDir, ref m_DirVelocity, m_RotationTime);
 
-            combat.LookAt(transform.position + GetTargetPosition() + rollDir);
-            movement.Value.Move(rollDir);
+            m_Combat.LookAt(transform.position + GetTargetPosition() + m_RollDir);
+            m_Movement.Value.Move(m_RollDir);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag(playerTag))
-        {
-            if(collision.collider.TryGetComponent(out EntityTrigger trigger))
-            {
-                trigger.GetController().GetHealth().TakeDamage(damage);
-            }
-        }
+        if (collision.collider.CompareTag(m_PlayerTag))
+            if (collision.collider.TryGetComponent(out EntityTrigger trigger))
+                trigger.GetController().GetHealth().TakeDamage(m_Damage);
 
-        dirVelocity = Vector3.zero;
+        m_DirVelocity = Vector3.zero;
         StartCoroutine(StunCooldown());
-        isChasingPlayer = false;
-    }
-
-    IEnumerator StunCooldown()
-    {
-        isStun = true;
-        yield return new WaitForSeconds(stunDelay);
-        isStun = false;
-    }
-
-    bool CanSeePlayer()
-    {
-        Vector3 dir = (player.Get().GetTargetPosition() - GetTargetPosition()).normalized;
-        Ray ray = new Ray(transform.position, dir);
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, detectionRange, detectionMask))
-        {
-            if (hit.collider.CompareTag(playerTag)) return true;
-        }
-
-        return false;
-    }
-
-    bool IsPlayerInRange(float range)
-    {
-        return Vector3.Distance(player.Get().GetTargetPosition(), GetTargetPosition()) < range;
+        m_IsChasingPlayer = false;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
+        Gizmos.DrawWireSphere(transform.position, m_DetectionRange);
+    }
+
+    private IEnumerator StunCooldown()
+    {
+        m_IsStun = true;
+        yield return new WaitForSeconds(m_StunDelay);
+        m_IsStun = false;
+    }
+
+    private bool CanSeePlayer()
+    {
+        Vector3 dir = (m_Player.Get().GetTargetPosition() - GetTargetPosition()).normalized;
+        Ray ray = new(transform.position, dir);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, m_DetectionRange, m_DetectionMask))
+            if (hit.collider.CompareTag(m_PlayerTag))
+                return true;
+
+        return false;
+    }
+
+    private bool IsPlayerInRange(float range)
+    {
+        return Vector3.Distance(m_Player.Get().GetTargetPosition(), GetTargetPosition()) < range;
     }
 }

@@ -1,114 +1,42 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 public class StepHandler : MonoBehaviour
 {
+    [FormerlySerializedAs("stepDuration")]
     [Header("Settings")]
-    [SerializeField] float stepDuration = 0.25f;
+    [SerializeField] private float m_StepDuration = 0.25f;
 
-    [Space(10)]
-    [SerializeField] float stepLength = 0.5f;
-    [SerializeField] float stepHeight = 0.1f;
-    [SerializeField] AnimationCurve stepCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    [FormerlySerializedAs("stepLength")] [Space(10)] [SerializeField] private float m_StepLength = 0.5f;
 
-    [Space(10)]
-    [SerializeField, Range(0, 1)] float anticipationMultiplier;
+    [FormerlySerializedAs("stepHeight")] [SerializeField] private float m_StepHeight = 0.1f;
+    [FormerlySerializedAs("stepCurve")] [SerializeField] private AnimationCurve m_StepCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
-    Vector3 startLocalPosition;
-    Vector3 currentIkPosition;
+    [FormerlySerializedAs("anticipationMultiplier")] [Space(10)] [SerializeField] [Range(0, 1)]
+    private float m_AnticipationMultiplier;
 
-    bool canHandleStep = true;
-    bool isDoingStep = false;
-
-    Coroutine stepCoroutine;
-
+    [FormerlySerializedAs("ikTarget")]
     [Header("References")]
-    [SerializeField] Transform ikTarget;
+    [SerializeField] private Transform m_IKTarget;
 
-    Transform bodyPivot;
-    StepManager stepManager;
-    Rigidbody bodyRb;
+    private Transform m_BodyPivot;
+    private Rigidbody m_BodyRb;
 
-    public void Setup(Transform bodyPivot, Rigidbody bodyRb, StepManager stepManager)
-    {
-        this.stepManager = stepManager;
-        this.bodyPivot = bodyPivot;
+    private bool m_CanHandleStep = true;
+    private Vector3 m_CurrentIkPosition;
+    private bool m_IsDoingStep;
 
-        startLocalPosition = ikTarget.position - bodyPivot.position;
-        this.bodyRb = bodyRb;
-        currentIkPosition = ikTarget.position;
-    }
+    private Vector3 m_StartLocalPosition;
 
-    public void HandleIkPosition()
-    {
-        if (isDoingStep) return;
-
-        ikTarget.position = currentIkPosition;
-    }
-
-    public void CheckStep()
-    {
-        if (!canHandleStep 
-            || isDoingStep
-            || !bodyPivot 
-            || !ikTarget) 
-            return;
-
-        float distance = Vector3.Distance(bodyPivot.position + startLocalPosition, ikTarget.position);
-
-        if (distance > stepLength)
-        {
-            canHandleStep = false;
-            stepManager.AddStep(HandleStep);
-        }
-    }
-
-    void HandleStep()
-    {
-        if (stepCoroutine != null)
-            StopCoroutine(stepCoroutine);
-
-        stepCoroutine = StartCoroutine(DoMove());
-    }
-
-    IEnumerator DoMove()
-    {
-        isDoingStep = true;
-
-        float elapsed = 0f;
-
-        Vector3 startPos = ikTarget.position;
-
-        Vector3 endPos = bodyPivot.TransformPoint(startLocalPosition)
-            + bodyRb.linearVelocity.normalized * stepLength * anticipationMultiplier;
-
-        while (elapsed < stepDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / stepDuration);
-
-            Vector3 pos = Vector3.Lerp(startPos, endPos, t);
-
-            float curveValue = stepCurve != null ? stepCurve.Evaluate(t) : t;
-            pos.y += stepHeight * curveValue;
-
-            ikTarget.position = pos;
-
-            yield return null;
-        }
-
-        ikTarget.position = endPos;
-        currentIkPosition = ikTarget.position;
-
-        canHandleStep = true;
-        isDoingStep = false;
-    }
+    private Coroutine m_StepCoroutine;
+    private StepManager m_StepManager;
 
     private void OnDrawGizmos()
     {
-        if (!ikTarget) return;
+        if (!m_IKTarget) return;
 
-        Transform body = bodyPivot ? bodyPivot : (transform.parent ? transform.parent : null);
+        Transform body = m_BodyPivot ? m_BodyPivot : transform.parent ? transform.parent : null;
 
         Vector3 center;
 
@@ -116,23 +44,94 @@ public class StepHandler : MonoBehaviour
         {
 #if UNITY_EDITOR
             if (Application.isPlaying)
-            {
-                center = body.TransformPoint(startLocalPosition);
-            }
+                center = body.TransformPoint(m_StartLocalPosition);
             else
-            {
-                center = ikTarget.position;
-            }
+                center = m_IKTarget.position;
 #else
             center = body.TransformPoint(startLocalPosition);
 #endif
         }
         else
         {
-            center = ikTarget.position;
+            center = m_IKTarget.position;
         }
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(center, stepLength);
+        Gizmos.DrawWireSphere(center, m_StepLength);
+    }
+
+    public void Setup(Transform bodyPivot, Rigidbody bodyRb, StepManager stepManager)
+    {
+        this.m_StepManager = stepManager;
+        this.m_BodyPivot = bodyPivot;
+
+        m_StartLocalPosition = m_IKTarget.position - bodyPivot.position;
+        this.m_BodyRb = bodyRb;
+        m_CurrentIkPosition = m_IKTarget.position;
+    }
+
+    public void HandleIkPosition()
+    {
+        if (m_IsDoingStep) return;
+
+        m_IKTarget.position = m_CurrentIkPosition;
+    }
+
+    public void CheckStep()
+    {
+        if (!m_CanHandleStep
+            || m_IsDoingStep
+            || !m_BodyPivot
+            || !m_IKTarget)
+            return;
+
+        float distance = Vector3.Distance(m_BodyPivot.position + m_StartLocalPosition, m_IKTarget.position);
+
+        if (distance > m_StepLength)
+        {
+            m_CanHandleStep = false;
+            m_StepManager.AddStep(HandleStep);
+        }
+    }
+
+    private void HandleStep()
+    {
+        if (m_StepCoroutine != null)
+            StopCoroutine(m_StepCoroutine);
+
+        m_StepCoroutine = StartCoroutine(DoMove());
+    }
+
+    private IEnumerator DoMove()
+    {
+        m_IsDoingStep = true;
+
+        float elapsed = 0f;
+
+        Vector3 startPos = m_IKTarget.position;
+
+        Vector3 endPos = m_BodyPivot.TransformPoint(m_StartLocalPosition)
+                         + m_BodyRb.linearVelocity.normalized * m_StepLength * m_AnticipationMultiplier;
+
+        while (elapsed < m_StepDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / m_StepDuration);
+
+            Vector3 pos = Vector3.Lerp(startPos, endPos, t);
+
+            float curveValue = m_StepCurve != null ? m_StepCurve.Evaluate(t) : t;
+            pos.y += m_StepHeight * curveValue;
+
+            m_IKTarget.position = pos;
+
+            yield return null;
+        }
+
+        m_IKTarget.position = endPos;
+        m_CurrentIkPosition = m_IKTarget.position;
+
+        m_CanHandleStep = true;
+        m_IsDoingStep = false;
     }
 }

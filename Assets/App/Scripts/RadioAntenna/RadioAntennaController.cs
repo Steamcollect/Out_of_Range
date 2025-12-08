@@ -1,38 +1,42 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class RadioAntennaController : MonoBehaviour
 {
-    bool asInteract = false;
-
     //[Header("References")]
 
+    [FormerlySerializedAs("trigger")]
     [Header("References")]
-    [SerializeField] RadioAntennaTrigger trigger;
+    [SerializeField] private RadioAntennaTrigger m_Trigger;
 
+    [FormerlySerializedAs("_OnPlayerInteract")]
     [Header("Output")]
-    [SerializeField] UnityEvent _OnPlayerInteract;
+    [SerializeField] private UnityEvent m_OnPlayerInteract;
 
-    private void OnEnable()
-    {
-        trigger.OnPlayerInteract += OnPlayerInteract;
-    }
-    private void OnDisable()
-    {
-        trigger.OnPlayerInteract -= OnPlayerInteract;
-    }
+    private bool m_AsInteract;
 
     private void Start()
     {
-        asInteract = false;
-        trigger.SetCanPlayerInteract(true);
+        m_AsInteract = false;
+        m_Trigger.SetCanPlayerInteract(true);
     }
 
-    void OnPlayerInteract()
+    private void OnEnable()
     {
-        if (asInteract) return;
+        m_Trigger.OnPlayerInteract += OnPlayerInteract;
+    }
 
-        asInteract = true;
-        _OnPlayerInteract.Invoke();
+    private void OnDisable()
+    {
+        m_Trigger.OnPlayerInteract -= OnPlayerInteract;
+    }
+
+    private void OnPlayerInteract()
+    {
+        if (m_AsInteract) return;
+
+        m_AsInteract = true;
+        m_OnPlayerInteract.Invoke();
     }
 }

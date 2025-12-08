@@ -1,60 +1,31 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Bullet : MonoBehaviour
 {
-    [Header("Settings")]
-    float speed;
-    int damage;
-    float knockback;
-
+    [FormerlySerializedAs("rb")]
     [Header("References")]
-    [SerializeField] Rigidbody rb;
+    [SerializeField] private Rigidbody m_Rb;
+
     [SerializeField] private GameObject m_HitPrefab;
+
+    private int m_Damage;
+    private float m_Knockback;
 
     //[Header("Input")]
     //[Header("Output")]
 
     private Vector3 m_OriginalPosition;
-    
-    public Vector3 GetShootPosition() => m_OriginalPosition;
-    
-    public Bullet Setup(int damage, float speed)
-    {
-        this.damage = damage;
-        this.speed = speed;
 
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        
-        m_OriginalPosition = transform.position;
-
-        StartCoroutine(CheckDistanceFromPlayer());
-
-        return this;
-    }
-    public Bullet SetKnockback(float knockback)
-    {
-        this.knockback = knockback;
-        return this;
-    }
+    [Header("Settings")]
+    private float m_Speed;
 
     private void Update()
     {
-        rb.position += transform.up * (speed * Time.deltaTime);
+        m_Rb.position += transform.up * (m_Speed * Time.deltaTime);
     }
-    
-    public void Impact(GameObject target)
-    {
-        if (target.TryGetComponent(out IHealth health))
-        {
-            health.TakeDamage(damage);
-        }
-        
-        transform.position = Vector3.zero;
-        BulletManager.Instance.ReturnBullet(this);
-    }
-    
+
     private void OnCollisionEnter(Collision other)
     {
         if (!other.gameObject.CompareTag("Bullet"))
@@ -63,7 +34,7 @@ public class Bullet : MonoBehaviour
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
             Vector3 pos = contact.point;
 
-            if (m_HitPrefab && (!other.gameObject.CompareTag("Enemy") && !other.gameObject.CompareTag("Player")))
+            if (m_HitPrefab && !other.gameObject.CompareTag("Enemy") && !other.gameObject.CompareTag("Player"))
             {
                 GameObject hitVFX = Instantiate(m_HitPrefab, pos, rot);
 
@@ -72,22 +43,53 @@ public class Bullet : MonoBehaviour
 
             if (other.gameObject.TryGetComponent(out EntityTrigger trigger))
             {
-                if (knockback > 0)
-                {
-                    trigger.GetController().GetRigidbody().AddForce(transform.up * knockback);
-                }
-                trigger.GetController()?.GetHealth().TakeDamage(damage);
+                if (m_Knockback > 0) trigger.GetController().GetRigidbody().AddForce(transform.up * m_Knockback);
+                trigger.GetController()?.GetHealth().TakeDamage(m_Damage);
             }
         }
 
         transform.position = Vector3.zero;
-        BulletManager.Instance.ReturnBullet(this);
+        BulletManager.S_Instance.ReturnBullet(this);
     }
 
-    IEnumerator CheckDistanceFromPlayer()
+    public Vector3 GetShootPosition()
+    {
+        return m_OriginalPosition;
+    }
+
+    public Bullet Setup(int damage, float speed)
+    {
+        this.m_Damage = damage;
+        this.m_Speed = speed;
+
+        m_Rb.linearVelocity = Vector3.zero;
+        m_Rb.angularVelocity = Vector3.zero;
+
+        m_OriginalPosition = transform.position;
+
+        StartCoroutine(CheckDistanceFromPlayer());
+
+        return this;
+    }
+
+    public Bullet SetKnockback(float knockback)
+    {
+        this.m_Knockback = knockback;
+        return this;
+    }
+
+    public void Impact(GameObject target)
+    {
+        if (target.TryGetComponent(out IHealth health)) health.TakeDamage(m_Damage);
+
+        transform.position = Vector3.zero;
+        BulletManager.S_Instance.ReturnBullet(this);
+    }
+
+    private IEnumerator CheckDistanceFromPlayer()
     {
         yield return new WaitForSeconds(5);
         transform.position = Vector3.zero;
-        BulletManager.Instance.ReturnBullet(this);
+        BulletManager.S_Instance.ReturnBullet(this);
     }
 }

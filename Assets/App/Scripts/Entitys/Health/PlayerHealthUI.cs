@@ -1,33 +1,32 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class PlayerHealthUI : MonoBehaviour
 {
     [Header("HEALTH")]
     [SerializeField] private Color m_HealthPointEnableColor;
-    [SerializeField] private Color m_HealthPointDisableColor;
-    [Space(5)]
-    [SerializeField] private Transform m_HealthPointParentTransform;
-    [SerializeField] private Image m_HealthPointImage;
 
-    private List<Image> m_HealthPoints = new();
+    [SerializeField] private Color m_HealthPointDisableColor;
+
+    [Space(5)] [SerializeField] private Transform m_HealthPointParentTransform;
+
+    [SerializeField] private Image m_HealthPointImage;
 
     [Header("Input")]
     [SerializeField] private RSO_PlayerController m_PlayerController;
 
+    private readonly List<Image> m_HealthPoints = new();
+
     private void Start()
     {
         EntityHealth entityHealth = m_PlayerController.Get().GetHealth();
-        entityHealth.OnTakeDamage += ()=>
+        entityHealth.OnTakeDamage += () =>
         {
             SetHealthFillValue(entityHealth.GetCurrentHealth(), entityHealth.GetMaxHealth());
         };
-        
-        entityHealth.OnDeath+= ()=>
-        {
-            SetHealthFillValue(0, entityHealth.GetMaxHealth());
-        };
+
+        entityHealth.OnDeath += () => { SetHealthFillValue(0, entityHealth.GetMaxHealth()); };
 
         SetHealthFillValue(entityHealth.GetCurrentHealth(), entityHealth.GetMaxHealth());
     }
@@ -50,11 +49,9 @@ public class PlayerHealthUI : MonoBehaviour
         }
 
         for (int i = 0; i < m_HealthPoints.Count; i++)
-        {
             if (i + 1 <= value)
                 m_HealthPoints[i].color = m_HealthPointEnableColor;
-            else 
+            else
                 m_HealthPoints[i].color = m_HealthPointDisableColor;
-        }
     }
 }

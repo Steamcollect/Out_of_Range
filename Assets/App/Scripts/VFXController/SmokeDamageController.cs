@@ -4,13 +4,13 @@ using UnityEngine.VFX;
 [DefaultExecutionOrder(10)]
 public class SmokeDamageController : MonoBehaviour
 {
+    private static readonly int s_PropertyIdIntensity = Shader.PropertyToID("Intensity");
 
     [Header("References")]
     [SerializeField] private EntityHealth m_EntityHealth;
+
     [SerializeField] private VisualEffect m_VisualEffect;
-    
-    private static readonly int s_PropertyIdIntensity = Shader.PropertyToID("Intensity");
-    
+
     private void OnEnable()
     {
         if (m_EntityHealth) HandleTakeDamage();
@@ -24,6 +24,6 @@ public class SmokeDamageController : MonoBehaviour
 
     private void HandleTakeDamage()
     {
-        m_VisualEffect.SetFloat(s_PropertyIdIntensity, Mathf.Clamp01(1- m_EntityHealth.GetHealthPercentage()));
+        m_VisualEffect.SetFloat(s_PropertyIdIntensity, Mathf.Clamp01(1 - m_EntityHealth.GetHealthPercentage()));
     }
 }

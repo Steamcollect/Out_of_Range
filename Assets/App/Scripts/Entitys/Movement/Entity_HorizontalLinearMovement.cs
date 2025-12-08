@@ -1,24 +1,27 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Entity_HorizontalLinearMovement : MonoBehaviour, IMovement
 {
+    [FormerlySerializedAs("moveSpeed")]
     [Header("Settings")]
-    [SerializeField] float moveSpeed;
+    [SerializeField] private float m_MoveSpeed;
 
+    [FormerlySerializedAs("rb")]
     [Header("References")]
-    [SerializeField] Rigidbody rb;
+    [SerializeField] private Rigidbody m_Rb;
 
     //[Header("Input")]
     //[Header("Output")]
 
     public void Move(Vector3 input)
     {
-        rb.AddForce(input * moveSpeed);
+        m_Rb.AddForce(input * m_MoveSpeed);
     }
 
     public void ResetVelocity()
     {
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
+        m_Rb.linearVelocity = Vector3.zero;
+        m_Rb.angularVelocity = Vector3.zero;
     }
 }

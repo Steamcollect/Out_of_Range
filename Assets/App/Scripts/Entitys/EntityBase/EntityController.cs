@@ -1,21 +1,25 @@
-using UnityEngine;
-using MVsToolkit.Dev;
 using System;
+using MVsToolkit.Dev;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EntityController : MonoBehaviour, ITargetable
 {
+    [FormerlySerializedAs("targetPos")]
     [Header("Settings")]
-    [SerializeField, Handle(TransformLocationType.Local)] Vector3 targetPos;
+    [SerializeField] [Handle(TransformLocationType.Local)]
+    private Vector3 m_TargetPos;
 
+    [FormerlySerializedAs("health")]
     [Header("References")]
-    [SerializeField] protected EntityHealth health;
-    [SerializeField] protected EntityTrigger trigger;
-    [SerializeField] protected InterfaceReference<IMovement> movement;
-    [SerializeField] protected EntityCombat combat;
-    
-    
-    [Space(10)]
-    [SerializeField] protected Rigidbody rb;
+    [SerializeField] protected EntityHealth m_Health;
+
+    [FormerlySerializedAs("trigger")] [SerializeField] protected EntityTrigger m_Trigger;
+    [FormerlySerializedAs("movement")] [SerializeField] protected InterfaceReference<IMovement> m_Movement;
+    [FormerlySerializedAs("combat")] [SerializeField] protected EntityCombat m_Combat;
+
+
+    [FormerlySerializedAs("rb")] [Space(10)] [SerializeField] protected Rigidbody m_Rb;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -24,31 +28,49 @@ public class EntityController : MonoBehaviour, ITargetable
 
     protected void Awake()
     {
-        trigger.SetController(this);
-        health.OnDeath += OnEntityDie;
+        m_Trigger.SetController(this);
+        m_Health.OnDeath += OnEntityDie;
     }
 
-    void OnEntityDie()
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(GetTargetPosition(), .2f);
+    }
+
+    public Vector3 GetTargetPosition()
+    {
+        return transform.position + m_TargetPos;
+    }
+
+    private void OnEntityDie()
     {
         OnDeath?.Invoke(this);
         gameObject.SetActive(false);
     }
 
-    public Vector3 GetTargetPosition()
+    public EntityHealth GetHealth()
     {
-        return transform.position + targetPos;
+        return m_Health;
     }
 
-    public EntityHealth GetHealth() {  return health; }
-    public EntityTrigger GetTrigger() { return trigger; }
-    public EntityCombat GetCombat() { return combat; }
-    public IMovement GetMovement() { return movement.Value; }
-
-    public Rigidbody GetRigidbody() { return rb; }
-
-    void OnDrawGizmosSelected()
+    public EntityTrigger GetTrigger()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(GetTargetPosition(), .2f);
+        return m_Trigger;
+    }
+
+    public EntityCombat GetCombat()
+    {
+        return m_Combat;
+    }
+
+    public IMovement GetMovement()
+    {
+        return m_Movement.Value;
+    }
+
+    public Rigidbody GetRigidbody()
+    {
+        return m_Rb;
     }
 }

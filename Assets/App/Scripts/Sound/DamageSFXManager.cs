@@ -1,52 +1,54 @@
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
+using UnityEngine.Serialization;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class DamageSFXManager : MonoBehaviour
 {
-    [SerializeField] private EventReference m_DamageSFX;
-    [SerializeField] private EventReference m_DeathSFX;
-    
+    [FormerlySerializedAs("m_DamageSFX")] [SerializeField] private EventReference m_DamageSfx;
+    [FormerlySerializedAs("m_DeathSFX")] [SerializeField] private EventReference m_DeathSfx;
+
     [SerializeField] private float m_DamageVolume = 1.0f;
     [SerializeField] private float m_DeathVolume = 1.0f;
-    
+
     [SerializeField] private float m_DamagePitchVariance = 0.2f;
-    
-    private EventInstance m_DamageSFXInstance;
-    private EventInstance m_DeathSFXInstance;
-    
+
+    private EventInstance m_DamageSfxInstance;
+    private EventInstance m_DeathSfxInstance;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-        if (!m_DamageSFX.IsNull)
+        if (!m_DamageSfx.IsNull)
         {
-            m_DamageSFXInstance = FMODUnity.RuntimeManager.CreateInstance(m_DamageSFX);
-            m_DamageSFXInstance.setVolume(m_DamageVolume);
+            m_DamageSfxInstance = RuntimeManager.CreateInstance(m_DamageSfx);
+            m_DamageSfxInstance.setVolume(m_DamageVolume);
         }
-        
-        if (!m_DeathSFX.IsNull)
+
+        if (!m_DeathSfx.IsNull)
         {
-            m_DeathSFXInstance = FMODUnity.RuntimeManager.CreateInstance(m_DeathSFX);
-            m_DeathSFXInstance.setVolume(m_DeathVolume);
+            m_DeathSfxInstance = RuntimeManager.CreateInstance(m_DeathSfx);
+            m_DeathSfxInstance.setVolume(m_DeathVolume);
         }
     }
 
-    public void PlayDamageSFX()
+    public void PlayDamageSfx()
     {
-        if (m_DamageSFXInstance.isValid())
+        if (m_DamageSfxInstance.isValid())
         {
-            m_DamageSFXInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            m_DamageSFXInstance.setPitch(Random.value * m_DamagePitchVariance + (1 - m_DamagePitchVariance / 2));
-            m_DamageSFXInstance.start();
+            m_DamageSfxInstance.stop(STOP_MODE.IMMEDIATE);
+            m_DamageSfxInstance.setPitch(Random.value * m_DamagePitchVariance + (1 - m_DamagePitchVariance / 2));
+            m_DamageSfxInstance.start();
         }
     }
-    
-    public void PlayDeathSFX()
+
+    public void PlayDeathSfx()
     {
-        if (m_DeathSFXInstance.isValid())
+        if (m_DeathSfxInstance.isValid())
         {
-            m_DeathSFXInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            m_DeathSFXInstance.start();
+            m_DeathSfxInstance.stop(STOP_MODE.IMMEDIATE);
+            m_DeathSfxInstance.start();
         }
     }
 }

@@ -1,34 +1,45 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Door : MonoBehaviour
 {
-    [Header("Settings")]
-    [SerializeField] float openTime;
-    [SerializeField] DoorStartType type;
-    public enum DoorStartType { Open, Close, Default };
+    public enum DoorStartType
+    {
+        Open,
+        Close,
+        Default
+    }
 
+    [FormerlySerializedAs("openTime")]
+    [Header("Settings")]
+    [SerializeField] private float m_OpenTime;
+
+    [FormerlySerializedAs("type")] [SerializeField] private DoorStartType m_Type;
+
+    [FormerlySerializedAs("openPoint")]
     [Header("References")]
-    [SerializeField] Transform openPoint;
-    [SerializeField] Transform closePoint;
-    Vector3 openPos; 
-    Vector3 closePos;
+    [SerializeField] private Transform m_OpenPoint;
+
+    [FormerlySerializedAs("closePoint")] [SerializeField] private Transform m_ClosePoint;
+    private Vector3 m_ClosePos;
+    private Vector3 m_OpenPos;
 
     //[Header("Input")]
     //[Header("Output")]
 
     private void Awake()
     {
-        openPos = openPoint.position;
-        closePos = closePoint.position;
+        m_OpenPos = m_OpenPoint.position;
+        m_ClosePos = m_ClosePoint.position;
 
-        switch (type)
+        switch (m_Type)
         {
             case DoorStartType.Open:
-                transform.position = openPos;
+                transform.position = m_OpenPos;
                 break;
             case DoorStartType.Close:
-                transform.position = closePos;
+                transform.position = m_ClosePos;
                 break;
         }
     }
@@ -36,11 +47,12 @@ public class Door : MonoBehaviour
     public void OpenDoor()
     {
         transform.DOKill();
-        transform.DOMove(openPos, openTime);
+        transform.DOMove(m_OpenPos, m_OpenTime);
     }
+
     public void CloseDoor()
     {
         transform.DOKill();
-        transform.DOMove(closePos, openTime);
+        transform.DOMove(m_ClosePos, m_OpenTime);
     }
 }

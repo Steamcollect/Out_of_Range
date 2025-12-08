@@ -1,74 +1,70 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class StepManager : MonoBehaviour
 {
+    [FormerlySerializedAs("timeBetweenSteps")]
     [Header("Settings")]
-    [SerializeField] float timeBetweenSteps = 0.15f;
-    [SerializeField] StepHandler[] handlers;
+    [SerializeField] private float m_TimeBetweenSteps = 0.15f;
 
-    Queue<Action> nextSteps = new Queue<Action>();
-    float stepTimer = 0f;
+    [FormerlySerializedAs("handlers")] [SerializeField] private StepHandler[] m_Handlers;
 
+    [FormerlySerializedAs("mainBody")]
     [Header("References")]
-    [SerializeField] Transform mainBody;
-    [SerializeField] Rigidbody mainRb;
+    [SerializeField] private Transform m_MainBody;
+
+    [FormerlySerializedAs("mainRb")] [SerializeField] private Rigidbody m_MainRb;
+
+    private readonly Queue<Action> m_NextSteps = new();
+    private float m_StepTimer;
 
     private void Awake()
     {
-        if (!mainBody)
-        {
-            Debug.LogError($"[{nameof(StepManager)}] mainBody n'est pas assigné sur {name} !");
-        }
+        if (!m_MainBody) Debug.LogError($"[{nameof(StepManager)}] mainBody n'est pas assignï¿½ sur {name} !");
 
-        if (handlers == null || handlers.Length == 0)
+        if (m_Handlers == null || m_Handlers.Length == 0)
         {
-            Debug.LogWarning($"[{nameof(StepManager)}] Aucun StepHandler assigné sur {name}.");
+            Debug.LogWarning($"[{nameof(StepManager)}] Aucun StepHandler assignï¿½ sur {name}.");
             return;
         }
 
-        foreach (StepHandler stepHandler in handlers)
-        {
+        foreach (StepHandler stepHandler in m_Handlers)
             if (stepHandler != null)
-                stepHandler.Setup(mainBody, mainRb, this);
-        }
+                stepHandler.Setup(m_MainBody, m_MainRb, this);
     }
 
     private void Update()
     {
-        stepTimer += Time.deltaTime;
+        m_StepTimer += Time.deltaTime;
 
-        if (nextSteps.Count > 0 && stepTimer >= timeBetweenSteps)
+        if (m_NextSteps.Count > 0 && m_StepTimer >= m_TimeBetweenSteps)
         {
-            var step = nextSteps.Dequeue();
+            Action step = m_NextSteps.Dequeue();
             step?.Invoke();
-            stepTimer = 0f;
+            m_StepTimer = 0f;
         }
 
-        if (handlers == null) return;
+        if (m_Handlers == null) return;
 
-        foreach (StepHandler stepHandler in handlers)
-        {
+        foreach (StepHandler stepHandler in m_Handlers)
             if (stepHandler != null)
                 stepHandler.HandleIkPosition();
-        }
     }
 
     private void FixedUpdate()
     {
-        if (handlers == null) return;
+        if (m_Handlers == null) return;
 
-        foreach (StepHandler stepHandler in handlers)
-        {
+        foreach (StepHandler stepHandler in m_Handlers)
             if (stepHandler != null)
                 stepHandler.CheckStep();
-        }
     }
 
     public void AddStep(Action step)
     {
         if (step == null) return;
-        nextSteps.Enqueue(step);
+        m_NextSteps.Enqueue(step);
     }
 }

@@ -1,29 +1,25 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class CombatFightingDetection : MonoBehaviour
 {
-    [SerializeField] List<EntityController> entities = new();
+    [FormerlySerializedAs("entities")] [SerializeField] private List<EntityController> m_Entities = new();
 
-    [SerializeField] UnityEvent OnEntitiesKilled;
+    [FormerlySerializedAs("OnEntitiesKilled")] [SerializeField] private UnityEvent m_OnEntitiesKilled;
 
     private void Start()
     {
-        foreach (EntityController entity in entities)
-        {
-            if(entity != null)
+        foreach (EntityController entity in m_Entities)
+            if (entity != null)
                 entity.OnDeath += OnEntityKilled;
-        }
     }
 
-    void OnEntityKilled(EntityController entity)
+    private void OnEntityKilled(EntityController entity)
     {
-        entities.Remove(entity);
+        m_Entities.Remove(entity);
 
-        if(entities.Count <= 0)
-        {
-            OnEntitiesKilled?.Invoke();
-        }
+        if (m_Entities.Count <= 0) m_OnEntitiesKilled?.Invoke();
     }
 }

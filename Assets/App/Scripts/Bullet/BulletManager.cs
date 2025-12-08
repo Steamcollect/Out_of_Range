@@ -1,43 +1,44 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BulletManager : MonoBehaviour
 {
-    [Header("Settings")]
-    [SerializeField] int startingBulletCount = 30;
-
-    [Header("References")]
-    [SerializeField] Bullet bulletPrefab;
-    Queue<Bullet> bullets = new();
-
     //[Header("Input")]
     //[Header("Output")]
 
-    public static BulletManager Instance;
+    public static BulletManager S_Instance;
+
+    [FormerlySerializedAs("startingBulletCount")]
+    [Header("Settings")]
+    [SerializeField] private int m_StartingBulletCount = 30;
+
+    [FormerlySerializedAs("bulletPrefab")]
+    [Header("References")]
+    [SerializeField] private Bullet m_BulletPrefab;
+
+    private readonly Queue<Bullet> m_Bullets = new();
 
     private void Awake()
     {
-        Instance = this;
+        S_Instance = this;
     }
 
     private void Start()
     {
-        for (int i = 0; i < startingBulletCount; i++)
+        for (int i = 0; i < m_StartingBulletCount; i++)
         {
             Bullet bullet = CreateBullet();
             bullet.gameObject.SetActive(false);
-            bullets.Enqueue(bullet);
+            m_Bullets.Enqueue(bullet);
         }
     }
 
     public Bullet GetBullet()
     {
-        if(bullets.Count <= 0)
-        {
-            return CreateBullet();
-        }
+        if (m_Bullets.Count <= 0) return CreateBullet();
 
-        Bullet bullet = bullets.Dequeue();
+        Bullet bullet = m_Bullets.Dequeue();
         bullet.gameObject.SetActive(true);
         return bullet;
     }
@@ -45,11 +46,11 @@ public class BulletManager : MonoBehaviour
     public void ReturnBullet(Bullet bullet)
     {
         bullet.gameObject.SetActive(false);
-        bullets.Enqueue(bullet);
+        m_Bullets.Enqueue(bullet);
     }
 
-    Bullet CreateBullet()
+    private Bullet CreateBullet()
     {
-        return Instantiate(bulletPrefab, transform);
+        return Instantiate(m_BulletPrefab, transform);
     }
 }

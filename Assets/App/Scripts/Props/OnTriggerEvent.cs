@@ -1,26 +1,20 @@
-using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class OnTriggerEvent : MonoBehaviour
 {
-    public UnityEvent enterEvent;
+    [FormerlySerializedAs("enterEvent")] public UnityEvent EnterEvent;
 
-    public UnityEvent exitEvent;
+    [FormerlySerializedAs("exitEvent")] public UnityEvent ExitEvent;
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
-        {
-            enterEvent.Invoke();
-        }
+        if (other.tag == "Player") EnterEvent.Invoke();
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
-        {
-            exitEvent.Invoke();
-        }
+        if (other.tag == "Player") ExitEvent.Invoke();
     }
 }

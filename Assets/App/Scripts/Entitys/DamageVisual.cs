@@ -1,13 +1,13 @@
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class DamageVisual : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private MeshRenderer[] m_Renderers;
+
     [SerializeField] private EntityHealth m_EntityHealth;
-    private MaterialPropertyBlock m_Block;
     [Range(0f, 1f)] [SerializeField] private float m_DamageAmount;
+    private MaterialPropertyBlock m_Block;
 
     private void Awake()
     {

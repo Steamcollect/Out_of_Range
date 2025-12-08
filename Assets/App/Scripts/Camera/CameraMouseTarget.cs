@@ -1,35 +1,27 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class CameraMouseTarget : MonoBehaviour
 {
     [SerializeField] private InputActionReference m_MousePositionActionReference;
-    private InputAction m_MousePositionAction;
-    
+
     [SerializeField] private RSO_PlayerAimTarget m_AimTarget;
 
-    [SerializeField] private LayerMask layerMask;
+    [FormerlySerializedAs("layerMask")] [SerializeField] private LayerMask m_LayerMask;
     [SerializeField] private RSO_PlayerController m_PlayerController;
     [SerializeField] private float m_MaxDistance = 20f;
     [SerializeField] private float m_MinDistance = 5f;
+
+    [SerializeField] private RSO_PlayerCameraController m_CamController;
     private EntityCombat m_EntityCombat;
+    private InputAction m_MousePositionAction;
 
-    [SerializeField] RSO_PlayerCameraController m_CamController;
-
-    private void OnEnable()
+    private void Update()
     {
-        m_MousePositionAction = m_MousePositionActionReference.action;
-        m_MousePositionAction.Enable();
-        
-        m_AimTarget.Set(transform);
-    }
-
-    void Update()
-    {
-        var screenPoint = m_MousePositionAction.ReadValue<Vector2>();
+        Vector2 screenPoint = m_MousePositionAction.ReadValue<Vector2>();
         Ray ray = m_CamController.Get().GetCamera().ScreenPointToRay(screenPoint);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, m_LayerMask))
         {
             Vector3 playerPosition = m_PlayerController.Get().transform.position;
             float distanceToTarget = Vector3.Distance(playerPosition, hit.point);
@@ -50,5 +42,13 @@ public class CameraMouseTarget : MonoBehaviour
 
             transform.position = pos;
         }
+    }
+
+    private void OnEnable()
+    {
+        m_MousePositionAction = m_MousePositionActionReference.action;
+        m_MousePositionAction.Enable();
+
+        m_AimTarget.Set(transform);
     }
 }

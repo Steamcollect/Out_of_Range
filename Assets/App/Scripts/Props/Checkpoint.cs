@@ -1,29 +1,31 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Checkpoint : MonoBehaviour
 {
+    [FormerlySerializedAs("applySpawnPosOnStart")]
     [Header("Settings")]
-    [SerializeField] bool applySpawnPosOnStart;
+    [SerializeField] private bool m_ApplySpawnPosOnStart;
 
+    [FormerlySerializedAs("spawnPoint")]
     [Header("References")]
-    [SerializeField] Transform spawnPoint;
+    [SerializeField] private Transform m_SpawnPoint;
 
     //[Header("Input")]
 
     private void Awake()
     {
-        if (applySpawnPosOnStart && PlayerSpawnPoint.position == Vector3.zero) PlayerSpawnPoint.position = spawnPoint.position;
+        if (m_ApplySpawnPosOnStart && PlayerSpawnPoint.S_Position == Vector3.zero)
+            PlayerSpawnPoint.S_Position = m_SpawnPoint.position;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            PlayerSpawnPoint.position = spawnPoint.position;
+            PlayerSpawnPoint.S_Position = m_SpawnPoint.position;
             if (other.TryGetComponent(out EntityTrigger trigger))
-            {
                 trigger.GetController().GetHealth().TakeHealth(trigger.GetController().GetHealth().GetMaxHealth());
-            }
         }
     }
 }

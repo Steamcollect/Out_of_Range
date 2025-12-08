@@ -8,10 +8,10 @@ public class ColliderCallback : MonoBehaviour
     //[Header("Input")]
     //[Header("Output")]
 
-    public Action<Collider> _OnTriggerEnter;
+    public Action<Collider> OnTriggerEnterCallback;
 
     private void OnTriggerEnter(Collider other)
     {
-        _OnTriggerEnter?.Invoke(other);
+        OnTriggerEnterCallback?.Invoke(other);
     }
 }

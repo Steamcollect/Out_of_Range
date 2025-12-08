@@ -9,23 +9,11 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] private RSE_OnFightEnded m_OnFightEnded;
     [SerializeField] private RSE_OnFightStarted m_OnFightStarted;
 
-    [SerializeField] RSO_PlayerCameraController m_PlayerCamera;
-    [SerializeField] Camera m_Camera;
+    [SerializeField] private RSO_PlayerCameraController m_PlayerCamera;
+    [SerializeField] private Camera m_Camera;
 
     [SerializeField] private float m_DelayBeforeSwitchingToExploration = 5f;
-    private float m_Timer = 0f;
-    
-    private void OnEnable()
-    {
-        m_OnFightEnded.Action += SetExplorationParameters;
-        m_OnFightStarted.Action += SetFightParameters;
-    }
-    
-    private void OnDisable()
-    {
-        m_OnFightEnded.Action -= SetExplorationParameters;
-        m_OnFightStarted.Action -= SetFightParameters;
-    }
+    private float m_Timer;
 
     private void Start()
     {
@@ -38,15 +26,24 @@ public class PlayerCameraController : MonoBehaviour
     private void Update()
     {
         return; // On reste tout le temps sur la cam de fight
-        
+
         if (m_ExplorationCamera.isActiveAndEnabled) return;
 
         m_Timer += Time.deltaTime;
-        
-        if (m_Timer > m_DelayBeforeSwitchingToExploration)
-        {
-            SetExplorationParameters();
-        }
+
+        if (m_Timer > m_DelayBeforeSwitchingToExploration) SetExplorationParameters();
+    }
+
+    private void OnEnable()
+    {
+        m_OnFightEnded.Action += SetExplorationParameters;
+        m_OnFightStarted.Action += SetFightParameters;
+    }
+
+    private void OnDisable()
+    {
+        m_OnFightEnded.Action -= SetExplorationParameters;
+        m_OnFightStarted.Action -= SetFightParameters;
     }
 
     private void SetFightParameters()
@@ -54,18 +51,21 @@ public class PlayerCameraController : MonoBehaviour
         if (m_FightCamera.isActiveAndEnabled) return;
 
         m_Timer = 0f;
-        
+
         m_ExplorationCamera.enabled = false;
         m_FightCamera.enabled = true;
     }
-    
+
     private void SetExplorationParameters()
     {
         return; // On ne switch jamais en mode exploration pour l'instant
-        
+
         m_FightCamera.enabled = false;
         m_ExplorationCamera.enabled = true;
     }
 
-    public Camera GetCamera() => m_Camera;
+    public Camera GetCamera()
+    {
+        return m_Camera;
+    }
 }

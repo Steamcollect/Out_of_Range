@@ -1,32 +1,32 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 public class FightDetectorManager : MonoBehaviour
 {
-    List<EntityController> enemys = new();
-    List<WaveSystem> waveSystems = new();
+    public static FightDetectorManager S_Instance;
 
-    [SerializeField] RSE_OnFightStarted onFightStart;
-    [SerializeField] RSE_OnFightEnded onFightEnd;
-
-    public static FightDetectorManager Instance;
+    [FormerlySerializedAs("onFightStart")] [SerializeField] private RSE_OnFightStarted m_OnFightStart;
+    [FormerlySerializedAs("onFightEnd")] [SerializeField] private RSE_OnFightEnded m_OnFightEnd;
+    private readonly List<EntityController> m_Enemys = new();
+    private readonly List<WaveSystem> m_WaveSystems = new();
 
     private void Awake()
     {
-        Instance = this;
+        S_Instance = this;
     }
 
     public void OnWaveStart(WaveSystem waveSystem)
     {
-        if (waveSystems.Contains(waveSystem)) return;
+        if (m_WaveSystems.Contains(waveSystem)) return;
 
         CheckStartFight();
-        waveSystems.Add(waveSystem);
+        m_WaveSystems.Add(waveSystem);
     }
 
     public void OnWaveEnd(WaveSystem waveSystem)
     {
-        waveSystems.Remove(waveSystem);
+        m_WaveSystems.Remove(waveSystem);
         CheckEndFight();
     }
 
@@ -34,30 +34,24 @@ public class FightDetectorManager : MonoBehaviour
     {
         CheckStartFight();
 
-        if(enemys.Contains(enemy)) return;
-        enemys.Add(enemy);
+        if (m_Enemys.Contains(enemy)) return;
+        m_Enemys.Add(enemy);
         enemy.OnDeath += OnEnemyDie;
     }
 
-    void OnEnemyDie(EntityController entity)
+    private void OnEnemyDie(EntityController entity)
     {
-        enemys.Remove(entity);
+        m_Enemys.Remove(entity);
         CheckEndFight();
     }
 
-    void CheckStartFight()
+    private void CheckStartFight()
     {
-        if(waveSystems.Count <= 0 && enemys.Count <= 0)
-        {
-            onFightStart.Call();
-        }
+        if (m_WaveSystems.Count <= 0 && m_Enemys.Count <= 0) m_OnFightStart.Call();
     }
 
-    void CheckEndFight()
+    private void CheckEndFight()
     {
-        if (waveSystems.Count <= 0 && enemys.Count <= 0)
-        {
-            onFightEnd.Call();
-        }
+        if (m_WaveSystems.Count <= 0 && m_Enemys.Count <= 0) m_OnFightEnd.Call();
     }
 }

@@ -4,15 +4,18 @@ public class EntityTrigger : MonoBehaviour
 {
     //[Header("Settings")]
     //[Header("References")]
-    EntityController controller;
+    private EntityController m_Controller;
 
     //[Header("Input")]
     //[Header("Output")]
 
     public void SetController(EntityController controller)
     {
-        this.controller = controller;
+        this.m_Controller = controller;
     }
 
-    public EntityController GetController() {  return controller; }
+    public EntityController GetController()
+    {
+        return m_Controller;
+    }
 }

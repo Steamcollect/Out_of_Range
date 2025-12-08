@@ -1,30 +1,34 @@
-using MVsToolkit.Utils;
 using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class EntityHealth : MonoBehaviour, IHealth
 {
+    [FormerlySerializedAs("maxHealth")]
     [Header("HEALTH")]
-    [SerializeField] protected int maxHealth;
-    [SerializeField] protected int currentHealth;
+    [SerializeField] protected int m_MaxHealth;
+
+    [FormerlySerializedAs("currentHealth")] [SerializeField] protected int m_CurrentHealth;
 
     [Header("INVINCIBILITY")]
     [SerializeField] protected float m_InvincibilityRegainDuration;
-    [SerializeField] protected bool m_IsInvincible = false;
+
+    [SerializeField] protected bool m_IsInvincible;
 
     [Header("REFERENCES")]
     [SerializeField] protected UnityEvent m_OnDeathFeedback;
-    [SerializeField] protected DamageSFXManager m_DamageSFXManager;
-    
-    public Action OnTakeDamage, OnDeath;
+
+    [FormerlySerializedAs("m_DamageSFXManager")] [SerializeField] protected DamageSFXManager m_DamageSfxManager;
 
     protected float m_CurrentInvincibilityTimer;
 
+    public Action OnTakeDamage, OnDeath;
+
     private void Awake()
     {
-        currentHealth = maxHealth;
+        m_CurrentHealth = m_MaxHealth;
     }
 
     public void TakeDamage(int damage)
@@ -34,32 +38,32 @@ public class EntityHealth : MonoBehaviour, IHealth
         Debug.Log("Entity gain invincibility for " + m_InvincibilityRegainDuration + " seconds.");
         GainInvincibility(m_InvincibilityRegainDuration);
 
-        currentHealth -= damage;
-        
-        if(currentHealth <= 0)
+        m_CurrentHealth -= damage;
+
+        if (m_CurrentHealth <= 0)
         {
             Die();
         }
         else
         {
-            m_DamageSFXManager?.PlayDamageSFX();
+            m_DamageSfxManager?.PlayDamageSfx();
             OnTakeDamage?.Invoke();
         }
     }
 
     public void TakeHealth(int health)
     {
-        currentHealth += health;
+        m_CurrentHealth += health;
 
-        if (currentHealth > maxHealth)
-            currentHealth = maxHealth;
+        if (m_CurrentHealth > m_MaxHealth)
+            m_CurrentHealth = m_MaxHealth;
 
         OnTakeDamage?.Invoke();
     }
 
-    void Die()
+    private void Die()
     {
-        m_DamageSFXManager?.PlayDeathSFX();
+        m_DamageSfxManager?.PlayDeathSfx();
         m_OnDeathFeedback.Invoke();
         OnDeath?.Invoke();
     }
@@ -75,7 +79,7 @@ public class EntityHealth : MonoBehaviour, IHealth
         m_IsInvincible = true;
         m_CurrentInvincibilityTimer = 0;
 
-        while(m_CurrentInvincibilityTimer < duration)
+        while (m_CurrentInvincibilityTimer < duration)
         {
             m_CurrentInvincibilityTimer += Time.deltaTime;
 
@@ -91,8 +95,18 @@ public class EntityHealth : MonoBehaviour, IHealth
         // Feedback perte d'invincibilit�
     }
 
-    public int GetMaxHealth() => maxHealth;
-    public int GetCurrentHealth() => currentHealth;
-    
-    public float GetHealthPercentage() => (float)currentHealth / maxHealth;
+    public int GetMaxHealth()
+    {
+        return m_MaxHealth;
+    }
+
+    public int GetCurrentHealth()
+    {
+        return m_CurrentHealth;
+    }
+
+    public float GetHealthPercentage()
+    {
+        return (float)m_CurrentHealth / m_MaxHealth;
+    }
 }
