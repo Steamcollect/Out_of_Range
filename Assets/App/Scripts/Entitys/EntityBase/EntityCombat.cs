@@ -4,17 +4,16 @@ using UnityEngine.Serialization;
 
 public class EntityCombat : MonoBehaviour, ILookAtTarget
 {
-    [FormerlySerializedAs("turnSmoothTime")]
     [Header("Settings")]
     [SerializeField] private float m_TurnSmoothTime;
 
-    [FormerlySerializedAs("currentCombatStyle")]
     [Header("References")]
     [SerializeField] protected CombatStyle m_CurrentCombatStyle;
 
-    [FormerlySerializedAs("verticalPivot")] [Space(10)] [SerializeField] protected Transform m_VerticalPivot;
+    [Space(10)] 
+    [SerializeField] protected Transform m_VerticalPivot;
+    [SerializeField] protected Transform m_HorizontalPivot;
 
-    [FormerlySerializedAs("horizontalPivot")] [SerializeField] protected Transform m_HorizontalPivot;
     private bool m_CanLookAt = true;
 
     private Vector3 m_TurnSmoothHozirontalVelocity, m_TurnSmoothVerticalVelocity;

@@ -6,22 +6,20 @@ using UnityEngine.Serialization;
 
 public class CloseCombatStyle : CombatStyle
 {
-    [FormerlySerializedAs("damage")]
     [Header("Settings")]
     [SerializeField] private int m_Damage;
 
-    [FormerlySerializedAs("attackCooldown")] [SerializeField] private float m_AttackCooldown;
-    [FormerlySerializedAs("attackBeginDelay")] [SerializeField] private float m_AttackBeginDelay = .2f;
+    [SerializeField] private float m_AttackCooldown;
+    [SerializeField] private float m_AttackBeginDelay = .2f;
 
-    [FormerlySerializedAs("attackFinishedDelay")] [SerializeField] private float m_AttackFinishedDelay = .2f;
+    [SerializeField] private float m_AttackFinishedDelay = .2f;
     //STOPPER LES ENNEMIS QUAND ILS ATTAQUENT
 
-    [FormerlySerializedAs("weaponPivot")]
     [Header("References")]
     [SerializeField] private Transform m_WeaponPivot;
 
-    [FormerlySerializedAs("callback")] [SerializeField] private ColliderCallback m_Callback;
-    [FormerlySerializedAs("combatHandler")] [SerializeField] private EntityCombat m_CombatHandler;
+    [SerializeField] private ColliderCallback m_Callback;
+    [SerializeField] private EntityCombat m_CombatHandler;
 
     //[Header("Input")]
     //[Header("Output")]
