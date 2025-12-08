@@ -13,12 +13,17 @@ public class CloseEnemyCombat : EntityCombat
     [SerializeField] float m_AttackBeginDelay = .2f;
     [SerializeField] float m_AttackFinishedDelay = .2f;
 
+    [Space(10)]
+    [SerializeField] float attackDashForce;
+    [SerializeField] ForceMode dashForceMode;
+
     bool m_CanAttack = true;
     bool m_IsAttacking = false;
 
     [Header("References")]
     [SerializeField] Transform m_WeaponPivot;
     [SerializeField] ColliderCallback m_CollidCallback;
+    [SerializeField] Rigidbody m_Rb;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -49,6 +54,8 @@ public class CloseEnemyCombat : EntityCombat
 
             OnAttack?.Invoke();
             m_IsAttacking = true;
+
+            m_Rb.AddForce(GetLookAtDirection() * attackDashForce, dashForceMode);
 
             float rot = -20f;
             DOTween.To(() => rot, x => rot = x, 200f, 0.1f)

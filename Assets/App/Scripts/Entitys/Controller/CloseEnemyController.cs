@@ -9,8 +9,12 @@ public class CloseEnemyController : EntityController, ISpawnable
     [Header("Settings")]
     [SerializeField] float m_DetectionRange;
     [SerializeField] float m_AttackRange;
-    [SerializeField] EnemyStates m_CurrentState;
-    
+
+    [Space(10)]
+    [SerializeField] float m_AngleRequireToAttack;
+
+    [SerializeField, ReadOnly] EnemyStates m_CurrentState;
+
     [Header("Internal References")]
     [SerializeField] NavMeshAgent m_Agent;
     [SerializeField] PlayerDetector m_Detector;
