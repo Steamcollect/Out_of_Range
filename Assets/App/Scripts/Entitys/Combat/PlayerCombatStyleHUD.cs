@@ -17,7 +17,7 @@ public class PlayerCombatStyleHUD : MonoBehaviour
 
     private void Start()
     {
-        m_PlayerController.Get().GetCombat().GetCombatStyle().OnAmmoChange += SetFillValue;
+        //m_PlayerController.Get().GetCombat().GetCombatStyle().OnAmmoChange += SetFillValue;
     }
 
     public void SetFillValue(float value, float max)

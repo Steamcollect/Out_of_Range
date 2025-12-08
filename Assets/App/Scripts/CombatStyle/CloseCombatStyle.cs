@@ -2,7 +2,6 @@ using System.Collections;
 using DG.Tweening;
 using MVsToolkit.Utils;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CloseCombatStyle : CombatStyle
 {

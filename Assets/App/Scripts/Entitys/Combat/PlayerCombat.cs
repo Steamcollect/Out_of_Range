@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -22,11 +23,8 @@ public class PlayerCombat : EntityCombat
 
         LookAt(targetPosition);
         if (m_AttackIa.action.IsPressed())
-            Attack();
-    }
-
-    public override void Attack()
-    {
-        m_CurrentCombatStyle.Attack();
+        {
+            // StartCoroutine(Attack());
+        }
     }
 }

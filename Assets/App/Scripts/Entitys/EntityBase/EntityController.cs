@@ -20,7 +20,7 @@ public class EntityController : MonoBehaviour, ITargetable
 
     public Action<EntityController> OnDeath;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         m_Health.OnDeath += OnEntityDie;
     }

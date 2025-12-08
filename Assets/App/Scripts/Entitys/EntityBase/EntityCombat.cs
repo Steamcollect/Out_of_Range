@@ -1,6 +1,6 @@
+using System.Collections;
 using MVsToolkit.Utils;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class EntityCombat : MonoBehaviour, ILookAtTarget
 {
@@ -8,9 +8,6 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
     [SerializeField] private float m_TurnSmoothTime;
 
     [Header("References")]
-    [SerializeField] protected CombatStyle m_CurrentCombatStyle;
-
-    [Space(10)] 
     [SerializeField] protected Transform m_VerticalPivot;
     [SerializeField] protected Transform m_HorizontalPivot;
 
@@ -54,28 +51,10 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
         }
     }
 
-    public virtual void Attack()
-    {
-        m_CurrentCombatStyle.Attack();
-    }
+    public virtual IEnumerator Attack() { yield break; }
 
-    public Vector3 GetLookAtDirection()
-    {
-        return (m_VerticalPivot.forward + m_HorizontalPivot.forward).normalized;
-    }
+    public Vector3 GetLookAtDirection() => (m_VerticalPivot.forward + m_HorizontalPivot.forward).normalized;
+    public Vector3 GetVerticalPivotPos() => m_VerticalPivot.position;
 
-    public CombatStyle GetCombatStyle()
-    {
-        return m_CurrentCombatStyle;
-    }
-
-    public Vector3 GetVerticalPivotPos()
-    {
-        return m_VerticalPivot.position;
-    }
-
-    public void SetActiveLookAt(bool canLookAt)
-    {
-        this.m_CanLookAt = canLookAt;
-    }
+    public void SetActiveLookAt(bool canLookAt) => m_CanLookAt = canLookAt;
 }

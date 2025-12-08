@@ -125,7 +125,7 @@ public class TurretEnemyController : EntityController, ISpawnable
         yield return new WaitForSeconds(m_DelayBeforeAttack);
 
         m_Combat.Attack();
-        m_Combat.GetCombatStyle().Reload();
+        //m_Combat.GetCombatStyle().Reload();
         m_LineRenderer.material.color = Color.red;
 
         yield return new WaitForSeconds(m_DelayAfterAttack);

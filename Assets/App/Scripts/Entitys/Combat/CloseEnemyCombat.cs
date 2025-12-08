@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
-public class CloseEnemyCombat : MonoBehaviour
+public class CloseEnemyCombat : EntityCombat
 {
     [Header("Settings")]
     [SerializeField] int m_Damage;
@@ -20,15 +22,48 @@ public class CloseEnemyCombat : MonoBehaviour
 
     //[Header("Input")]
     //[Header("Output")]
+    public Action OnAttack;
 
     private void Start()
     {
         m_CollidCallback.OnTriggerEnterCallback += OnWeaponTouchSomething;
     }
 
-    void Attack()
+    public override IEnumerator Attack()
     {
+        if (m_CanAttack)
+        {
+            SetActiveLookAt(false);
 
+            StartCoroutine(AttackCooldown());
+            m_WeaponPivot.localRotation = Quaternion.identity;
+
+            m_WeaponPivot.gameObject.SetActive(true);
+            m_WeaponPivot.DOLocalRotate(
+                new Vector3(0, -20, 0),
+                m_AttackBeginDelay,
+                RotateMode.FastBeyond360
+            );
+
+            yield return new WaitForSeconds(m_AttackBeginDelay);
+
+            OnAttack?.Invoke();
+            m_IsAttacking = true;
+
+            float rot = -20f;
+            DOTween.To(() => rot, x => rot = x, 200f, 0.1f)
+                .SetEase(Ease.Linear)
+                .OnUpdate(() => { m_WeaponPivot.localRotation = Quaternion.Euler(0, rot, 0); });
+
+            yield return new WaitForSeconds(0.1f);
+
+            m_IsAttacking = false;
+
+            yield return new WaitForSeconds(m_AttackFinishedDelay);
+
+            m_WeaponPivot.gameObject.SetActive(false);
+            SetActiveLookAt(true);
+        }
     }
 
     IEnumerator AttackCooldown()
