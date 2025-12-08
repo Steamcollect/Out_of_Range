@@ -3,11 +3,9 @@ using UnityEngine.Serialization;
 
 public class Checkpoint : MonoBehaviour
 {
-    [FormerlySerializedAs("applySpawnPosOnStart")]
     [Header("Settings")]
     [SerializeField] private bool m_ApplySpawnPosOnStart;
 
-    [FormerlySerializedAs("spawnPoint")]
     [Header("References")]
     [SerializeField] private Transform m_SpawnPoint;
 

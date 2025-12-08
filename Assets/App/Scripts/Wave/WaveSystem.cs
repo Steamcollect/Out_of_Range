@@ -2,93 +2,117 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MVsToolkit.Utils;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 public class WaveSystem : MonoBehaviour
 {
-    [FormerlySerializedAs("timeBetweenWaves")]
-    [Header("Settings")]
-    [SerializeField] private float m_TimeBetweenWaves;
+    [Title("SETTINGS")]
+    [SerializeField] private float m_TimeBetweenWaves = 3.0f;
+    [ShowInInspector, ReadOnly] private bool IsInFight;
 
-    [HideInInspector] public bool IsInFight;
+    [Title("REFERENCES")]
+    [SerializeField] private List<WaveSpawner> m_Spawners = new List<WaveSpawner>();
 
-    [FormerlySerializedAs("spawners")]
-    [Header("References")]
-    [SerializeField] private WaveSpawner[] m_Spawners;
+    [Title("EVENTS")]
+    [SerializeField] private UnityEvent m_OnCombatStart;
+    [SerializeField] private UnityEvent m_OnCombatCompleted;
 
-    //[Header("Input")]
-    [FormerlySerializedAs("OnWavesStart")]
-    [Header("Output")]
-    [SerializeField] private UnityEvent m_OnWavesStart;
+    // State
+    public List<EntityController> m_CurrentEntitiesAlive = new List<EntityController>();
+    public int m_CurrentWaveIndex;
+    public int m_MaxWaveCount;
 
-    [FormerlySerializedAs("OnWavesClear")] [SerializeField] private UnityEvent m_OnWavesClear;
-
-    private readonly List<EntityController> m_CurrentEntitiesAlive = new();
-
-    private int m_CurrentWave;
-
-    private void OnDrawGizmosSelected()
+    private void Start()
     {
-        Gizmos.color = Color.red;
-        foreach (WaveSpawner spawner in m_Spawners)
-            if (spawner.SpawnPoint != null)
-                Gizmos.DrawSphere(spawner.SpawnPoint.position, .3f);
+        m_MaxWaveCount = 0;
+        foreach(WaveSpawner spawner in m_Spawners)
+        {
+            if(spawner.ConfiguredWaveCount > m_MaxWaveCount) m_MaxWaveCount = spawner.ConfiguredWaveCount;
+        }
     }
 
-    public void SpawnWave()
+    [Button("Start Combat")]
+    public void StartCombat()
     {
-        int biggestWave = m_Spawners.OrderByDescending(x => x.EntitiesPerWave.Length).ToArray()[0].EntitiesPerWave.Length;
-        if (m_CurrentWave >= biggestWave)
-        {
-            FightDetectorManager.S_Instance?.OnWaveEnd(this);
-            IsInFight = false;
-            m_OnWavesClear?.Invoke();
-            return;
-        }
+        if (IsInFight) return;
+        m_CurrentWaveIndex = 0;
+        IsInFight = true;
 
         FightDetectorManager.S_Instance?.OnWaveStart(this);
-        IsInFight = true;
-        m_OnWavesStart?.Invoke();
+        m_OnCombatStart?.Invoke();
 
-        foreach (WaveSpawner spawner in m_Spawners)
+        SpawnCurrentWave();
+    }
+
+    private void SpawnCurrentWave()
+    {
+        Debug.Log($"Lancement de la Wave {m_CurrentWaveIndex + 1}");
+
+        foreach(WaveSpawner spawner in m_Spawners)
         {
-            if (spawner.EntitiesPerWave.Length <= m_CurrentWave
-                || spawner.EntitiesPerWave[m_CurrentWave] == null)
-                continue;
-
-            EntityController entity = Instantiate(
-                spawner.EntitiesPerWave[m_CurrentWave],
-                spawner.SpawnPoint.position,
-                Quaternion.identity,
-                transform);
-
-            if (entity.TryGetComponent(out ISpawnable spawnable)) spawnable.OnSpawn();
-
-            entity.transform.position = spawner.SpawnPoint.position;
-            entity.OnDeath += OnEntityDie;
-            m_CurrentEntitiesAlive.Add(entity);
+            spawner.SpawnWave(m_CurrentWaveIndex, RegisterEntity);
         }
+
+        this.Delay(() =>
+        {
+            if (m_CurrentEntitiesAlive.Count == 0 && IsInFight) OnWaveComplete();
+        }, .1f);
+    }
+
+    private void RegisterEntity(EntityController entity)
+    {
+        entity.OnDeath += OnEntityDie;
+        m_CurrentEntitiesAlive.Add(entity);
     }
 
     private void OnEntityDie(EntityController entity)
     {
         entity.OnDeath -= OnEntityDie;
         m_CurrentEntitiesAlive.Remove(entity);
+
         if (m_CurrentEntitiesAlive.Count <= 0)
         {
-            m_CurrentWave++;
-
-            this.Delay(() => { SpawnWave(); }, m_TimeBetweenWaves);
+            OnWaveComplete();
         }
     }
 
-    [Serializable]
-    public struct WaveSpawner
+    private void OnWaveComplete()
     {
-        [FormerlySerializedAs("spawnPoint")] public Transform SpawnPoint;
+        m_CurrentWaveIndex++;
 
-        [FormerlySerializedAs("entitiesPerWave")] public EntityController[] EntitiesPerWave;
+        if (m_CurrentWaveIndex >= m_MaxWaveCount)
+        {
+            EndCombat();
+        }
+        else
+        {
+            Debug.Log($"Wave terminée. Prochaine wave dans {m_TimeBetweenWaves} secondes...");
+
+            this.Delay(() =>
+            {
+                SpawnCurrentWave();
+            }, m_TimeBetweenWaves);
+        }
     }
+
+    private void EndCombat()
+    {
+        IsInFight = false;
+        FightDetectorManager.S_Instance?.OnWaveEnd(this);
+        m_OnCombatCompleted?.Invoke();
+    }
+
+#if UNITY_EDITOR
+    [Button("Auto-Find Spawners")]
+    private void FindSpawners() => m_Spawners = new List<WaveSpawner>(GetComponentsInChildren<WaveSpawner>());
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        foreach (WaveSpawner spawner in m_Spawners)
+            Gizmos.DrawSphere(spawner.transform.position, .5f);
+    }
+#endif
 }
