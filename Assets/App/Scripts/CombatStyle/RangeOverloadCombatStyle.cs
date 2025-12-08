@@ -1,145 +1,136 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
 public class RangeOverloadCombatStyle : CombatStyle
 {
-    [FormerlySerializedAs("maxTemperature")]
     [Header("Settings")]
-    [SerializeField] private float m_MaxTemperature;
+    [SerializeField] float maxTemperature;
+    [SerializeField] float shootTemperature;
+    [SerializeField] float temperatureLostPerSec;
+    float curentTemperature;
 
-    [FormerlySerializedAs("shootTemperature")] [SerializeField] private float m_ShootTemperature;
-    [FormerlySerializedAs("temperatureLostPerSec")] [SerializeField] private float m_TemperatureLostPerSec;
+    [Space(5)]
+    [SerializeField] float attackCooldown;
+    [SerializeField] float overloadCooldown;
+    [SerializeField] float overloadRecorverySpeed;
+    [SerializeField] float timeToCoolsAfterShoot;
 
-    [FormerlySerializedAs("attackCooldown")] [Space(5)] [SerializeField] private float m_AttackCooldown;
+    [Header("Bullet")]
+    [SerializeField] private int bulletDamage;
+    [SerializeField] private GameObject m_BulletPrefab;
+    [SerializeField] private float bulletSpeed;
+    [SerializeField] private float knockBackForce;
 
-    [FormerlySerializedAs("overloadCooldown")] [SerializeField] private float m_OverloadCooldown;
-    [FormerlySerializedAs("overloadRecorverySpeed")] [SerializeField] private float m_OverloadRecorverySpeed;
-    [FormerlySerializedAs("timeToCoolsAfterShoot")] [SerializeField] private float m_TimeToCoolsAfterShoot;
+    bool isOverload = false;
 
-    [FormerlySerializedAs("bulletDamage")] [Space(10)] [SerializeField] private int m_BulletDamage;
+    float coolsTimer;
 
-    [FormerlySerializedAs("bulletSpeed")] [SerializeField] private float m_BulletSpeed;
-    [FormerlySerializedAs("knockBackForce")] [SerializeField] private float m_KnockBackForce;
-
-    [FormerlySerializedAs("meshRenderer")]
     [Header("Visual")]
-    [SerializeField] private MeshRenderer m_MeshRenderer;
+    [SerializeField] MeshRenderer meshRenderer;
+    [SerializeField] Gradient colorOverTemperature;
+    Material rendererMat;
 
-    [FormerlySerializedAs("colorOverTemperature")] [SerializeField] private Gradient m_ColorOverTemperature;
-
-    [FormerlySerializedAs("attackPoint")]
     [Header("References")]
-    [SerializeField] private Transform m_AttackPoint;
-
+    [SerializeField] Transform attackPoint;
     [SerializeField] private GameObject m_MuzzleFlashPrefab;
 
-    [FormerlySerializedAs("m_SFXManager")] [SerializeField] private RangeReloadingWeaponSFXManager m_SfxManager;
+    [SerializeField] private RangeReloadingWeaponSFXManager m_SFXManager;
     [SerializeField] private UnityEvent m_OnAttackFeedback;
-
-    private float m_CoolsTimer;
-    private float m_CurentTemperature;
-
-    private bool m_IsOverload;
-
-    private Material m_RendererMat;
     //[Header("Input")]
     //[Header("Output")]
 
     private void Start()
     {
-        m_RendererMat = new Material(m_MeshRenderer.material);
-        m_MeshRenderer.material = m_RendererMat;
+        rendererMat = new Material(meshRenderer.material);
+        meshRenderer.material = rendererMat;
         SetRendererColor();
     }
 
     private void Update()
     {
-        m_CoolsTimer += Time.deltaTime;
+        coolsTimer += Time.deltaTime;
 
-        if (m_CoolsTimer > m_TimeToCoolsAfterShoot && !m_IsOverload)
+        if(coolsTimer > timeToCoolsAfterShoot && !isOverload)
         {
-            m_CurentTemperature =
-                Mathf.Clamp(m_CurentTemperature - m_TemperatureLostPerSec * Time.deltaTime, 0, m_MaxTemperature);
+            curentTemperature = Mathf.Clamp(curentTemperature - temperatureLostPerSec * Time.deltaTime, 0, maxTemperature);
             SetRendererColor();
-            OnAmmoChange?.Invoke(m_CurentTemperature, m_MaxTemperature);
+            OnAmmoChange?.Invoke(curentTemperature, maxTemperature);
         }
     }
 
     public override void Attack()
     {
-        if (m_CanAttack && !m_IsOverload)
+        if (canAttack && !isOverload)
         {
             m_OnAttackFeedback?.Invoke();
             OnAttack?.Invoke();
-            m_CoolsTimer = 0;
+            coolsTimer = 0;
 
-            Bullet bullet = BulletManager.S_Instance.GetBullet();
-            bullet.transform.position = m_AttackPoint.position;
-            bullet.transform.up = m_AttackPoint.forward;
-            GameObject muzzleVFX = Instantiate(m_MuzzleFlashPrefab, m_AttackPoint);
-            Destroy(muzzleVFX, muzzleVFX.GetComponent<ParticleSystem>().main.duration);
-            bullet.Setup(m_BulletDamage, m_BulletSpeed)
-                .SetKnockback(m_KnockBackForce);
+            Bullet bullet = PoolManager.Instance.Spawn(m_BulletPrefab, attackPoint.position, Quaternion.identity).GetComponent<Bullet>();
+            bullet.transform.up = attackPoint.forward;
+            GameObject muzzleVFX = PoolManager.Instance.Spawn(m_MuzzleFlashPrefab, attackPoint.position, attackPoint.rotation);
+            bullet.Setup(bulletDamage, bulletSpeed)
+                .SetKnockback(knockBackForce);
 
             StartCoroutine(AttackCooldown());
 
-            if (m_SfxManager)
-                m_SfxManager.PlayAttackSfx();
+            if (m_SFXManager)
+                m_SFXManager.PlayAttackSFX();
 
-            m_CurentTemperature += m_ShootTemperature;
-            if (m_CurentTemperature >= m_MaxTemperature)
+            curentTemperature += shootTemperature;
+            if(curentTemperature >= maxTemperature)
             {
-                m_CurentTemperature = m_MaxTemperature;
+                curentTemperature = maxTemperature;
                 Overload();
             }
 
             SetRendererColor();
-            OnAmmoChange?.Invoke(m_CurentTemperature, m_MaxTemperature);
+            OnAmmoChange?.Invoke(curentTemperature, maxTemperature);
         }
     }
 
     public void Overload()
     {
-        if (!m_IsOverload)
+        if (!isOverload)
         {
             OnReload?.Invoke();
 
-            if (m_SfxManager)
-                m_SfxManager.PlayReloadSfx();
+            if (m_SFXManager)
+                m_SFXManager.PlayReloadSFX();
             StartCoroutine(OverloadCooldown());
         }
     }
 
-    private IEnumerator AttackCooldown()
+    IEnumerator AttackCooldown()
     {
-        m_CanAttack = false;
-        yield return new WaitForSeconds(m_AttackCooldown);
-        m_CanAttack = true;
+        canAttack = false;
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
     }
 
-    private IEnumerator OverloadCooldown()
+    IEnumerator OverloadCooldown()
     {
-        m_IsOverload = true;
-        yield return new WaitForSeconds(m_OverloadCooldown);
+        isOverload = true;
+        yield return new WaitForSeconds(overloadCooldown);
 
-        while (m_CurentTemperature > 0)
+        while(curentTemperature > 0)
         {
-            m_CurentTemperature -= m_OverloadRecorverySpeed * Time.deltaTime;
+            curentTemperature -= overloadRecorverySpeed * Time.deltaTime;
             SetRendererColor();
-            OnAmmoChange?.Invoke(m_CurentTemperature, m_MaxTemperature);
+            OnAmmoChange?.Invoke(curentTemperature, maxTemperature);
             yield return null;
         }
+        curentTemperature = 0;
 
-        m_CurentTemperature = 0;
-
-        m_IsOverload = false;
+        isOverload = false;
     }
 
-    private void SetRendererColor()
+    void SetRendererColor()
     {
-        float value = Mathf.Clamp01(m_CurentTemperature / m_MaxTemperature);
-        m_RendererMat.color = m_ColorOverTemperature.Evaluate(value);
+        float value = Mathf.Clamp01(curentTemperature / maxTemperature);
+        rendererMat.color = colorOverTemperature.Evaluate(value);
     }
 }

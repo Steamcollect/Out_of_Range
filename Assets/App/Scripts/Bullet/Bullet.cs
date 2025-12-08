@@ -1,31 +1,59 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Bullet : MonoBehaviour
 {
-    [FormerlySerializedAs("rb")]
+    [Header("Settings")]
+    [SerializeField] private float m_Speed;
+    [SerializeField] private int m_Damage;
+    [SerializeField] private float m_Knockback;
+
     [Header("References")]
-    [SerializeField] private Rigidbody m_Rb;
-
+    [SerializeField] private Rigidbody m_RigidBody;
     [SerializeField] private GameObject m_HitPrefab;
-
-    private int m_Damage;
-    private float m_Knockback;
-
-    //[Header("Input")]
-    //[Header("Output")]
 
     private Vector3 m_OriginalPosition;
 
-    [Header("Settings")]
-    private float m_Speed;
+    private PooledObject m_PoolTicket;
+    
+    public Vector3 GetShootPosition() => m_OriginalPosition;
+    
+    public Bullet Setup(int damage, float speed)
+    {
+        this.m_Damage = damage;
+        this.m_Speed = speed;
+
+        m_RigidBody.linearVelocity = Vector3.zero;
+        m_RigidBody.angularVelocity = Vector3.zero;
+        
+        m_OriginalPosition = transform.position;
+
+        StartCoroutine(CheckDistanceFromPlayer());
+
+        return this;
+    }
+    public Bullet SetKnockback(float knockback)
+    {
+        this.m_Knockback = knockback;
+        return this;
+    }
 
     private void Update()
     {
-        m_Rb.position += transform.up * (m_Speed * Time.deltaTime);
+        m_RigidBody.position += transform.up * (m_Speed * Time.deltaTime);
     }
-
+    
+    public void Impact(GameObject target)
+    {
+        if (target.TryGetComponent(out IHealth health))
+        {
+            health.TakeDamage(m_Damage);
+        }
+        
+        transform.position = Vector3.zero;
+        ReleaseBullet();
+    }
+    
     private void OnCollisionEnter(Collision other)
     {
         if (!other.gameObject.CompareTag("Bullet"))
@@ -34,7 +62,7 @@ public class Bullet : MonoBehaviour
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
             Vector3 pos = contact.point;
 
-            if (m_HitPrefab && !other.gameObject.CompareTag("Enemy") && !other.gameObject.CompareTag("Player"))
+            if (m_HitPrefab && (!other.gameObject.CompareTag("Enemy") && !other.gameObject.CompareTag("Player")))
             {
                 GameObject hitVFX = Instantiate(m_HitPrefab, pos, rot);
 
@@ -43,53 +71,29 @@ public class Bullet : MonoBehaviour
 
             if (other.gameObject.TryGetComponent(out EntityTrigger trigger))
             {
-                if (m_Knockback > 0) trigger.GetController().GetRigidbody().AddForce(transform.up * m_Knockback);
+                if (m_Knockback > 0)
+                {
+                    trigger.GetController().GetRigidbody().AddForce(transform.up * m_Knockback);
+                }
                 trigger.GetController()?.GetHealth().TakeDamage(m_Damage);
             }
         }
 
         transform.position = Vector3.zero;
-        BulletManager.S_Instance.ReturnBullet(this);
+        ReleaseBullet();
     }
 
-    public Vector3 GetShootPosition()
-    {
-        return m_OriginalPosition;
-    }
-
-    public Bullet Setup(int damage, float speed)
-    {
-        this.m_Damage = damage;
-        this.m_Speed = speed;
-
-        m_Rb.linearVelocity = Vector3.zero;
-        m_Rb.angularVelocity = Vector3.zero;
-
-        m_OriginalPosition = transform.position;
-
-        StartCoroutine(CheckDistanceFromPlayer());
-
-        return this;
-    }
-
-    public Bullet SetKnockback(float knockback)
-    {
-        this.m_Knockback = knockback;
-        return this;
-    }
-
-    public void Impact(GameObject target)
-    {
-        if (target.TryGetComponent(out IHealth health)) health.TakeDamage(m_Damage);
-
-        transform.position = Vector3.zero;
-        BulletManager.S_Instance.ReturnBullet(this);
-    }
-
-    private IEnumerator CheckDistanceFromPlayer()
+    IEnumerator CheckDistanceFromPlayer()
     {
         yield return new WaitForSeconds(5);
         transform.position = Vector3.zero;
-        BulletManager.S_Instance.ReturnBullet(this);
+        ReleaseBullet();
+    }
+
+    private void ReleaseBullet()
+    {
+        if(m_PoolTicket == null) m_PoolTicket = GetComponent<PooledObject>();
+
+        m_PoolTicket.Release();
     }
 }

@@ -9832,6 +9832,7 @@ GameObject:
   - component: {fileID: 4581899121895831684}
   - component: {fileID: 1516571823923487824}
   - component: {fileID: 4018166420172724844}
+  - component: {fileID: 135912523397799775}
   m_Layer: 11
   m_Name: Bullet
   m_TagString: Bullet
@@ -9917,7 +9918,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e760831c4258a8d4bad21d0132632feb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
-  rb: {fileID: 5628321439133379174}
+  m_Speed: 10
+  m_Damage: 50
+  m_Knockback: 10
+  m_RigidBody: {fileID: 5628321439133379174}
   m_HitPrefab: {fileID: 1358016219978357355, guid: 3ef0c918d5a1d974c953de859dca5608, type: 3}
 --- !u!198 &1516571823923487824
 ParticleSystem:
@@ -9929,7 +9933,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 5
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 3
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -14731,6 +14735,20 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &135912523397799775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2553044389363761576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea6cad798acc0d438b0ead9d986deb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoReleaseParticle
+  m_PoolTicket: {fileID: 0}
+  m_ParticleSystem: {fileID: 1516571823923487824}
 --- !u!1 &7805347405845795416
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,33 +1,29 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class RangeReloadingCombatStyle : CombatStyle
 {
-    [FormerlySerializedAs("maxBulletCount")]
-    [Header("Settings")]
-    [SerializeField] private int m_MaxBulletCount;
+    [Header("Bullet")]
+    [SerializeField] private int maxBulletCount;
+    [SerializeField] private GameObject m_BulletPrefab;
+    private int currentBulletCount;
 
-    [FormerlySerializedAs("bulletDamage")] [Space(10)] [SerializeField] private int m_BulletDamage;
+    [Space(10)]
+    [SerializeField] int bulletDamage;
+    [SerializeField] float bulletSpeed;
+    [SerializeField] float knockBackForce;
 
-    [FormerlySerializedAs("bulletSpeed")] [SerializeField] private float m_BulletSpeed;
-    [FormerlySerializedAs("knockBackForce")] [SerializeField] private float m_KnockBackForce;
+    [Space(10)]
+    [SerializeField] float attackCooldown;
+    [SerializeField] float reloadCooldown;
 
-    [FormerlySerializedAs("attackCooldown")] [Space(10)] [SerializeField] private float m_AttackCooldown;
+    bool isReloading = false;
 
-    [FormerlySerializedAs("reloadCooldown")] [SerializeField] private float m_ReloadCooldown;
-
-    [FormerlySerializedAs("attackPoint")]
     [Header("References")]
-    [SerializeField] private Transform m_AttackPoint;
-
+    [SerializeField] Transform attackPoint;
     [SerializeField] private GameObject m_MuzzleFlashPrefab;
 
-    [FormerlySerializedAs("m_SFXManager")] [SerializeField] private RangeReloadingWeaponSFXManager m_SfxManager;
-
-    private int m_CurrentBulletCount;
-
-    private bool m_IsReloading;
+    [SerializeField] private RangeReloadingWeaponSFXManager m_SFXManager;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -37,35 +33,35 @@ public class RangeReloadingCombatStyle : CombatStyle
         StartCoroutine(LateStart());
     }
 
-    private IEnumerator LateStart()
+    IEnumerator LateStart()
     {
         yield return new WaitForSeconds(.1f);
-        m_CurrentBulletCount = m_MaxBulletCount;
+        currentBulletCount = maxBulletCount;
     }
 
     public override void Attack()
     {
-        if (m_CanAttack && !m_IsReloading)
+        if(canAttack && !isReloading)
         {
-            if (m_CurrentBulletCount > 0)
+            if(currentBulletCount > 0)
             {
                 OnAttack?.Invoke();
 
-                m_CurrentBulletCount--;
-                OnAmmoChange?.Invoke(m_CurrentBulletCount, m_MaxBulletCount);
-                GameObject muzzleVFX = Instantiate(m_MuzzleFlashPrefab, m_AttackPoint);
+                currentBulletCount--;
+                OnAmmoChange?.Invoke(currentBulletCount, maxBulletCount);
+                var muzzleVFX = Instantiate(m_MuzzleFlashPrefab, attackPoint);
                 Destroy(muzzleVFX, muzzleVFX.GetComponent<ParticleSystem>().main.duration);
-                Bullet bullet = BulletManager.S_Instance.GetBullet();
-                bullet.transform.position = m_AttackPoint.position;
-                bullet.transform.up = m_AttackPoint.forward;
+                
+                Bullet bullet = PoolManager.Instance.Spawn(m_BulletPrefab, attackPoint.position, Quaternion.identity).GetComponent<Bullet>();
+                bullet.transform.up = attackPoint.forward;
 
-                bullet.Setup(m_BulletDamage, m_BulletSpeed)
-                    .SetKnockback(m_KnockBackForce);
+                bullet.Setup(bulletDamage, bulletSpeed)
+                    .SetKnockback(knockBackForce);
 
                 StartCoroutine(AttackCooldown());
-
-                if (m_SfxManager)
-                    m_SfxManager.PlayAttackSfx();
+                
+                if(m_SFXManager)
+                    m_SFXManager.PlayAttackSFX();
             }
             else
             {
@@ -76,29 +72,29 @@ public class RangeReloadingCombatStyle : CombatStyle
 
     public override void Reload()
     {
-        if (!m_IsReloading)
+        if (!isReloading)
         {
             OnReload?.Invoke();
 
-            if (m_SfxManager)
-                m_SfxManager.PlayReloadSfx();
-            StartCoroutine(ReloadCooldown());
+            if(m_SFXManager)
+                m_SFXManager.PlayReloadSFX();
+            StartCoroutine(ReloadCooldown());         
         }
     }
 
-    private IEnumerator AttackCooldown()
+    IEnumerator AttackCooldown()
     {
-        m_CanAttack = false;
-        yield return new WaitForSeconds(m_AttackCooldown);
-        m_CanAttack = true;
+        canAttack = false;
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
     }
 
-    private IEnumerator ReloadCooldown()
+    IEnumerator ReloadCooldown()
     {
-        m_IsReloading = true;
-        yield return new WaitForSeconds(m_ReloadCooldown);
-        m_CurrentBulletCount = m_MaxBulletCount;
-        OnAmmoChange?.Invoke(m_CurrentBulletCount, m_MaxBulletCount);
-        m_IsReloading = false;
+        isReloading = true;
+        yield return new WaitForSeconds(reloadCooldown);
+        currentBulletCount = maxBulletCount;
+        OnAmmoChange?.Invoke(currentBulletCount, maxBulletCount);
+        isReloading = false;
     }
 }
