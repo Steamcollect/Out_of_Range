@@ -20,7 +20,7 @@ public class CloseEnemyCombat : EntityCombat
 
     [Header("References")]
     [SerializeField] Transform m_WeaponPivot;
-    [SerializeField] ColliderCallback m_CollidCallback;
+    [SerializeField] ColliderCallback m_ColliderCallback;
     [SerializeField] Rigidbody m_Rb;
 
     //[Header("Input")]
@@ -29,7 +29,7 @@ public class CloseEnemyCombat : EntityCombat
 
     private void Start()
     {
-        m_CollidCallback.OnTriggerEnterCallback += OnWeaponTouchSomething;
+        m_ColliderCallback.OnTriggerEnterCallback += OnWeaponTouchSomething;
     }
 
     public override IEnumerator Attack()

@@ -4,21 +4,17 @@ using UnityEngine.Serialization;
 
 public class RadioAntennaController : MonoBehaviour
 {
-    //[Header("References")]
-
-    [FormerlySerializedAs("trigger")]
     [Header("References")]
     [SerializeField] private RadioAntennaTrigger m_Trigger;
 
-    [FormerlySerializedAs("_OnPlayerInteract")]
     [Header("Output")]
     [SerializeField] private UnityEvent m_OnPlayerInteract;
 
-    private bool m_AsInteract;
+    private bool m_HasInteract;
 
     private void Start()
     {
-        m_AsInteract = false;
+        m_HasInteract = false;
         m_Trigger.SetCanPlayerInteract(true);
     }
 
@@ -34,9 +30,9 @@ public class RadioAntennaController : MonoBehaviour
 
     private void OnPlayerInteract()
     {
-        if (m_AsInteract) return;
+        if (m_HasInteract) return;
 
-        m_AsInteract = true;
+        m_HasInteract = true;
         m_OnPlayerInteract.Invoke();
     }
 }

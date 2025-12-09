@@ -3,9 +3,11 @@ using UnityEngine.Serialization;
 
 public class TimerManager : MonoBehaviour
 {
-    [FormerlySerializedAs("timerSpeed")] [SerializeField] private float m_TimerSpeed = 1;
+    [Header("Settings")]
+    [SerializeField] private float m_TimerSpeed = 1;
 
-    [FormerlySerializedAs("timer")] [SerializeField] private RSO_GameTimer m_Timer;
+    [Header("References")]
+    [SerializeField] private RSO_GameTimer m_Timer;
 
     private void Start()
     {
