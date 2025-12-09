@@ -76,9 +76,8 @@ public class RangeOverloadCombatStyle : CombatStyle
             OnAttack?.Invoke();
             m_CoolsTimer = 0;
             
-            Bullet bullet = PoolManager.Instance.Spawn(m_BulletPrefab, m_AttackPoint.position, m_AttackPoint.rotation).GetComponent<Bullet>();
-
-            Debug.Log("Shoot Bullet");
+            Bullet bullet = PoolManager.Instance.Spawn(m_BulletPrefab, m_AttackPoint.position, Quaternion.identity).GetComponent<Bullet>();
+            bullet.transform.up = m_AttackPoint.forward;
 
             GameObject muzzleVFX = Instantiate(m_MuzzleFlashPrefab, m_AttackPoint);
             Destroy(muzzleVFX, muzzleVFX.GetComponent<ParticleSystem>().main.duration);
