@@ -79,12 +79,13 @@ public class ExplodingEnemyController : EntityController, ISpawnable
 
         if (!m_Detector.IsPlayerInRange(m_AttackRange))
         {
+            m_CurrentState = EnemyStates.Chasing;
             m_ExplosionState = ExplosionStates.Idle;
             yield break;
         }
         
         m_ExplosionState = ExplosionStates.Exploding;
-        StartCoroutine(m_Combat.Attack());
+        yield return StartCoroutine(m_Combat.Attack());
     }
 
     void MoveTowardPlayer()

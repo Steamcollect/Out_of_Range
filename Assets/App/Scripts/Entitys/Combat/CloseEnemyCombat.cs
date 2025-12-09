@@ -71,6 +71,6 @@ public class CloseEnemyCombat : EntityCombat
     {
         if (!m_IsAttacking) return;
 
-        if (collid.TryGetComponent(out EntityController controller)) controller.GetHealth().TakeDamage(m_Damage);
+        if (collid.TryGetComponentInChildrens(out IHealth health)) health.TakeDamage(m_Damage);
     }
 }
