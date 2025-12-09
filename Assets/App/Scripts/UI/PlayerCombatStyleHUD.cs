@@ -5,11 +5,9 @@ using UnityEngine.UI;
 public class PlayerCombatStyleHUD : MonoBehaviour
 {
     //[Header("Settings")]
-    [FormerlySerializedAs("fillImg")]
     [Header("References")]
     [SerializeField] private Image m_FillImg;
 
-    [FormerlySerializedAs("playerController")]
     [Header("Input")]
     [SerializeField] private RSO_PlayerController m_PlayerController;
 

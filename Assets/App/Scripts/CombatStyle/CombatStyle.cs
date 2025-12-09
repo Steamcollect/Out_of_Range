@@ -1,7 +1,8 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
-public class CombatStyle : MonoBehaviour
+public abstract class CombatStyle : MonoBehaviour
 {
     protected bool m_CanAttack = true;
     protected bool m_IsAttacking = false;
@@ -10,9 +11,7 @@ public class CombatStyle : MonoBehaviour
     public Action OnAttack;
     public Action OnReload;
 
-    public virtual void Attack()
-    {
-    }
+    public virtual IEnumerator Attack() { yield break; }
 
     public virtual void Reload()
     {

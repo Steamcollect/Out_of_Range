@@ -2,7 +2,7 @@ using UnityEngine;
 using MVsToolkit.Dev;
 using System;
 
-public class EntityController : MonoBehaviour, ITargetable
+public abstract class EntityController : MonoBehaviour, ITargetable
 {
     [Header("Settings")]
     [SerializeField] Vector3 m_TargetPos;
@@ -25,7 +25,7 @@ public class EntityController : MonoBehaviour, ITargetable
         m_Health.OnDeath += OnEntityDie;
     }
 
-    void OnEntityDie()
+    protected virtual void OnEntityDie()
     {
         OnDeath?.Invoke(this);
         gameObject.SetActive(false);

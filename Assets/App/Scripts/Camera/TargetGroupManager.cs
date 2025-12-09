@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class TargetGroupManager : MonoBehaviour
 {
-    [SerializeField] private RSO_PlayerController m_PlayerController;
+    [Header("Settings")]
+    [SerializeField] private float m_Weight = 3f;
+    [SerializeField] private float m_Radius = 1f;
+    
+    [Header("References")]
     [SerializeField] private CinemachineTargetGroup m_TargetGroup;
+    [Space(10)]
+    [SerializeField] private RSO_PlayerController m_PlayerController;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
-    {
-        m_TargetGroup.AddMember(m_PlayerController.Get().transform, 3f, 1f);
-    }
+    private void Start() => m_TargetGroup.AddMember(m_PlayerController.Get().transform, m_Weight, m_Radius);
 }

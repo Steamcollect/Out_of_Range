@@ -1,30 +1,27 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class PlayerCombat : EntityCombat
 {
-    [FormerlySerializedAs("attackIA")]
-    [Header("Internal Input")]
-    [SerializeField] private InputActionReference m_AttackIa;
+    [Header("Internal References")]
+    [SerializeField] CombatStyle m_CurrentCombatStyle;
 
+    [SerializeField] private InputPlayerController m_InputPlayerController;
+    [Space(10)]
     [SerializeField] private RSO_PlayerAimTarget m_AimTarget;
-
-    private void Start()
-    {
-        m_AttackIa.action.Enable();
-    }
-
+    
     private void Update()
     {
-        Vector3 targetPosition = m_AimTarget.Get().position;
-        targetPosition.y = m_VerticalPivot.position.y;
-
-        LookAt(targetPosition);
-        if (m_AttackIa.action.IsPressed())
+        LookAt(m_AimTarget.Get().position);
+        
+        if (m_InputPlayerController.IsAttackPressed())
         {
-            // StartCoroutine(Attack());
+            StartCoroutine(m_CurrentCombatStyle.Attack());
         }
+    }
+
+    public CombatStyle GetCurrentCombatStyle()
+    {
+        return m_CurrentCombatStyle;
     }
 }
