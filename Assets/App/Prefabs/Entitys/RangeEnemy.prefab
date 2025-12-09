@@ -45,15 +45,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a447bb131288f1d4bb0e2c4ba38d706d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangeReloadingCombatStyle
-  maxBulletCount: 10
-  bulletDamage: 1
-  bulletSpeed: 25
-  knockBackForce: 0
-  attackCooldown: 0.4
-  reloadCooldown: 0.8
-  attackPoint: {fileID: 5309297015634064110}
+  m_MaxBulletCount: 10
+  m_BulletDamage: 1
+  m_BulletSpeed: 25
+  m_KnockBackForce: 0
+  m_AttackCooldown: 0.4
+  m_ReloadCooldown: 0.8
+  m_AttackPoint: {fileID: 5309297015634064110}
   m_MuzzleFlashPrefab: {fileID: 4186470608034871016, guid: e1532b720bdc5ad4cb310a851a0a304a, type: 3}
-  m_SFXManager: {fileID: 6023625709644627158}
+  m_SfxManager: {fileID: 6023625709644627158}
 --- !u!114 &6023625709644627158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,14 +66,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba4f536c8d61aa246aa0df0e338e4ee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSFXManager
-  m_FireSFX:
+  m_FireSfx:
     Guid:
       Data1: -1616155931
       Data2: 1204140417
       Data3: -330558554
       Data4: 722538238
     Path: event:/EnemyFire
-  m_ReloadSFX:
+  m_ReloadSfx:
     Guid:
       Data1: 0
       Data2: 0
@@ -128,8 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  maxHealth: 8
-  currentHealth: 0
+  m_MaxHealth: 8
+  m_CurrentHealth: 0
   m_InvincibilityRegainDuration: 0
   m_IsInvincible: 0
   m_OnDeathFeedback:
@@ -159,7 +159,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_DamageSFXManager: {fileID: 449631955636452469}
+  m_DamageSfxManager: {fileID: 449631955636452469}
 --- !u!114 &449631955636452469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,14 +172,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7605808726bcb4c9486433f7d84cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageSFXManager
-  m_DamageSFX:
+  m_DamageSfx:
     Guid:
       Data1: -260134075
       Data2: 1168716630
       Data3: -2039845967
       Data4: -922633430
     Path: event:/Player/Blaster/EnemyHit
-  m_DeathSFX:
+  m_DeathSfx:
     Guid:
       Data1: 1487547990
       Data2: 1177124610
@@ -266,60 +266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 135eba6dc3255e44a8dd62d801c88833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_HorizontalLinearMovement
-  moveSpeed: 30
-  rb: {fileID: 5189926587359084582}
---- !u!1 &3815577572755010280
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5188514075616049392}
-  - component: {fileID: 4584786856088110171}
-  m_Layer: 0
-  m_Name: FogVisibility
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5188514075616049392
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3815577572755010280}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6768313355697838407}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4584786856088110171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3815577572755010280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 985add12ee4836e40b7241671b1d892c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FischlWorks_FogWar.FogVisibilityObject
-  m_Visibility: 0
-  m_AdditionalRadius: 0
-  m_Renderers:
-  - {fileID: 8492754452489568597}
-  - {fileID: 3232189753623392808}
-  m_Objects:
-  - {fileID: 4458644276942394988}
-  - {fileID: 5332879825593717461}
+  m_MoveSpeed: 30
+  m_Rb: {fileID: 5189926587359084582}
 --- !u!1 &4107096721611965925
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,10 +346,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 199ab14d3c1dbb540b94fb51e9100eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityCombat
-  turnSmoothTime: 0.03
-  currentCombatStyle: {fileID: 7335103353945310771}
-  verticalPivot: {fileID: 1553985081979669343}
-  horizontalPivot: {fileID: 7539676495185559467}
+  m_TurnSmoothTime: 0
+  m_VerticalPivot: {fileID: 0}
+  m_HorizontalPivot: {fileID: 0}
 --- !u!1 &4458644276942394988
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,7 +755,6 @@ GameObject:
   - component: {fileID: 5189926587359084582}
   - component: {fileID: 7724454842372331008}
   - component: {fileID: 3012650132007359930}
-  - component: {fileID: 3147133673151223813}
   - component: {fileID: 1832289909141612452}
   m_Layer: 9
   m_Name: RangeEnemy
@@ -836,7 +782,6 @@ Transform:
   - {fileID: 8370843007976899593}
   - {fileID: 6407472825269025806}
   - {fileID: 4611355899032683051}
-  - {fileID: 5188514075616049392}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &5189926587359084582
@@ -901,34 +846,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deea6e39f4e0c1c4f88a34d8c1430cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangeEnemyController
-  targetPos: {x: 0, y: 1.65, z: 0}
-  health: {fileID: 5167803564463502938}
-  trigger: {fileID: 3147133673151223813}
-  movement:
-    _object: {fileID: 5011621857055892473}
-  combat: {fileID: 3283483463715396580}
-  rb: {fileID: 5189926587359084582}
-  detectionRange: 16
-  closeRange: 8
-  detectionMask:
+  m_TargetPos: {x: 0, y: 0, z: 0}
+  m_Health: {fileID: 0}
+  m_Movement:
+    _object: {fileID: 0}
+  m_Combat: {fileID: 0}
+  m_Rb: {fileID: 0}
+  m_DetectionRange: 16
+  m_CloseRange: 8
+  m_DetectionMask:
     serializedVersion: 2
     m_Bits: 319
-  playertag: Player
-  agent: {fileID: 1790455450395899670}
-  detectionLight: {fileID: 5685453232908198188}
-  player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
---- !u!114 &3147133673151223813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8414496568537792629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a45729c946d4c347ae5a141e95849c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EntityTrigger
+  m_Playertag: Player
+  m_Agent: {fileID: 1790455450395899670}
+  m_DetectionLight: {fileID: 5685453232908198188}
+  m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!208 &1832289909141612452
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -1316,10 +1248,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2792a4c724cdc8147884c7e19d289621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StepHandler
-  stepDuration: 0.1
-  stepLength: 0.6
-  stepHeight: 0.6
-  stepCurve:
+  m_StepDuration: 0.1
+  m_StepLength: 0.6
+  m_StepHeight: 0.6
+  m_StepCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -1352,8 +1284,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  anticipationMultiplier: 0.8
-  ikTarget: {fileID: 3418713062733633836}
+  m_AnticipationMultiplier: 0.8
+  m_IKTarget: {fileID: 3418713062733633836}
 --- !u!1 &8376137476613085241 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1275512588326534, guid: 5c7f0950aa535ce4faef155ad244c136, type: 3}
@@ -1371,10 +1303,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2792a4c724cdc8147884c7e19d289621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StepHandler
-  stepDuration: 0.1
-  stepLength: 0.6
-  stepHeight: 0.6
-  stepCurve:
+  m_StepDuration: 0.1
+  m_StepLength: 0.6
+  m_StepHeight: 0.6
+  m_StepCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -1407,8 +1339,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  anticipationMultiplier: 0.8
-  ikTarget: {fileID: 3645203454363451308}
+  m_AnticipationMultiplier: 0.8
+  m_IKTarget: {fileID: 3645203454363451308}
 --- !u!1 &8376354827082292753 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1203895258419374, guid: 5c7f0950aa535ce4faef155ad244c136, type: 3}
@@ -1426,10 +1358,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2792a4c724cdc8147884c7e19d289621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StepHandler
-  stepDuration: 0.1
-  stepLength: 0.6
-  stepHeight: 0.6
-  stepCurve:
+  m_StepDuration: 0.1
+  m_StepLength: 0.6
+  m_StepHeight: 0.6
+  m_StepCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -1462,8 +1394,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  anticipationMultiplier: 0.8
-  ikTarget: {fileID: 6480160215209668978}
+  m_AnticipationMultiplier: 0.8
+  m_IKTarget: {fileID: 6480160215209668978}
 --- !u!1 &8376688008786407777 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1537008473948126, guid: 5c7f0950aa535ce4faef155ad244c136, type: 3}
@@ -1481,14 +1413,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63a355d7da1486e46b0990ea0c23a070, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StepManager
-  timeBetweenSteps: 0.05
-  handlers:
+  m_TimeBetweenSteps: 0.05
+  m_Handlers:
   - {fileID: 6463958526670321252}
   - {fileID: 8164550171437835953}
   - {fileID: 8821389094559587628}
   - {fileID: 6136021699283684452}
-  mainBody: {fileID: 6768313355697838407}
-  mainRb: {fileID: 5189926587359084582}
+  m_MainBody: {fileID: 6768313355697838407}
+  m_MainRb: {fileID: 5189926587359084582}
 --- !u!1 &8376691953497047055 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1530835076861616, guid: 5c7f0950aa535ce4faef155ad244c136, type: 3}
@@ -1506,10 +1438,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2792a4c724cdc8147884c7e19d289621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StepHandler
-  stepDuration: 0.1
-  stepLength: 0.6
-  stepHeight: 0.6
-  stepCurve:
+  m_StepDuration: 0.1
+  m_StepLength: 0.6
+  m_StepHeight: 0.6
+  m_StepCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -1542,8 +1474,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  anticipationMultiplier: 0.8
-  ikTarget: {fileID: 1766680064970416130}
+  m_AnticipationMultiplier: 0.8
+  m_IKTarget: {fileID: 1766680064970416130}
 --- !u!137 &8492754452489568597 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 137042682486050794, guid: 5c7f0950aa535ce4faef155ad244c136, type: 3}
