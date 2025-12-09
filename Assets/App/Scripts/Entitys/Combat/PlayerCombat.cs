@@ -12,7 +12,7 @@ public class PlayerCombat : EntityCombat
     
     private void Update()
     {
-        LookAt(m_AimTarget.Get().position);
+        LookAt(m_AimTarget.Get().position, LookAtAxis.Horizontal);
         
         if (m_InputPlayerController.IsAttackPressed())
         {

@@ -16,7 +16,6 @@ public class PlayerCameraController : MonoBehaviour
 
     private void OnEnable() => m_PlayerCamera.Set(this);
     private void OnDisable() => m_PlayerCamera.Set(null);
-    private void Start() => m_CinemachineCamera.Follow = m_PlayerController.Get().transform;
 
     public Camera GetCamera() => m_Camera;
 }

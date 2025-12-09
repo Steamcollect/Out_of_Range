@@ -11,7 +11,6 @@ public class PooledObject : MonoBehaviour
 
     public void Release()
     {
-        Debug.Log("ReturnToPool");
         PoolManager.Instance.ReturnToPool(this.gameObject, m_PoolKey);
     }
 }
