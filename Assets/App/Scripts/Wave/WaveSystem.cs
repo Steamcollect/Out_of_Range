@@ -40,7 +40,7 @@ public class WaveSystem : MonoBehaviour
         m_CurrentWaveIndex = 0;
         IsInFight = true;
 
-        FightDetectorManager.S_Instance?.OnWaveStart(this);
+        FightDetectorManager.Instance?.OnWaveStart(this);
         m_OnCombatStart?.Invoke();
 
         SpawnCurrentWave();
@@ -88,7 +88,7 @@ public class WaveSystem : MonoBehaviour
         }
         else
         {
-            Debug.Log($"Wave terminée. Prochaine wave dans {m_TimeBetweenWaves} secondes...");
+            Debug.Log($"Wave terminï¿½e. Prochaine wave dans {m_TimeBetweenWaves} secondes...");
 
             this.Delay(() =>
             {
@@ -100,7 +100,7 @@ public class WaveSystem : MonoBehaviour
     private void EndCombat()
     {
         IsInFight = false;
-        FightDetectorManager.S_Instance?.OnWaveEnd(this);
+        FightDetectorManager.Instance?.OnWaveEnd(this);
         m_OnCombatCompleted?.Invoke();
     }
 

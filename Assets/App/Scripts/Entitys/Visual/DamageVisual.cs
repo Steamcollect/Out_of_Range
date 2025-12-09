@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class DamageVisual : MonoBehaviour
 {
+    private static readonly int s_DamageAmount = Shader.PropertyToID("_DamageAmount");
+
     [Header("References")]
     [SerializeField] private MeshRenderer[] m_Renderers;
 
@@ -19,13 +21,13 @@ public class DamageVisual : MonoBehaviour
         SetDamage(1 - m_EntityHealth.GetHealthPercentage());
     }
 
-    public void SetDamage(float value)
+    private void SetDamage(float value)
     {
-        foreach (MeshRenderer renderer in m_Renderers)
+        foreach (MeshRenderer rend in m_Renderers)
         {
-            renderer.GetPropertyBlock(m_Block);
-            m_Block.SetFloat("_DamageAmount", value);
-            renderer.SetPropertyBlock(m_Block);
+            rend.GetPropertyBlock(m_Block);
+            m_Block.SetFloat(s_DamageAmount, value);
+            rend.SetPropertyBlock(m_Block);
         }
     }
 }

@@ -7,20 +7,15 @@ using UnityEngine.Serialization;
 
 public class RadioAntennaTrigger : MonoBehaviour
 {
-    [FormerlySerializedAs("playerTag")]
     [Header("Settings")]
     [SerializeField] [TagName] private string m_PlayerTag;
+    [SerializeField] private string m_InteractInput = "E";
+    [SerializeField] [Handle(TransformLocationType.Local)] private Vector3 m_PointerPosition;
 
-    [FormerlySerializedAs("interactInput")] [SerializeField] private string m_InteractInput = "E";
+    [Space(10)] 
+    [SerializeField] private float m_BumpScaleValue;
+    [SerializeField] private float m_BumpScaleTime;
 
-    [FormerlySerializedAs("pointerPosition")] [SerializeField] [Handle(TransformLocationType.Local)]
-    private Vector3 m_PointerPosition;
-
-    [FormerlySerializedAs("bumpScaleValue")] [Space(10)] [SerializeField] private float m_BumpScaleValue;
-
-    [FormerlySerializedAs("bumpScaleTime")] [SerializeField] private float m_BumpScaleTime;
-
-    [FormerlySerializedAs("interactIA")]
     [Header("Input")]
     [SerializeField] private InputActionReference m_InteractIa;
 
@@ -40,7 +35,7 @@ public class RadioAntennaTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (m_CurrentPointer != null && m_IsPlayerDetected)
+        if (m_CurrentPointer && m_IsPlayerDetected)
             m_CurrentPointer.transform.position = Camera.main.WorldToScreenPoint(transform.position + m_PointerPosition);
     }
 

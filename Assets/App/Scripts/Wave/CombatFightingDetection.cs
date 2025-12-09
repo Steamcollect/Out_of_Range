@@ -5,9 +5,12 @@ using UnityEngine.Serialization;
 
 public class CombatFightingDetection : MonoBehaviour
 {
-    [FormerlySerializedAs("entities")] [SerializeField] private List<EntityController> m_Entities = new();
+    
+    [Header("References")]
+    [SerializeField] private List<EntityController> m_Entities = new();
 
-    [FormerlySerializedAs("OnEntitiesKilled")] [SerializeField] private UnityEvent m_OnEntitiesKilled;
+    [Header("Output")]
+    [SerializeField] private UnityEvent m_OnEntitiesKilled;
 
     private void Start()
     {

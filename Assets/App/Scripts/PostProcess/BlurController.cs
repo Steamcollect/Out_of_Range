@@ -23,7 +23,7 @@ public class BlurController : MonoBehaviour
 
     private void Update()
     {
-        if (m_FullScreenMaterial != null && m_PlayerController != null)
+        if (m_FullScreenMaterial && m_PlayerController)
             m_FullScreenMaterial.SetFloat(m_PlayerYid, m_PlayerController.Get().GetTargetPosition().y - m_Height);
     }
 }

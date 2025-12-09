@@ -4,19 +4,14 @@ using UnityEngine.Serialization;
 
 public class StepHandler : MonoBehaviour
 {
-    [FormerlySerializedAs("stepDuration")]
     [Header("Settings")]
     [SerializeField] private float m_StepDuration = 0.25f;
-
-    [FormerlySerializedAs("stepLength")] [Space(10)] [SerializeField] private float m_StepLength = 0.5f;
-
-    [FormerlySerializedAs("stepHeight")] [SerializeField] private float m_StepHeight = 0.1f;
-    [FormerlySerializedAs("stepCurve")] [SerializeField] private AnimationCurve m_StepCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
-
-    [FormerlySerializedAs("anticipationMultiplier")] [Space(10)] [SerializeField] [Range(0, 1)]
-    private float m_AnticipationMultiplier;
-
-    [FormerlySerializedAs("ikTarget")]
+    [Space(10)] 
+    [SerializeField] private float m_StepLength = 0.5f;
+    [SerializeField] private float m_StepHeight = 0.1f;
+    [SerializeField] private AnimationCurve m_StepCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    [Space(10)] 
+    [SerializeField] [Range(0, 1)] private float m_AnticipationMultiplier;
     [Header("References")]
     [SerializeField] private Transform m_IKTarget;
 
@@ -111,7 +106,7 @@ public class StepHandler : MonoBehaviour
         Vector3 startPos = m_IKTarget.position;
 
         Vector3 endPos = m_BodyPivot.TransformPoint(m_StartLocalPosition)
-                         + m_BodyRb.linearVelocity.normalized * m_StepLength * m_AnticipationMultiplier;
+                         + m_BodyRb.linearVelocity.normalized * (m_StepLength * m_AnticipationMultiplier);
 
         while (elapsed < m_StepDuration)
         {
@@ -120,7 +115,7 @@ public class StepHandler : MonoBehaviour
 
             Vector3 pos = Vector3.Lerp(startPos, endPos, t);
 
-            float curveValue = m_StepCurve != null ? m_StepCurve.Evaluate(t) : t;
+            float curveValue = m_StepCurve?.Evaluate(t) ?? t;
             pos.y += m_StepHeight * curveValue;
 
             m_IKTarget.position = pos;

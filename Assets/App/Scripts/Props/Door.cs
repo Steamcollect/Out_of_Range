@@ -11,17 +11,14 @@ public class Door : MonoBehaviour
         Default
     }
 
-    [FormerlySerializedAs("openTime")]
     [Header("Settings")]
     [SerializeField] private float m_OpenTime;
+    [SerializeField] private DoorStartType m_Type;
 
-    [FormerlySerializedAs("type")] [SerializeField] private DoorStartType m_Type;
-
-    [FormerlySerializedAs("openPoint")]
     [Header("References")]
     [SerializeField] private Transform m_OpenPoint;
-
-    [FormerlySerializedAs("closePoint")] [SerializeField] private Transform m_ClosePoint;
+    [SerializeField] private Transform m_ClosePoint;
+    
     private Vector3 m_ClosePos;
     private Vector3 m_OpenPos;
 

@@ -33,7 +33,7 @@ public class SSO_EnemyCatalog : ScriptableObject
         public GameObject Prefab;
     }
 
-    [Title("CONFIGURATION")]
+    [Title("Configuration")]
     [TableList]
     [SerializeField] private List<EnemyEntry> m_Entries;
 
