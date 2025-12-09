@@ -20,7 +20,7 @@ public class RangeEnemyCombat : EntityCombat
 
     [Header("References")]
     [SerializeField] Transform m_AttackPoint;
-    [SerializeField] GameObject m_BulletPrefab;
+    [SerializeField] Bullet m_BulletPrefab;
 
     [Space(5)]
     [SerializeField] RSO_PlayerController m_Player;
@@ -45,7 +45,7 @@ public class RangeEnemyCombat : EntityCombat
         {
             bulletsFired++;
 
-            Bullet bullet = PoolManager.Instance.Spawn(m_BulletPrefab, m_AttackPoint.position, Quaternion.identity).GetComponent<Bullet>();
+            Bullet bullet = PoolManager.Instance.Spawn(m_BulletPrefab, m_AttackPoint.position, Quaternion.identity);
             bullet.transform.up = m_AttackPoint.forward;
             bullet.Setup();
 

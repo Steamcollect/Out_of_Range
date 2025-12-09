@@ -18,6 +18,12 @@ public class RangeOverloadCombatStyle : CombatStyle
     [SerializeField] private float m_OverloadRecorverySpeed;
     [SerializeField] private float m_TimeToCoolsAfterShoot;
 
+    [Space(10)] 
+    [SerializeField] private int m_BulletDamage;
+
+    [SerializeField] private float m_BulletSpeed;
+    [SerializeField] private float m_KnockBackForce;
+
     [Header("Visual")]
     [SerializeField] private MeshRenderer m_MeshRenderer;
 
@@ -27,7 +33,7 @@ public class RangeOverloadCombatStyle : CombatStyle
     [SerializeField] private Transform m_AttackPoint;
 
     [SerializeField] private GameObject m_MuzzleFlashPrefab;
-    [SerializeField] private GameObject m_BulletPrefab;
+    [SerializeField] private Bullet m_BulletPrefab;
 
     [SerializeField] private RangeReloadingWeaponSFXManager m_SfxManager;
     [SerializeField] private UnityEvent m_OnAttackFeedback;
@@ -70,11 +76,11 @@ public class RangeOverloadCombatStyle : CombatStyle
             OnAttack?.Invoke();
             m_CoolsTimer = 0;
             
-            Bullet bullet = PoolManager.Instance.Spawn(m_BulletPrefab, m_AttackPoint.position, m_AttackPoint.rotation).GetComponent<Bullet>();
+            Bullet bullet = PoolManager.Instance.Spawn(m_BulletPrefab, m_AttackPoint.position, m_AttackPoint.rotation);
+            bullet.Setup();
 
             GameObject muzzleVFX = Instantiate(m_MuzzleFlashPrefab, m_AttackPoint);
             Destroy(muzzleVFX, muzzleVFX.GetComponent<ParticleSystem>().main.duration);
-            bullet.Setup();
 
             StartCoroutine(AttackCooldown());
 
