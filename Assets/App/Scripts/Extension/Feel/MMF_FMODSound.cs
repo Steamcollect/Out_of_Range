@@ -1,4 +1,3 @@
-// filepath: d:\Project\LostSignal\Assets\Plugins\Feel\MMFeedbacks\MMFeedbacks\Feedbacks\MMF_FMODSound.cs
 using System;
 using System.Collections.Generic;
 using FMOD.Studio;
