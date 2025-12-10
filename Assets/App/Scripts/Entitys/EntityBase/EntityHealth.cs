@@ -33,7 +33,7 @@ public class EntityHealth : MonoBehaviour, IHealth
     {
         if (m_IsInvincible) return;
 
-        Debug.Log("Entity gain invincibility for " + m_InvincibilityRegainDuration + " seconds.");
+        //Debug.Log("Entity gain invincibility for " + m_InvincibilityRegainDuration + " seconds.");
         GainInvincibility(m_InvincibilityRegainDuration);
 
         m_CurrentHealth -= damage;
