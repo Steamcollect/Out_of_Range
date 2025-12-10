@@ -6,7 +6,7 @@ using UnityEngine;
 public class ExplosiveBarrel : MonoBehaviour
 {
     [SerializeField] private float explosionRadius = 5f;
-    [SerializeField] private float explosionDamage = 50f;
+    [SerializeField] private int m_Damage = 50;
     [SerializeField] private GameObject explosionEffect;
 
     private void Start()
@@ -17,24 +17,13 @@ public class ExplosiveBarrel : MonoBehaviour
     public LayerMask mask;
     public void Explode()
     {
-        List<IHealth> entities = new List<IHealth>();
-
         StartCoroutine(ExplosionVFX());
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, mask);
         
         foreach (Collider collider in colliders)
         {
-            IHealth trigger = collider.GetComponent<IHealth>();
-            if (trigger != null && !entities.Contains(trigger))
-            {
-                entities.Add(trigger);
-            }
-        }
-        
-        foreach (IHealth entity in entities)
-        {
-            Debug.Log("Damaging entity: " + entity.name);
-            entity.GetController().GetHealth().TakeDamage(explosionDamage);
+            collider.TryGetComponent<HurtBox>(out HurtBox hurtBox);
+            hurtBox.TakeDamage(m_Damage);
         }
     }
 

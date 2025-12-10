@@ -67,6 +67,8 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.TryGetComponent(out HurtBox hurtBox))
             hurtBox.TakeDamage(m_Damage);
         else
+            PoolManager.Instance.Spawn(m_HitPrefab, pos, rot);
+
         m_OnImpact.Invoke();
         ReleaseBullet();
     }

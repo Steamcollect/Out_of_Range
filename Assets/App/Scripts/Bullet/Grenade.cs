@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
-    [SerializeField] float damage;
+    [SerializeField] int m_Damage;
     [SerializeField] float explosionRadius;
     [SerializeField] GameObject radiusVisualizer;
     private GameObject explosionEffect;
 
-    public float Damage
+    public int Damage
     {
-        get => damage;
-        set => damage = value;
+        get => m_Damage;
+        set => m_Damage = value;
     }
 
     public void ShowExplosionRadius(Vector3 position)
@@ -34,9 +34,9 @@ public class Grenade : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider nearbyObject in colliders)
         {
-            if (nearbyObject.gameObject.TryGetComponent(out EntityTrigger trigger) && !nearbyObject.gameObject.CompareTag("Player"))
+            if (nearbyObject.gameObject.TryGetComponent(out HurtBox hurtBox))
             {
-                trigger.GetController()?.GetHealth().TakeDamage(damage);
+                hurtBox.TakeDamage(m_Damage);
             }
         }
         Destroy(gameObject);

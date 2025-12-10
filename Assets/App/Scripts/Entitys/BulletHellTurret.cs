@@ -10,11 +10,9 @@ public class BulletHellTurret : MonoBehaviour
     [SerializeField] private bool m_ResetRotationAfterPattern = true;
     [SerializeField] private float m_TimeBetweenPatterns = 5f;
     [SerializeField] private float m_RotationSpeed;
-    [SerializeField] private float m_BulletSpeed = 30f;
     [SerializeField] private Bullet m_BulletPrefab;
     
     private int currentShotIndex = 0;
-    private float shootTimer = 0f; 
     
     private void Start()
     {

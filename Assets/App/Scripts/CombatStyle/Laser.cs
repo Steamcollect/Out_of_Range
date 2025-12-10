@@ -9,7 +9,6 @@ public class Laser : CombatStyle
     [SerializeField] private LineRenderer m_LaserBeamLine;
     [SerializeField] private float m_LaserRange = 50f;
     [SerializeField] private int m_DamagePerSecond = 10;
-    [SerializeField] private float m_Knockback = 0f;
 
     private void Start()
     {
