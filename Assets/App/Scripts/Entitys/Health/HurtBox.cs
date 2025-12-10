@@ -7,18 +7,15 @@ public class HurtBox : MonoBehaviour
     [SerializeField] float m_DamageMultiplier;
 
     [Header("References")]
-    [SerializeField] InterfaceReference<IHealth>[] m_HealthsConnected;
+    [SerializeField] InterfaceReference<IHealth> m_HealthConnected;
 
     //[Header("Input")]
     //[Header("Output")]
 
     public void TakeDamage(int damage)
     {
-        if (m_HealthsConnected.Length <= 0) return;
+        if (m_HealthConnected == null) return;
 
-        foreach (IHealth health in m_HealthsConnected)
-        {
-            health.TakeDamage(Mathf.RoundToInt(damage * m_DamageMultiplier));
-        }
+        m_HealthConnected.Value.TakeDamage(Mathf.RoundToInt(damage * m_DamageMultiplier));
     }
 }
