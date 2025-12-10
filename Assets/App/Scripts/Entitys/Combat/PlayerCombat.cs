@@ -24,4 +24,9 @@ public class PlayerCombat : EntityCombat
     {
         return m_CurrentCombatStyle;
     }
+    
+    public void SetCombatStyle(CombatStyle newStyle)
+    {
+        m_CurrentCombatStyle = newStyle;
+    }
 }

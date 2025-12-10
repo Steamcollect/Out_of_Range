@@ -9,7 +9,7 @@ public class CombatStyleSelector : MonoBehaviour
     private CombatStyle currentStyle;
     public PlayerCombat playerCombat;
     public InputActionReference inputActionReference_1, inputActionReference_2, inputActionReference_3;
-
+    
     private InputAction inputAction1, inputAction2, inputAction3;
     private void OnEnable()
     {
@@ -38,6 +38,6 @@ public class CombatStyleSelector : MonoBehaviour
         Debug.Log("Selecting combat style index: " + index);
         if (index < 0 || index >= combatStyles.Count) return;
 
-        playerCombat.currentCombatStyle = combatStyles[index];
+        playerCombat.SetCombatStyle(combatStyles[index]);
     }
 }

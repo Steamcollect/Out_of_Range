@@ -5,12 +5,13 @@ using UnityEngine;
 public class BulletHellTurret : MonoBehaviour
 {
     public GameObject muzzle;
-    [SerializeField] private int bulletsPerShot = 5;
-    [SerializeField] private float timeBetweenBullets = 0.1f;
-    [SerializeField] private bool resetRotationAfterPattern = true;
-    [SerializeField] private float timeBetweenPatterns = 5f;
-    [SerializeField] private float rotationSpeed;
-    [SerializeField] private float bulletSpeed = 30f;
+    [SerializeField] private int m_BulletsPerShot = 5;
+    [SerializeField] private float m_TimeBetweenBullets = 0.1f;
+    [SerializeField] private bool m_ResetRotationAfterPattern = true;
+    [SerializeField] private float m_TimeBetweenPatterns = 5f;
+    [SerializeField] private float m_RotationSpeed;
+    [SerializeField] private float m_BulletSpeed = 30f;
+    [SerializeField] private Bullet m_BulletPrefab;
     
     private int currentShotIndex = 0;
     private float shootTimer = 0f; 
@@ -31,16 +32,16 @@ public class BulletHellTurret : MonoBehaviour
         while (true)
         {
             Shoot();
-            if (currentShotIndex >= bulletsPerShot)
+            if (currentShotIndex >= m_BulletsPerShot)
             {
-                yield return new WaitForSeconds(timeBetweenPatterns);
+                yield return new WaitForSeconds(m_TimeBetweenPatterns);
                 currentShotIndex = 0;
-                if (resetRotationAfterPattern)
+                if (m_ResetRotationAfterPattern)
                     ResetRotation();
             }
             else
             {
-                yield return new WaitForSeconds(timeBetweenBullets);
+                yield return new WaitForSeconds(m_TimeBetweenBullets);
             }
         }
     }
@@ -49,17 +50,15 @@ public class BulletHellTurret : MonoBehaviour
     {
         while (true)
         {
-            transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.up, m_RotationSpeed * Time.deltaTime);
             yield return null;
         }
     }
 
     private void Shoot()
     {
-        var bullet = BulletManager.Instance.GetBullet();
-        bullet.transform.position = muzzle.transform.position;
-        bullet.transform.rotation = muzzle.transform.rotation;
-        bullet.Setup(1, bulletSpeed);
+        var bullet = PoolManager.Instance.Spawn(m_BulletPrefab, muzzle.transform.position, muzzle.transform.rotation);
+        bullet.Setup();
         currentShotIndex++;
     }
     

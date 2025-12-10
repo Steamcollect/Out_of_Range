@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class EnergySource : MonoBehaviour
 {
-    [SerializeField] private float maxHealth = 100f;
-    private float currentHealth;
     [SerializeField] private List<EntityHealth> linkedObjects;
-    private List<LineRenderer> lineRenderers = new List<LineRenderer>();
+    private List<LineRenderer> m_LineRenderers;
     public Material lineMaterial;
     void Start()
     {
-        currentHealth = maxHealth;
+        m_LineRenderers = new List<LineRenderer>();
+        
         foreach (EntityHealth linkedObject in linkedObjects)
         {
             linkedObject.GainInvincibility();
             LineRenderer lr = gameObject.AddComponent<LineRenderer>();
-            lineRenderers.Add(lr);
+            m_LineRenderers.Add(lr);
             lr.positionCount = 2;
             lr.startWidth = 0.1f;
             lr.endWidth = 0.1f; 
@@ -32,38 +31,9 @@ public class EnergySource : MonoBehaviour
         {
             if (linkedObjects[i] != null)
             {
-                lineRenderers[i].SetPosition(0, transform.position);
-                lineRenderers[i].SetPosition(1, linkedObjects[i].transform.position);
+                m_LineRenderers[i].SetPosition(0, transform.position);
+                m_LineRenderers[i].SetPosition(1, linkedObjects[i].transform.position);
             }
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Bullet"))
-        {
-            if (other.gameObject.TryGetComponent(out Bullet bullet))
-            {
-                TakeDamage(bullet.Damage);
-            }
-            
-            if (other.gameObject.TryGetComponent(out Grenade grenade))
-            {
-                TakeDamage(grenade.Damage);
-            }
-        }
-    }
-    
-    public void TakeDamage(float damage)
-    {
-        currentHealth -= damage;
-        if (currentHealth <= 0)
-        {
-            foreach (EntityHealth linkedObject in linkedObjects)
-            {
-                linkedObject.LoseInvincibility();
-            }
-            Destroy(gameObject);
         }
     }
 }
