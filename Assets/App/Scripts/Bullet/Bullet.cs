@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float m_Speed;
     [SerializeField] private int m_Damage;
     [SerializeField] private float m_Knockback;
+    [SerializeField] private ForceMode m_KnockbackForceMode = ForceMode.Impulse;
 
     [Header("References")]
     [SerializeField] private Rigidbody m_RigidBody;
@@ -41,7 +42,7 @@ public class Bullet : MonoBehaviour
         this.m_Knockback = knockback;
         return this;
     }
-    
+
     public void Impact(GameObject target)
     {
         if (target.TryGetComponent(out IHealth health))
@@ -69,7 +70,7 @@ public class Bullet : MonoBehaviour
             }
 
             if(other.gameObject.TryGetComponent(out EntityController controller))
-                controller.GetRigidbody().AddForce(transform.up * m_Knockback);
+                controller.GetRigidbody().AddForce(transform.up * m_Knockback, m_KnockbackForceMode);
 
             if (other.gameObject.TryGetComponentInChildrens(out IHealth health))
                 health.TakeDamage(m_Damage);
