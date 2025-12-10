@@ -58,7 +58,7 @@ public class Barricade : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!m_BulletLayer.Contains(other.gameObject.layer)) return;
-        if (!other.TryGetComponent<Bullet>(out Bullet bullet)) return;
+        if (!other.TryGetComponent(out Bullet bullet)) return;
 
         if (bullet.GetShootPosition().Distance(m_TriggerCollider.ClosestPoint(bullet.GetShootPosition())) >
             m_DistanceThreshold)

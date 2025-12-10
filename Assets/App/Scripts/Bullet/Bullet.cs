@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -28,7 +29,9 @@ public class Bullet : MonoBehaviour
         m_RigidBody.angularVelocity = Vector3.zero;
         
         m_RigidBody.linearVelocity = transform.up * m_Speed;
-
+        
+        m_OriginalPosition = transform.position;
+        
         StartCoroutine(CheckDistanceFromPlayer());
 
         return this;

@@ -139,14 +139,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7070944917311746327}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.53, y: 0.42, z: 23.86}
   m_LocalScale: {x: 7, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2539052568091857380}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &5905662655432016645
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -193,7 +193,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7070944917311746327}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
@@ -214,11 +214,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  maxHealth: 3
-  currentHealth: 0
+  m_MaxHealth: 3
+  m_CurrentHealth: 0
   m_InvincibilityRegainDuration: 0
   m_IsInvincible: 0
+  m_OnTakeDamageFeedback:
+    m_PersistentCalls:
+      m_Calls: []
   m_OnDeathFeedback:
     m_PersistentCalls:
       m_Calls: []
-  m_DamageSFXManager: {fileID: 0}
