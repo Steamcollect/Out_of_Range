@@ -1,10 +1,12 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace MVsToolkit.Wrappers
 {
     public class RuntimeScriptableObject<T> : ScriptableObject
     {
+        [SerializeField,ReadOnly]
         private T value = default(T);
 
         public event Action<T> OnChanged;
