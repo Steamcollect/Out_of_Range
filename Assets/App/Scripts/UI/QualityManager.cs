@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class QualityManager : MonoBehaviour
+public class SettingsManager : RegularSingleton<SettingsManager>
 {
     [Title("AUDIO")]
     [SerializeField] private string m_MasterBusName;

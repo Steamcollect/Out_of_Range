@@ -27,8 +27,8 @@ public class UI_PanelTabManager : MonoBehaviour
     private Animator m_CurrentButtonAnimator;
     private Animator m_NextButtonAnimator;
 
-    private string m_PanelFadeIn = "PanelIn";
-    private string m_PanelFadeOut = "PanelOut";
+    private string m_PanelFadeIn = "FadeIn";
+    private string m_PanelFadeOut = "FadeOut";
     private string m_ButtonFadeIn = "HoverToPressed";
     private string m_ButtonFadeOut = "PressedToNormal";
 
