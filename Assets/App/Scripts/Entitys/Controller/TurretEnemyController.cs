@@ -23,6 +23,15 @@ public class TurretEnemyController : EntityController, ISpawnable
     [Space(10)]
     [SerializeField] private RSO_PlayerController m_Player;
 
+    void Start()
+    {
+        m_Health.OnTakeDamage += () =>
+        {
+            if (m_CurrentState == EnemyStates.Idle)
+                m_CurrentState = EnemyStates.Chasing;
+        };
+    }
+
     private void FixedUpdate()
     {
         if (m_CurrentState == EnemyStates.Chasing)

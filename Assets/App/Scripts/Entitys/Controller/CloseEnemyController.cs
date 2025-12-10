@@ -1,5 +1,6 @@
 using System.Collections;
 using MVsToolkit.Dev;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -33,6 +34,12 @@ public class CloseEnemyController : EntityController, ISpawnable
     {
         m_Agent.updatePosition = false;
         m_Agent.updateRotation = false;
+
+        m_Health.OnTakeDamage += () =>
+        {
+            if (m_CurrentState == EnemyStates.Idle)
+                m_CurrentState = EnemyStates.Chasing;
+        };
     }
 
     private void Update()

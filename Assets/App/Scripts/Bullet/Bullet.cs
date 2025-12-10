@@ -69,6 +69,7 @@ public class Bullet : MonoBehaviour
             {
                 print(m_Knockback);
                 controller.GetRigidbody().AddForce(transform.up * m_Knockback);
+                print("knofs");
             }
 
             if (other.gameObject.TryGetComponentInChildrens(out IHealth health))
