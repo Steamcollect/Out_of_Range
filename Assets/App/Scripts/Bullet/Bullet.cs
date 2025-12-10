@@ -64,9 +64,7 @@ public class Bullet : MonoBehaviour
 
             if (m_HitPrefab && (!other.gameObject.CompareTag("Enemy") && !other.gameObject.CompareTag("Player")))
             {
-                GameObject hitVFX = Instantiate(m_HitPrefab, pos, rot);
-
-                Destroy(hitVFX, hitVFX.GetComponent<ParticleSystem>().main.duration);
+                PoolManager.Instance.Spawn(m_HitPrefab, pos, rot);
             }
 
             if(other.gameObject.TryGetComponent(out EntityController controller))

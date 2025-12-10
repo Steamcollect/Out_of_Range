@@ -41,7 +41,7 @@ public class PoolManager : MonoBehaviour
 
     public void Prewarm(GameObject prefab, int count)
     {
-        int prefabID = prefab.GetInstanceID();
+        int prefabID = GetPrefabID(prefab);
 
         InitPool(prefab, prefabID);
 
@@ -58,9 +58,15 @@ public class PoolManager : MonoBehaviour
         }
     }
 
+    
+    private int GetPrefabID(GameObject prefab)
+    {
+        return prefab.GetHashCode();
+    }
+    
     public T Spawn<T>(T prefab, Vector3 position, Quaternion rotation, Transform parent = null) where T : Component
     {
-        int prefabID = prefab.GetInstanceID();
+        int prefabID = GetPrefabID(prefab.gameObject);
 
         InitPool(prefab.gameObject, prefabID);
 
@@ -80,6 +86,29 @@ public class PoolManager : MonoBehaviour
         spawnedObject.SetActive(true);
 
         return spawnedObject.GetComponent<T>();
+    }
+
+    public GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null)
+    {
+        int prefabID = GetPrefabID(prefab.gameObject);
+
+        InitPool(prefab.gameObject, prefabID);
+
+        GameObject spawnedObject = m_Pools[prefabID].Get();
+
+        if (parent != null)
+        {
+            spawnedObject.transform.parent = parent;
+        }
+
+        PooledObject returnHandler = spawnedObject.GetComponent<PooledObject>();
+        if (returnHandler == null) returnHandler = spawnedObject.AddComponent<PooledObject>();
+        returnHandler.Initialize(prefabID);
+
+        spawnedObject.transform.SetPositionAndRotation(position, rotation);
+
+        spawnedObject.SetActive(true);
+        return spawnedObject;
     }
 
     public void ReturnToPool(GameObject prefab, int prefabID)
