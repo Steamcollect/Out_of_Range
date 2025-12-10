@@ -220,7 +220,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4779411331893721859}
+  - component: {fileID: 4387063651905581341}
   - component: {fileID: 753641148596580737}
+  - component: {fileID: 933780352205531283}
   m_Layer: 0
   m_Name: Health
   m_TagString: Untagged
@@ -243,6 +245,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1178237167778167299}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4387063651905581341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969220214021830296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b74be04c145ce499a1c4a8e24bf541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+  m_DamageMultiplier: 1
+  m_HealthConnected:
+    _object: {fileID: 753641148596580737}
 --- !u!114 &753641148596580737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +306,29 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!136 &933780352205531283
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969220214021830296}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 3072
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 959
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5279744
+  m_Height: 2.05618
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9937, z: 0}
 --- !u!1 &2011265282424167332
 GameObject:
   m_ObjectHideFlags: 0

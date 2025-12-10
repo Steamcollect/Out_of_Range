@@ -4,7 +4,7 @@ using UnityEngine;
 public class HurtBox : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] float m_DamageMultiplier;
+    [SerializeField] float m_DamageMultiplier = 1;
 
     [Header("References")]
     [SerializeField] InterfaceReference<IHealth> m_HealthConnected;

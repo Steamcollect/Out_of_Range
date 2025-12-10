@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
+using MVsToolkit.Dev;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 public class EntityHealth : MonoBehaviour, IHealth
 {
@@ -14,7 +14,7 @@ public class EntityHealth : MonoBehaviour, IHealth
     [Header("INVINCIBILITY")]
     [SerializeField] protected float m_InvincibilityRegainDuration;
 
-    [SerializeField] protected bool m_IsInvincible;
+    [SerializeField, ReadOnly] protected bool m_IsInvincible;
 
     [Header("REFERENCES")]
     [SerializeField] protected UnityEvent m_OnTakeDamageFeedback;

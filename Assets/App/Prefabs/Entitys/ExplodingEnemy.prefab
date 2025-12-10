@@ -89,7 +89,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7992697146707956534}
+  - component: {fileID: 6134571766970536489}
   - component: {fileID: 167269885798792605}
+  - component: {fileID: 5424058489915727379}
   m_Layer: 9
   m_Name: Health
   m_TagString: Untagged
@@ -112,6 +114,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4477791156850115917}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6134571766970536489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4647163164209957630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b74be04c145ce499a1c4a8e24bf541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+  m_DamageMultiplier: 1
+  m_HealthConnected:
+    _object: {fileID: 167269885798792605}
 --- !u!114 &167269885798792605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +175,29 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!136 &5424058489915727379
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4647163164209957630}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 3072
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 959
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5279744
+  m_Height: 1.0697393
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.5004797, z: 0}
 --- !u!1 &5234240391365711775
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDetector
   m_DetectionMask:
     serializedVersion: 2
-    m_Bits: 2555
+    m_Bits: 2491
   m_PlayerTag: Player
   m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
   m_Controller: {fileID: 1728428419120648262}
