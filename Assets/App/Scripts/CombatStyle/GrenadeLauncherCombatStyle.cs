@@ -46,15 +46,6 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     {
         if (!m_CanAttack) yield break;
         
-        if (m_CurrentMana.Get() >= manaCostPerAttack)
-        {
-            m_CurrentMana.Set(m_CurrentMana.Get() - manaCostPerAttack);
-        }
-        else
-        {
-            yield break;
-        }
-        
         m_IsAttacking = true;
 
         
