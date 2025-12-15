@@ -147,7 +147,12 @@ public class PoolManager : MonoBehaviour
                 if (obj.transform.parent != m_PoolParents[prefabID])
                     obj.transform.SetParent(m_PoolParents[prefabID]);
             },
+
+#if UNITY_EDITOR
+            actionOnDestroy: (obj) => DestroyImmediate(obj),
+#else
             actionOnDestroy: (obj) => Destroy(obj),
+#endif
             defaultCapacity: 20,
             maxSize: 500
         );

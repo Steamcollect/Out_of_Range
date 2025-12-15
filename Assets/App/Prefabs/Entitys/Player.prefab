@@ -531,16 +531,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RangeOverloadCombatStyle
   m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
   manaCostPerAttack: 10
-  m_MaxTemperature: 100
-  m_ShootTemperature: 5
-  m_TemperatureLostPerSec: 7
+  m_CurentTemperature: 0
+  m_CurrentState: 0
   m_AttackCooldown: 0.15
-  m_OverloadCooldown: 0.5
-  m_OverloadRecorverySpeed: 20
-  m_TimeToCoolsAfterShoot: 0.5
-  m_BulletDamage: 1
-  m_BulletSpeed: 30
-  m_KnockBackForce: 0
+  m_ShootTemperature: 5
+  m_DefaultCoolsPerSec: 60
+  m_OverloadCoolsPerSec: 60
+  m_NerfCoolsPerSec: 60
+  m_BuffCoolsPerSec: 60
+  m_RangeToReset: {x: 30, y: 60}
+  m_RangeToBuff: {x: 15, y: 30}
+  m_RangeToNerf: {x: 5, y: 80}
   m_MeshRenderer: {fileID: 137720684722639583}
   m_ColorOverTemperature:
     serializedVersion: 2
@@ -605,6 +606,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_HandleCoolsSkillInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &5439680732867493737
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,7 +844,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6304222226276138580
 Transform:
   m_ObjectHideFlags: 0
@@ -871,16 +874,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RangeOverloadCombatStyle
   m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
   manaCostPerAttack: 10
-  m_MaxTemperature: 100
-  m_ShootTemperature: 1
-  m_TemperatureLostPerSec: 7
+  m_CurentTemperature: 0
+  m_CurrentState: 0
   m_AttackCooldown: 0.05
-  m_OverloadCooldown: 0.5
-  m_OverloadRecorverySpeed: 20
-  m_TimeToCoolsAfterShoot: 0.5
-  m_BulletDamage: 1
-  m_BulletSpeed: 30
-  m_KnockBackForce: 0
+  m_ShootTemperature: 1
+  m_DefaultCoolsPerSec: 0
+  m_OverloadCoolsPerSec: 0
+  m_NerfCoolsPerSec: 0
+  m_BuffCoolsPerSec: 0
+  m_RangeToReset: {x: 0, y: 0}
+  m_RangeToBuff: {x: 0, y: 0}
+  m_RangeToNerf: {x: 0, y: 0}
   m_MeshRenderer: {fileID: 137720684722639583}
   m_ColorOverTemperature:
     serializedVersion: 2
@@ -945,6 +949,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_HandleCoolsInput: {fileID: 0}
+  m_HandleCoolsSkillInput: {fileID: 0}
 --- !u!1 &7875768960071951559
 GameObject:
   m_ObjectHideFlags: 0
