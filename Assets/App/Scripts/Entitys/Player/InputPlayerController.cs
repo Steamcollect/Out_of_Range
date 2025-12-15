@@ -8,8 +8,8 @@ public class InputPlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] private InputActionReference m_DashIa;
     [SerializeField] private InputActionReference m_MoveIa;
-    [SerializeField] private InputActionReference m_AttackIa;
-    
+    [SerializeField] private InputActionReference m_PrimaryAttackIa;
+    [SerializeField] private InputActionReference m_SecondaryAttackIa;
     
     public Vector2 GetMoveDirection()
     {
@@ -17,9 +17,14 @@ public class InputPlayerController : MonoBehaviour
         return input.normalized;
     }
     
-    public bool IsAttackPressed()
+    public bool IsPrimaryAttackPressed()
     {
-        return m_AttackIa.action.IsPressed();
+        return m_PrimaryAttackIa.action.IsPressed();
+    }
+    
+    public bool IsSecondaryAttackPressed()
+    {
+        return m_SecondaryAttackIa.action.IsPressed();
     }
     
     public event Action<InputAction.CallbackContext> OnInputDashPressed;
@@ -28,7 +33,8 @@ public class InputPlayerController : MonoBehaviour
     {
         m_DashIa.action.Enable();
         m_MoveIa.action.Enable();
-        m_AttackIa.action.Enable();
+        m_PrimaryAttackIa.action.Enable();
+        m_SecondaryAttackIa.action.Enable();
 
         m_DashIa.action.started += Callback_OnDashPressed;
     }
@@ -37,10 +43,10 @@ public class InputPlayerController : MonoBehaviour
     
     private void OnDisable()
     {
-        
         m_DashIa.action.started -= Callback_OnDashPressed;
         
-        m_AttackIa.action.Disable();
+        m_SecondaryAttackIa.action.Disable();
+        m_PrimaryAttackIa.action.Disable();
         m_DashIa.action.Disable();
         m_MoveIa.action.Disable();
     }

@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class PlayerCombat : EntityCombat
 {
-    [Header("Internal References")]
-    [SerializeField] CombatStyle m_CurrentCombatStyle;
+    private CombatStyle m_PrimaryCombatStyle, m_SecondaryCombatStyle;
 
     [SerializeField] private InputPlayerController m_InputPlayerController;
     [Space(10)]
@@ -14,19 +13,24 @@ public class PlayerCombat : EntityCombat
     {
         LookAt(m_AimTarget.Get().position, LookAtAxis.Horizontal);
         
-        if (m_InputPlayerController.IsAttackPressed())
+        if (m_InputPlayerController.IsPrimaryAttackPressed() && m_PrimaryCombatStyle != null)
         {
-            StartCoroutine(m_CurrentCombatStyle.Attack());
+            StartCoroutine(m_PrimaryCombatStyle.Attack());
+        }
+        
+        if (m_InputPlayerController.IsSecondaryAttackPressed() && m_SecondaryCombatStyle != null)
+        {
+            StartCoroutine(m_SecondaryCombatStyle.Attack());
         }
     }
-
-    public CombatStyle GetCurrentCombatStyle()
+    
+    public void SetPrimaryCombatStyle(CombatStyle newStyle)
     {
-        return m_CurrentCombatStyle;
+        m_PrimaryCombatStyle = newStyle;
     }
     
-    public void SetCombatStyle(CombatStyle newStyle)
+    public void SetSecondaryCombatStyle(CombatStyle newStyle)
     {
-        m_CurrentCombatStyle = newStyle;
+        m_SecondaryCombatStyle = newStyle;
     }
 }

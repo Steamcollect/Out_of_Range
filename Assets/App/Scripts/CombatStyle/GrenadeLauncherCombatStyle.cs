@@ -7,7 +7,7 @@ using UnityEngine;
 /// Fonction : instancier la grenade au niveau du canon et lui donner une vitesse initiale
 /// pour qu'elle suive une trajectoire en cloche et atterrisse sur la target.
 /// </summary>
-public class GrenadeLauncher : CombatStyle
+public class GrenadeLauncherCombatStyle : CombatStyle
 {
     [Header("References")]
     [SerializeField] private GameObject m_GrenadePrefab;

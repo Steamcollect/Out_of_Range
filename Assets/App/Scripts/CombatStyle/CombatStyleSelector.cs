@@ -5,39 +5,60 @@ using UnityEngine.InputSystem;
 
 public class CombatStyleSelector : MonoBehaviour
 {
-    public List<CombatStyle> combatStyles;
-    private CombatStyle currentStyle;
-    public PlayerCombat playerCombat;
-    public InputActionReference inputActionReference_1, inputActionReference_2, inputActionReference_3;
+    [SerializeField] private PlayerCombat m_PrimaryPlayerCombat;
     
-    private InputAction inputAction1, inputAction2, inputAction3;
+    [SerializeField] private CombatStyle m_DefaultCombatStyle;
+    [SerializeField] private CombatStyle m_ShotgunCombatStyle;
+    [SerializeField] private CombatStyle m_RifleCombatStyle;
+    [SerializeField] private CombatStyle m_GrenadeLauncherCombatStyle;
+
+    [SerializeField] private RSE_OnGrenadeLauncherPickedUp m_OnGrenadeLauncherPickedUp;
+    [SerializeField] private RSE_OnShotgunPickedUp m_OnShotgunPickedUp;
+    [SerializeField] private RSE_OnRiflePickedUp m_OnRiflePickedUp;
+    
     private void OnEnable()
     {
-        inputAction1 = inputActionReference_1.action;
-        inputAction2 = inputActionReference_2.action;
-        inputAction3 = inputActionReference_3.action;
-        
-        inputAction1.Enable();
-        inputAction2.Enable();
-        inputAction3.Enable();
-        
-        inputAction1.started += ctx => SelectStyle(0);
-        inputAction2.started += ctx => SelectStyle(1);
-        inputAction3.started += ctx => SelectStyle(2);
+        m_OnGrenadeLauncherPickedUp.Action += EnableGrenadeLauncher;
+        m_OnShotgunPickedUp.Action += EnableShotgun;
+        m_OnRiflePickedUp.Action += EnableRifle;
     }
     
     private void OnDisable()
     {
-        inputAction1.started -= ctx => SelectStyle(0);
-        inputAction2.started -= ctx => SelectStyle(1);
-        inputAction3.started -= ctx => SelectStyle(2);
+        m_OnGrenadeLauncherPickedUp.Action -= EnableGrenadeLauncher;
+        m_OnShotgunPickedUp.Action -= EnableShotgun;
+        m_OnRiflePickedUp.Action -= EnableRifle;
     }
     
-    void SelectStyle(int index)
+    private void Start()
     {
-        Debug.Log("Selecting combat style index: " + index);
-        if (index < 0 || index >= combatStyles.Count) return;
-
-        playerCombat.SetCombatStyle(combatStyles[index]);
+        SetPrimaryCombatStyle(m_DefaultCombatStyle);
+        SetSecondaryCombatStyle(null);
     }
+    
+    private void SetPrimaryCombatStyle(CombatStyle style)
+    {
+        m_PrimaryPlayerCombat.SetPrimaryCombatStyle(style);
+    }
+
+    private void SetSecondaryCombatStyle(CombatStyle style)
+    {
+        m_PrimaryPlayerCombat.SetSecondaryCombatStyle(style);
+    }
+    
+    private void EnableGrenadeLauncher()
+    {
+        SetSecondaryCombatStyle(m_GrenadeLauncherCombatStyle);
+    }
+    
+    private void EnableShotgun()
+    {
+        SetPrimaryCombatStyle(m_ShotgunCombatStyle);
+    }
+    
+    private void EnableRifle()
+    {
+        SetPrimaryCombatStyle(m_DefaultCombatStyle);
+    }
+    
 }

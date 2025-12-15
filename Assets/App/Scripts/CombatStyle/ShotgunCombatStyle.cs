@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Shotgun : CombatStyle
+public class ShotgunCombatStyle : CombatStyle
 {
     [SerializeField] private int m_ShotsPerMagazine = 2;
     [SerializeField] private int m_BulletsPerShot = 8;
