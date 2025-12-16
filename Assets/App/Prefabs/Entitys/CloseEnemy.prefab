@@ -148,8 +148,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.16, y: 0, z: 15.9}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6392998862572382568}
   - {fileID: 3967571892288779133}
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_MinChaseRange: 2.2
   m_AttackRange: 4
   m_AngleRequireToAttack: 50
-  m_DelayBetweenAttacks: 0.8
+  m_DelayBetweenAttacks: 0.5
   m_CurrentState: 0
   m_Agent: {fileID: 5093296222923946697}
   m_Detector: {fileID: 6294442591581554001}
@@ -651,8 +651,8 @@ MonoBehaviour:
   m_VerticalPivot: {fileID: 3679163108035666795}
   m_HorizontalPivot: {fileID: 3833168557764820987}
   m_Damage: 1
-  m_AttackBeginDelay: 0.2
-  m_AttackFinishedDelay: 0.2
+  m_AttackBeginDelay: 0.4
+  m_AttackFinishedDelay: 0.3
   m_AttackDashForce: 30
   m_DashForceMode: 1
   m_WeaponPivot: {fileID: 9060113417848896024}
@@ -717,7 +717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 135eba6dc3255e44a8dd62d801c88833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_HorizontalLinearMovement
-  m_MoveSpeed: 80
+  m_MoveSpeed: 70
   m_Rb: {fileID: 847507863784800633}
 --- !u!1 &7407349663285629216
 GameObject:
@@ -955,7 +955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  m_MaxHealth: 12
+  m_MaxHealth: 10
   m_CurrentHealth: 0
   m_InvincibilityRegainDuration: 0
   m_IsInvincible: 0

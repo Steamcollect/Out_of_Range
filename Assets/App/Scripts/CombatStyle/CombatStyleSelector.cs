@@ -58,7 +58,7 @@ public class CombatStyleSelector : MonoBehaviour
     
     private void EnableRifle()
     {
-        SetPrimaryCombatStyle(m_DefaultCombatStyle);
+        SetPrimaryCombatStyle(m_RifleCombatStyle);
     }
     
 }

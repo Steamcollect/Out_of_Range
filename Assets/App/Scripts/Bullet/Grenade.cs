@@ -34,7 +34,7 @@ public class Grenade : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider nearbyObject in colliders)
         {
-            if (nearbyObject.gameObject.TryGetComponent(out HurtBox hurtBox))
+            if (nearbyObject.gameObject.TryGetComponent(out HurtBox hurtBox) && !nearbyObject.CompareTag("Player"))
             {
                 hurtBox.TakeDamage(m_Damage);
             }
