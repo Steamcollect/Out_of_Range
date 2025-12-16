@@ -134,8 +134,8 @@ MonoBehaviour:
   FeedbacksList:
   - rid: 491240477089857609
   - rid: 491240477089857610
-  - rid: 4705919878370164810
   - rid: 4705919900768010322
+  - rid: 4461798765613023330
   KeepPlayModeChanges: 0
   PerformanceMode: 0
   StopFeedbacksOnDisable: 0
@@ -311,11 +311,11 @@ MonoBehaviour:
         StopVisualEffectOnStopFeedback: 0
         StopVisualEffectOnReset: 0
         StopVisualEffectOnInit: 0
-    - rid: 4705919878370164810
-      type: {class: MMF_FMODSound, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
+    - rid: 4461798765613023330
+      type: {class: MMF_FMODSound, ns: MoreMountains.Feedbacks, asm: Assembly-CSharp}
       data:
         Active: 1
-        UniqueID: -1854860727
+        UniqueID: 1339816665
         Label: FMOD Sound
         ChannelMode: 0
         Channel: 0
@@ -392,14 +392,14 @@ MonoBehaviour:
             Data3: -2039845967
             Data4: -922633430
           Path: event:/Player/Blaster/EnemyHit
-        OneShot: 0
-        AttachToOwner: 0
+        OneShot: 1
+        AttachToOwner: 1
         Volume: 1
         Pitch: 1
         RandomizeVolume: 0
         RandomVolume: {x: 1, y: 1}
-        RandomizePitch: 1
-        RandomPitch: {x: 0.8, y: 1.2}
+        RandomizePitch: 0
+        RandomPitch: {x: 1, y: 1}
         StopMode: 1
     - rid: 4705919900768010322
       type: {class: MMF_ScaleSpring, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
