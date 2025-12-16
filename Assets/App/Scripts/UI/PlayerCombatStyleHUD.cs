@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -42,9 +43,27 @@ public class PlayerCombatStyleHUD : MonoBehaviour
         c.OnPrimaryCombatStyleChange += OnCombatStyleChange;
     }
 
+    private void OnDisable()
+    {
+        PlayerCombat c = m_PlayerController.Get().GetCombat() as PlayerCombat;
+        c.OnPrimaryCombatStyleChange -= OnCombatStyleChange;
+        
+        if (combat != null)
+        {
+            combat.GetPrimaryCombatStyle().OnAmmoChange -= SetFillValue;
+        }
+        
+        if (m_OverloadStyle != null)
+        {
+            m_OverloadStyle.OnOverloadStart -= EnableReloadSkills;
+            m_OverloadStyle.OnOverloadEnd -= DisableReloadSkills;
+        }
+    }
+
+    private PlayerCombat combat;
     void Init()
     {
-        PlayerCombat combat = m_PlayerController.Get().GetCombat() as PlayerCombat;
+        combat = m_PlayerController.Get().GetCombat() as PlayerCombat;
 
         combat.GetPrimaryCombatStyle().OnAmmoChange += SetFillValue;
 
@@ -89,6 +108,17 @@ public class PlayerCombatStyleHUD : MonoBehaviour
 
     void OnCombatStyleChange()
     {
+        if (combat != null)
+        {
+            combat.GetPrimaryCombatStyle().OnAmmoChange -= SetFillValue;
+        }
+        
+        if (m_OverloadStyle != null)
+        {
+            m_OverloadStyle.OnOverloadStart -= EnableReloadSkills;
+            m_OverloadStyle.OnOverloadEnd -= DisableReloadSkills;
+        }
+        
         Init();
     }
 
@@ -99,6 +129,7 @@ public class PlayerCombatStyleHUD : MonoBehaviour
 
     public void SetFillValue(float value, float max)
     {
+        Debug.Log("SetFillValue: " + value + " / " + max);
         float _value = Mathf.Clamp(value, 0, max) / max;
         m_FillImg.fillAmount = _value;
         m_CursorRct.anchoredPosition = new Vector2(
