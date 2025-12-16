@@ -1,12 +1,14 @@
 using System;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Grenade : MonoBehaviour
 {
     [SerializeField] int m_Damage;
     [SerializeField] float explosionRadius;
     [SerializeField] GameObject radiusVisualizer;
-    private GameObject explosionEffect;
+    [SerializeField] private VisualEffect explosionEffect;
+    private GameObject radius;
 
     public int Damage
     {
@@ -18,8 +20,8 @@ public class Grenade : MonoBehaviour
     {
         if (radiusVisualizer != null)
         {
-            explosionEffect = Instantiate(radiusVisualizer, position, Quaternion.identity);
-            explosionEffect.transform.localScale = Vector3.one * explosionRadius * 2f;
+            radius = Instantiate(radiusVisualizer, position, Quaternion.identity);
+            radius.transform.localScale = Vector3.one * explosionRadius * 2f;
         }
     }
 
@@ -30,7 +32,10 @@ public class Grenade : MonoBehaviour
     
     private void Explode()
     {
-        Destroy(explosionEffect);
+        Destroy(radius);
+        // Peut etre mettre une Pool ici mdrr
+        Instantiate(explosionEffect.gameObject, transform.position, Quaternion.identity);
+
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider nearbyObject in colliders)
         {
