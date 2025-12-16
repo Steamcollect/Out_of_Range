@@ -4,23 +4,23 @@ using UnityEngine.Serialization;
 
 public class Entity_Dash : MonoBehaviour
 {
-    [FormerlySerializedAs("dashCooldown")]
     [Header("SETTINGS")]
     [SerializeField] private float m_DashCooldown;
 
-    [FormerlySerializedAs("dashForceMode")] [Space(10)] [SerializeField] private ForceMode m_DashForceMode;
+    [Space(10)] 
+    [SerializeField] private ForceMode m_DashForceMode;
 
-    [FormerlySerializedAs("dashDrag")] [Space(10)] [SerializeField] private float m_DashDrag;
+    [Space(10)] 
+    [SerializeField] private float m_DashDrag;
 
-    [FormerlySerializedAs("dashForce")] [SerializeField] private float m_DashForce;
-    [FormerlySerializedAs("dadhTime")] [SerializeField] private float m_DadhTime;
-    [FormerlySerializedAs("invicibilityTime")] [SerializeField] private float m_InvicibilityTime;
+    [SerializeField] private float m_DashForce;
+    [SerializeField] private float m_DadhTime;
+    [SerializeField] private float m_InvicibilityTime;
 
-    [FormerlySerializedAs("rb")]
     [Header("REFERENCES")]
     [SerializeField] private Rigidbody m_Rb;
 
-    [FormerlySerializedAs("entityHealth")] [SerializeField] private EntityHealth m_EntityHealth;
+    [SerializeField] private EntityHealth m_EntityHealth;
 
     private float m_BeginDrag;
     private bool m_CanDash = true;
@@ -41,7 +41,14 @@ public class Entity_Dash : MonoBehaviour
 
     private IEnumerator DashTime()
     {
+        Physics.IgnoreLayerCollision(8, 9, true);
+        Physics.IgnoreLayerCollision(8, 6, true);
+
         yield return new WaitForSeconds(m_DadhTime);
+     
+        Physics.IgnoreLayerCollision(8, 9, false);
+        Physics.IgnoreLayerCollision(8, 6, false);
+        
         m_Rb.linearVelocity = m_Rb.linearVelocity.normalized;
         m_Rb.linearDamping = m_BeginDrag;
     }
