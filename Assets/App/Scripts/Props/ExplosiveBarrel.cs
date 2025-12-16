@@ -19,6 +19,7 @@ public class ExplosiveBarrel : MonoBehaviour
     [SerializeField] private VisualEffect m_ExplosionEffect;
     [SerializeField] private LayerMask mask;
 
+    public UnityEvent OnLoading;
     public UnityEvent OnExplode;
 
     private bool m_IsExploding;
@@ -55,6 +56,7 @@ public class ExplosiveBarrel : MonoBehaviour
 
     public void Loading()
     {
+        OnLoading.Invoke();
         m_LoadingEffect.gameObject.SetActive(true);
         m_LoadingEffect.Play();
     }
@@ -64,12 +66,12 @@ public class ExplosiveBarrel : MonoBehaviour
         m_LoadingEffect.Stop();
         m_LoadingEffect.gameObject.SetActive(false);
 
-        Destroy(m_BarrelMesh);
-
         OnExplode.Invoke();
         InflictDamage();
         m_ExplosionEffect.gameObject.SetActive(true);
         m_ExplosionEffect.Play();
+
+        Destroy(m_BarrelMesh);
     }
 
     public IEnumerator ExplosionVFX()
