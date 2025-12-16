@@ -15,8 +15,12 @@ public class PlayerCombatStyleHUD : MonoBehaviour
     [SerializeField] Color m_OverloadNerfColor;
     [SerializeField] Color m_OverloadResetColor;
 
+    float m_ParentWidth;
+
     [Header("References")]
     [SerializeField] Image m_FillImg;
+    [SerializeField] RectTransform m_CursorRct;
+
     [SerializeField] TMP_Text m_ReloadTxt;
     [SerializeField] RSO_PlayerCameraController m_PlayerCameraController;
 
@@ -25,7 +29,7 @@ public class PlayerCombatStyleHUD : MonoBehaviour
     [Space(10)]
     [SerializeField] RectTransform m_ParentRect;
     [SerializeField] RectTransform m_BuffZoneRct;
-    [SerializeField] RectTransform m_NerfZoneRct;
+    [SerializeField] RectTransform m_ResetZoneRct;
 
     [Header("Input")]
     [SerializeField] RSO_PlayerController m_PlayerController;
@@ -39,11 +43,40 @@ public class PlayerCombatStyleHUD : MonoBehaviour
 
         m_OverloadStyle.OnAmmoChange += SetFillValue;
 
+        m_OverloadStyle.OnOverloadStart += EnableReloadSkills;
+        m_OverloadStyle.OnOverloadEnd += DisableReloadSkills;
+
         Vector2 buffValues = m_OverloadStyle.RangeToBuff;
         Vector2 resetValues = m_OverloadStyle.RangeToReset;
-        float parentWidth = m_ParentRect.rect.width;
+        m_ParentWidth = m_ParentRect.rect.width;
 
+        if (m_BuffZoneRct != null)
+        {
+            float left = buffValues.x * (m_ParentWidth * .01f);
+            float right = buffValues.y * (m_ParentWidth * .01f);
 
+            Vector2 offMin = m_BuffZoneRct.offsetMin;
+            offMin.x = left;
+            m_BuffZoneRct.offsetMin = offMin;
+
+            Vector2 offMax = m_BuffZoneRct.offsetMax;
+            offMax.x = -(m_ParentWidth - right);
+            m_BuffZoneRct.offsetMax = offMax;
+        }
+
+        if (m_ResetZoneRct != null)
+        {
+            float left = resetValues.x * (m_ParentWidth * .01f);
+            float right = resetValues.y * (m_ParentWidth * .01f);
+
+            Vector2 offMin = m_ResetZoneRct.offsetMin;
+            offMin.x = left;
+            m_ResetZoneRct.offsetMin = offMin;
+
+            Vector2 offMax = m_ResetZoneRct.offsetMax;
+            offMax.x = -(m_ParentWidth - right);
+            m_ResetZoneRct.offsetMax = offMax;
+        }
     }
 
     private void LateUpdate()
@@ -76,7 +109,22 @@ public class PlayerCombatStyleHUD : MonoBehaviour
                 break;
         }
 
-        m_FillImg.fillAmount = Mathf.Clamp(value, 0, max) / max;
+        float _value = Mathf.Clamp(value, 0, max) / max;
+        m_FillImg.fillAmount = _value;
+        m_CursorRct.anchoredPosition = new Vector2(
+            (_value * m_ParentWidth),
+            m_CursorRct.anchoredPosition.y);
+    }
+
+    void EnableReloadSkills()
+    {
+        m_ResetZoneRct.gameObject.SetActive(true);
+        m_BuffZoneRct.gameObject.SetActive(true);
+    }
+    void DisableReloadSkills()
+    {
+        m_ResetZoneRct.gameObject.SetActive(false);
+        m_BuffZoneRct.gameObject.SetActive(false);
     }
 
     void UpdatePosition()

@@ -33,7 +33,6 @@ public class EntityHealth : MonoBehaviour, IHealth
     {
         if (m_IsInvincible) return;
 
-        //Debug.Log("Entity gain invincibility for " + m_InvincibilityRegainDuration + " seconds.");
         GainInvincibility(m_InvincibilityRegainDuration);
 
         m_CurrentHealth -= damage;
@@ -77,24 +76,9 @@ public class EntityHealth : MonoBehaviour, IHealth
 
     private IEnumerator OnInvincibilityGain(float duration)
     {
-        // Feedback gain d'invicibilit�
         m_IsInvincible = true;
-        m_CurrentInvincibilityTimer = 0;
-
-        while (m_CurrentInvincibilityTimer < duration)
-        {
-            m_CurrentInvincibilityTimer += Time.deltaTime;
-
-            yield return null;
-        }
-
-        LoseInvincibility();
-    }
-
-    private void LoseInvincibility()
-    {
+        yield return new WaitForSeconds(duration);
         m_IsInvincible = false;
-        // Feedback perte d'invincibilit�
     }
 
     public int GetMaxHealth()

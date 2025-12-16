@@ -49,7 +49,7 @@ public class RangeOverload_CombatStyle : CombatStyle
     [SerializeField] InputActionReference m_HandleCoolsSkillInput;
 
     //[Header("Output")]
-    public Action OnOverloadBuff, OnOverloadNerf, OnOverloadReset;
+    public Action OnOverloadStart, OnOverloadEnd;
 
     private void OnEnable()
     {
@@ -100,6 +100,9 @@ public class RangeOverload_CombatStyle : CombatStyle
         if (m_CurentTemperature <= 0)
         {
             m_CurentTemperature = 0;
+            if(m_CurrentState == RangeOverloadWeaponState.OverloadCool)
+                OnOverloadEnd?.Invoke();
+
             m_CurrentState = RangeOverloadWeaponState.CanShoot;
         }
 
@@ -141,6 +144,7 @@ public class RangeOverload_CombatStyle : CombatStyle
     {
         m_CurentTemperature = 100;
         m_CurrentState = RangeOverloadWeaponState.Overload;
+        OnOverloadStart?.Invoke();
 
         yield return new WaitForSeconds(m_StunDelayOnOverload);
 
@@ -167,7 +171,7 @@ public class RangeOverload_CombatStyle : CombatStyle
             m_CurrentState = RangeOverloadWeaponState.CoolBuffed;
             m_CurentTemperature = 100;
 
-            OnOverloadBuff?.Invoke();
+            OnOverloadEnd?.Invoke();
         }
         else if (m_CurentTemperature.InRange(RangeToReset))
         {
@@ -175,14 +179,14 @@ public class RangeOverload_CombatStyle : CombatStyle
             m_CurentTemperature = 0;
             OnAmmoChange?.Invoke(m_CurentTemperature, 100);
 
-            OnOverloadReset?.Invoke();
+            OnOverloadEnd?.Invoke();
         }
         else if (m_CurentTemperature.InRange(RangeToNerf))
         {
             m_CurrentState = RangeOverloadWeaponState.CoolNerfed;
             m_CurentTemperature = 100;
 
-            OnOverloadNerf?.Invoke();
+            OnOverloadEnd?.Invoke();
         }
     }
 
