@@ -28,7 +28,6 @@ public class UI_Manager : MonoBehaviour
     {
         m_OpenPauseMenuAction.action.performed += PauseMenuButton;
         m_OpenPauseMenuAction.action.Enable();
-        m_OpenScene.Action += OpenScene;
         m_QuitGame.Action += Quit;
     }
 
@@ -36,7 +35,6 @@ public class UI_Manager : MonoBehaviour
     {
         m_OpenPauseMenuAction.action.performed -= PauseMenuButton;
         m_OpenPauseMenuAction.action.Disable();
-        m_OpenScene.Action -= OpenScene;
         m_QuitGame.Action -= Quit;
     }
 
@@ -62,19 +60,6 @@ public class UI_Manager : MonoBehaviour
         Cursor.visible = false;
         Time.timeScale = 1f;
         m_OpenPanel.Call(m_ClosePanelName);
-    }
-
-    public void OpenScene(string sceneName)
-    {
-        StartCoroutine(OpenSceneWithAnimation(sceneName));
-    }
-
-    IEnumerator OpenSceneWithAnimation(string sceneName)
-    {
-        m_OpenPanel.Call("LoadingScreen");
-        yield return new WaitForSeconds(0.5f);
-        SceneLoader.Instance.LoadGameplayScene();
-        //m_LoadingScreen.LoadScene(sceneName);
     }
 
     public void Quit()
