@@ -84,4 +84,10 @@ public class RadioAntennaTrigger : MonoBehaviour
     {
         this.m_CanPlayerInteract = canPlayerInteract;
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position + m_PointerPosition, 0.1f);
+    }
 }
