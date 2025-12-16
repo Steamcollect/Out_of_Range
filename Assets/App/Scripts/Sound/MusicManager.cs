@@ -17,20 +17,20 @@ public class MusicManager : MonoBehaviour
     private void Start()
     {
         m_MusicInstance = RuntimeManager.CreateInstance(m_Music);
-        SwitchToExploration();
+        //SwitchToExploration();
         m_MusicInstance.start();
     }
 
     private void OnEnable()
     {
-        m_FightStarted.Action += SwitchToBattle;
-        m_FightEnded.Action += SwitchToExploration;
+        //m_FightStarted.Action += SwitchToBattle;
+        //m_FightEnded.Action += SwitchToExploration;
     }
 
     private void OnDisable()
     {
-        m_FightStarted.Action -= SwitchToBattle;
-        m_FightEnded.Action -= SwitchToExploration;
+        //m_FightStarted.Action -= SwitchToBattle;
+        //m_FightEnded.Action -= SwitchToExploration;
     }
 
     public void Play()
