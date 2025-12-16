@@ -9,6 +9,7 @@ public class ExplosiveBarrel : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float explosionRadius = 5f;
+    [SerializeField] private float explosionDelay = 5f;
     [SerializeField] private int m_Damage = 50;
 
     [Header("References")]
@@ -50,7 +51,7 @@ public class ExplosiveBarrel : MonoBehaviour
     {
         loadingEffect.gameObject.SetActive(true);
         loadingEffect.Play();
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(explosionDelay);
         loadingEffect.Stop();
         loadingEffect.gameObject.SetActive(false);
 

@@ -53,6 +53,7 @@ public class UI_Manager : MonoBehaviour
     {
         m_IsOpen = true;
         Cursor.visible = true;
+        Time.timeScale = 0f;
         m_OpenPanel.Call(m_OpenPanelName);
     }
 
@@ -60,6 +61,7 @@ public class UI_Manager : MonoBehaviour
     {
         m_IsOpen = false;
         Cursor.visible = false;
+        Time.timeScale = 1f;
         m_OpenPanel.Call(m_ClosePanelName);
     }
 
