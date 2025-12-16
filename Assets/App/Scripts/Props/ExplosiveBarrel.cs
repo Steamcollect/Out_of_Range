@@ -8,35 +8,41 @@ using UnityEngine.VFX;
 public class ExplosiveBarrel : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float explosionRadius = 5f;
-    [SerializeField] private float explosionDelay = 5f;
-    [SerializeField] private int m_Damage = 50;
+    [SerializeField] private float m_ExplosionRadius;
+    [SerializeField] private float m_LoadingDuration;
+    [SerializeField] private float m_ExplosionDuration;
+    [SerializeField] private int m_Damage;
 
     [Header("References")]
-    [SerializeField] private GameObject barrelModel;
-    [SerializeField] private VisualEffect loadingEffect;
-    [SerializeField] private VisualEffect explosionVFX;
+    [SerializeField] private GameObject m_BarrelMesh;
+    [SerializeField] private VisualEffect m_LoadingEffect;
+    [SerializeField] private VisualEffect m_ExplosionEffect;
+    [SerializeField] private LayerMask mask;
 
-    public UnityEvent onExplode;
+    public UnityEvent OnExplode;
+
+    private bool m_IsExploding;
 
     private void Start()
     {
-        loadingEffect.gameObject.SetActive(false);
-        explosionVFX.gameObject.SetActive(false);
+        m_LoadingEffect.gameObject.SetActive(false);
+        m_ExplosionEffect.gameObject.SetActive(false);
 
-        barrelModel.SetActive(true);
+        m_BarrelMesh.SetActive(true);
     }
-    
-    public LayerMask mask;
+
     public void Explode()
     {
-        StopAllCoroutines();
+        if(m_IsExploding) return;
+
+        m_IsExploding = true;
+
         StartCoroutine(ExplosionVFX());
     }
 
     private void InflictDamage()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, mask);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, m_ExplosionRadius, mask);
 
         foreach (Collider collider in colliders)
         {
@@ -47,28 +53,37 @@ public class ExplosiveBarrel : MonoBehaviour
         }
     }
 
+    public void Loading()
+    {
+        m_LoadingEffect.gameObject.SetActive(true);
+        m_LoadingEffect.Play();
+    }
+
+    public void Explosion()
+    {
+        m_LoadingEffect.Stop();
+        m_LoadingEffect.gameObject.SetActive(false);
+
+        Destroy(m_BarrelMesh);
+
+        OnExplode.Invoke();
+        InflictDamage();
+        m_ExplosionEffect.gameObject.SetActive(true);
+        m_ExplosionEffect.Play();
+    }
+
     public IEnumerator ExplosionVFX()
     {
-        loadingEffect.gameObject.SetActive(true);
-        loadingEffect.Play();
-        yield return new WaitForSeconds(explosionDelay);
-        loadingEffect.Stop();
-        loadingEffect.gameObject.SetActive(false);
-
-        barrelModel.SetActive(false);
-
-        onExplode.Invoke();
-        InflictDamage();
-        explosionVFX.gameObject.SetActive(true);
-        explosionVFX.Play();
-
-        yield return new WaitForSeconds(3);
+        Loading();
+        yield return new WaitForSeconds(m_LoadingDuration);
+        Explosion();
+        yield return new WaitForSeconds(m_ExplosionDuration);
         Destroy(this.gameObject);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, explosionRadius);
+        Gizmos.DrawWireSphere(transform.position, m_ExplosionRadius);
     }
 }

@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 3699643399403699370}
   - component: {fileID: 1627230516444776445}
   m_Layer: 10
-  m_Name: VFX_WarningCircle
+  m_Name: VFX_LoadingCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -485,13 +485,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99dae4e6faf1cbe409d1c80c83bc5445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExplosiveBarrel
-  explosionRadius: 6
-  explosionDelay: 0.4
+  m_ExplosionRadius: 5
+  m_LoadingDuration: 0.4
+  m_ExplosionDuration: 3
   m_Damage: 50
-  barrelModel: {fileID: 2255178432289470683}
-  loadingEffect: {fileID: 3699643399403699370}
-  explosionVFX: {fileID: 674682516080236403}
-  onExplode:
+  m_BarrelMesh: {fileID: 2255178432289470683}
+  m_LoadingEffect: {fileID: 3699643399403699370}
+  m_ExplosionEffect: {fileID: 674682516080236403}
+  mask:
+    serializedVersion: 2
+    m_Bits: 4096
+  OnExplode:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2568614247108590622}
@@ -506,9 +510,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  mask:
-    serializedVersion: 2
-    m_Bits: 4096
 --- !u!114 &2568614247108590622
 MonoBehaviour:
   m_ObjectHideFlags: 0

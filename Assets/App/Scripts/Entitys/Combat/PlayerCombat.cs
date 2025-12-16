@@ -14,7 +14,17 @@ public class PlayerCombat : EntityCombat
 
     private void Update()
     {
-        LookAt(m_AimTarget.Get().position, LookAtAxis.Horizontal);
+        Vector3 targetPosition = m_AimTarget.Get().position;
+        Vector3 currentPos = transform.position;
+
+        Vector3 direction = targetPosition - currentPos;
+
+        direction.y = 0;
+
+        if(direction.sqrMagnitude > 0.01f)
+        {
+            LookAt(m_AimTarget.Get().position, LookAtAxis.Horizontal);
+        }
         
         if (m_InputPlayerController.IsPrimaryAttackPressed() && m_PrimaryCombatStyle != null)
         {
@@ -30,7 +40,6 @@ public class PlayerCombat : EntityCombat
     public void SetPrimaryCombatStyle(CombatStyle newStyle)
     {
         m_PrimaryCombatStyle = newStyle;
-        print("qdd");
         OnPrimaryCombatStyleChange?.Invoke();
     }
     
