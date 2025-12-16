@@ -57,7 +57,7 @@ public class Bullet : MonoBehaviour
 
         ReleaseBullet();
     }
-    
+
     private void OnCollisionEnter(Collision other)
     {
         ContactPoint contact = other.contacts[0];
@@ -65,9 +65,17 @@ public class Bullet : MonoBehaviour
         Vector3 pos = contact.point;
 
         if (other.collider.gameObject.TryGetComponent(out HurtBox hurtBox))
+        {
+            if (!other.transform.CompareTag("Enemy"))
+            {
+                PoolManager.Instance.Spawn(m_HitPrefab, pos, rot);
+            }
             hurtBox.TakeDamage(m_Damage);
+        }
         else
+        {
             PoolManager.Instance.Spawn(m_HitPrefab, pos, rot);
+        }
 
         m_OnImpact.Invoke();
         ReleaseBullet();
