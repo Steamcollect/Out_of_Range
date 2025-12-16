@@ -55,10 +55,10 @@ public class WaveSystem : MonoBehaviour
             StartCoroutine(spawner.SpawnWave(m_CurrentWaveIndex, RegisterEntity));
         }
 
-        this.Delay(() =>
-        {
-            if (m_CurrentEntitiesAlive.Count == 0 && IsInFight) OnWaveComplete();
-        }, .1f);
+        //this.Delay(() =>
+        //{
+        //    if (m_CurrentEntitiesAlive.Count == 0 && IsInFight) OnWaveComplete();
+        //}, .1f);
     }
 
     private void RegisterEntity(EntityController entity)
