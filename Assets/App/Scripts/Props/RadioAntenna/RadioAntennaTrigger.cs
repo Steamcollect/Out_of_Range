@@ -8,9 +8,9 @@ using UnityEngine.Serialization;
 public class RadioAntennaTrigger : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] [TagName] private string m_PlayerTag;
+    [SerializeField, TagName] private string m_PlayerTag;
     [SerializeField] private string m_InteractInput = "E";
-    [SerializeField] [Handle(TransformLocationType.Local)] private Vector3 m_PointerPosition;
+    [SerializeField, Handle] private Vector3 m_PointerPosition;
 
     [Space(10)] 
     [SerializeField] private float m_BumpScaleValue;

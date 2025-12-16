@@ -7,17 +7,17 @@ public class ExplodingEnemyCombat : EntityCombat
     [SerializeField] int m_Damage;
     [SerializeField] float m_ExplosionRadius;
 
+    [SerializeField] LayerMask m_ExplosionMask;
+
     //[Header("References")]
     //[Header("Input")]
     //[Header("Output")]
 
     public override IEnumerator Attack()
     {
-        foreach (Collider hit in Physics.OverlapSphere(transform.position, m_ExplosionRadius))
-            if (hit.TryGetComponentInChildrens(out IHealth health))
-            {
-                health.TakeDamage(m_Damage);
-            }
+        foreach (Collider hit in Physics.OverlapSphere(transform.position, m_ExplosionRadius, m_ExplosionMask))
+            if (hit.TryGetComponent(out HurtBox hurtBox))
+                hurtBox.TakeDamage(m_Damage);
 
         yield return null;
     }
