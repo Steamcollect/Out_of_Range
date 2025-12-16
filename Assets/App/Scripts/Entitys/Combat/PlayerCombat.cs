@@ -1,4 +1,3 @@
-using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -33,5 +32,14 @@ public class PlayerCombat : EntityCombat
     public void SetSecondaryCombatStyle(CombatStyle newStyle)
     {
         m_SecondaryCombatStyle = newStyle;
+    }
+
+    public CombatStyle GetPrimaryCombatStyle()
+    {
+        return m_PrimaryCombatStyle;
+    }
+    public CombatStyle GetSecondaryCombatStyle()
+    {
+        return m_SecondaryCombatStyle;
     }
 }

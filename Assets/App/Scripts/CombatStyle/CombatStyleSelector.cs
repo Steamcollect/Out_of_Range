@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CombatStyleSelector : MonoBehaviour
 {
@@ -30,7 +27,7 @@ public class CombatStyleSelector : MonoBehaviour
         m_OnRiflePickedUp.Action -= EnableRifle;
     }
     
-    private void Start()
+    private void Awake()
     {
         SetPrimaryCombatStyle(m_DefaultCombatStyle);
         SetSecondaryCombatStyle(null);

@@ -9,6 +9,7 @@ public class RangeOverload_CombatStyleEditor : Editor
 
     SerializedProperty p_AttackCooldown;
     SerializedProperty p_ShootTemperature;
+    SerializedProperty p_StunDelayOnOverload;
 
     SerializedProperty p_DefaultCoolsPerSec;
     SerializedProperty p_OverloadCoolsPerSec;
@@ -43,15 +44,16 @@ public class RangeOverload_CombatStyleEditor : Editor
 
         p_AttackCooldown = serializedObject.FindProperty("m_AttackCooldown");
         p_ShootTemperature = serializedObject.FindProperty("m_ShootTemperature");
+        p_StunDelayOnOverload = serializedObject.FindProperty("m_StunDelayOnOverload");
 
         p_DefaultCoolsPerSec = serializedObject.FindProperty("m_DefaultCoolsPerSec");
         p_OverloadCoolsPerSec = serializedObject.FindProperty("m_OverloadCoolsPerSec");
         p_NerfCoolsPerSec = serializedObject.FindProperty("m_NerfCoolsPerSec");
         p_BuffCoolsPerSec = serializedObject.FindProperty("m_BuffCoolsPerSec");
 
-        p_RangeToReset = serializedObject.FindProperty("m_RangeToReset");
-        p_RangeToBuff = serializedObject.FindProperty("m_RangeToBuff");
-        p_RangeToNerf = serializedObject.FindProperty("m_RangeToNerf");
+        p_RangeToReset = serializedObject.FindProperty("RangeToReset");
+        p_RangeToBuff = serializedObject.FindProperty("RangeToBuff");
+        p_RangeToNerf = serializedObject.FindProperty("RangeToNerf");
 
         p_MeshRenderer = serializedObject.FindProperty("m_MeshRenderer");
         p_ColorOverTemperature = serializedObject.FindProperty("m_ColorOverTemperature");
@@ -79,6 +81,7 @@ public class RangeOverload_CombatStyleEditor : Editor
 
         EditorGUILayout.Space(5);
         EditorGUILayout.PropertyField(p_ShootTemperature);
+        EditorGUILayout.PropertyField(p_StunDelayOnOverload);
 
         EditorGUILayout.Space(10);
         EditorGUILayout.PropertyField(p_DefaultCoolsPerSec);
