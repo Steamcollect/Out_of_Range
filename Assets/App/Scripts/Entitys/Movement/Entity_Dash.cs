@@ -14,7 +14,7 @@ public class Entity_Dash : MonoBehaviour
     [SerializeField] private float m_DashDrag;
 
     [SerializeField] private float m_DashForce;
-    [SerializeField] private float m_DadhTime;
+    [SerializeField] private float m_DashTime;
     [SerializeField] private float m_InvicibilityTime;
 
     [Header("REFERENCES")]
@@ -38,17 +38,20 @@ public class Entity_Dash : MonoBehaviour
         StartCoroutine(DashTime());
         StartCoroutine(DashCooldown());
     }
-
+    
     private IEnumerator DashTime()
     {
         Physics.IgnoreLayerCollision(8, 9, true);
         Physics.IgnoreLayerCollision(8, 6, true);
+        Physics.IgnoreLayerCollision(12, 6, true);
 
-        yield return new WaitForSeconds(m_DadhTime);
+        Debug.Log("Dash started");
+        yield return new WaitForSeconds(m_DashTime);
      
         Physics.IgnoreLayerCollision(8, 9, false);
         Physics.IgnoreLayerCollision(8, 6, false);
-        
+        Physics.IgnoreLayerCollision(12, 6, false);
+        Debug.Log("Dash ended");
         m_Rb.linearVelocity = m_Rb.linearVelocity.normalized;
         m_Rb.linearDamping = m_BeginDrag;
     }
