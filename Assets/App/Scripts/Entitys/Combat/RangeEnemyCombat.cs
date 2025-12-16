@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using MVsToolkit.Dev;
 using UnityEngine;
@@ -28,6 +29,7 @@ public class RangeEnemyCombat : EntityCombat
     
     [Header("Output")]
     [SerializeField] private UnityEvent m_OnShoot;
+    public event Action<float> OnPrepareToShoot;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -40,8 +42,9 @@ public class RangeEnemyCombat : EntityCombat
 
     public override IEnumerator Attack()
     {
+        OnPrepareToShoot?.Invoke(m_TimeBeforeAttack);
         yield return new WaitForSeconds(m_TimeBeforeAttack);
-
+        
         int bulletsFired = 0;
 
         isShooting = true;
