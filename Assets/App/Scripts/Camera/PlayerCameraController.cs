@@ -13,8 +13,13 @@ public class PlayerCameraController : MonoBehaviour
     
     [Header("Output")]
     [SerializeField] private RSO_PlayerCameraController m_PlayerCamera;
+    
+    private void OnEnable()
+    {
+        m_PlayerCamera.Set(this);
+        m_CinemachineCamera.ForceCameraPosition(m_PlayerController.Get().GetTargetPosition(),m_CinemachineCamera.transform.rotation);
+    }
 
-    private void OnEnable() => m_PlayerCamera.Set(this);
     private void OnDisable() => m_PlayerCamera.Set(null);
 
     public Camera GetCamera() => m_Camera;
