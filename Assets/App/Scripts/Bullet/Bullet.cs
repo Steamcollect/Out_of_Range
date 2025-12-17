@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float m_Speed;
     [SerializeField] int m_Damage;
+    [SerializeField] float m_Lifetime = 5f;
 
     Vector3 m_OriginalPosition;
 
@@ -83,7 +84,7 @@ public class Bullet : MonoBehaviour
 
     IEnumerator TimeBeforeReset()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(m_Lifetime);
         ReleaseBullet();
     }
 
