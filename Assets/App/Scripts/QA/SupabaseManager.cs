@@ -8,9 +8,7 @@ public class SupabaseManager : MonoBehaviour
     public static SupabaseManager Instance { get; private set; }
     public bool isInitialized;
     
-    // Récupère ces infos dans ton dashboard Supabase : Project Settings > API
-    [SerializeField] private string supabaseUrl = "TON_URL_SUPABASE";
-    [SerializeField] private string supabaseAnonKey = "TON_ANON_KEY";
+    [SerializeField] private SSO_SupabaseConfig supabaseConfig;
 
     public Client Supabase { get; private set; }
 
@@ -36,7 +34,7 @@ public class SupabaseManager : MonoBehaviour
             AutoConnectRealtime = true
         };
 
-        Supabase = new Client(supabaseUrl, supabaseAnonKey, options);
+        Supabase = new Client(supabaseConfig.supabaseUrl, supabaseConfig.supabaseAnonKey, options);
         await Supabase.InitializeAsync();
         Debug.Log("Supabase initialisé !");
         isInitialized = true;
