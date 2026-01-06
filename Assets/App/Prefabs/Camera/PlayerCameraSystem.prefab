@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7981556146452076539}
   - component: {fileID: 4686203961174464103}
   - component: {fileID: 6748264865947795492}
+  - component: {fileID: 3096722457644434162}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -170,6 +171,20 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &3096722457644434162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743177669425214954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &3953542922304542600
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +306,7 @@ MonoBehaviour:
   m_LayerMaskTargets:
     serializedVersion: 2
     m_Bits: 512
-  m_RadiusCursorDetection: 5
+  m_RadiusCursorDetection: 2.5
   m_MinMaxDistanceToTarget: {x: 1, y: 20}
   m_QueryTriggerInteraction: 1
   m_MousePositionIa: {fileID: 3186695138886981126, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -382,7 +397,7 @@ MonoBehaviour:
     NearClipPlane: 0.01
     FarClipPlane: 1000
     Dutch: 0
-    ModeOverride: 0
+    ModeOverride: 1
     PhysicalProperties:
       GateFit: 2
       SensorSize: {x: 21.946, y: 16.002}

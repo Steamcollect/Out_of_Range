@@ -36,7 +36,7 @@ public class PlayerCombatStyleHUD : MonoBehaviour
 
     //[Header("Output")]
 
-    private void Awake()
+    private void Start()
     {
         PlayerCombat c = m_PlayerController.Get().GetPlayerCombat();
         c.OnPrimaryCombatStyleChange += OnCombatStyleChange;
