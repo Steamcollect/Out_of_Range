@@ -1,19 +1,32 @@
 using System;
+using System.Threading;
 using UnityEngine;
 using Supabase;
 using System.Threading.Tasks;
 
 public class SupabaseManager : MonoBehaviour
 {
-    public static SupabaseManager Instance { get; private set; }
-    public bool isInitialized;
+    public RSE_OnPlayerDie m_OnPlayerDie;
+    public RSO_PlayerController m_PlayerController;
     
-    [SerializeField] private SSO_SupabaseConfig supabaseConfig;
+    public static SupabaseManager Instance { get; private set; }
+    private bool m_IsInitialized;
+    public bool IsInitialized => m_IsInitialized;
+    
+    [SerializeField] private SSO_SupabaseConfig m_SupabaseConfig;
 
     public Client Supabase { get; private set; }
-
+    
+    private Guid runID = Guid.Empty;
+    
     private async void Awake()
     {
+        // On enregistre pas de données hors des builds
+        if (Application.isEditor)
+        {
+            return;
+        }
+        
         if (Instance == null)
         {
             Instance = this;
@@ -26,6 +39,35 @@ public class SupabaseManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (Application.isEditor)
+        {
+            return;
+        }
+        
+        m_OnPlayerDie.Action += HandlePlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        m_OnPlayerDie.Action -= HandlePlayerDeath;
+    }
+    
+    private async void HandlePlayerDeath()
+    {
+        DeathQueries dq = new DeathQueries();
+        await dq.CreateDeath(runID, m_PlayerController.Get().transform.position);
+    }
+    
+    private async void HandleCheckpoint()
+    {
+        throw new NotImplementedException();
+        
+        CheckpointQueries cq = new CheckpointQueries();
+        await cq.CreateCheckpoint(runID);
+    }
+    
     private async Task InitializeSupabase()
     {
         var options = new SupabaseOptions
@@ -34,19 +76,10 @@ public class SupabaseManager : MonoBehaviour
             AutoConnectRealtime = true
         };
 
-        Supabase = new Client(supabaseConfig.supabaseUrl, supabaseConfig.supabaseAnonKey, options);
+        Supabase = new Client(m_SupabaseConfig.supabaseUrl, m_SupabaseConfig.supabaseAnonKey, options);
         await Supabase.InitializeAsync();
-        Debug.Log("Supabase initialisé !");
-        isInitialized = true;
+        m_IsInitialized = true;
         RunQueries rq = new RunQueries();
-        try
-        {
-            Guid newRunId = await rq.CreateRun("1.0.0");
-            Debug.Log($"Nouveau Run créé avec l'ID : {newRunId}");
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Erreur lors de la création du Run : {ex.Message}");
-        }
+        runID = await rq.CreateRun("1.0.0");
     }
 }

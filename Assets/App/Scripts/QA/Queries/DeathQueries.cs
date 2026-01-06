@@ -1,13 +1,15 @@
 using System;
 using System.Threading.Tasks;
+using UnityEngine;
 
-public class RunQueries
+public class DeathQueries
 {
-    public async Task<Guid> CreateRun(string buildVersion)
+    public async Task<Guid> CreateDeath(Guid runID, Vector3 position)
     {
-        var newRun = new RunModel
+        var newDeath = new DeathModel
         {
-            Build = buildVersion,
+            Run = runID,
+            Position = position.ToString("F2"),
             CreatedAt = DateTime.UtcNow.ToString("o") // Format ISO 8601
         };
 
@@ -26,14 +28,14 @@ public class RunQueries
         }
 
         var response = await SupabaseManager.Instance.Supabase
-            .From<RunModel>()
-            .Insert(newRun);
+            .From<DeathModel>()
+            .Insert(newDeath);
 
         if (response.Model != null)
         {
             return response.Model.Id;
         }
 
-        throw new InvalidOperationException("Failed to create Run: no model returned from the database.");
+        throw new InvalidOperationException("Failed to create Death: no model returned from the database.");
     }
 }

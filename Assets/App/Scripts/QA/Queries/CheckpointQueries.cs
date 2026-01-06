@@ -1,14 +1,14 @@
 using System;
 using System.Threading.Tasks;
 
-public class RunQueries
+public class CheckpointQueries
 {
-    public async Task<Guid> CreateRun(string buildVersion)
+    public async Task<Guid> CreateCheckpoint(Guid runID)
     {
-        var newRun = new RunModel
+        var newCheckpoint = new CheckpointModel
         {
-            Build = buildVersion,
-            CreatedAt = DateTime.UtcNow.ToString("o") // Format ISO 8601
+            CreatedAt = DateTime.UtcNow.ToString("o"), // Format ISO 8601
+            Run = runID
         };
 
         // Attendre que SupabaseManager soit initialisé (avec timeout)
@@ -26,14 +26,14 @@ public class RunQueries
         }
 
         var response = await SupabaseManager.Instance.Supabase
-            .From<RunModel>()
-            .Insert(newRun);
+            .From<CheckpointModel>()
+            .Insert(newCheckpoint);
 
         if (response.Model != null)
         {
             return response.Model.Id;
         }
 
-        throw new InvalidOperationException("Failed to create Run: no model returned from the database.");
+        throw new InvalidOperationException("Failed to create Checkpoint: no model returned from the database.");
     }
 }
