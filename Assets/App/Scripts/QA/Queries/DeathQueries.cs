@@ -9,7 +9,7 @@ public class DeathQueries
         var newDeath = new DeathModel
         {
             Run = runID,
-            Position = position.ToString("F2"),
+            Position = new PositionDto(position),
             CreatedAt = DateTime.UtcNow.ToString("o") // Format ISO 8601
         };
 
