@@ -29,13 +29,36 @@ public class CombatStyleSelector : MonoBehaviour
     
     private void Start()
     {
-        SetPrimaryCombatStyle(m_DefaultCombatStyle);
-        SetSecondaryCombatStyle(null);
+        if (CombatStyleSelectorPersistant.HasRifle() || CombatStyleSelectorPersistant.HasShotgun())
+        {
+            if (CombatStyleSelectorPersistant.HasRifle())
+            {
+                SetPrimaryCombatStyle(m_RifleCombatStyle);
+            }
+            else if (CombatStyleSelectorPersistant.HasShotgun())
+            {
+                SetPrimaryCombatStyle(m_ShotgunCombatStyle);
+            }
+        }
+        else
+        {
+            SetPrimaryCombatStyle(m_DefaultCombatStyle);
+        }
+        
+        if (CombatStyleSelectorPersistant.HasLaunchGrenade())
+        {
+            SetSecondaryCombatStyle(m_GrenadeLauncherCombatStyle);
+        }
+        else
+        {
+            SetSecondaryCombatStyle(null);
+        }
     }
     
     private void SetPrimaryCombatStyle(CombatStyle style)
     {
         m_PrimaryPlayerCombat.SetPrimaryCombatStyle(style);
+        
     }
 
     private void SetSecondaryCombatStyle(CombatStyle style)
@@ -45,17 +68,68 @@ public class CombatStyleSelector : MonoBehaviour
     
     private void EnableGrenadeLauncher()
     {
+        CombatStyleSelectorPersistant.SetHasLaunchGrenade();
         SetSecondaryCombatStyle(m_GrenadeLauncherCombatStyle);
     }
     
     private void EnableShotgun()
     {
+        CombatStyleSelectorPersistant.SetHasShotgun();
         SetPrimaryCombatStyle(m_ShotgunCombatStyle);
     }
     
     private void EnableRifle()
     {
+        CombatStyleSelectorPersistant.SetHasRifle();
         SetPrimaryCombatStyle(m_RifleCombatStyle);
     }
     
+}
+
+
+public static class CombatStyleSelectorPersistant
+{
+    private static bool s_HasLaunchGrenade;
+    private static bool s_HasShotgun;
+    private static bool s_HasRifle;
+    
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    public static void Initialize()
+    {
+        s_HasLaunchGrenade = false;
+        s_HasShotgun = false;
+        s_HasRifle = false;
+    }
+    
+    public static void SetHasLaunchGrenade()
+    {
+        s_HasLaunchGrenade = true;
+    }
+    
+    public static void SetHasShotgun()
+    {
+        s_HasShotgun = true;
+        s_HasRifle = false;
+    }
+    
+    
+    public static void SetHasRifle()
+    {
+        s_HasRifle = true;
+        s_HasShotgun = false;
+    }
+    
+    public static bool HasLaunchGrenade()
+    {
+        return s_HasLaunchGrenade;
+    }
+    public static bool HasShotgun()
+    {
+        return s_HasShotgun;
+    }
+
+    public static bool HasRifle()
+    {
+        return s_HasRifle;
+    }
 }
