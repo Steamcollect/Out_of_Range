@@ -4,8 +4,8 @@ public static class PlayerSpawnPoint
 {
     public static Vector3 S_Position;
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    public static void Init()
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    public static void Initialize()
     {
         S_Position = Vector3.zero;
     }

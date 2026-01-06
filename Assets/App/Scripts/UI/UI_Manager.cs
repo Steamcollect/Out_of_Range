@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using System.Collections;
 using UnityEngine;
@@ -26,13 +27,21 @@ public class UI_Manager : MonoBehaviour
 
     private void OnEnable()
     {
+        m_OpenScene.Action += Restart;
         m_OpenPauseMenuAction.action.performed += PauseMenuButton;
         m_OpenPauseMenuAction.action.Enable();
         m_QuitGame.Action += Quit;
     }
 
+    private void Restart(string sceneName)
+    {
+        PlayerSpawnPoint.Initialize();
+        CombatStyleSelectorPersistant.Initialize();
+    }
+
     private void OnDisable()
     {
+        m_OpenScene.Action -= Restart;
         m_OpenPauseMenuAction.action.performed -= PauseMenuButton;
         m_OpenPauseMenuAction.action.Disable();
         m_QuitGame.Action -= Quit;

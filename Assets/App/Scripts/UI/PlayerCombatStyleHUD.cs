@@ -1,3 +1,4 @@
+using MVsToolkit.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,8 +39,13 @@ public class PlayerCombatStyleHUD : MonoBehaviour
 
     private void Start()
     {
-        PlayerCombat c = m_PlayerController.Get().GetPlayerCombat();
-        c.OnPrimaryCombatStyleChange += OnCombatStyleChange;
+        this.Delay(() =>
+        {
+            PlayerCombat c = m_PlayerController.Get().GetPlayerCombat();
+            c.OnPrimaryCombatStyleChange += OnCombatStyleChange;
+            Init();
+        },new WaitUntil(()=> m_PlayerController.Get().GetPlayerCombat()));
+        
     }
 
     private void OnDisable()

@@ -44,15 +44,8 @@ public class CombatStyleSelector : MonoBehaviour
         {
             SetPrimaryCombatStyle(m_DefaultCombatStyle);
         }
-        
-        if (CombatStyleSelectorPersistant.HasLaunchGrenade())
-        {
-            SetSecondaryCombatStyle(m_GrenadeLauncherCombatStyle);
-        }
-        else
-        {
-            SetSecondaryCombatStyle(null);
-        }
+
+        SetSecondaryCombatStyle(CombatStyleSelectorPersistant.HasLaunchGrenade() ? m_GrenadeLauncherCombatStyle : null);
     }
     
     private void SetPrimaryCombatStyle(CombatStyle style)
