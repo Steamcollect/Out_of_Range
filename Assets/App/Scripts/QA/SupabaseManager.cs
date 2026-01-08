@@ -8,6 +8,7 @@ public class SupabaseManager : MonoBehaviour
 {
     public RSE_OnPlayerDie m_OnPlayerDie;
     public RSO_PlayerController m_PlayerController;
+    public RSE_OnCheckpointRegistered m_OnCheckpointRegistered;
     
     public static SupabaseManager Instance { get; private set; }
     private bool m_IsInitialized;
@@ -47,11 +48,13 @@ public class SupabaseManager : MonoBehaviour
         }
         
         m_OnPlayerDie.Action += HandlePlayerDeath;
+        m_OnCheckpointRegistered.Action += HandleCheckpoint;
     }
 
     private void OnDisable()
     {
         m_OnPlayerDie.Action -= HandlePlayerDeath;
+        m_OnCheckpointRegistered.Action -= HandleCheckpoint;
     }
     
     private async void HandlePlayerDeath()
@@ -62,8 +65,6 @@ public class SupabaseManager : MonoBehaviour
     
     private async void HandleCheckpoint()
     {
-        throw new NotImplementedException();
-        
         CheckpointQueries cq = new CheckpointQueries();
         await cq.CreateCheckpoint(runID);
     }
@@ -80,6 +81,7 @@ public class SupabaseManager : MonoBehaviour
         await Supabase.InitializeAsync();
         m_IsInitialized = true;
         RunQueries rq = new RunQueries();
-        runID = await rq.CreateRun("1.0.0");
+        String version = Application.version;
+        runID = await rq.CreateRun(version);
     }
 }
