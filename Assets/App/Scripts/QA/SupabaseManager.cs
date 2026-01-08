@@ -25,7 +25,7 @@ public class SupabaseManager : MonoBehaviour
         // On enregistre pas de données hors des builds
         if (Application.isEditor)
         {
-            //return;
+            return;
         }
         
         if (Instance == null)
@@ -44,7 +44,7 @@ public class SupabaseManager : MonoBehaviour
     {
         if (Application.isEditor)
         {
-            //return;
+            return;
         }
         
         m_OnPlayerDie.Action += HandlePlayerDeath;
