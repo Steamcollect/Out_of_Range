@@ -8,8 +8,10 @@ public class EntityHealth : MonoBehaviour, IHealth
 {
     [Header("HEALTH")]
     [SerializeField] protected int m_MaxHealth;
-
     [SerializeField] protected int m_CurrentHealth;
+
+    [SerializeField] bool m_ClampDamage;
+    [SerializeField, ShowIf("m_ClampDamage", true)] int m_MaxDamage;
 
     [Header("INVINCIBILITY")]
     [SerializeField] protected float m_InvincibilityRegainDuration;
@@ -32,6 +34,8 @@ public class EntityHealth : MonoBehaviour, IHealth
     public void TakeDamage(int damage)
     {
         if (m_IsInvincible) return;
+
+        if (m_ClampDamage) damage = Mathf.Clamp(damage, 0, m_MaxDamage);
 
         GainInvincibility(m_InvincibilityRegainDuration);
 
