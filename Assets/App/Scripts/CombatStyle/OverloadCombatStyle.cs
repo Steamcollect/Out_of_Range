@@ -31,7 +31,12 @@ public abstract class OverloadCombatStyle : CombatStyle
     [SerializeField, FoldoutGroup("Overload Settings"), DrawInRect("DrawReloadRect")] int drawReloadRect;
 
     [Space(10)]
+    [SerializeField, FoldoutGroup("Overload Settings")] protected float m_TimeBeforeAutoCool;
+    
+    [Space(10)]
     [SerializeField] protected float m_AttackCooldown;
+
+    protected float m_AutoCoolTimer;
 
     //[Header("References")]
     [Header("Input")]
@@ -63,6 +68,13 @@ public abstract class OverloadCombatStyle : CombatStyle
     {
         switch (m_CurrentState)
         {
+            case OverloadWeaponState.CanShoot:
+                m_AutoCoolTimer += Time.deltaTime;
+
+                if(m_AutoCoolTimer >= m_TimeBeforeAutoCool)
+                    HandleCool(m_DefaultCoolsPerSec);
+                break;
+
             case OverloadWeaponState.DefaultCool:
                 HandleCool(m_DefaultCoolsPerSec);
                 break;
@@ -79,7 +91,7 @@ public abstract class OverloadCombatStyle : CombatStyle
         }
     }
 
-    void HandleCool(float coolSpeed)
+    protected virtual void HandleCool(float coolSpeed)
     {
         m_CurentTemperature -= coolSpeed * Time.deltaTime;
 
@@ -94,11 +106,6 @@ public abstract class OverloadCombatStyle : CombatStyle
 
         OnAmmoChange?.Invoke(m_CurentTemperature, 100);
     }
-
-    public float GetCurrentTemperature() => m_CurentTemperature;
-    public OverloadWeaponState GetOverloadWeaponState() => m_CurrentState;
-    public Vector2 GetRangeToBuff() => RangeToBuff;
-    public Vector2 GetRangeToReset() => RangeToReset;
 
     protected virtual IEnumerator OnOverload()
     {
@@ -153,12 +160,9 @@ public abstract class OverloadCombatStyle : CombatStyle
     protected virtual IEnumerator AttackCooldown()
     {
         m_CanAttack = false;
+        m_AutoCoolTimer = 0;
         yield return new WaitForSeconds(m_AttackCooldown);
         m_CanAttack = true;
-    }
-    public virtual OverloadWeaponState GetState()
-    {
-        return m_CurrentState;
     }
 
     private void OnValidate()
@@ -172,6 +176,13 @@ public abstract class OverloadCombatStyle : CombatStyle
         RangeToNerf.x = Mathf.Clamp(RangeToNerf.x, 0, 100);
         RangeToNerf.y = Mathf.Clamp(RangeToNerf.y, 0, 100);
     }
+
+    #region Getter
+    public float GetCurrentTemperature() => m_CurentTemperature;
+    public OverloadWeaponState GetState() => m_CurrentState;
+    public Vector2 GetRangeToBuff() => RangeToBuff;
+    public Vector2 GetRangeToReset() => RangeToReset;
+    #endregion
 
 #if UNITY_EDITOR
     void DrawReloadRect(Rect rect)

@@ -108,22 +108,27 @@ public class PlayerCombatStyleHUD : MonoBehaviour
         {
             case OverloadWeaponState.CanShoot:
                 m_FillImg.color = m_ShootColor;
+                m_ReloadTxt.text = _value > .5f ? "[R]" : string.Empty;
                 break;
 
-                case OverloadWeaponState.DefaultCool:
+            case OverloadWeaponState.DefaultCool:
                 m_FillImg.color = m_ReloadColor;
+                m_ReloadTxt.text = string.Empty;
                 break;
 
-                case OverloadWeaponState.CoolBuffed:
+            case OverloadWeaponState.CoolBuffed:
                 m_FillImg.color = m_OverloadBuffColor;
+                m_ReloadTxt.text = string.Empty;
                 break;
 
-                case OverloadWeaponState.CoolNerfed:
+            case OverloadWeaponState.CoolNerfed:
                 m_FillImg.color = m_OverloadNerfColor;
+                m_ReloadTxt.text = string.Empty;
                 break;
 
-                case OverloadWeaponState.OverloadCool:
+            case OverloadWeaponState.OverloadCool:
                 m_FillImg.color = m_ReloadColor;
+                m_ReloadTxt.text = "LClick";
                 break;
         }
     }
