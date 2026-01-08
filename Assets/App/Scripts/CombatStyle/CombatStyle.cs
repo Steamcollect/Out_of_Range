@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class CombatStyle : MonoBehaviour
 {
@@ -11,9 +12,17 @@ public abstract class CombatStyle : MonoBehaviour
     
     [SerializeField] protected RSO_Mana m_CurrentMana;
     [SerializeField] protected float manaCostPerAttack = 10f;
-    
+
+    [SerializeField] protected InputAttackType m_InputAttackType;
+    public enum InputAttackType { Auto, SemiAuto}
+
     public Action OnAttack;
     public Action OnReload;
+
+    public virtual void AttackStart(InputAction.CallbackContext ctx)
+    {
+        StartCoroutine(Attack());
+    }
 
     public virtual IEnumerator Attack() { yield break; }
     public virtual void StopAttack()
@@ -21,9 +30,7 @@ public abstract class CombatStyle : MonoBehaviour
         m_IsAttacking = false;
     }
     
-    public virtual void Reload()
-    {
-    }
+    public virtual void Reload() { }
 
     public bool IsAttacking()
     {
@@ -34,4 +41,6 @@ public abstract class CombatStyle : MonoBehaviour
     {
         return m_CanAttack;
     }
+
+    public InputAttackType GetInputAttackType() => m_InputAttackType;
 }
