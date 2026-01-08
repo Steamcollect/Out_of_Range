@@ -83,6 +83,9 @@ public class RadioAntennaTrigger : MonoBehaviour
     public void SetCanPlayerInteract(bool canPlayerInteract)
     {
         this.m_CanPlayerInteract = canPlayerInteract;
+
+        if (canPlayerInteract == false)
+            InteractionUIManager.S_Instance.ReturnPointer(m_CurrentPointer);
     }
 
     private void OnDrawGizmos()
