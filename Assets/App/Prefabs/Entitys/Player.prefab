@@ -135,6 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GrenadeLauncherCombatStyle
   m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
   manaCostPerAttack: 0
+  m_InputAttackType: 1
   m_GrenadePrefab: {fileID: 3561684886862256561, guid: e1b2f896c04f27242a8e99efd5534f90, type: 3}
   m_FirePoint: {fileID: 874208509811087154}
   m_AimTarget: {fileID: 11400000, guid: 09f66405bedce16448f02f1b689a9c4a, type: 2}
@@ -349,8 +350,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InputPlayerController
   m_DashIa: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_MoveIa: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_PrimaryAttackIa: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_SecondaryAttackIa: {fileID: 3904447635185269525, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  PrimaryAttackIa: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  SecondaryAttackIa: {fileID: 3904447635185269525, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!208 &3956271624679390256
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -531,6 +532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RangeOverloadCombatStyle
   m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
   manaCostPerAttack: 10
+  m_InputAttackType: 0
   m_CurentTemperature: 0
   m_CurrentState: 0
   m_ShootTemperature: 3
@@ -657,6 +659,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RangeOverloadCombatStyle
   m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
   manaCostPerAttack: 10
+  m_InputAttackType: 0
   m_CurentTemperature: 0
   m_CurrentState: 0
   m_ShootTemperature: 5
@@ -1003,6 +1006,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShotgunCombatStyle
   m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
   manaCostPerAttack: 0
+  m_InputAttackType: 1
   m_CurentTemperature: 0
   m_CurrentState: 0
   m_ShootTemperature: 50
