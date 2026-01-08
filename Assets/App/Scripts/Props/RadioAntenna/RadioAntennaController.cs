@@ -33,6 +33,7 @@ public class RadioAntennaController : MonoBehaviour
         if (m_HasInteract) return;
 
         m_HasInteract = true;
+        m_Trigger.SetCanPlayerInteract(false);
         m_OnPlayerInteract.Invoke();
     }
 }

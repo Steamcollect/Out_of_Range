@@ -108,7 +108,7 @@ public class PlayerCombatStyleHUD : MonoBehaviour
         {
             case OverloadWeaponState.CanShoot:
                 m_FillImg.color = m_ShootColor;
-                m_ReloadTxt.text = _value > .5f ? "[R]" : string.Empty;
+                m_ReloadTxt.text = _value > .5f ? "R" : string.Empty;
                 break;
 
             case OverloadWeaponState.DefaultCool:
