@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,7 +37,7 @@ public class PlayerCombatStyleHUD : MonoBehaviour
 
     //[Header("Output")]
 
-    private void Awake()
+    private void OnEnable()
     {
         PlayerCombat c = m_PlayerController.Get().GetPlayerCombat();
         c.OnPrimaryCombatStyleChange += OnCombatStyleChange;
