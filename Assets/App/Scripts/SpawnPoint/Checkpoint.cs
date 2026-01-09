@@ -3,6 +3,9 @@ using UnityEngine.Serialization;
 
 public class Checkpoint : MonoBehaviour
 {
+    [Header("Outputs")]
+    [SerializeField] private RSE_OnCheckpointRegistered m_OnCheckpointRegistered;
+    
     [Header("Settings")]
     [SerializeField] private bool m_ApplySpawnPosOnStart;
 
@@ -22,7 +25,12 @@ public class Checkpoint : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            PlayerSpawnPoint.S_Position = m_SpawnPoint.position;
+            if (PlayerSpawnPoint.S_Position != m_SpawnPoint.position)
+            {
+                m_OnCheckpointRegistered.Call();
+                PlayerSpawnPoint.S_Position = m_SpawnPoint.position;
+            }
+            
             if (other.TryGetComponent(out EntityController controller))
                controller.GetHealth().TakeHealth(controller.GetHealth().GetMaxHealth());
         }
