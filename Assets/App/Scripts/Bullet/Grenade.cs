@@ -6,8 +6,10 @@ public class Grenade : MonoBehaviour
 {
     [SerializeField] float m_ExplosionRadius = 5;
     [SerializeField] int m_Damage = 1;
+    [SerializeField] float m_MovementSpeed = 1;
 
-    [SerializeField] GameObject m_WarningEffect;
+    [SerializeField] VisualEffect m_WarningEffectPrefab;
+    VisualEffect m_WarningEffect;
 
     Vector3 m_StartingPos, m_TargetPos;
 
@@ -27,9 +29,15 @@ public class Grenade : MonoBehaviour
         float height = targetPos.y + targetPos.magnitude / 2f;
         height = Mathf.Max(.01f, height);
         float angle, v0, time;
+        
         CalculatePathWithHeight(targetPos, height, out v0, out angle, out time);
+        v0 *= m_MovementSpeed; 
+        time /= m_MovementSpeed;
 
-        Instantiate(m_WarningEffect, m_TargetPos, Quaternion.identity); 
+        m_WarningEffect = Instantiate(m_WarningEffectPrefab, m_TargetPos, Quaternion.identity);
+        m_WarningEffect.SetFloat("ChargingTime", time);
+        m_WarningEffect.SetFloat("ExplosionRadius", m_ExplosionRadius);
+
         StartCoroutine(Movement(groundDirection.normalized, v0, angle, time));
     }
 
@@ -60,6 +68,7 @@ public class Grenade : MonoBehaviour
     IEnumerator Movement(Vector3 direction, float v0, float angle, float time)
     {
         float t = 0;
+        print(t);
 
         while (t < time)
         {
@@ -76,6 +85,8 @@ public class Grenade : MonoBehaviour
 
     void Explode()
     {
+        Destroy(m_WarningEffect.gameObject);
+
         Collider[] collidHit = Physics.OverlapSphere(transform.position, m_ExplosionRadius);
 
         if (collidHit.Length > 0)
