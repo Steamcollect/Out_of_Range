@@ -50,7 +50,7 @@ MonoBehaviour:
   m_HorizontalPivot: {fileID: 418496125244188350}
   m_BulletCount: 1
   m_TimeBetweenBullets: 0
-  m_TimeBeforeAttack: 1
+  m_TimeBeforeAttack: 0.75
   m_TimeAfterAttack: 0.5
   m_TurnWhileShooting: 0
   turnSmoothTimeOnShoot: 1
@@ -272,8 +272,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  m_MaxHealth: 10
+  m_MaxHealth: 6
   m_CurrentHealth: 0
+  m_ClampDamage: 0
+  m_MaxDamage: 0
   m_InvincibilityRegainDuration: 0
   m_IsInvincible: 0
   m_OnTakeDamageFeedback:
