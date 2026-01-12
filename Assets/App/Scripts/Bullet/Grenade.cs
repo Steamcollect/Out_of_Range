@@ -31,8 +31,6 @@ public class Grenade : MonoBehaviour
         float angle, v0, time;
         
         CalculatePathWithHeight(targetPos, height, out v0, out angle, out time);
-        v0 *= m_MovementSpeed; 
-        time /= m_MovementSpeed;
 
         m_WarningEffect = Instantiate(m_WarningEffectPrefab, m_TargetPos, Quaternion.identity);
         m_WarningEffect.SetFloat("ChargingTime", time);
@@ -68,7 +66,6 @@ public class Grenade : MonoBehaviour
     IEnumerator Movement(Vector3 direction, float v0, float angle, float time)
     {
         float t = 0;
-        print(t);
 
         while (t < time)
         {
