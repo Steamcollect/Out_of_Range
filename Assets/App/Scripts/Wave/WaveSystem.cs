@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class WaveSystem : MonoBehaviour
 {
     [Title("SETTINGS")]
-    [SerializeField] private float m_TimeBetweenWaves = 3.0f;
+    [SerializeField] private float m_TimeBetweenWaves = 0.5f;
     [ShowInInspector, ReadOnly] private bool IsInFight;
 
     [Title("REFERENCES")]
