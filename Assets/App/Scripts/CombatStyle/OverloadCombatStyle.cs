@@ -152,11 +152,11 @@ public abstract class OverloadCombatStyle : CombatStyle
         OnOverloadEnd?.Invoke();
     }
 
-    protected virtual IEnumerator AttackCooldown()
+    protected virtual IEnumerator AttackCooldown(float cooldown)
     {
         m_CanAttack = false;
         m_AutoCoolTimer = 0;
-        yield return new WaitForSeconds(m_AttackCooldown);
+        yield return new WaitForSeconds(cooldown);
         m_CanAttack = true;
     }
 

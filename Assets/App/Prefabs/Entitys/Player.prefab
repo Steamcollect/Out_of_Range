@@ -286,7 +286,7 @@ MonoBehaviour:
       m_Calls: []
   m_GrenadePrefab: {fileID: 4214654211266166565, guid: e1b2f896c04f27242a8e99efd5534f90, type: 3}
   m_AttackPoint: {fileID: 874208509811087154}
-  m_MaxAmmo: 0
+  m_MaxAmmo: 3
   m_CurrentAmmo: 0
   m_UnpassingWallMask:
     serializedVersion: 2
@@ -483,6 +483,7 @@ MonoBehaviour:
   m_InputPlayerController: {fileID: 5662550271351511903}
   m_RotationVisual: {fileID: 2954271060133509083}
   m_Dash: {fileID: 4795731786279744601}
+  m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
   m_OnPlayerDie: {fileID: 11400000, guid: 195049c21bdce3c4e8c37dabbe232c92, type: 2}
   m_Controller: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!114 &5662550271351511903
@@ -728,6 +729,8 @@ MonoBehaviour:
   m_AttackCooldown: 0.1
   m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_AtkSpdPowerUpAttackCooldown: 0.04
+  m_ClonePowerUpBulletSpacing: 0.9
   m_MeshRenderer: {fileID: 137720684722639583}
   m_ColorOverTemperature:
     serializedVersion: 2
@@ -762,6 +765,8 @@ MonoBehaviour:
   m_AttackPoint: {fileID: 874208509811087154}
   m_MuzzleFlashPrefab: {fileID: 4186470608034871016, guid: e1532b720bdc5ad4cb310a851a0a304a, type: 3}
   m_BulletPrefab: {fileID: 4581899121895831684, guid: 11c5c37b2fad53d4c8e99a0565d12384, type: 3}
+  m_StrenghtPowerUpBulletPrefab: {fileID: 4581899121895831684, guid: 4f91a86f90821114bb5325e9994d99d1, type: 3}
+  m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
 --- !u!1 &5283047779086152633
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,6 +858,8 @@ MonoBehaviour:
   m_AttackCooldown: 0.15
   m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_AtkSpdPowerUpAttackCooldown: 0.07
+  m_ClonePowerUpBulletSpacing: 0.9
   m_MeshRenderer: {fileID: 137720684722639583}
   m_ColorOverTemperature:
     serializedVersion: 2
@@ -887,6 +894,8 @@ MonoBehaviour:
   m_AttackPoint: {fileID: 874208509811087154}
   m_MuzzleFlashPrefab: {fileID: 4186470608034871016, guid: e1532b720bdc5ad4cb310a851a0a304a, type: 3}
   m_BulletPrefab: {fileID: 4581899121895831684, guid: 11c5c37b2fad53d4c8e99a0565d12384, type: 3}
+  m_StrenghtPowerUpBulletPrefab: {fileID: 4581899121895831684, guid: 4f91a86f90821114bb5325e9994d99d1, type: 3}
+  m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
 --- !u!1 &5439680732867493737
 GameObject:
   m_ObjectHideFlags: 0
@@ -1263,10 +1272,14 @@ MonoBehaviour:
   m_AttackCooldown: 0.2
   m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_AtkSpdPowerUpAttackCooldown: 0.1
+  m_TimeBetweenClonePowerUp: 0.1
   m_BulletsPerShot: 12
   m_SpreadAngle: 35
   m_AttackPoint: {fileID: 874208509811087154}
   m_BulletPrefab: {fileID: 4581899121895831684, guid: 11c5c37b2fad53d4c8e99a0565d12384, type: 3}
+  m_StrenghtPowerUpBulletPrefab: {fileID: 4581899121895831684, guid: 4f91a86f90821114bb5325e9994d99d1, type: 3}
+  m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
 --- !u!1 &7969789460747989224
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,9 @@ public class PlayerController : EntityController
     [SerializeField] private EntityRotationVisual m_RotationVisual;
     [SerializeField] private Entity_Dash m_Dash;
 
+    [Space(10)]
+    [SerializeField] RSO_CurrentPowerUp m_CurrentPowerUp;
+
     [Header("Output")]
     [SerializeField] private RSE_OnPlayerDie m_OnPlayerDie;
     [SerializeField] private RSO_PlayerController m_Controller;
@@ -32,6 +35,9 @@ public class PlayerController : EntityController
     {
         base.Awake();
         m_Controller.Set(this);
+
+        m_CurrentPowerUp.Set(null);
+        m_Health.OnTakeDamage += () => m_CurrentPowerUp.Set(null);
     }
     
     private void Start() => Teleport(PlayerSpawnPoint.S_Position);

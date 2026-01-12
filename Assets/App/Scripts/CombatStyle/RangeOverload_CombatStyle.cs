@@ -4,15 +4,24 @@ using UnityEngine;
 public class RangeOverload_CombatStyle : OverloadCombatStyle
 {
     [Header("Combat Settings")]
+    [SerializeField] float m_AtkSpdPowerUpAttackCooldown;
+    [SerializeField] float m_ClonePowerUpBulletSpacing;
+
+    [Header("Combat References")]
     [SerializeField] MeshRenderer m_MeshRenderer;
     [SerializeField] Gradient m_ColorOverTemperature;
+    Material m_RendererMat;
 
     [SerializeField] Transform m_AttackPoint;
 
     [SerializeField] GameObject m_MuzzleFlashPrefab;
-    [SerializeField] Bullet m_BulletPrefab;
 
-    Material m_RendererMat;
+    [Header("Bullets")]
+    [SerializeField] Bullet m_BulletPrefab;
+    [SerializeField] Bullet m_StrenghtPowerUpBulletPrefab;
+
+    [Space(10)]
+    [SerializeField] RSO_CurrentPowerUp m_CurrentPowerUp;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -30,14 +39,34 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
             && (m_CurrentState == OverloadWeaponState.CanShoot || m_CurrentState == OverloadWeaponState.CoolBuffed))
         {
             OnAttack?.Invoke();
+                        
+            Bullet bulletPrefab = m_CurrentPowerUp.Get() != null && m_CurrentPowerUp.Get().PowerUpType == PowerUpType.Strenght ?
+                m_StrenghtPowerUpBulletPrefab :
+                m_BulletPrefab;
             
-            Bullet bullet = PoolManager.Instance.Spawn(m_BulletPrefab, m_AttackPoint.position, m_AttackPoint.rotation);
-            bullet.Setup();
+            if(m_CurrentPowerUp.Get() != null && m_CurrentPowerUp.Get().PowerUpType == PowerUpType.Clone)
+            {
+                Vector3 pos = m_AttackPoint.position + m_AttackPoint.transform.right * (m_ClonePowerUpBulletSpacing * .5f);
+                Bullet bullet = PoolManager.Instance.Spawn(bulletPrefab, pos, m_AttackPoint.rotation);
+                bullet.Setup();
+                
+                pos = m_AttackPoint.position + -m_AttackPoint.transform.right * (m_ClonePowerUpBulletSpacing * .5f);
+                bullet = PoolManager.Instance.Spawn(bulletPrefab, pos, m_AttackPoint.rotation);
+                bullet.Setup();
+            }
+            else
+            {
+                Bullet bullet = PoolManager.Instance.Spawn(bulletPrefab, m_AttackPoint.position, m_AttackPoint.rotation);
+                bullet.Setup();
+            }               
 
             GameObject muzzleVFX = Instantiate(m_MuzzleFlashPrefab, m_AttackPoint);
             Destroy(muzzleVFX, muzzleVFX.GetComponent<ParticleSystem>().main.duration);
 
-            StartCoroutine(AttackCooldown());
+            StartCoroutine(AttackCooldown(
+                m_CurrentPowerUp.Get() != null
+                && m_CurrentPowerUp.Get().PowerUpType == PowerUpType.AttackSpeed ?
+                m_AtkSpdPowerUpAttackCooldown : m_AttackCooldown));
             
             m_OnAttackFeedback?.Invoke();
 
