@@ -74,4 +74,8 @@ public class Grenade : MonoBehaviour
 
         Destroy(gameObject);
     }
+
+    public float GetRadius() => m_ExplosionRadius;
+    public AnimationCurve GetMovementCurve() => m_MovementCurve;
+    public float GetMinHeight() => m_MinHeight;
 }

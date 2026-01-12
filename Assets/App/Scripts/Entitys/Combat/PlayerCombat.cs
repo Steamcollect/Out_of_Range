@@ -44,11 +44,16 @@ public class PlayerCombat : EntityCombat
     public void SetPrimaryCombatStyle(CombatStyle newStyle)
     {
         if(m_PrimaryCombatStyle != null)
+        {
             m_InputPlayerController.PrimaryAttackIa.action.started -= m_PrimaryCombatStyle.AttackStart;
-        
+            m_InputPlayerController.PrimaryAttackIa.action.canceled -= m_PrimaryCombatStyle.AttackEnd;
+        }
+
         m_PrimaryCombatStyle = newStyle;
         OnPrimaryCombatStyleChange?.Invoke();
+
         m_InputPlayerController.PrimaryAttackIa.action.started += m_PrimaryCombatStyle.AttackStart;
+        m_InputPlayerController.PrimaryAttackIa.action.canceled += m_PrimaryCombatStyle.AttackEnd;
     }
 
     public void SetSecondaryCombatStyle(CombatStyle newStyle)
@@ -56,11 +61,15 @@ public class PlayerCombat : EntityCombat
         if (newStyle == null) return;
 
         if (m_SecondaryCombatStyle != null)
+        {
             m_InputPlayerController.SecondaryAttackIa.action.started -= m_SecondaryCombatStyle.AttackStart;
+            m_InputPlayerController.SecondaryAttackIa.action.canceled -= m_SecondaryCombatStyle.AttackEnd;
+        }
 
         m_SecondaryCombatStyle = newStyle;
         OnSecondaryCombatStyleChange?.Invoke();
         m_InputPlayerController.SecondaryAttackIa.action.started += m_SecondaryCombatStyle.AttackStart;
+        m_InputPlayerController.SecondaryAttackIa.action.canceled += m_SecondaryCombatStyle.AttackEnd;
     }
 
     public CombatStyle GetPrimaryCombatStyle()
