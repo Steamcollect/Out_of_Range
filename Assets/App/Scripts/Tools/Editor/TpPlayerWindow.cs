@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -43,6 +44,6 @@ public class TpPlayerWindow : EditorWindow
 
     void RefreshCheckpoints()
     {
-        checkpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.InstanceID);
+        checkpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.InstanceID).OrderBy(c => c.name).ToArray();
     }
 }
