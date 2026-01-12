@@ -8,6 +8,7 @@ public class Checkpoint : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Transform m_SpawnPoint;
+    [SerializeField] RSO_PlayerController m_Player;
 
     //[Header("Input")]
 
@@ -25,5 +26,10 @@ public class Checkpoint : MonoBehaviour
             if (other.TryGetComponent(out EntityController controller))
                controller.GetHealth().TakeHealth(controller.GetHealth().GetMaxHealth());
         }
+    }
+
+    public void TpPlayer()
+    {
+        m_Player.Get().transform.position = m_SpawnPoint.position;
     }
 }
