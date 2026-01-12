@@ -24,6 +24,7 @@ public abstract class CombatStyle : MonoBehaviour
     {
         StartCoroutine(Attack());
     }
+    public virtual void AttackEnd(InputAction.CallbackContext ctx) { }
 
     public virtual IEnumerator Attack() { yield break; }
     public virtual void StopAttack()

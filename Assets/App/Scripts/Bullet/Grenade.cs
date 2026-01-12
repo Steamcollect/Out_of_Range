@@ -1,13 +1,19 @@
 using System.Collections;
-using UnityEngine;
 using UnityEngine.VFX;
+using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
+    [Header("Combat")]
     [SerializeField] float m_ExplosionRadius = 5;
     [SerializeField] int m_Damage = 1;
-    [SerializeField] float m_MovementSpeed = 1;
+    
+    [Header("Movement")]
+    [SerializeField] float m_MovementTime = 1;
+    [SerializeField] float m_MinHeight = 3;
+    [SerializeField] AnimationCurve m_MovementCurve;
 
+    [Header("References")]
     [SerializeField] VisualEffect m_WarningEffectPrefab;
     VisualEffect m_WarningEffect;
 
@@ -21,57 +27,26 @@ public class Grenade : MonoBehaviour
 
     public void Move()
     {
-        Vector3 direction = m_TargetPos - m_StartingPos;
-        Vector3 groundDirection = new Vector3(direction.x, 0, direction.z);
-
-        Vector3 targetPos = new Vector3(groundDirection.magnitude, direction.y, 0);
-
-        float height = targetPos.y + targetPos.magnitude / 2f;
-        height = Mathf.Max(.01f, height);
-        float angle, v0, time;
-        
-        CalculatePathWithHeight(targetPos, height, out v0, out angle, out time);
-
         m_WarningEffect = Instantiate(m_WarningEffectPrefab, m_TargetPos, Quaternion.identity);
-        m_WarningEffect.SetFloat("ChargingTime", time);
+        m_WarningEffect.SetFloat("ChargingTime", m_MovementTime);
         m_WarningEffect.SetFloat("ExplosionRadius", m_ExplosionRadius);
 
-        StartCoroutine(Movement(groundDirection.normalized, v0, angle, time));
+        StartCoroutine(Movement());
     }
 
-    float QuadraticEquation(float a, float b, float c, float sign)
-    {
-        return (-b + sign * Mathf.Sqrt(b * b - 4 * a * c)) / (2 * a);
-    }
-
-    void CalculatePathWithHeight(Vector3 targetPos, float h, out float v0, out float angle, out float time)
-    {
-        float xt = targetPos.x;
-        float yt = targetPos.y;
-        float g = -Physics.gravity.y;
-
-        float b = Mathf.Sqrt(2 * g * h);
-        float a = (-0.5f * g);
-        float c = -yt;
-
-        float tplus = QuadraticEquation(a, b, c, 1);
-        float tmin = QuadraticEquation(a, b, c, -1);
-        time = tplus > tmin ? tplus : tmin;
-
-        angle = Mathf.Atan(b * time / xt);
-
-        v0 = b / Mathf.Sin(angle);
-    }
-
-    IEnumerator Movement(Vector3 direction, float v0, float angle, float time)
+    IEnumerator Movement()
     {
         float t = 0;
+        float vt;
 
-        while (t < time)
+        while (t < m_MovementTime)
         {
-            float x = v0 * t * Mathf.Cos(angle);
-            float y = v0 * t * Mathf.Sin(angle) - .5f * -Physics.gravity.y * Mathf.Pow(t, 2);
-            transform.position = m_StartingPos + direction * x + Vector3.up * y;
+            vt = t / m_MovementTime;
+
+            transform.position = new Vector3(
+                Mathf.Lerp(m_StartingPos.x, m_TargetPos.x, vt),
+                Mathf.Lerp(m_StartingPos.y, m_TargetPos.y, vt) + m_MovementCurve.Evaluate(vt) * m_MinHeight,
+                Mathf.Lerp(m_StartingPos.z, m_TargetPos.z, vt));
 
             t += Time.deltaTime;
             yield return null;
