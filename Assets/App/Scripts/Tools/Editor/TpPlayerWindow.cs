@@ -5,7 +5,7 @@ public class TpPlayerWindow : EditorWindow
 {
     Checkpoint[] checkpoints;
 
-    [MenuItem("Tool/TpPlayerCheckoints")]
+    [MenuItem("Tools/TpPlayerCheckoints")]
     public static void Open()
     {
         GetWindow<TpPlayerWindow>("Tp Player Checkoints");
