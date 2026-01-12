@@ -79,7 +79,7 @@ public abstract class OverloadCombatStyle : CombatStyle
                 HandleCool(m_DefaultCoolsPerSec);
                 break;
             case OverloadWeaponState.OverloadCool:
-                HandleCool(m_DefaultCoolsPerSec);
+                HandleCool(m_OverloadCoolsPerSec);
                 break;
 
             case OverloadWeaponState.CoolBuffed:
