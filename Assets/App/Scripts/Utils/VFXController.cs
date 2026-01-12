@@ -1,3 +1,4 @@
+using MVsToolkit.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -17,6 +18,7 @@ public class VFXController : MonoBehaviour
     public void PlayEvent()
     {
         visualEffect.Reinit();
+        visualEffect.SetBool("TrailEnabled", true);
         visualEffect.SendEvent(playEvent);
     }
 
@@ -24,6 +26,12 @@ public class VFXController : MonoBehaviour
     public void ShootEvent()
     {
         visualEffect.Reinit();
+        visualEffect.SetBool("TrailEnabled", false);
         visualEffect.SendEvent(shootEvent);
+
+        CoroutineUtils.Delay(this, () =>
+        {
+            PlayEvent();
+        }, 3.0f);
     }
 }
