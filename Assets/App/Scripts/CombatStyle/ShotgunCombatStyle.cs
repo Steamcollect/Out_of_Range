@@ -5,7 +5,6 @@ public class ShotgunCombatStyle : OverloadCombatStyle
 {
     [SerializeField] int m_BulletsPerShot = 8;
     [SerializeField] float m_SpreadAngle = 15f;
-    [SerializeField] float m_ReloadCooldown = 1f;
 
     [Space(10)]
     [SerializeField] Transform m_AttackPoint;

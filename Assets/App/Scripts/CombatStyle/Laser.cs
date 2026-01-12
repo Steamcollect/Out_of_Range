@@ -17,17 +17,10 @@ public class Laser : CombatStyle
 
     public override IEnumerator Attack()
     {
-        if (!m_CanAttack) yield break;
+        yield break;
 
-        if (m_CurrentMana.Get() >= manaCostPerAttack)
-        {
-            m_CurrentMana.Set(m_CurrentMana.Get() - (manaCostPerAttack * Time.deltaTime));
-        }
-        else
-        {
-            yield break;
-        }
-        
+        if (!m_CanAttack) yield break;
+                
         m_IsAttacking = true;
         m_LaserBeamLine.enabled = true;
 

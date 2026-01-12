@@ -43,11 +43,7 @@ public abstract class OverloadCombatStyle : CombatStyle
     [SerializeField] protected InputActionReference m_HandleCoolsInput;
     [SerializeField] protected InputActionReference m_HandleCoolsSkillInput;
 
-    [Header("Output")]
-    [Space(10)]
-    [SerializeField] protected UnityEvent m_OnAttackFeedback;
-    [SerializeField] protected UnityEvent m_OnReloadFeedback;
-
+    //[Header("Output")]
     public Action OnOverloadStart, OnOverloadEnd;
     public Action<OverloadWeaponState> OnOverloadStateChange;
 

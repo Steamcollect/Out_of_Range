@@ -133,19 +133,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 533e324be07d6aa4c92db705d860287e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrenadeLauncherCombatStyle
-  m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
-  manaCostPerAttack: 0
   m_InputAttackType: 1
-  m_GrenadePrefab: {fileID: 3561684886862256561, guid: e1b2f896c04f27242a8e99efd5534f90, type: 3}
-  m_FirePoint: {fileID: 874208509811087154}
+  m_OnAttackFeedback:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnReloadFeedback:
+    m_PersistentCalls:
+      m_Calls: []
+  m_GrenadePrefab: {fileID: 4214654211266166565, guid: e1b2f896c04f27242a8e99efd5534f90, type: 3}
+  m_AttackPoint: {fileID: 874208509811087154}
   m_AimTarget: {fileID: 11400000, guid: 09f66405bedce16448f02f1b689a9c4a, type: 2}
-  m_MinArcHeight: 1
-  m_MaxArcHeight: 6
-  m_DesiredArcHeight: 3
-  m_FallbackDistance: 12
-  m_FallbackSpeed: 10
-  m_ReloadTime: 2
-  m_TrajectorySamples: 30
 --- !u!1 &2502887800849172274
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,25 +529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859ea51f3471d7b428dea5580c45ff77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangeOverloadCombatStyle
-  m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
-  manaCostPerAttack: 10
   m_InputAttackType: 0
-  m_CurentTemperature: 0
-  m_CurrentState: 0
-  m_ShootTemperature: 3
-  m_StunDelayOnOverload: 0.4
-  m_DefaultCoolsPerSec: 60
-  m_OverloadCoolsPerSec: 60
-  m_NerfCoolsPerSec: 60
-  m_BuffCoolsPerSec: 60
-  RangeToReset: {x: 30, y: 60}
-  RangeToBuff: {x: 20, y: 30}
-  RangeToNerf: {x: 5, y: 95}
-  drawReloadRect: 0
-  m_TimeBeforeAutoCool: 1.8
-  m_AttackCooldown: 0.1
-  m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_OnAttackFeedback:
     m_PersistentCalls:
       m_Calls:
@@ -581,6 +560,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_CurentTemperature: 0
+  m_CurrentState: 0
+  m_ShootTemperature: 3
+  m_StunDelayOnOverload: 0.4
+  m_DefaultCoolsPerSec: 60
+  m_OverloadCoolsPerSec: 60
+  m_NerfCoolsPerSec: 60
+  m_BuffCoolsPerSec: 60
+  RangeToReset: {x: 30, y: 60}
+  RangeToBuff: {x: 20, y: 30}
+  RangeToNerf: {x: 5, y: 95}
+  drawReloadRect: 0
+  m_TimeBeforeAutoCool: 1.8
+  m_AttackCooldown: 0.1
+  m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_MeshRenderer: {fileID: 137720684722639583}
   m_ColorOverTemperature:
     serializedVersion: 2
@@ -659,25 +654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859ea51f3471d7b428dea5580c45ff77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangeOverloadCombatStyle
-  m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
-  manaCostPerAttack: 10
   m_InputAttackType: 0
-  m_CurentTemperature: 0
-  m_CurrentState: 0
-  m_ShootTemperature: 5
-  m_StunDelayOnOverload: 0.4
-  m_DefaultCoolsPerSec: 60
-  m_OverloadCoolsPerSec: 60
-  m_NerfCoolsPerSec: 60
-  m_BuffCoolsPerSec: 60
-  RangeToReset: {x: 30, y: 60}
-  RangeToBuff: {x: 20, y: 30}
-  RangeToNerf: {x: 5, y: 95}
-  drawReloadRect: 0
-  m_TimeBeforeAutoCool: 1.8
-  m_AttackCooldown: 0.15
-  m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_OnAttackFeedback:
     m_PersistentCalls:
       m_Calls:
@@ -708,6 +685,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_CurentTemperature: 0
+  m_CurrentState: 0
+  m_ShootTemperature: 5
+  m_StunDelayOnOverload: 0.4
+  m_DefaultCoolsPerSec: 60
+  m_OverloadCoolsPerSec: 60
+  m_NerfCoolsPerSec: 60
+  m_BuffCoolsPerSec: 60
+  RangeToReset: {x: 30, y: 60}
+  RangeToBuff: {x: 20, y: 30}
+  RangeToNerf: {x: 5, y: 95}
+  drawReloadRect: 0
+  m_TimeBeforeAutoCool: 1.8
+  m_AttackCooldown: 0.15
+  m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_MeshRenderer: {fileID: 137720684722639583}
   m_ColorOverTemperature:
     serializedVersion: 2
@@ -1006,9 +999,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74515fb61abfd004497206abebe48253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShotgunCombatStyle
-  m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
-  manaCostPerAttack: 0
   m_InputAttackType: 1
+  m_OnAttackFeedback:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnReloadFeedback:
+    m_PersistentCalls:
+      m_Calls: []
   m_CurentTemperature: 0
   m_CurrentState: 0
   m_ShootTemperature: 50
@@ -1025,15 +1022,8 @@ MonoBehaviour:
   m_AttackCooldown: 0.2
   m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_OnAttackFeedback:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnReloadFeedback:
-    m_PersistentCalls:
-      m_Calls: []
   m_BulletsPerShot: 12
   m_SpreadAngle: 35
-  m_ReloadCooldown: 1
   m_AttackPoint: {fileID: 874208509811087154}
   m_BulletPrefab: {fileID: 4581899121895831684, guid: 11c5c37b2fad53d4c8e99a0565d12384, type: 3}
 --- !u!1 &7969789460747989224

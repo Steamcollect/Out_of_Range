@@ -35,9 +35,6 @@ public class RangeOverloadCombatStyle : CombatStyle
     [SerializeField] private GameObject m_MuzzleFlashPrefab;
     [SerializeField] private Bullet m_BulletPrefab;
 
-    [SerializeField] private UnityEvent m_OnAttackFeedback;
-    [SerializeField] private UnityEvent m_OnReloadFeedback;
-
     private float m_CoolsTimer;
     private float m_CurentTemperature;
 

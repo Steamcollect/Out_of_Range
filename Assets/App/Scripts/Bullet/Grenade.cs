@@ -1,49 +1,94 @@
-using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.VFX;
 
 public class Grenade : MonoBehaviour
 {
-    [SerializeField] int m_Damage;
-    [SerializeField] float explosionRadius;
-    [SerializeField] GameObject radiusVisualizer;
-    [SerializeField] private VisualEffect explosionEffect;
-    private GameObject radius;
+    [SerializeField] float m_ExplosionRadius = 5;
+    [SerializeField] int m_Damage = 1;
 
-    public int Damage
+    [SerializeField] GameObject m_WarningEffect;
+
+    Vector3 m_StartingPos, m_TargetPos;
+
+    public void Setup(Vector3 initPos, Vector3 targetPos)
     {
-        get => m_Damage;
-        set => m_Damage = value;
+        m_StartingPos = initPos;
+        m_TargetPos = targetPos;
     }
 
-    public void ShowExplosionRadius(Vector3 position)
+    public void Move()
     {
-        if (radiusVisualizer != null)
+        Vector3 direction = m_TargetPos - m_StartingPos;
+        Vector3 groundDirection = new Vector3(direction.x, 0, direction.z);
+
+        Vector3 targetPos = new Vector3(groundDirection.magnitude, direction.y, 0);
+
+        float height = targetPos.y + targetPos.magnitude / 2f;
+        height = Mathf.Max(.01f, height);
+        float angle, v0, time;
+        CalculatePathWithHeight(targetPos, height, out v0, out angle, out time);
+
+        Instantiate(m_WarningEffect, m_TargetPos, Quaternion.identity); 
+        StartCoroutine(Movement(groundDirection.normalized, v0, angle, time));
+    }
+
+    float QuadraticEquation(float a, float b, float c, float sign)
+    {
+        return (-b + sign * Mathf.Sqrt(b * b - 4 * a * c)) / (2 * a);
+    }
+
+    void CalculatePathWithHeight(Vector3 targetPos, float h, out float v0, out float angle, out float time)
+    {
+        float xt = targetPos.x;
+        float yt = targetPos.y;
+        float g = -Physics.gravity.y;
+
+        float b = Mathf.Sqrt(2 * g * h);
+        float a = (-0.5f * g);
+        float c = -yt;
+
+        float tplus = QuadraticEquation(a, b, c, 1);
+        float tmin = QuadraticEquation(a, b, c, -1);
+        time = tplus > tmin ? tplus : tmin;
+
+        angle = Mathf.Atan(b * time / xt);
+
+        v0 = b / Mathf.Sin(angle);
+    }
+
+    IEnumerator Movement(Vector3 direction, float v0, float angle, float time)
+    {
+        float t = 0;
+
+        while (t < time)
         {
-            radius = Instantiate(radiusVisualizer, position, Quaternion.identity);
-            radius.transform.localScale = Vector3.one * explosionRadius * 2f;
-        }
-    }
+            float x = v0 * t * Mathf.Cos(angle);
+            float y = v0 * t * Mathf.Sin(angle) - .5f * -Physics.gravity.y * Mathf.Pow(t, 2);
+            transform.position = m_StartingPos + direction * x + Vector3.up * y;
 
-    private void OnCollisionEnter(Collision other)
-    {
+            t += Time.deltaTime;
+            yield return null;
+        }
+
         Explode();
     }
-    
-    private void Explode()
-    {
-        Destroy(radius);
-        // Peut etre mettre une Pool ici mdrr
-        Instantiate(explosionEffect.gameObject, transform.position, Quaternion.identity);
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (Collider nearbyObject in colliders)
+    void Explode()
+    {
+        Collider[] collidHit = Physics.OverlapSphere(transform.position, m_ExplosionRadius);
+
+        if (collidHit.Length > 0)
         {
-            if (nearbyObject.gameObject.TryGetComponent(out HurtBox hurtBox) && !nearbyObject.CompareTag("Player"))
+            foreach (Collider collid in collidHit)
             {
-                hurtBox.TakeDamage(m_Damage);
+                if(collid.TryGetComponent(out HurtBox hurtBox))
+                {
+                    hurtBox.TakeDamage(m_Damage);
+                }
             }
         }
+
         Destroy(gameObject);
     }
 }
