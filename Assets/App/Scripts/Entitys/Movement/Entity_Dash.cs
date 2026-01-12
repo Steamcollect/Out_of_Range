@@ -45,13 +45,12 @@ public class Entity_Dash : MonoBehaviour
         Physics.IgnoreLayerCollision(8, 6, true);
         Physics.IgnoreLayerCollision(12, 6, true);
 
-        Debug.Log("Dash started");
         yield return new WaitForSeconds(m_DashTime);
      
         Physics.IgnoreLayerCollision(8, 9, false);
         Physics.IgnoreLayerCollision(8, 6, false);
         Physics.IgnoreLayerCollision(12, 6, false);
-        Debug.Log("Dash ended");
+        
         m_Rb.linearVelocity = m_Rb.linearVelocity.normalized;
         m_Rb.linearDamping = m_BeginDrag;
     }
