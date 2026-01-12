@@ -1,3 +1,4 @@
+using System;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
@@ -19,6 +20,12 @@ public class MusicManager : MonoBehaviour
         m_MusicInstance = RuntimeManager.CreateInstance(m_Music);
         //SwitchToExploration();
         m_MusicInstance.start();
+    }
+
+    private void OnDestroy()
+    {
+        m_MusicInstance.stop(STOP_MODE.ALLOWFADEOUT);
+        m_MusicInstance.release();
     }
 
     private void OnEnable()
