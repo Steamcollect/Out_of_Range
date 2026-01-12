@@ -13,20 +13,17 @@ public class VFXController : MonoBehaviour
     [SerializeField] private string playEvent = "OnPlay";
     [SerializeField] private string shootEvent = "Shoot";
 
-    private static readonly int eventID = Shader.PropertyToID("Shoot");
-    private static readonly int trailEnabledID = Shader.PropertyToID("TrailEnabled");
-
     [Button("Play")]
     public void PlayEvent()
     {
+        visualEffect.Reinit();
         visualEffect.SendEvent(playEvent);
-        visualEffect.SetBool(trailEnabledID, true);
     }
 
     [Button("Shoot")]
     public void ShootEvent()
     {
+        visualEffect.Reinit();
         visualEffect.SendEvent(shootEvent);
-        visualEffect.SetBool(trailEnabledID, true);
     }
 }
