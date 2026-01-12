@@ -1,4 +1,6 @@
 using System.Collections;
+using MoreMountains.Tools;
+using MVsToolkit.Dev;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +10,11 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     [SerializeField] Grenade m_GrenadePrefab;
     [SerializeField] Transform m_AttackPoint;
 
+    [Space(5)]
+    [SerializeField] int m_MaxAmmo;
+    [SerializeField, ReadOnly] int m_CurrentAmmo;
+
+    [Space(5)]
     [SerializeField] LayerMask m_UnpassingWallMask;
 
     [Space(10)]
@@ -21,6 +28,11 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     [SerializeField] LineRenderer m_PreShowLine;
 
     [SerializeField] RSO_PlayerAimTarget m_AimTarget;
+
+    private void Start()
+    {
+        m_CurrentAmmo = m_MaxAmmo;
+    }
 
     private void FixedUpdate()
     {
@@ -53,6 +65,9 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     public override IEnumerator Attack()
     {
+        if (m_CurrentAmmo <= 0) yield break;
+        m_CurrentAmmo--;
+        
         Grenade grenade = Instantiate(m_GrenadePrefab, m_AttackPoint.position, m_AttackPoint.rotation);
         grenade.Setup(m_AttackPoint.position, m_AimTarget.Get().position);
 
@@ -87,4 +102,6 @@ public class GrenadeLauncherCombatStyle : CombatStyle
         m_PreShowLine.SetPosition(m_PreShowLinePointsCount - 1, e);
         m_PreShowCylinder.transform.position = e;
     }
+
+    public void AddAmmo(int count) => m_CurrentAmmo = Mathf.Clamp(m_CurrentAmmo + count, 0, m_MaxAmmo);
 }
