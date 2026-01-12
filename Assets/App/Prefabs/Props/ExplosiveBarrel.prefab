@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1143266239321776303}
   - component: {fileID: 8232310754065405339}
   - component: {fileID: 5960640768625639874}
-  - component: {fileID: 5177516848586864720}
   m_Layer: 10
   m_Name: Health
   m_TagString: Untagged
@@ -48,6 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
   m_MaxHealth: 1
   m_CurrentHealth: 1
+  m_ClampDamage: 0
+  m_MaxDamage: 0
   m_InvincibilityRegainDuration: 0
   m_IsInvincible: 0
   m_OnTakeDamageFeedback:
@@ -83,27 +84,6 @@ MonoBehaviour:
   m_DamageMultiplier: 1
   m_HealthConnected:
     _object: {fileID: 8232310754065405339}
---- !u!65 &5177516848586864720
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 603519431657367922}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 2, z: 1}
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &700307720923981209
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,6 +428,8 @@ GameObject:
   - component: {fileID: 3997519637979886873}
   - component: {fileID: 3167256854889467629}
   - component: {fileID: 2568614247108590622}
+  - component: {fileID: 14215237996286285}
+  - component: {fileID: 7587532200734865703}
   m_Layer: 10
   m_Name: ExplosiveBarrel
   m_TagString: Untagged
@@ -715,6 +697,42 @@ MonoBehaviour:
           AmplitudeX: 0
           AmplitudeY: 0
           AmplitudeZ: 0
+--- !u!114 &14215237996286285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5727377098952432511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b74be04c145ce499a1c4a8e24bf541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+  m_DamageMultiplier: 1
+  m_HealthConnected:
+    _object: {fileID: 8232310754065405339}
+--- !u!65 &7587532200734865703
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5727377098952432511}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &94841328976460243
 PrefabInstance:
   m_ObjectHideFlags: 0

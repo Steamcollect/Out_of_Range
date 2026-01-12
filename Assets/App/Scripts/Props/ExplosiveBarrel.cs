@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.VFX;
 
-public class ExplosiveBarrel : MonoBehaviour
+public class ExplosiveBarrel : MonoBehaviour, ITargetable
 {
     [Header("Settings")]
     [SerializeField] private float m_ExplosionRadius;
@@ -87,5 +85,10 @@ public class ExplosiveBarrel : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, m_ExplosionRadius);
+    }
+
+    public Vector3 GetTargetPosition()
+    {
+        return transform.position;
     }
 }

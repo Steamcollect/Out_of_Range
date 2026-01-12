@@ -34,7 +34,6 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
 
     public Vector3? GetCameraTargetPosition()
     {
-
         InitDebug();
         
         Vector2 screenPoint = m_MousePositionIa.action.ReadValue<Vector2>();
