@@ -7,7 +7,9 @@ public class Grenade : MonoBehaviour
     [Header("Combat")]
     [SerializeField] float m_ExplosionRadius = 5;
     [SerializeField] int m_Damage = 1;
-    
+
+    [SerializeField] LayerMask m_HurtBoxLayers;
+
     [Header("Movement")]
     [SerializeField] float m_MovementTime = 1;
     [SerializeField] float m_MinHeight = 3;
@@ -18,6 +20,8 @@ public class Grenade : MonoBehaviour
     VisualEffect m_WarningEffect;
 
     Vector3 m_StartingPos, m_TargetPos;
+
+    static Collider[] m_CollidHit = new Collider[100];
 
     public void Setup(Vector3 initPos, Vector3 targetPos)
     {
@@ -59,13 +63,13 @@ public class Grenade : MonoBehaviour
     {
         Destroy(m_WarningEffect.gameObject);
 
-        Collider[] collidHit = Physics.OverlapSphere(transform.position, m_ExplosionRadius);
+        int length = Physics.OverlapSphereNonAlloc(transform.position, m_ExplosionRadius, m_CollidHit, m_HurtBoxLayers);
 
-        if (collidHit.Length > 0)
+        if (m_CollidHit.Length > 0)
         {
-            foreach (Collider collid in collidHit)
+            for (int i = 0; i < length; i++)
             {
-                if(collid.TryGetComponent(out HurtBox hurtBox))
+                if (m_CollidHit[i].TryGetComponent(out HurtBox hurtBox))
                 {
                     hurtBox.TakeDamage(m_Damage);
                 }
