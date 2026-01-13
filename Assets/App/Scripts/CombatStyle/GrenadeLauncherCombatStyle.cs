@@ -39,10 +39,15 @@ public class GrenadeLauncherCombatStyle : CombatStyle
         {
             Vector3 s = m_AttackPoint.position;
             Vector3 e = m_AimTarget.Get().position;
-            m_CanTouchTarget = !Physics.Raycast(s, e, out RaycastHit hit, Vector3.Distance(e, s), m_UnpassingWallMask);
 
-            DrawPreShow();
+            Debug.DrawLine(s, e, Color.blue);
+            m_CanTouchTarget = !Physics.Linecast(s, e, m_UnpassingWallMask);
         }
+    }
+    
+    private void LateUpdate()
+    {
+        DrawPreShow();
     }
 
     public override void AttackStart(InputAction.CallbackContext ctx)
@@ -79,7 +84,7 @@ public class GrenadeLauncherCombatStyle : CombatStyle
         m_PreShowCircle.material.color = m_CanTouchTarget ? Color.green : Color.red;
         m_PreShowTriangle.material.color = m_CanTouchTarget ? Color.green : Color.red;
 
-        m_PreShowCircle.transform.position = m_AimTarget.Get().position;
+        m_PreShowCircle.transform.position = m_AimTarget.Get().position + Vector3.up * .1f;
 
         m_PreShowCircle.transform.localEulerAngles -= Vector3.up * m_PreShowRotateSpeed * Time.deltaTime;
         m_PreShowTriangle.transform.parent.localEulerAngles += Vector3.up * m_PreShowRotateSpeed * 2 * Time.deltaTime;
