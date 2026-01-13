@@ -48,8 +48,6 @@ public class WaveSystem : MonoBehaviour
 
     private void SpawnCurrentWave()
     {
-        Debug.Log($"Lancement de la Wave {m_CurrentWaveIndex + 1}");
-
         foreach(WaveSpawner spawner in m_Spawners)
         {
             StartCoroutine(spawner.SpawnWave(m_CurrentWaveIndex, RegisterEntity));
@@ -89,12 +87,7 @@ public class WaveSystem : MonoBehaviour
         }
         else
         {
-            Debug.Log($"Wave termin�e. Prochaine wave dans {m_TimeBetweenWaves} secondes...");
-
-            this.Delay(() =>
-            {
-                SpawnCurrentWave();
-            }, m_TimeBetweenWaves);
+            this.Delay(SpawnCurrentWave, m_TimeBetweenWaves);
         }
     }
 
