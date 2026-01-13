@@ -1,5 +1,4 @@
 using System.Collections;
-using MoreMountains.Tools;
 using MVsToolkit.Dev;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,14 +17,14 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     [SerializeField] LayerMask m_UnpassingWallMask;
 
     [Space(10)]
-    [SerializeField] int m_PreShowLinePointsCount = 10;
+    [SerializeField] float m_PreShowRotateSpeed;
 
     bool m_InputPress;
     bool m_CanTouchTarget = false;
 
     [Header("References")]
-    [SerializeField] MeshRenderer m_PreShowCylinder;
-    [SerializeField] LineRenderer m_PreShowLine;
+    [SerializeField] MeshRenderer m_PreShowCircle;
+    [SerializeField] MeshRenderer m_PreShowTriangle;
 
     [SerializeField] RSO_PlayerAimTarget m_AimTarget;
 
@@ -49,9 +48,7 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     public override void AttackStart(InputAction.CallbackContext ctx)
     {
         m_InputPress = true;
-
-        m_PreShowCylinder.gameObject.SetActive(true);
-        m_PreShowLine.gameObject.SetActive(true);
+        m_PreShowCircle.gameObject.SetActive(true);
     }
 
     public override void AttackEnd(InputAction.CallbackContext ctx)
@@ -59,8 +56,7 @@ public class GrenadeLauncherCombatStyle : CombatStyle
         m_InputPress = false;
         if(m_CanTouchTarget) StartCoroutine(Attack());
 
-        m_PreShowCylinder.gameObject.SetActive(false);
-        m_PreShowLine.gameObject.SetActive(false);
+        m_PreShowCircle.gameObject.SetActive(false);
     }
 
     public override IEnumerator Attack()
@@ -78,29 +74,15 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     void DrawPreShow()
     {
-        m_PreShowCylinder.transform.localScale = new Vector3(m_GrenadePrefab.GetRadius(), .05f, m_GrenadePrefab.GetRadius());
+        m_PreShowCircle.transform.localScale = Vector3.one * m_GrenadePrefab.GetRadius() * .2f;
 
-        m_PreShowCylinder.material.color = m_CanTouchTarget ? Color.green : Color.red;
-        m_PreShowLine.material.color = m_CanTouchTarget ? Color.green : Color.red;
+        m_PreShowCircle.material.color = m_CanTouchTarget ? Color.green : Color.red;
+        m_PreShowTriangle.material.color = m_CanTouchTarget ? Color.green : Color.red;
 
-        m_PreShowLine.positionCount = m_PreShowLinePointsCount;
+        m_PreShowCircle.transform.position = m_AimTarget.Get().position;
 
-        Vector3 s = m_AttackPoint.position;
-        Vector3 e = m_AimTarget.Get().position;
-
-        m_PreShowLine.SetPosition(0, s);
-
-        for (int i = 0; i < m_PreShowLinePointsCount - 2; i++)
-        {
-            float t = (float)i / (float)m_PreShowLinePointsCount;
-            m_PreShowLine.SetPosition(i + 1, new Vector3(
-                Mathf.Lerp(s.x, e.x, t),
-                Mathf.Lerp(s.y, e.y, t) + m_GrenadePrefab.GetMovementCurve().Evaluate(t) * m_GrenadePrefab.GetMinHeight(),
-                Mathf.Lerp(s.z, e.z, t)));
-        }
-
-        m_PreShowLine.SetPosition(m_PreShowLinePointsCount - 1, e);
-        m_PreShowCylinder.transform.position = e;
+        m_PreShowCircle.transform.localEulerAngles -= Vector3.up * m_PreShowRotateSpeed * Time.deltaTime;
+        m_PreShowTriangle.transform.parent.localEulerAngles += Vector3.up * m_PreShowRotateSpeed * 2 * Time.deltaTime;
     }
 
     public void AddAmmo(int count) => m_CurrentAmmo = Mathf.Clamp(m_CurrentAmmo + count, 0, m_MaxAmmo);
