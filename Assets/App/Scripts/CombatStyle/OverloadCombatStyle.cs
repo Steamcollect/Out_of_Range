@@ -49,6 +49,7 @@ public abstract class OverloadCombatStyle : CombatStyle
     [SerializeField] protected UnityEvent m_OnReloadFeedback;
 
     public Action OnOverloadStart, OnOverloadEnd;
+    public Action<OverloadWeaponState> OnOverloadStateChange;
 
     private void OnEnable()
     {
@@ -137,24 +138,22 @@ public abstract class OverloadCombatStyle : CombatStyle
         {
             m_CurrentState = OverloadWeaponState.CoolBuffed;
             m_CurentTemperature = 100;
-
-            OnOverloadEnd?.Invoke();
         }
         else if (m_CurentTemperature.InRange(RangeToReset))
         {
             m_CurrentState = OverloadWeaponState.CanShoot;
             m_CurentTemperature = 0;
             OnAmmoChange?.Invoke(m_CurentTemperature, 100);
-
-            OnOverloadEnd?.Invoke();
         }
         else if (m_CurentTemperature.InRange(RangeToNerf))
         {
             m_CurrentState = OverloadWeaponState.CoolNerfed;
             m_CurentTemperature = 100;
-
-            OnOverloadEnd?.Invoke();
         }
+        else return;
+
+        OnOverloadStateChange.Invoke(m_CurrentState);
+        OnOverloadEnd?.Invoke();
     }
 
     protected virtual IEnumerator AttackCooldown()

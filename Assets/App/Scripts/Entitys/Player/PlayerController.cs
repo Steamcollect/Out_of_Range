@@ -1,10 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : EntityController
-{
-    
+{    
     [Header("References")]
     [SerializeField] private RSO_PlayerCameraController m_CamController;
     [Space(10)] 

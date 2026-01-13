@@ -1,4 +1,4 @@
-using System;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +16,10 @@ public class PlayerCombatStyleHUD : MonoBehaviour
     [SerializeField] Color m_OverloadResetColor;
 
     float m_ParentWidth;
+
+    [Space(10)]
+    [SerializeField] float m_FeedbackAnimTime;
+    [SerializeField] Image m_FeedbackImage;
 
     [Header("References")]
     [SerializeField] Image m_FillImg;
@@ -56,6 +60,7 @@ public class PlayerCombatStyleHUD : MonoBehaviour
 
             m_OverloadStyle.OnOverloadStart -= EnableReloadSkills;
             m_OverloadStyle.OnOverloadEnd -= DisableReloadSkills;
+            m_OverloadStyle.OnOverloadStateChange -= OnStateChange;
         }
     }
 
@@ -71,6 +76,7 @@ public class PlayerCombatStyleHUD : MonoBehaviour
         m_OverloadStyle = combat.GetPrimaryCombatStyle() as OverloadCombatStyle;
         m_OverloadStyle.OnOverloadStart += EnableReloadSkills;
         m_OverloadStyle.OnOverloadEnd += DisableReloadSkills;
+        m_OverloadStyle.OnOverloadStateChange += OnStateChange;
 
         SetReloadSkillsRect();
     }
@@ -89,6 +95,7 @@ public class PlayerCombatStyleHUD : MonoBehaviour
 
             m_OverloadStyle.OnOverloadStart -= EnableReloadSkills;
             m_OverloadStyle.OnOverloadEnd -= DisableReloadSkills;
+            m_OverloadStyle.OnOverloadStateChange -= OnStateChange;
         }
 
         Init();
@@ -184,5 +191,32 @@ public class PlayerCombatStyleHUD : MonoBehaviour
     {
         transform.position = (Vector2)m_PlayerCameraController.Get().GetCamera()
             .WorldToScreenPoint(m_PlayerController.Get().GetTargetPosition()) + m_PosOffset;
+    }
+
+    void OnStateChange(OverloadWeaponState state)
+    {
+        m_FeedbackImage.transform.localScale = Vector3.one;
+        switch (state)
+        {
+            case OverloadWeaponState.CanShoot:
+                m_FeedbackImage.color = m_OverloadResetColor;
+                break;
+
+            case OverloadWeaponState.CoolBuffed:
+                m_FeedbackImage.color = m_OverloadBuffColor;
+                break;
+
+            case OverloadWeaponState.CoolNerfed:
+                m_FeedbackImage.color = m_OverloadNerfColor;
+                break;
+        }
+
+        m_FeedbackImage.gameObject.SetActive(true);
+
+        m_FeedbackImage.transform.DOScale(new Vector3(1.15f, 3.3f, 1), m_FeedbackAnimTime);
+        m_FeedbackImage.DOFade(0, m_FeedbackAnimTime).OnComplete(() =>
+        {
+            m_FeedbackImage.gameObject.SetActive(false);
+        });
     }
 }
