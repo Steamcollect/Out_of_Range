@@ -54,7 +54,8 @@ public class EntityHealth : MonoBehaviour, IHealth
         }
         else
         {
-            OnHeal?.Invoke();
+            OnTakeDamage?.Invoke();
+            m_OnTakeDamageFeedback.Invoke();
         }
     }
 
@@ -65,8 +66,7 @@ public class EntityHealth : MonoBehaviour, IHealth
         if (m_CurrentHealth > m_MaxHealth)
             m_CurrentHealth = m_MaxHealth;
 
-        OnTakeDamage?.Invoke();
-        m_OnTakeDamageFeedback?.Invoke();
+        OnHeal?.Invoke();
     }
 
     private void Die()
