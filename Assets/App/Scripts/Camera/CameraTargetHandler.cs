@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class CameraTargetHandler : MonoBehaviour
 {
+    
     [Header("Settings")]
+    [SerializeField] private float m_FreshRate = 0.1f;
+    
+    [Header("References")]
     [SerializeField] private InterfaceReference<ICameraTarget> m_CameraTarget;
 
     [Header("References")]
@@ -15,6 +19,8 @@ public class CameraTargetHandler : MonoBehaviour
     
     private Vector3? m_TargetPosition;
 
+    private float m_InternalTimer;
+    
 
     private void Start() => UpdateCameraTarget();
 
@@ -35,6 +41,10 @@ public class CameraTargetHandler : MonoBehaviour
     
     private void Update()
     {
+        m_InternalTimer += Time.deltaTime;
+        if (m_InternalTimer < m_FreshRate) return;
+        m_InternalTimer = 0f;
+        
         m_TargetPosition = m_CameraTarget.Value.GetCameraTargetPosition();
         if (m_TargetPosition.HasValue)
         {
