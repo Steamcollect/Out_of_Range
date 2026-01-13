@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1743177669425214954}
   serializedVersion: 2
   m_LocalRotation: {x: 0.35355338, y: -0.35355338, z: 0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: 9.981288, y: 14.168559, z: -9.981341}
+  m_LocalPosition: {x: -146.25935, y: 16.685715, z: -7.7406735}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 7751046056153775248}
   - component: {fileID: 4324013229095435065}
   - component: {fileID: 5838728102086572458}
-  - component: {fileID: 1413892411780615569}
+  - component: {fileID: 439728910979045657}
   m_Layer: 2
   m_Name: MouseFollower
   m_TagString: Untagged
@@ -269,8 +269,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82653060d21e440fb694eda7e2e5d37a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraTargetHandler
-  m_CameraTarget:
+  m_FreshRate: 0.1
+  m_CameraTargetAutoFocus:
     _object: {fileID: 5838728102086572458}
+  m_CameraTargetFreeLook:
+    _object: {fileID: 439728910979045657}
+  m_CameraTargetType: {fileID: 11400000, guid: 46d420e2ce5b5534e888cd23c44416a3, type: 2}
   m_AimTarget: {fileID: 11400000, guid: 09f66405bedce16448f02f1b689a9c4a, type: 2}
 --- !u!114 &5838728102086572458
 MonoBehaviour:
@@ -291,13 +295,12 @@ MonoBehaviour:
   m_LayerMaskTargets:
     serializedVersion: 2
     m_Bits: 512
-  m_RadiusCursorDetection: 5
-  m_MinMaxDistanceToTarget: {x: 1, y: 20}
+  m_RadiusCursorDetection: 2.5
   m_QueryTriggerInteraction: 1
   m_MousePositionIa: {fileID: 3186695138886981126, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_CamController: {fileID: 11400000, guid: 452bdeba678d33f45929b40fb180f382, type: 2}
   m_PlayerController: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
---- !u!114 &1413892411780615569
+--- !u!114 &439728910979045657
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -306,14 +309,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5314068403784075046}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6adefe29171a4b118b560e8f21b52869, type: 3}
+  m_Script: {fileID: 11500000, guid: 0144397fa3a80544d8d385a9b01ee6db, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.CameraTargetMouse
-  m_MinDistance: 2
-  m_MaxDistance: 20
+  m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.CameraTargetFree
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4095
+    m_Bits: 521
   m_QueryTriggerInteraction: 1
   m_MousePositionIa: {fileID: 3186695138886981126, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_PlayerController: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
@@ -332,6 +333,7 @@ GameObject:
   - component: {fileID: 9178947805659083162}
   - component: {fileID: 7721692156072609044}
   - component: {fileID: 5409745655738788091}
+  - component: {fileID: 5871082230553578974}
   m_Layer: 0
   m_Name: FightCam
   m_TagString: Untagged
@@ -470,6 +472,30 @@ MonoBehaviour:
   TestFrequency: 20
   TestShakeButton: 0
 --- !u!114 &5409745655738788091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430292755315460749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseListener
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 1
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!114 &5871082230553578974
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
