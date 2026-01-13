@@ -21,7 +21,7 @@ public class Grenade : MonoBehaviour
 
     Vector3 m_StartingPos, m_TargetPos;
 
-    static Collider[] m_CollidHit = new Collider[100];
+    static Collider[] s_CollidHit = new Collider[100];
 
     public void Setup(Vector3 initPos, Vector3 targetPos)
     {
@@ -63,13 +63,13 @@ public class Grenade : MonoBehaviour
     {
         Destroy(m_WarningEffect.gameObject);
 
-        int length = Physics.OverlapSphereNonAlloc(transform.position, m_ExplosionRadius, m_CollidHit, m_HurtBoxLayers);
+        int length = Physics.OverlapSphereNonAlloc(transform.position, m_ExplosionRadius, s_CollidHit, m_HurtBoxLayers);
 
-        if (m_CollidHit.Length > 0)
+        if (s_CollidHit.Length > 0)
         {
             for (int i = 0; i < length; i++)
             {
-                if (m_CollidHit[i].TryGetComponent(out HurtBox hurtBox))
+                if (s_CollidHit[i].TryGetComponent(out HurtBox hurtBox))
                 {
                     hurtBox.TakeDamage(m_Damage);
                 }
