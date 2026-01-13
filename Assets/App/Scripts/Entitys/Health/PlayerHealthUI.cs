@@ -29,6 +29,7 @@ public class PlayerHealthUI : MonoBehaviour
     {
         EntityHealth entityHealth = m_PlayerController.Get().GetHealth();
         entityHealth.OnTakeDamage += SetHealthFillValue;
+        entityHealth.OnHeal += SetHealthFillValue;
         entityHealth.OnDeath += SetHealthFillValue;
         SetHealthFillValue();
     }
@@ -36,6 +37,7 @@ public class PlayerHealthUI : MonoBehaviour
     private void OnDestroy()
     {
         EntityHealth entityHealth = m_PlayerController.Get().GetHealth();
+        entityHealth.OnHeal -= SetHealthFillValue;
         entityHealth.OnTakeDamage -= SetHealthFillValue;
         entityHealth.OnDeath -= SetHealthFillValue;
     }

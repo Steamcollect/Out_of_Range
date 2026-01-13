@@ -374,6 +374,24 @@ namespace MoreMountains.Feedbacks
 		/// <param name="freezeFrameEvent">Freeze frame event.</param>
 		public virtual void OnMMFreezeFrameEvent(float duration)
 		{
+			// If a freeze frame is already in progress, extend its duration if needed instead of stacking
+			if (_timeScaleProperties.Count > 0)
+			{
+				TimeScaleProperties currentProp = _timeScaleProperties.Peek();
+				// Only extend if current property is a freeze frame (TimeScale == 0 and no lerp)
+				if (currentProp.TimeScale == 0f && !currentProp.TimeScaleLerp)
+				{
+					// Use the maximum duration between remaining time and new requested duration
+					if (duration > currentProp.Duration)
+					{
+						_timeScaleProperties.Pop();
+						currentProp.Duration = duration;
+						_timeScaleProperties.Push(currentProp);
+					}
+					return;
+				}
+			}
+			
 			TimeScaleProperties properties = new TimeScaleProperties();
 			properties.Duration = duration;
 			properties.TimeScaleLerp = false;
