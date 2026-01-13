@@ -51,10 +51,10 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 0.6
+      - m_Value: 0.4
         m_Name: Lifetime
         m_Overridden: 1
-      - m_Value: 0.15
+      - m_Value: 0.12
         m_Name: DelayRing
         m_Overridden: 1
       - m_Value: 50
@@ -63,7 +63,7 @@ VisualEffect:
       - m_Value: 120
         m_Name: Density
         m_Overridden: 1
-      - m_Value: 0.3
+      - m_Value: 0.2
         m_Name: Drag
         m_Overridden: 1
       - m_Value: 25
@@ -74,7 +74,7 @@ VisualEffect:
       - m_Value: {x: 0.1, y: 6}
         m_Name: MinMaxSpeedHit
         m_Overridden: 1
-      - m_Value: {x: 3, y: 20}
+      - m_Value: {x: 20, y: 60}
         m_Name: MinMaxSpeed
         m_Overridden: 1
     m_Vector3f:
@@ -102,8 +102,8 @@ VisualEffect:
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
-            time: 0.6129761
-            value: 1.0019531
+            time: 0.42541504
+            value: 1.00737
             inSlope: 0
             outSlope: 0
             tangentMode: 0
@@ -221,6 +221,9 @@ VisualEffect:
       - m_Value: {fileID: 2800000, guid: 2e9ba6f64dccc8f49882901f6c8c2d53, type: 3}
         m_Name: Texture
         m_Overridden: 1
+      - m_Value: {fileID: 2800000, guid: a55125e7f873c4046878d20496f89d25, type: 3}
+        m_Name: TextureBis
+        m_Overridden: 1
     m_Bool:
       m_Array: []
 --- !u!73398921 &1419516634077563972
@@ -232,7 +235,7 @@ VFXRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 209420501833689237}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
