@@ -13,6 +13,8 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
 
     private bool m_CanLookAt = true;
 
+    protected bool m_IsAttacking = false;
+
     private Vector3 m_TurnSmoothHozirontalVelocity, m_TurnSmoothVerticalVelocity;
 
     public virtual void LookAt(Vector3 targetPos, LookAtAxis lookAtAxis = LookAtAxis.Both, float turnSmoothTime = 999)
@@ -54,6 +56,8 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
     }
 
     public virtual IEnumerator Attack() { yield break; }
+
+    public virtual bool IsAttacking() { return m_IsAttacking; }
 
     public Vector3 GetLookAtDirection() => (m_VerticalPivot.forward + m_HorizontalPivot.forward).normalized;
     public Vector3 GetVerticalPivotPos() => m_VerticalPivot.position;

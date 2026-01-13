@@ -1,4 +1,3 @@
-using System.Collections;
 using MVsToolkit.Dev;
 using UnityEngine;
 
@@ -7,15 +6,9 @@ public class TurretEnemyController : EntityController, ISpawnable
     [Header("Settings")]
     [SerializeField] float m_DetectionRange;
     [SerializeField] float m_AttackRange;
-    [SerializeField, Range(1, 180)] float m_AngleRequireToAttack;
-
-    [Space(10)]
-    [SerializeField] float m_TimeBetweenAttacks;
-
+    [SerializeField, Range(0, 360)] float m_AngleRequireToAttack = 360f;
     [Space(10)]
     [SerializeField, ReadOnly] EnemyStates m_CurrentState;
-
-    bool m_CanAttack = true;
 
     [Header("Internal References")]
     [SerializeField] PlayerDetector m_Detector;
@@ -23,58 +16,65 @@ public class TurretEnemyController : EntityController, ISpawnable
     [Space(10)]
     [SerializeField] private RSO_PlayerController m_Player;
 
+    public event System.Action<EnemyStates> OnStateChanged;
+
     void Start()
     {
         m_Health.OnTakeDamage += () =>
         {
-            if (m_CurrentState == EnemyStates.Idle)
-                m_CurrentState = EnemyStates.Chasing;
+            SetState(EnemyStates.Attacking);
         };
     }
 
     private void FixedUpdate()
     {
-        if (m_CurrentState == EnemyStates.Chasing)
+        switch (m_CurrentState)
         {
-            if (m_Detector.CanSeePlayer(m_DetectionRange))
-            {
+            case EnemyStates.Idle:
+                // DO SOMETHING
+                break;
+            case EnemyStates.Chasing:
                 m_Combat.LookAt(m_Player.Get().GetTargetPosition());
+                break;
+            case EnemyStates.Attacking:
+                m_Combat.LookAt(m_Player.Get().GetTargetPosition());
+                break;
+        }
 
-                if (m_CanAttack
-                    && m_Detector.IsLookDirectionWithinAngle(GetTargetPosition(), m_Combat.GetLookAtDirection(), m_AngleRequireToAttack))
-                    StartCoroutine(Attack());
+        if (m_Combat.IsAttacking()) return;
+
+        if (m_Detector.CanSeePlayer(m_DetectionRange))
+        {
+            if (m_Detector.CanSeePlayer(m_AttackRange)
+                && m_Detector.IsLookDirectionWithinAngle(GetTargetPosition(), m_Combat.GetLookAtDirection(), m_AngleRequireToAttack))
+            {
+                SetState(EnemyStates.Attacking);
+
+                if(!m_Combat.IsAttacking()) StartCoroutine(m_Combat.Attack());
+            }
+            else
+            {
+                SetState(EnemyStates.Chasing);
             }
         }
-        else if (m_CurrentState == EnemyStates.Idle
-            && m_Detector.IsPlayerInRange(m_DetectionRange)
-            && m_Detector.CanSeePlayer(m_DetectionRange))
+        else
         {
-            m_CurrentState = EnemyStates.Chasing;
-            StartCoroutine(AttackCooldown());
+            SetState(EnemyStates.Idle);
         }
-    }
-
-    IEnumerator Attack()
-    {
-        m_CurrentState = EnemyStates.Attacking;
-        yield return StartCoroutine(m_Combat.Attack());
-        m_CurrentState = EnemyStates.Chasing;
-
-        StartCoroutine(AttackCooldown());
-
-    }
-
-    IEnumerator AttackCooldown()
-    {
-        m_CanAttack = false;
-        yield return new WaitForSeconds(m_TimeBetweenAttacks);
-        m_CanAttack = true;
     }
 
     public void OnSpawn()
     {
-        m_CurrentState = EnemyStates.Chasing;
+        SetState(EnemyStates.Chasing);
     }
+
+    private void SetState(EnemyStates newState)
+    {
+        m_CurrentState = newState;
+        OnStateChanged?.Invoke(m_CurrentState);
+    }
+
+    #region Gizmos
 
     void OnDrawGizmosSelected()
     {
@@ -104,4 +104,5 @@ public class TurretEnemyController : EntityController, ISpawnable
         Gizmos.DrawLine(transform.position, transform.position + dirLeft * m_DetectionRange);
         Gizmos.DrawLine(transform.position, transform.position + dirRight * m_DetectionRange);
     }
+    #endregion
 }
