@@ -26,6 +26,13 @@ public class EntityHealth : MonoBehaviour, IHealth
 
     public Action OnTakeDamage, OnDeath;
 
+    [ContextMenu("Take Damage")]
+    private void FakeTakeDamage()
+    {
+        OnTakeDamage?.Invoke(); 
+        m_OnTakeDamageFeedback?.Invoke();
+    }
+
     private void Awake()
     {
         m_CurrentHealth = m_MaxHealth;
@@ -47,7 +54,7 @@ public class EntityHealth : MonoBehaviour, IHealth
         }
         else
         {
-            m_OnTakeDamageFeedback.Invoke();
+            m_OnTakeDamageFeedback?.Invoke();
             OnTakeDamage?.Invoke();
         }
     }
@@ -60,6 +67,7 @@ public class EntityHealth : MonoBehaviour, IHealth
             m_CurrentHealth = m_MaxHealth;
 
         OnTakeDamage?.Invoke();
+        m_OnTakeDamageFeedback?.Invoke();
     }
 
     private void Die()
