@@ -1,49 +1,85 @@
-using System;
-using UnityEngine;
+using System.Collections;
 using UnityEngine.VFX;
+using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
-    [SerializeField] int m_Damage;
-    [SerializeField] float explosionRadius;
-    [SerializeField] GameObject radiusVisualizer;
-    [SerializeField] private VisualEffect explosionEffect;
-    private GameObject radius;
+    [Header("Combat")]
+    [SerializeField] float m_ExplosionRadius = 5;
+    [SerializeField] int m_Damage = 1;
 
-    public int Damage
+    [SerializeField] LayerMask m_HurtBoxLayers;
+
+    [Header("Movement")]
+    [SerializeField] float m_MovementTime = 1;
+    [SerializeField] float m_MinHeight = 3;
+    [SerializeField] AnimationCurve m_MovementCurve;
+
+    [Header("References")]
+    [SerializeField] VisualEffect m_WarningEffectPrefab;
+    VisualEffect m_WarningEffect;
+
+    Vector3 m_StartingPos, m_TargetPos;
+
+    static Collider[] s_CollidHit = new Collider[100];
+
+    public void Setup(Vector3 initPos, Vector3 targetPos)
     {
-        get => m_Damage;
-        set => m_Damage = value;
+        m_StartingPos = initPos;
+        m_TargetPos = targetPos;
     }
 
-    public void ShowExplosionRadius(Vector3 position)
+    public void Move()
     {
-        if (radiusVisualizer != null)
+        m_WarningEffect = Instantiate(m_WarningEffectPrefab, m_TargetPos, Quaternion.identity);
+        m_WarningEffect.SetFloat("ChargingTime", m_MovementTime);
+        m_WarningEffect.SetFloat("ExplosionRadius", m_ExplosionRadius);
+
+        StartCoroutine(Movement());
+    }
+
+    IEnumerator Movement()
+    {
+        float t = 0;
+        float vt;
+
+        while (t < m_MovementTime)
         {
-            radius = Instantiate(radiusVisualizer, position, Quaternion.identity);
-            radius.transform.localScale = Vector3.one * explosionRadius * 2f;
-        }
-    }
+            vt = t / m_MovementTime;
 
-    private void OnCollisionEnter(Collision other)
-    {
+            transform.position = new Vector3(
+                Mathf.Lerp(m_StartingPos.x, m_TargetPos.x, vt),
+                Mathf.Lerp(m_StartingPos.y, m_TargetPos.y, vt) + m_MovementCurve.Evaluate(vt) * m_MinHeight,
+                Mathf.Lerp(m_StartingPos.z, m_TargetPos.z, vt));
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+
         Explode();
     }
-    
-    private void Explode()
-    {
-        Destroy(radius);
-        // Peut etre mettre une Pool ici mdrr
-        Instantiate(explosionEffect.gameObject, transform.position, Quaternion.identity);
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (Collider nearbyObject in colliders)
+    void Explode()
+    {
+        Destroy(m_WarningEffect.gameObject);
+
+        int length = Physics.OverlapSphereNonAlloc(transform.position, m_ExplosionRadius, s_CollidHit, m_HurtBoxLayers);
+
+        if (s_CollidHit.Length > 0)
         {
-            if (nearbyObject.gameObject.TryGetComponent(out HurtBox hurtBox) && !nearbyObject.CompareTag("Player"))
+            for (int i = 0; i < length; i++)
             {
-                hurtBox.TakeDamage(m_Damage);
+                if (s_CollidHit[i].TryGetComponent(out HurtBox hurtBox))
+                {
+                    hurtBox.TakeDamage(m_Damage);
+                }
             }
         }
+
         Destroy(gameObject);
     }
+
+    public float GetRadius() => m_ExplosionRadius;
+    public AnimationCurve GetMovementCurve() => m_MovementCurve;
+    public float GetMinHeight() => m_MinHeight;
 }

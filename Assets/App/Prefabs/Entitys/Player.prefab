@@ -1,5 +1,94 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &195364566654138920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2105749303433495760}
+  - component: {fileID: 266389295986758275}
+  - component: {fileID: 7697677649050215431}
+  m_Layer: 0
+  m_Name: Triangle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2105749303433495760
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195364566654138920}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.97}
+  m_LocalScale: {x: 0.74544, y: 0.74544, z: 0.74544}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3418200321831713681}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &266389295986758275
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195364566654138920}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &7697677649050215431
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195364566654138920}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 02409caf4a108164b9597c024d4c16f4, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1219821040852488128
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,6 +178,38 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1657474524940502585
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3418200321831713681}
+  m_Layer: 0
+  m_Name: Triangle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3418200321831713681
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657474524940502585}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.8980659, z: 0, w: 0.43986082}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2105749303433495760}
+  m_Father: {fileID: 5185836460870373712}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2277919348308628453
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +239,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5185836460870373712}
   m_Father: {fileID: 2074092412787055408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3482430135142944213
@@ -133,19 +255,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 533e324be07d6aa4c92db705d860287e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrenadeLauncherCombatStyle
-  m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
-  manaCostPerAttack: 0
   m_InputAttackType: 1
-  m_GrenadePrefab: {fileID: 3561684886862256561, guid: e1b2f896c04f27242a8e99efd5534f90, type: 3}
-  m_FirePoint: {fileID: 874208509811087154}
+  m_OnAttackFeedback:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnReloadFeedback:
+    m_PersistentCalls:
+      m_Calls: []
+  m_GrenadePrefab: {fileID: 4214654211266166565, guid: e1b2f896c04f27242a8e99efd5534f90, type: 3}
+  m_AttackPoint: {fileID: 874208509811087154}
+  m_MaxAmmo: 3
+  m_CurrentAmmo: 0
+  m_UnpassingWallMask:
+    serializedVersion: 2
+    m_Bits: 8192
+  m_PreShowRotateSpeed: 20
+  m_PreShowCircle: {fileID: 7788710854176471938}
+  m_PreShowTriangle: {fileID: 7697677649050215431}
   m_AimTarget: {fileID: 11400000, guid: 09f66405bedce16448f02f1b689a9c4a, type: 2}
-  m_MinArcHeight: 1
-  m_MaxArcHeight: 6
-  m_DesiredArcHeight: 3
-  m_FallbackDistance: 12
-  m_FallbackSpeed: 10
-  m_ReloadTime: 2
-  m_TrajectorySamples: 30
 --- !u!1 &2502887800849172274
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +343,7 @@ MonoBehaviour:
   m_PrimaryPlayerCombat: {fileID: 1149920520322700606}
   m_DefaultCombatStyle: {fileID: 1129812706102528412}
   m_ShotgunCombatStyle: {fileID: 3144718910361277535}
-  m_RifleCombatStyle: {fileID: 1498092034277058770}
+  m_RifleCombatStyle: {fileID: 1129812706102528412}
   m_GrenadeLauncherCombatStyle: {fileID: 3482430135142944213}
   m_OnGrenadeLauncherPickedUp: {fileID: 11400000, guid: a06120fb928b878488aa46a4cdf0b9c9, type: 2}
   m_OnShotgunPickedUp: {fileID: 11400000, guid: 1c063f16b5e8b2d4faeedb0448770941, type: 2}
@@ -334,6 +461,7 @@ MonoBehaviour:
   m_InputPlayerController: {fileID: 5662550271351511903}
   m_RotationVisual: {fileID: 2954271060133509083}
   m_Dash: {fileID: 4795731786279744601}
+  m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
   m_OnPlayerDie: {fileID: 11400000, guid: 195049c21bdce3c4e8c37dabbe232c92, type: 2}
   m_Controller: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!114 &5662550271351511903
@@ -532,25 +660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859ea51f3471d7b428dea5580c45ff77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangeOverloadCombatStyle
-  m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
-  manaCostPerAttack: 10
   m_InputAttackType: 0
-  m_CurentTemperature: 0
-  m_CurrentState: 0
-  m_ShootTemperature: 3
-  m_StunDelayOnOverload: 0.4
-  m_DefaultCoolsPerSec: 60
-  m_OverloadCoolsPerSec: 60
-  m_NerfCoolsPerSec: 60
-  m_BuffCoolsPerSec: 60
-  RangeToReset: {x: 30, y: 60}
-  RangeToBuff: {x: 20, y: 30}
-  RangeToNerf: {x: 5, y: 95}
-  drawReloadRect: 0
-  m_TimeBeforeAutoCool: 1.8
-  m_AttackCooldown: 0.1
-  m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_OnAttackFeedback:
     m_PersistentCalls:
       m_Calls:
@@ -581,6 +691,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_CurentTemperature: 0
+  m_CurrentState: 0
+  m_ShootTemperature: 3
+  m_StunDelayOnOverload: 0.4
+  m_DefaultCoolsPerSec: 60
+  m_OverloadCoolsPerSec: 60
+  m_NerfCoolsPerSec: 60
+  m_BuffCoolsPerSec: 60
+  RangeToReset: {x: 30, y: 60}
+  RangeToBuff: {x: 20, y: 30}
+  RangeToNerf: {x: 5, y: 95}
+  drawReloadRect: 0
+  m_TimeBeforeAutoCool: 1.8
+  m_AttackCooldown: 0.1
+  m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_AtkSpdPowerUpAttackCooldown: 0.04
+  m_ClonePowerUpBulletSpacing: 0.9
   m_MeshRenderer: {fileID: 137720684722639583}
   m_ColorOverTemperature:
     serializedVersion: 2
@@ -615,6 +743,8 @@ MonoBehaviour:
   m_AttackPoint: {fileID: 874208509811087154}
   m_MuzzleFlashPrefab: {fileID: 4186470608034871016, guid: e1532b720bdc5ad4cb310a851a0a304a, type: 3}
   m_BulletPrefab: {fileID: 4581899121895831684, guid: 11c5c37b2fad53d4c8e99a0565d12384, type: 3}
+  m_StrenghtPowerUpBulletPrefab: {fileID: 4581899121895831684, guid: 4f91a86f90821114bb5325e9994d99d1, type: 3}
+  m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
 --- !u!1 &5283047779086152633
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,25 +789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859ea51f3471d7b428dea5580c45ff77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangeOverloadCombatStyle
-  m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
-  manaCostPerAttack: 10
   m_InputAttackType: 0
-  m_CurentTemperature: 0
-  m_CurrentState: 0
-  m_ShootTemperature: 5
-  m_StunDelayOnOverload: 0.4
-  m_DefaultCoolsPerSec: 60
-  m_OverloadCoolsPerSec: 60
-  m_NerfCoolsPerSec: 60
-  m_BuffCoolsPerSec: 60
-  RangeToReset: {x: 30, y: 60}
-  RangeToBuff: {x: 20, y: 30}
-  RangeToNerf: {x: 5, y: 95}
-  drawReloadRect: 0
-  m_TimeBeforeAutoCool: 1.8
-  m_AttackCooldown: 0.15
-  m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_OnAttackFeedback:
     m_PersistentCalls:
       m_Calls:
@@ -708,6 +820,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_CurentTemperature: 0
+  m_CurrentState: 0
+  m_ShootTemperature: 5
+  m_StunDelayOnOverload: 0.4
+  m_DefaultCoolsPerSec: 60
+  m_OverloadCoolsPerSec: 60
+  m_NerfCoolsPerSec: 60
+  m_BuffCoolsPerSec: 60
+  RangeToReset: {x: 30, y: 60}
+  RangeToBuff: {x: 20, y: 30}
+  RangeToNerf: {x: 5, y: 95}
+  drawReloadRect: 0
+  m_TimeBeforeAutoCool: 1.8
+  m_AttackCooldown: 0.15
+  m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_AtkSpdPowerUpAttackCooldown: 0.07
+  m_ClonePowerUpBulletSpacing: 0.9
   m_MeshRenderer: {fileID: 137720684722639583}
   m_ColorOverTemperature:
     serializedVersion: 2
@@ -742,6 +872,8 @@ MonoBehaviour:
   m_AttackPoint: {fileID: 874208509811087154}
   m_MuzzleFlashPrefab: {fileID: 4186470608034871016, guid: e1532b720bdc5ad4cb310a851a0a304a, type: 3}
   m_BulletPrefab: {fileID: 4581899121895831684, guid: 11c5c37b2fad53d4c8e99a0565d12384, type: 3}
+  m_StrenghtPowerUpBulletPrefab: {fileID: 4581899121895831684, guid: 4f91a86f90821114bb5325e9994d99d1, type: 3}
+  m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
 --- !u!1 &5439680732867493737
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,6 +1005,96 @@ Transform:
   - {fileID: 874208509811087154}
   m_Father: {fileID: 7867158746001762559}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6770736919460595436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5185836460870373712}
+  - component: {fileID: 9151352414980222627}
+  - component: {fileID: 7788710854176471938}
+  m_Layer: 0
+  m_Name: Circle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &5185836460870373712
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6770736919460595436}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3418200321831713681}
+  m_Father: {fileID: 506926268100227347}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &9151352414980222627
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6770736919460595436}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &7788710854176471938
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6770736919460595436}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a0b168ea0e67f274b97d24b6a94a9351, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &6876447000317274734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,9 +1228,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74515fb61abfd004497206abebe48253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShotgunCombatStyle
-  m_CurrentMana: {fileID: 11400000, guid: 2ac42db844eb315418a5ee5920693790, type: 2}
-  manaCostPerAttack: 0
   m_InputAttackType: 1
+  m_OnAttackFeedback:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnReloadFeedback:
+    m_PersistentCalls:
+      m_Calls: []
   m_CurentTemperature: 0
   m_CurrentState: 0
   m_ShootTemperature: 50
@@ -1025,17 +1251,14 @@ MonoBehaviour:
   m_AttackCooldown: 0.2
   m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_OnAttackFeedback:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnReloadFeedback:
-    m_PersistentCalls:
-      m_Calls: []
+  m_AtkSpdPowerUpAttackCooldown: 0.1
+  m_TimeBetweenClonePowerUp: 0.1
   m_BulletsPerShot: 12
   m_SpreadAngle: 35
-  m_ReloadCooldown: 1
   m_AttackPoint: {fileID: 874208509811087154}
   m_BulletPrefab: {fileID: 4581899121895831684, guid: 11c5c37b2fad53d4c8e99a0565d12384, type: 3}
+  m_StrenghtPowerUpBulletPrefab: {fileID: 4581899121895831684, guid: 4f91a86f90821114bb5325e9994d99d1, type: 3}
+  m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
 --- !u!1 &7969789460747989224
 GameObject:
   m_ObjectHideFlags: 0
