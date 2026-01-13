@@ -11,6 +11,8 @@ public class Checkpoint : MonoBehaviour
     [SerializeField] RSO_PlayerController m_Player;
 
     //[Header("Input")]
+    
+    public Vector3 Position => m_SpawnPoint.position;
 
     private void Awake()
     {
@@ -30,6 +32,6 @@ public class Checkpoint : MonoBehaviour
 
     public void TpPlayer()
     {
-        m_Player.Get().transform.position = m_SpawnPoint.position;
+        m_Player.Get().Teleport(m_SpawnPoint.position);
     }
 }

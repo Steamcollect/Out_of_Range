@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,8 @@ public class PlayerController : EntityController
     [SerializeField] private RSE_OnPlayerDie m_OnPlayerDie;
     [SerializeField] private RSO_PlayerController m_Controller;
 
+    public Action OnPlayerTeleported;
+    
     private bool m_IsMoving;
     private Vector3 m_MoveDir;
     
@@ -82,7 +85,12 @@ public class PlayerController : EntityController
         m_Dash.Dash(m_MoveDir);
     }
     
-    public void Teleport(Vector3 position) => m_Rb.position = position;
+    public void Teleport(Vector3 position)
+    {
+        transform.position = position;
+        OnPlayerTeleported?.Invoke();
+        m_Rb.position = position;
+    }
 
     public PlayerCombat GetPlayerCombat()
     {

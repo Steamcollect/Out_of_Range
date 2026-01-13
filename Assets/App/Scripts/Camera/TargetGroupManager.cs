@@ -1,3 +1,4 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -12,5 +13,12 @@ public class TargetGroupManager : MonoBehaviour
     [Space(10)]
     [SerializeField] private RSO_PlayerController m_PlayerController;
 
-    private void Start() => m_TargetGroup.AddMember(m_PlayerController.Get().transform, m_Weight, m_Radius);
+    private void Start()
+    {
+        m_TargetGroup.AddMember(m_PlayerController.Get().transform, m_Weight, m_Radius);
+    }
+    
+    public Vector3 GetTargetPosition() => m_TargetGroup.Transform.position;
+    
+    public void UpdateTargetGroup() => m_TargetGroup.DoUpdate();
 }
