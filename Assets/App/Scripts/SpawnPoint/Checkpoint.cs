@@ -24,7 +24,7 @@ public class Checkpoint : MonoBehaviour
         {
             PlayerSpawnPoint.S_Position = m_SpawnPoint.position;
             if (other.TryGetComponent(out EntityController controller))
-               controller.GetHealth().TakeHealth(controller.GetHealth().GetMaxHealth());
+               controller.GetHealth().Heal(controller.GetHealth().GetMaxHealth());
         }
     }
 

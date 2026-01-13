@@ -24,7 +24,7 @@ public class EntityHealth : MonoBehaviour, IHealth
 
     protected float m_CurrentInvincibilityTimer;
 
-    public Action OnTakeDamage, OnDeath;
+    public Action OnTakeDamage, OnHeal, OnDeath;
 
     [ContextMenu("Take Damage")]
     private void FakeTakeDamage()
@@ -54,12 +54,11 @@ public class EntityHealth : MonoBehaviour, IHealth
         }
         else
         {
-            m_OnTakeDamageFeedback?.Invoke();
-            OnTakeDamage?.Invoke();
+            OnHeal?.Invoke();
         }
     }
 
-    public void TakeHealth(int health)
+    public void Heal(int health)
     {
         m_CurrentHealth += health;
 
