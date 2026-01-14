@@ -1,3 +1,5 @@
+using System;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,7 +18,7 @@ public class PlayerController : EntityController
     [Header("Output")]
     [SerializeField] private RSE_OnPlayerDie m_OnPlayerDie;
     [SerializeField] private RSO_PlayerController m_Controller;
-
+    
     private bool m_IsMoving;
     private Vector3 m_MoveDir;
     
@@ -82,7 +84,13 @@ public class PlayerController : EntityController
         m_Dash.Dash(m_MoveDir);
     }
     
-    public void Teleport(Vector3 position) => m_Rb.position = position;
+    public void Teleport(Vector3 position)
+    {
+        m_CamController.Get().PreProcessTeleportCamera();
+        transform.position = position;
+        m_Rb.position = position;
+        m_CamController.Get().TeleportCamera();
+    }
 
     public PlayerCombat GetPlayerCombat()
     {

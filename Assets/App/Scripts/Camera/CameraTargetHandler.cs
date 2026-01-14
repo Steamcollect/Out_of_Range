@@ -1,3 +1,4 @@
+using System;
 using MVsToolkit.Dev;
 using UnityEngine;
 
@@ -6,15 +7,25 @@ public class CameraTargetHandler : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private InterfaceReference<ICameraTarget> m_CameraTarget;
 
+    [Header("References")]
+    [SerializeField] private RSO_PlayerController m_PlayerController;
+    
     [Header("Output")]
     [SerializeField] private RSO_PlayerAimTarget m_AimTarget;
     
     private Vector3? m_TargetPosition;
 
-    
+
+    private void Start() => UpdateCameraTarget();
+
     private void OnEnable()
     {
         m_AimTarget.Set(transform);
+    }
+    
+    public void UpdateCameraTarget()
+    {
+        transform.position = m_PlayerController.Get().GetTargetPosition();
     }
     
     private void OnDisable()

@@ -218,8 +218,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e014368a362672a4ab427704ef43eb51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCameraController
-  m_CinemachineCamera: {fileID: 5070076415073743111}
   m_Camera: {fileID: 7812542238518711623}
+  m_CinemachineCamera: {fileID: 5070076415073743111}
+  m_TargetGroupManager: {fileID: 1042434643204415113}
+  m_CameraTargetHandler: {fileID: 4324013229095435065}
   m_PlayerController: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
   m_PlayerCamera: {fileID: 11400000, guid: 452bdeba678d33f45929b40fb180f382, type: 2}
 --- !u!1 &5314068403784075046
@@ -271,6 +273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraTargetHandler
   m_CameraTarget:
     _object: {fileID: 5838728102086572458}
+  m_PlayerController: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
   m_AimTarget: {fileID: 11400000, guid: 09f66405bedce16448f02f1b689a9c4a, type: 2}
 --- !u!114 &5838728102086572458
 MonoBehaviour:
@@ -291,7 +294,7 @@ MonoBehaviour:
   m_LayerMaskTargets:
     serializedVersion: 2
     m_Bits: 512
-  m_RadiusCursorDetection: 5
+  m_RadiusCursorDetection: 2.5
   m_MinMaxDistanceToTarget: {x: 1, y: 20}
   m_QueryTriggerInteraction: 1
   m_MousePositionIa: {fileID: 3186695138886981126, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -313,7 +316,7 @@ MonoBehaviour:
   m_MaxDistance: 20
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4095
+    m_Bits: 4031
   m_QueryTriggerInteraction: 1
   m_MousePositionIa: {fileID: 3186695138886981126, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_PlayerController: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
@@ -331,6 +334,7 @@ GameObject:
   - component: {fileID: 4003944232412228133}
   - component: {fileID: 9178947805659083162}
   - component: {fileID: 7721692156072609044}
+  - component: {fileID: 4279630357497757596}
   m_Layer: 0
   m_Name: FightCam
   m_TagString: Untagged
@@ -382,7 +386,7 @@ MonoBehaviour:
     NearClipPlane: 0.01
     FarClipPlane: 1000
     Dutch: 0
-    ModeOverride: 0
+    ModeOverride: 1
     PhysicalProperties:
       GateFit: 2
       SensorSize: {x: 21.946, y: 16.002}
@@ -468,6 +472,30 @@ MonoBehaviour:
   TestAmplitude: 2
   TestFrequency: 20
   TestShakeButton: 0
+--- !u!114 &4279630357497757596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430292755315460749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseListener
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 1
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &6552931435784802270
 GameObject:
   m_ObjectHideFlags: 0
