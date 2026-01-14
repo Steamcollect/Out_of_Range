@@ -15,7 +15,7 @@ public enum LookAtAxis
 }
 public interface ILookAtTarget
 {
-    void LookAt(Vector3 target, LookAtAxis lookAtAxis = LookAtAxis.Both, float turnSmoothTime = 999);
+    void LookAt(Vector3 target, LookAtAxis lookAtAxis = LookAtAxis.Both);
 }
 
 public interface IHealth
