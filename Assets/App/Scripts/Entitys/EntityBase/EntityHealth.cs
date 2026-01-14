@@ -44,7 +44,7 @@ public class EntityHealth : MonoBehaviour, IHealth
 
         if (m_ClampDamage) damage = Mathf.Clamp(damage, 0, m_MaxDamage);
 
-        GainInvincibility(m_InvincibilityRegainDuration);
+        if(m_InvincibilityRegainDuration > 0) GainInvincibility(m_InvincibilityRegainDuration);
 
         m_CurrentHealth -= damage;
 

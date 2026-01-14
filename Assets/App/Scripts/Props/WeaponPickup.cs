@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WeaponPickup : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class WeaponPickup : MonoBehaviour
     [SerializeField] private RSE_OnRiflePickedUp m_OnRiflePickedUp;
     [SerializeField] private RSE_OnShotgunPickedUp m_OnShotgunPickedUp;
     [SerializeField] private RSE_OnGrenadeLauncherPickedUp m_OnGrenadeLauncherPickedUp;
+
+    public UnityEvent onWeaponPickedUp;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -31,7 +34,9 @@ public class WeaponPickup : MonoBehaviour
                     m_OnGrenadeLauncherPickedUp.Call();
                     break;
             }
-            
+
+            onWeaponPickedUp.Invoke();
+
             if (m_DestroyAfterPickup)
             {
                 Destroy(gameObject);
