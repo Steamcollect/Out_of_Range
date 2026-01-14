@@ -65,12 +65,12 @@ namespace MoreMountains.Feedbacks
 			}
 			
 			// Check if enough time has passed since the last freeze frame
-			if (Time.unscaledTime - _lastFreezeFrameTime < MinimumTimeBetweenFreezeFrames)
+			if (Time.time - _lastFreezeFrameTime < MinimumTimeBetweenFreezeFrames)
 			{
 				return;
 			}
 			
-			_lastFreezeFrameTime = Time.unscaledTime;
+			_lastFreezeFrameTime = Time.time;
 			MMFreezeFrameEvent.Trigger(FeedbackDuration);
 		}
 		
