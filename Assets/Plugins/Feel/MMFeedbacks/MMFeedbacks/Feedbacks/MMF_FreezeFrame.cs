@@ -15,8 +15,17 @@ namespace MoreMountains.Feedbacks
 	[FeedbackPath("Time/Freeze Frame")]
 	public class MMF_FreezeFrame : MMF_Feedback
 	{
+
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+		private static void Initialize()
+		{
+			_lastFreezeFrameTime = float.NegativeInfinity;
+		}
+		
 		/// a static bool used to disable all feedbacks of this type at once
 		public static bool FeedbackTypeAuthorized = true;
+		/// the last time a freeze frame was triggered (shared across all instances)
+		protected static float _lastFreezeFrameTime = float.NegativeInfinity;
 		/// sets the inspector color for this feedback
 		#if UNITY_EDITOR
 		public override Color FeedbackColor { get { return MMFeedbacksInspectorColors.TimeColor; } }
@@ -31,6 +40,9 @@ namespace MoreMountains.Feedbacks
 		/// the minimum value the timescale should be at for this freeze frame to happen. This can be useful to avoid triggering freeze frames when the timescale is already frozen. 
 		[Tooltip("the minimum value the timescale should be at for this freeze frame to happen. This can be useful to avoid triggering freeze frames when the timescale is already frozen.")]
 		public float MinimumTimescaleThreshold = 0.1f;
+		/// the minimum time (in unscaled seconds) between two freeze frame calls across all instances
+		[Tooltip("the minimum time (in unscaled seconds) between two freeze frame calls across all instances")]
+		public float MinimumTimeBetweenFreezeFrames = 0.3f;
 
 		/// the duration of this feedback is the duration of the freeze frame
 		public override float FeedbackDuration { get { return ApplyTimeMultiplier(FreezeFrameDuration); } set { FreezeFrameDuration = value; } }
@@ -51,7 +63,14 @@ namespace MoreMountains.Feedbacks
 			{
 				return;
 			}
-            
+			
+			// Check if enough time has passed since the last freeze frame
+			if (Time.time - _lastFreezeFrameTime < MinimumTimeBetweenFreezeFrames)
+			{
+				return;
+			}
+			
+			_lastFreezeFrameTime = Time.time;
 			MMFreezeFrameEvent.Trigger(FeedbackDuration);
 		}
 		
