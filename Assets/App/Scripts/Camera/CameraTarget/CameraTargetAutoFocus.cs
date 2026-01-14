@@ -53,7 +53,7 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
             return null;
         }
         m_LastMousePosition = hitMouseWorld.point;
-        Vector3? resultPosition = FindDirectTarget(hitMouseWorld.point) ?? FindTargetInRadius(hitMouseWorld.point) ?? hitMouseWorld.point;
+        Vector3? resultPosition = FindTargetInRadius(hitMouseWorld.point) ?? FindDirectTarget(hitMouseWorld.point) ?? hitMouseWorld.point;
         return resultPosition;
     }
 
@@ -72,12 +72,10 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
 
         if (Physics.SphereCast(playerPos, sphereRadius, direction, out RaycastHit hit, distance, m_LayerMaskHittable, m_QueryTriggerInteraction))
         {
-            if (hit.collider.TryGetComponent(out ITargetable target))
-            {
-                if (!TargetInRange(mouseWorldPos, target.GetTargetPosition(), out float _)) return null;
-                m_TargetDirectlyFound = true;
-                return target.GetTargetPosition();
-            }
+            if (!hit.collider.TryGetComponent(out ITargetable target)) return null;
+            if (!TargetInRange(mouseWorldPos, target.GetTargetPosition())) return null;
+            m_TargetDirectlyFound = true;
+            return target.GetTargetPosition();
         }
         return null;
         
@@ -96,25 +94,24 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         // return null;
     }
 
-    private bool TargetInRange(Vector3 origin, Vector3 targetPosition, out float distanceToTarget)
+    private bool TargetInRange(Vector3 origin, Vector3 targetPosition)
     {
-        distanceToTarget = Vector3.Distance(origin, targetPosition);
-
         Vector3 targetPositionVS = m_CamController.Get().GetCamera().WorldToViewportPoint(targetPosition);
 
         return targetPositionVS.x is >= 0 and <= 1 &&
                targetPositionVS.y is >= 0 and <= 1 &&
                targetPositionVS.z > 0;
-        
-        // return distanceToTarget >= m_MinMaxDistanceToTarget.x && distanceToTarget <= m_MinMaxDistanceToTarget.y;
     }
 
     private Vector3? FindTargetInRadius(Vector3 mouseWorldPos)
     {
         int size = Physics.OverlapSphereNonAlloc(mouseWorldPos, m_RadiusCursorDetection, m_TargetResults, m_LayerMaskTargets, m_QueryTriggerInteraction);
 
-        ITargetable closestTarget = null;
-        float closestDistanceSqr = Mathf.Infinity;
+        ITargetable closestTargetToMouse = null;
+        float dCloseMouseTarget = Mathf.Infinity;
+        
+        ITargetable closestTargetToPlayer = null;
+        float dClosePlayerTarget = Mathf.Infinity;
         
         for (int i = 0; i < size; i++)
         {
@@ -122,26 +119,37 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
             {
                 Vector3 playerPos = m_PlayerController.Get().transform.position;
                 Vector3 targetPos = sphereTarget.GetTargetPosition();
-                var rayToTarget = new Ray(playerPos, (targetPos - playerPos).normalized);
+                Ray rayToTarget = new(playerPos, (targetPos - playerPos).normalized);
 
-                if (!TargetInRange(mouseWorldPos,targetPos, out float distanceToTarget)) continue;
+                if (!TargetInRange(mouseWorldPos,targetPos)) continue;
                 
-                if (distanceToTarget >= closestDistanceSqr) continue; 
+                float dPlayerTarget = Vector3.Distance(playerPos, targetPos);
+                float dMouseTarget = Vector3.Distance(mouseWorldPos, targetPos);
                 
-                bool isObstructed = Physics.Raycast(rayToTarget, out RaycastHit obstructionHit, distanceToTarget, m_LayerMaskHittable, m_QueryTriggerInteraction) &&
+                
+                bool isObstructed = Physics.Raycast(rayToTarget, out RaycastHit obstructionHit, dPlayerTarget, m_LayerMaskHittable, m_QueryTriggerInteraction) &&
                                     obstructionHit.transform != m_TargetResults[i].transform;
-                if (!isObstructed)
+                if (isObstructed) continue;
+                
+                if (dPlayerTarget < dClosePlayerTarget)
                 {
-                    closestDistanceSqr = distanceToTarget;
-                    closestTarget = sphereTarget;
+                    dClosePlayerTarget = dPlayerTarget;
+                    closestTargetToPlayer = sphereTarget;
+                }
+
+                if (dMouseTarget < dCloseMouseTarget)
+                {
+                    dCloseMouseTarget = dMouseTarget;
+                    closestTargetToMouse = sphereTarget;
                 }
             }
         }
 
-        if (closestTarget == null) return null;
+        if (closestTargetToMouse == null) return null;
+        
         
         m_TargetInRangeFound = true;
-        return closestTarget.GetTargetPosition();
+        return dClosePlayerTarget < dCloseMouseTarget ? closestTargetToPlayer!.GetTargetPosition() : closestTargetToMouse.GetTargetPosition();
     }
 
     private void OnDrawGizmosSelected()
@@ -174,10 +182,8 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         Gizmos.DrawLine(playerPos + right, endPos + right);
         Gizmos.DrawLine(playerPos - right, endPos - right);
 
-        if (!m_TargetDirectlyFound)
-        {
+        
             Gizmos.color = m_TargetInRangeFound ? Color.green : Color.red;
             Gizmos.DrawWireSphere(m_LastMousePosition, m_RadiusCursorDetection);
-        }
     }
 }
