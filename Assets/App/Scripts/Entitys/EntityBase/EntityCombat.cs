@@ -5,7 +5,7 @@ using UnityEngine;
 public class EntityCombat : MonoBehaviour, ILookAtTarget
 {
     [Header("Settings")]
-    [SerializeField] private float m_TurnSmoothTime;
+    [SerializeField] protected float m_TurnSmoothTime;
 
     [Header("References")]
     [SerializeField] protected Transform m_VerticalPivot;
@@ -15,16 +15,16 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
 
     protected bool m_IsAttacking = false;
 
+    private float m_CurrentTurnSmoothTime;
+
     private Vector3 m_TurnSmoothHozirontalVelocity, m_TurnSmoothVerticalVelocity;
 
-    public virtual void LookAt(Vector3 targetPos, LookAtAxis lookAtAxis = LookAtAxis.Both, float turnSmoothTime = 999)
+    public virtual void LookAt(Vector3 targetPos, LookAtAxis lookAtAxis = LookAtAxis.Both)
     {
         if (!m_CanLookAt) return;
 
         Vector3 direction = targetPos - m_HorizontalPivot.position;
         if (direction.sqrMagnitude < 0.0001f) return;
-
-        if(turnSmoothTime == 999) turnSmoothTime = m_TurnSmoothTime;
 
         if (m_HorizontalPivot && lookAtAxis != LookAtAxis.Vertical)
         {
@@ -36,7 +36,7 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
                 m_HorizontalPivot.LookAtSmoothDamp(
                     m_HorizontalPivot.position + horizontalDir,
                     ref m_TurnSmoothHozirontalVelocity,
-                    turnSmoothTime
+                    m_CurrentTurnSmoothTime
                 );
             }
         }
@@ -50,7 +50,7 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
             m_VerticalPivot.LookAtSmoothDamp(
                 verticalLookPoint,
                 ref m_TurnSmoothVerticalVelocity,
-                turnSmoothTime
+                m_CurrentTurnSmoothTime
             );
         }
     }
@@ -63,4 +63,6 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
     public Vector3 GetVerticalPivotPos() => m_VerticalPivot.position;
 
     public void SetActiveLookAt(bool canLookAt) => m_CanLookAt = canLookAt;
+
+    public void SetTurnSmoothTime(float turnSmoothTime) => m_CurrentTurnSmoothTime = turnSmoothTime;
 }

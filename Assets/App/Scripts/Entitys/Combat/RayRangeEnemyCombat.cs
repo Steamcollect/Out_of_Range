@@ -46,7 +46,6 @@ public class RayRangeEnemyCombat : EntityCombat
             }
         }
 
-        //Debug.Log("Ray shot from " + m_AttackPoint.position + " towards " + m_Player.Get().GetTargetPosition());
         m_OnShoot.Invoke();
 
         yield return new WaitForSeconds(m_TimeAfterAttack);
@@ -55,7 +54,6 @@ public class RayRangeEnemyCombat : EntityCombat
         OnShootCompleted?.Invoke();
 
         yield return new WaitForSeconds(m_TimeBetweenAttacks);
-        Debug.Log("IsAttackingFalse");
         m_IsAttacking = false;
     }
 }
