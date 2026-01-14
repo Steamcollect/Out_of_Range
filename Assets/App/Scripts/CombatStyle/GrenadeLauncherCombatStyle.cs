@@ -3,7 +3,7 @@ using MVsToolkit.Dev;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GrenadeLauncherCombatStyle : CombatStyle
+public class GrenadeLauncherCombatStyle : CombatStyle, IAmmoCombatStyle
 {
     [Header("Settings")]
     [SerializeField] Grenade m_GrenadePrefab;
