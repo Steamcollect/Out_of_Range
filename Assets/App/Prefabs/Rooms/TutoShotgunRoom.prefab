@@ -178,6 +178,7 @@ Transform:
   - {fileID: 629643000186411111}
   - {fileID: 6474205498472850869}
   - {fileID: 3765286309369537906}
+  - {fileID: 532014329469729941}
   - {fileID: 1453669155441518059}
   - {fileID: 5565502861811729435}
   - {fileID: 2323081693303407266}
@@ -216,7 +217,7 @@ Transform:
   m_GameObject: {fileID: 541131340834584670}
   serializedVersion: 2
   m_LocalRotation: {x: 0.35355338, y: -0.35355338, z: 0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: 154.5, y: 18, z: 110.5}
+  m_LocalPosition: {x: -21.258308, y: 193.4609, z: -132.74171}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -255,8 +256,8 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 1000
-  field of view: 60.000004
-  orthographic: 1
+  field of view: 6
+  orthographic: 0
   orthographic size: 15
   m_Depth: 0
   m_CullingMask:
@@ -3310,7 +3311,7 @@ Transform:
   m_GameObject: {fileID: 7189417093792737237}
   serializedVersion: 2
   m_LocalRotation: {x: 0.35355338, y: -0.35355338, z: 0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: 154.5, y: 18, z: 110.5}
+  m_LocalPosition: {x: 276.48233, y: 189.94376, z: -11.232411}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3336,16 +3337,16 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 0}
+    TrackingTarget: {fileID: 532014329469729941}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 60.000004
+    FieldOfView: 6
     OrthographicSize: 15
     NearClipPlane: 0.01
     FarClipPlane: 1000
     Dutch: 0
-    ModeOverride: 1
+    ModeOverride: 2
     PhysicalProperties:
       GateFit: 2
       SensorSize: {x: 21.946, y: 16.002}
@@ -3371,7 +3372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886251e9a18ece04ea8e61686c173e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachinePositionComposer
-  CameraDistance: 20
+  CameraDistance: 270
   DeadZoneDepth: 0
   Composition:
     ScreenPosition: {x: 0.0000006593764, y: 0.001245662}
@@ -4763,6 +4764,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &9194652543141991659
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 532014329469729941}
+  m_Layer: 0
+  m_Name: Ground_14
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &532014329469729941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9194652543141991659}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.70710576, z: -0, w: 0.70710784}
+  m_LocalPosition: {x: 141.5, y: -1, z: 123.75}
+  m_LocalScale: {x: 6.640755, y: 8, z: 8.148655}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1509237595510481204}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1001 &884857388959673070
 PrefabInstance:
   m_ObjectHideFlags: 0
