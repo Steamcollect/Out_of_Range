@@ -21,7 +21,7 @@ public class PlayerCursor : MonoBehaviour
 
     private void Update()
     {
+        transform.position = m_MousePositionIA.action.ReadValue<Vector2>();
         m_CursorImg.Rotate(Vector3.forward * m_RotationSpeed * Time.deltaTime);
-        m_CursorImg.position = m_MousePositionIA.action.ReadValue<Vector2>();
     }
 }
