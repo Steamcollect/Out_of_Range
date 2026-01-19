@@ -20,11 +20,11 @@ public abstract class CombatStyle : MonoBehaviour
     [SerializeField] protected UnityEvent m_OnAttackFeedback;
     [SerializeField] protected UnityEvent m_OnReloadFeedback;
 
-    public virtual void AttackStart(InputAction.CallbackContext ctx)
+    public virtual void AttackStart()
     {
         StartCoroutine(Attack());
     }
-    public virtual void AttackEnd(InputAction.CallbackContext ctx) { }
+    public virtual void AttackEnd() { }
 
     public virtual IEnumerator Attack() { yield break; }
     public virtual void StopAttack()

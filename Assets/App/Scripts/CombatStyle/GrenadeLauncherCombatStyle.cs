@@ -50,13 +50,13 @@ public class GrenadeLauncherCombatStyle : CombatStyle, IAmmoCombatStyle
         DrawPreShow();
     }
 
-    public override void AttackStart(InputAction.CallbackContext ctx)
+    public override void AttackStart()
     {
         m_InputPress = true;
         m_PreShowCircle.gameObject.SetActive(true);
     }
 
-    public override void AttackEnd(InputAction.CallbackContext ctx)
+    public override void AttackEnd()
     {
         m_InputPress = false;
         if(m_CanTouchTarget) StartCoroutine(Attack());

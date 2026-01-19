@@ -1,6 +1,7 @@
 using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCombat : EntityCombat
 {
@@ -11,6 +12,24 @@ public class PlayerCombat : EntityCombat
     [SerializeField] private RSO_PlayerAimTarget m_AimTarget;
 
     public Action OnPrimaryCombatStyleChange, OnSecondaryCombatStyleChange;
+
+    private void OnEnable()
+    {
+        m_InputPlayerController.PrimaryAttackIa.action.started += OnPrimaryAttackStart;
+        m_InputPlayerController.PrimaryAttackIa.action.canceled += OnPrimaryAttackCanceled;
+
+        m_InputPlayerController.SecondaryAttackIa.action.started += OnSecondaryAttackStart;
+        m_InputPlayerController.SecondaryAttackIa.action.started += OnSecondaryAttackCanceled;
+    }
+
+    void OnDisable()
+    {
+        m_InputPlayerController.PrimaryAttackIa.action.started -= OnPrimaryAttackStart;
+        m_InputPlayerController.PrimaryAttackIa.action.canceled -= OnPrimaryAttackCanceled;
+
+        m_InputPlayerController.SecondaryAttackIa.action.started -= OnSecondaryAttackStart;
+        m_InputPlayerController.SecondaryAttackIa.action.started -= OnSecondaryAttackCanceled;
+    }
 
     private void Update()
     {
@@ -40,50 +59,26 @@ public class PlayerCombat : EntityCombat
             StartCoroutine(m_SecondaryCombatStyle.Attack());
         }
     }
-    
+
+    void OnPrimaryAttackStart(InputAction.CallbackContext ctx) => m_PrimaryCombatStyle?.AttackStart();
+    void OnPrimaryAttackCanceled(InputAction.CallbackContext ctx) => m_PrimaryCombatStyle?.AttackEnd();
+    void OnSecondaryAttackStart(InputAction.CallbackContext ctx) => m_SecondaryCombatStyle?.AttackStart();
+    void OnSecondaryAttackCanceled(InputAction.CallbackContext ctx) => m_SecondaryCombatStyle?.AttackEnd();
+
     public void SetPrimaryCombatStyle(CombatStyle newStyle)
     {
-        if(m_PrimaryCombatStyle != null)
-        {
-            m_InputPlayerController.PrimaryAttackIa.action.started -= m_PrimaryCombatStyle.AttackStart;
-            m_InputPlayerController.PrimaryAttackIa.action.canceled -= m_PrimaryCombatStyle.AttackEnd;
-        }
+        if (newStyle == null) return;
 
         m_PrimaryCombatStyle = newStyle;
         OnPrimaryCombatStyleChange?.Invoke();
-
-        m_InputPlayerController.PrimaryAttackIa.action.started += m_PrimaryCombatStyle.AttackStart;
-        m_InputPlayerController.PrimaryAttackIa.action.canceled += m_PrimaryCombatStyle.AttackEnd;
     }
 
     public void SetSecondaryCombatStyle(CombatStyle newStyle)
     {
         if (newStyle == null) return;
 
-        if (m_SecondaryCombatStyle != null)
-        {
-            m_InputPlayerController.SecondaryAttackIa.action.started -= m_SecondaryCombatStyle.AttackStart;
-            m_InputPlayerController.SecondaryAttackIa.action.canceled -= m_SecondaryCombatStyle.AttackEnd;
-        }
-
         m_SecondaryCombatStyle = newStyle;
         OnSecondaryCombatStyleChange?.Invoke();
-        m_InputPlayerController.SecondaryAttackIa.action.started += m_SecondaryCombatStyle.AttackStart;
-        m_InputPlayerController.SecondaryAttackIa.action.canceled += m_SecondaryCombatStyle.AttackEnd;
-    }
-
-    private void OnDisable()
-    {
-        if (m_PrimaryCombatStyle)
-        {
-            m_InputPlayerController.PrimaryAttackIa.action.started -= m_PrimaryCombatStyle.AttackStart;
-            m_InputPlayerController.PrimaryAttackIa.action.canceled -= m_PrimaryCombatStyle.AttackEnd;
-        }
-        if (m_SecondaryCombatStyle)
-        {
-            m_InputPlayerController.SecondaryAttackIa.action.started -= m_SecondaryCombatStyle.AttackStart;
-            m_InputPlayerController.SecondaryAttackIa.action.canceled -= m_SecondaryCombatStyle.AttackEnd;
-        }
     }
 
     public CombatStyle GetPrimaryCombatStyle()
