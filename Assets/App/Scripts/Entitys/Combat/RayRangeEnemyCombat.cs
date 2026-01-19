@@ -13,7 +13,7 @@ public class RayRangeEnemyCombat : EntityCombat
     [SerializeField] private float m_TimeAfterAttack;
     [SerializeField] private float m_TimeBetweenAttacks;
     [Space(5)]
-    [SerializeField] private LayerMask m_DetectionMask;
+    [SerializeField] private LayerMask m_AttackMask;
     [SerializeField, TagName] private string m_PlayerTag;
 
     [Header("References")]
@@ -38,7 +38,7 @@ public class RayRangeEnemyCombat : EntityCombat
 
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 100.0f))
+        if (Physics.Raycast(ray, out hit, 100.0f, m_AttackMask))
         {
             if (hit.collider.TryGetComponent(out HurtBox hurtBox))
             {
