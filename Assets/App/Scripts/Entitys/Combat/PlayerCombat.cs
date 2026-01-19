@@ -19,7 +19,7 @@ public class PlayerCombat : EntityCombat
         m_InputPlayerController.PrimaryAttackIa.action.canceled += OnPrimaryAttackCanceled;
 
         m_InputPlayerController.SecondaryAttackIa.action.started += OnSecondaryAttackStart;
-        m_InputPlayerController.SecondaryAttackIa.action.started += OnSecondaryAttackCanceled;
+        m_InputPlayerController.SecondaryAttackIa.action.canceled += OnSecondaryAttackCanceled;
     }
 
     void OnDisable()
@@ -28,7 +28,7 @@ public class PlayerCombat : EntityCombat
         m_InputPlayerController.PrimaryAttackIa.action.canceled -= OnPrimaryAttackCanceled;
 
         m_InputPlayerController.SecondaryAttackIa.action.started -= OnSecondaryAttackStart;
-        m_InputPlayerController.SecondaryAttackIa.action.started -= OnSecondaryAttackCanceled;
+        m_InputPlayerController.SecondaryAttackIa.action.canceled -= OnSecondaryAttackCanceled;
     }
 
     private void Update()
