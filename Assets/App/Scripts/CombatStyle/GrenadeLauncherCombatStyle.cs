@@ -1,7 +1,6 @@
 using System.Collections;
 using MVsToolkit.Dev;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class GrenadeLauncherCombatStyle : CombatStyle, IAmmoCombatStyle
 {
