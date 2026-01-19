@@ -16,8 +16,8 @@ public class Grenade : MonoBehaviour
     [SerializeField] AnimationCurve m_MovementCurve;
 
     [Header("References")]
-    [SerializeField] VisualEffect m_WarningEffectPrefab;
-    VisualEffect m_WarningEffect;
+    [SerializeField] VisualEffect m_WarningEffect;
+    [SerializeField] VisualEffect m_ExplosionEffect;
 
     Vector3 m_StartingPos, m_TargetPos;
 
@@ -31,7 +31,10 @@ public class Grenade : MonoBehaviour
 
     public void Move()
     {
-        m_WarningEffect = Instantiate(m_WarningEffectPrefab, m_TargetPos, Quaternion.identity);
+        m_WarningEffect.transform.SetParent(null);
+        m_WarningEffect.transform.position = m_TargetPos;
+        m_WarningEffect.gameObject.SetActive(true);
+        
         m_WarningEffect.SetFloat("ChargingTime", m_MovementTime);
         m_WarningEffect.SetFloat("ExplosionRadius", m_ExplosionRadius);
 
@@ -61,7 +64,10 @@ public class Grenade : MonoBehaviour
 
     void Explode()
     {
-        Destroy(m_WarningEffect.gameObject);
+        m_WarningEffect.gameObject.SetActive(false);
+        
+        m_ExplosionEffect.transform.SetParent(null);
+        m_ExplosionEffect.gameObject.SetActive(true);
 
         int length = Physics.OverlapSphereNonAlloc(transform.position, m_ExplosionRadius, s_CollidHit, m_HurtBoxLayers);
 
@@ -82,4 +88,9 @@ public class Grenade : MonoBehaviour
     public float GetRadius() => m_ExplosionRadius;
     public AnimationCurve GetMovementCurve() => m_MovementCurve;
     public float GetMinHeight() => m_MinHeight;
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, m_ExplosionRadius);
+    }
 }
