@@ -40,15 +40,7 @@ public class ShotgunCombatStyle : OverloadCombatStyle
                 && m_CurrentPowerUp.Get().PowerUpType == PowerUpType.AttackSpeed ?
                 m_AtkSpdPowerUpAttackCooldown : m_AttackCooldown)); m_OnAttackFeedback?.Invoke();
 
-
-            if (m_CurrentState != OverloadWeaponState.CoolBuffed)
-            {
-                m_CurentTemperature += m_ShootTemperature;
-                if (m_CurentTemperature >= 100)
-                    StartCoroutine(OnOverload());
-            }
-
-            OnAmmoChange?.Invoke(m_CurentTemperature, 100);
+            OnShootHeat();
 
             yield break;
         }

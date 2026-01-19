@@ -4,7 +4,6 @@ using MVsToolkit.Dev;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public abstract class OverloadCombatStyle : CombatStyle
@@ -36,6 +35,7 @@ public abstract class OverloadCombatStyle : CombatStyle
     [Space(10)]
     [SerializeField] protected float m_AttackCooldown;
 
+    protected bool m_HaveFreeShoot = false;
     protected float m_AutoCoolTimer;
 
     //[Header("References")]
@@ -139,6 +139,7 @@ public abstract class OverloadCombatStyle : CombatStyle
         {
             m_CurrentState = OverloadWeaponState.CanShoot;
             m_CurentTemperature = 0;
+            m_HaveFreeShoot = true;
             OnAmmoChange?.Invoke(m_CurentTemperature, 100);
         }
         else if (m_CurentTemperature.InRange(RangeToNerf))
@@ -150,6 +151,21 @@ public abstract class OverloadCombatStyle : CombatStyle
 
         OnOverloadStateChange.Invoke(m_CurrentState);
         OnOverloadEnd?.Invoke();
+    }
+
+    protected void OnShootHeat()
+    {
+        if (m_CurrentState != OverloadWeaponState.CoolBuffed)
+        {
+            if (m_HaveFreeShoot) m_HaveFreeShoot = false;
+            else
+            {
+                m_CurentTemperature += m_ShootTemperature;
+                if (m_CurentTemperature >= 100) StartCoroutine(OnOverload());
+
+                OnAmmoChange?.Invoke(m_CurentTemperature, 100);
+            }
+        }
     }
 
     protected virtual IEnumerator AttackCooldown(float cooldown)

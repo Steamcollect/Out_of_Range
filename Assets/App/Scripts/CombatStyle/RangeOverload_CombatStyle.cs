@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RangeOverload_CombatStyle : OverloadCombatStyle
@@ -70,15 +71,8 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
             
             m_OnAttackFeedback?.Invoke();
 
-            if(m_CurrentState != OverloadWeaponState.CoolBuffed)
-            {
-                m_CurentTemperature += m_ShootTemperature;
-                if (m_CurentTemperature >= 100)
-                    StartCoroutine(OnOverload());
-            }
-
+            OnShootHeat();
             SetRendererColor();
-            OnAmmoChange?.Invoke(m_CurentTemperature, 100);
 
             yield break;
         }
