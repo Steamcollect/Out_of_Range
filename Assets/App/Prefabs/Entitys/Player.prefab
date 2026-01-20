@@ -269,12 +269,13 @@ MonoBehaviour:
   m_AttackPoint: {fileID: 874208509811087154}
   m_UnpassingWallMask:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 0
   m_PreShowRotateSpeed: 20
   m_Mana: {fileID: 11400000, guid: 04380361abcf90443bb76d56ec1ac85d, type: 2}
   m_PreShowCircle: {fileID: 7788710854176471938}
   m_PreShowTriangle: {fileID: 7697677649050215431}
   m_AimTarget: {fileID: 11400000, guid: 09f66405bedce16448f02f1b689a9c4a, type: 2}
+  m_TargetType: {fileID: 11400000, guid: 46d420e2ce5b5534e888cd23c44416a3, type: 2}
 --- !u!1 &2502887800849172274
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,7 +364,7 @@ GameObject:
   - component: {fileID: 384362440837574710}
   - component: {fileID: 5662550271351511903}
   - component: {fileID: 3956271624679390256}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -507,9 +508,9 @@ GameObject:
   - component: {fileID: 5071253312774906998}
   - component: {fileID: 8231817660637434609}
   - component: {fileID: 666573636361024304}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: Health
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -982,6 +983,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Entity_Dash
   m_DashCooldown: 0.7
   m_DashForceMode: 1
+  m_PlayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  m_DashMask:
+    serializedVersion: 2
+    m_Bits: 2176
   m_DashDrag: 3
   m_DashForce: 20
   m_DashTime: 0.3
