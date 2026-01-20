@@ -11,7 +11,7 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
     [SerializeField] protected Transform m_VerticalPivot;
     [SerializeField] protected Transform m_HorizontalPivot;
 
-    private bool m_CanLookAt = true;
+    protected bool m_CanLookAt = true;
 
     protected bool m_IsAttacking = false;
 

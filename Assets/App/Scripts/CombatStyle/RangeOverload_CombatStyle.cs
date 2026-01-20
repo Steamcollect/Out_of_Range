@@ -29,9 +29,9 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
 
     private void Start()
     {
-        m_RendererMat = new Material(m_MeshRenderer.material);
-        m_MeshRenderer.material = m_RendererMat;
-        SetRendererColor();
+        //m_RendererMat = new Material(m_MeshRenderer.material);
+        //m_MeshRenderer.material = m_RendererMat;
+        //SetRendererColor();
     }
 
     public override IEnumerator Attack()
@@ -72,7 +72,7 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
             m_OnAttackFeedback?.Invoke();
 
             OnShootHeat();
-            SetRendererColor();
+            //SetRendererColor();
 
             yield break;
         }

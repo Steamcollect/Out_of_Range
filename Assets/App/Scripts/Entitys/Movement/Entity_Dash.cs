@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.VFX;
 
 public class Entity_Dash : MonoBehaviour
 {
@@ -21,7 +21,8 @@ public class Entity_Dash : MonoBehaviour
 
     [Header("REFERENCES")]
     [SerializeField] private Rigidbody m_Rb;
-
+    [SerializeField] VisualEffect m_DustFX;
+    [SerializeField] PlayerAnimationVisual m_PlayerAnimationVisual;
     [SerializeField] private EntityHealth m_EntityHealth;
 
     private float m_BeginDrag;
@@ -37,31 +38,21 @@ public class Entity_Dash : MonoBehaviour
 
         m_Rb.AddForce(input * m_DashForce, m_DashForceMode);
 
+        StartCoroutine(m_PlayerAnimationVisual.SpawnClones(m_DashTime));
         StartCoroutine(DashTime());
         StartCoroutine(DashCooldown());
     }
     
     private IEnumerator DashTime()
-    {
-        
+    {        
         LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_DashMask, true);
-
-        // Physics.IgnoreLayerCollision(m_PlayerMask, m_DashMask, true);
-        // Physics.IgnoreLayerCollision(8, 9, true);
-        // Physics.IgnoreLayerCollision(8, 6, true);
-        // Physics.IgnoreLayerCollision(12, 6, true);
+        m_DustFX.SendEvent("Play");
 
         yield return new WaitForSeconds(m_DashTime);
-     
-        
+             
+        m_DustFX.SendEvent("Stop");
         LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_DashMask, false);
 
-        // Physics.IgnoreLayerCollision(m_PlayerMask, m_DashMask, false);
-        
-        // Physics.IgnoreLayerCollision(8, 9, false);
-        // Physics.IgnoreLayerCollision(8, 6, false);
-        // Physics.IgnoreLayerCollision(12, 6, false);
-        
         m_Rb.linearVelocity = m_Rb.linearVelocity.normalized;
         m_Rb.linearDamping = m_BeginDrag;
     }

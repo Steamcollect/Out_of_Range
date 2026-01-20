@@ -11,6 +11,9 @@ public class PlayerCombat : EntityCombat
     [Space(10)]
     [SerializeField] private RSO_PlayerAimTarget m_AimTarget;
 
+    [Space(10)]
+    [SerializeField] PlayerAnimationVisual m_RotationVisual;
+
     public Action OnPrimaryCombatStyleChange, OnSecondaryCombatStyleChange;
 
     private void OnEnable()
@@ -88,5 +91,12 @@ public class PlayerCombat : EntityCombat
     public CombatStyle GetSecondaryCombatStyle()
     {
         return m_SecondaryCombatStyle;
+    }
+
+    public override void LookAt(Vector3 targetPos, LookAtAxis lookAtAxis = LookAtAxis.Both)
+    {
+        if (!m_CanLookAt) return;
+
+        m_RotationVisual.RotateToward(targetPos);
     }
 }
