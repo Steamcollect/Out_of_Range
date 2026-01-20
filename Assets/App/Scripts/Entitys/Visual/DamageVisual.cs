@@ -38,7 +38,6 @@ using UnityEngine;
     
         private void Update()
         {
-            // keep renderer shader in sync every frame
             float value = 1f - (m_EntityHealth ? m_EntityHealth.GetHealthPercentage() : 1f);
             SetDamage(value);
         }
