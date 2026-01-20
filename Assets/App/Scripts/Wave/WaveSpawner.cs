@@ -45,6 +45,24 @@ public class WaveSpawner : MonoBehaviour
 
                 onSpawnCallback?.Invoke(spawnedEntity);
             }
+            else //PLACEHOLDER POUR FAIRE SPAWN LES POWER UP, A CLEAN ? (Baptiste)
+            {
+                GameObject spawnFeedback = Instantiate(m_SpawnFeedback, transform.position, transform.rotation);
+                spawnFeedback.transform.localScale = Vector3.zero;
+                float timer = 0f;
+
+                while (timer < m_SpawnFeedbackDuration)
+                {
+                    timer += Time.deltaTime;
+                    float progress = Mathf.Clamp01(timer / m_SpawnFeedbackDuration);
+                    spawnFeedback.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, progress);
+                    yield return null;
+                }
+
+                Destroy(spawnFeedback);
+
+                Instantiate(content, transform.position, transform.rotation);
+            }
         }
     }
     
