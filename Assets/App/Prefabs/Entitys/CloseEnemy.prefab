@@ -1258,7 +1258,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDetector
   m_DetectionMask:
     serializedVersion: 2
-    m_Bits: 443
+    m_Bits: 1089
   m_PlayerTag: Player
   m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
   m_Controller: {fileID: 630752205924355106}
@@ -4130,7 +4130,7 @@ GameObject:
   - component: {fileID: 6859809241658623256}
   - component: {fileID: 630752205924355106}
   - component: {fileID: 5541069656001584028}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: CloseEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -4197,7 +4197,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 3072
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -4888,7 +4888,7 @@ GameObject:
   - component: {fileID: 1673158380354325163}
   - component: {fileID: 6711686245100103740}
   - component: {fileID: 5189970067126118701}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: WepaponCollid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4944,8 +4944,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8717f9d4bba58014fb7a5ced207e7d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColliderCallback
-  m_UseTagFilter: 0
-  m_TagsToDetect: []
+  m_UseTagFilter: 1
+  m_TagsToDetect:
+  - Player
   OnTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -8379,7 +8380,7 @@ GameObject:
   - component: {fileID: 139493214252254291}
   - component: {fileID: 1408150523670328044}
   - component: {fileID: 5370443096211594654}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8498,10 +8499,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 3072
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 959
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0

@@ -9,6 +9,8 @@ public class Entity_Dash : MonoBehaviour
 
     [Space(10)] 
     [SerializeField] private ForceMode m_DashForceMode;
+    [SerializeField] private LayerMask m_PlayerMask;
+    [SerializeField] private LayerMask m_DashMask;
 
     [Space(10)] 
     [SerializeField] private float m_DashDrag;
@@ -41,15 +43,24 @@ public class Entity_Dash : MonoBehaviour
     
     private IEnumerator DashTime()
     {
-        Physics.IgnoreLayerCollision(8, 9, true);
-        Physics.IgnoreLayerCollision(8, 6, true);
-        Physics.IgnoreLayerCollision(12, 6, true);
+        
+        LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_DashMask, true);
+
+        // Physics.IgnoreLayerCollision(m_PlayerMask, m_DashMask, true);
+        // Physics.IgnoreLayerCollision(8, 9, true);
+        // Physics.IgnoreLayerCollision(8, 6, true);
+        // Physics.IgnoreLayerCollision(12, 6, true);
 
         yield return new WaitForSeconds(m_DashTime);
      
-        Physics.IgnoreLayerCollision(8, 9, false);
-        Physics.IgnoreLayerCollision(8, 6, false);
-        Physics.IgnoreLayerCollision(12, 6, false);
+        
+        LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_DashMask, false);
+
+        // Physics.IgnoreLayerCollision(m_PlayerMask, m_DashMask, false);
+        
+        // Physics.IgnoreLayerCollision(8, 9, false);
+        // Physics.IgnoreLayerCollision(8, 6, false);
+        // Physics.IgnoreLayerCollision(12, 6, false);
         
         m_Rb.linearVelocity = m_Rb.linearVelocity.normalized;
         m_Rb.linearDamping = m_BeginDrag;
