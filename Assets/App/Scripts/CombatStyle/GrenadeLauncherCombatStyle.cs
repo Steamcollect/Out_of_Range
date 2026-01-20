@@ -26,6 +26,9 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     [SerializeField] MeshRenderer m_PreShowTriangle;
 
     [SerializeField] RSO_PlayerAimTarget m_AimTarget;
+    
+    [Header("Output")]
+    [SerializeField] RSO_CameraTargetType m_TargetType;
 
     private void FixedUpdate()
     {
@@ -48,6 +51,7 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     {
         m_InputPress = true;
         m_PreShowCircle.gameObject.SetActive(true);
+        m_TargetType.Set(CameraTargetType.FreeLook);
     }
 
     public override void AttackEnd()
@@ -56,6 +60,7 @@ public class GrenadeLauncherCombatStyle : CombatStyle
         if(m_CanTouchTarget) StartCoroutine(Attack());
 
         m_PreShowCircle.gameObject.SetActive(false);
+        m_TargetType.Set(CameraTargetType.AutoFocus);
     }
 
     public override IEnumerator Attack()
