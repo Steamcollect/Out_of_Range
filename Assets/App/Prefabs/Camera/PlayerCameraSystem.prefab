@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1743177669425214954}
   serializedVersion: 2
   m_LocalRotation: {x: 0.35355338, y: -0.35355338, z: 0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: 432.72296, y: 187.42659, z: -13.473082}
+  m_LocalPosition: {x: -21.258308, y: 193.4609, z: -132.74171}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -66,7 +66,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.01
+  near clip plane: 1
   far clip plane: 1000
   field of view: 6
   orthographic: 0
@@ -294,10 +294,10 @@ MonoBehaviour:
   m_IsVerbose: 0
   m_LayerMaskHittable:
     serializedVersion: 2
-    m_Bits: 521
+    m_Bits: 1153
   m_LayerMaskTargets:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 128
   m_RadiusCursorDetection: 2.5
   m_QueryTriggerInteraction: 1
   m_MousePositionIa: {fileID: 3186695138886981126, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -336,7 +336,6 @@ GameObject:
   - component: {fileID: 9178947805659083162}
   - component: {fileID: 7721692156072609044}
   - component: {fileID: 5409745655738788091}
-  - component: {fileID: 5871082230553578974}
   m_Layer: 0
   m_Name: FightCam
   m_TagString: Untagged
@@ -497,31 +496,7 @@ MonoBehaviour:
     AmplitudeGain: 1
     FrequencyGain: 1
     Duration: 1
-    m_NoiseOffsets: {x: 0, y: 0, z: 0}
---- !u!114 &5871082230553578974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6430292755315460749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseListener
-  ApplyAfter: 2
-  ChannelMask: 1
-  Gain: 1
-  Use2DDistance: 1
-  UseCameraSpace: 1
-  SignalCombinationMode: 0
-  ReactionSettings:
-    m_SecondaryNoise: {fileID: 0}
-    AmplitudeGain: 1
-    FrequencyGain: 1
-    Duration: 1
-    m_NoiseOffsets: {x: 0, y: 0, z: 0}
+    m_NoiseOffsets: {x: 609.16205, y: -608.6948, z: -208.06589}
 --- !u!1 &6552931435784802270
 GameObject:
   m_ObjectHideFlags: 0
