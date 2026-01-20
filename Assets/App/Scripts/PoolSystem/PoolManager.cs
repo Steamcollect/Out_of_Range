@@ -57,8 +57,7 @@ public class PoolManager : MonoBehaviour
             m_Pools[prefabID].Release(obj);
         }
     }
-
-    
+        
     private int GetPrefabID(GameObject prefab)
     {
         return prefab.GetHashCode();

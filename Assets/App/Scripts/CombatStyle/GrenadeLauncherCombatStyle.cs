@@ -1,16 +1,14 @@
 using System.Collections;
-using MVsToolkit.Dev;
 using UnityEngine;
 
-public class GrenadeLauncherCombatStyle : CombatStyle, IAmmoCombatStyle
+public class GrenadeLauncherCombatStyle : CombatStyle
 {
     [Header("Settings")]
+    [SerializeField] int m_ShootCost;
+
+    [Space(10)]
     [SerializeField] Grenade m_GrenadePrefab;
     [SerializeField] Transform m_AttackPoint;
-
-    [Space(5)]
-    [SerializeField] int m_MaxAmmo;
-    [SerializeField, ReadOnly] int m_CurrentAmmo;
 
     [Space(5)]
     [SerializeField] LayerMask m_UnpassingWallMask;
@@ -22,15 +20,12 @@ public class GrenadeLauncherCombatStyle : CombatStyle, IAmmoCombatStyle
     bool m_CanTouchTarget = false;
 
     [Header("References")]
+    [SerializeField] RSO_Mana m_Mana;
+
     [SerializeField] MeshRenderer m_PreShowCircle;
     [SerializeField] MeshRenderer m_PreShowTriangle;
 
     [SerializeField] RSO_PlayerAimTarget m_AimTarget;
-
-    private void Start()
-    {
-        m_CurrentAmmo = m_MaxAmmo;
-    }
 
     private void FixedUpdate()
     {
@@ -65,8 +60,8 @@ public class GrenadeLauncherCombatStyle : CombatStyle, IAmmoCombatStyle
 
     public override IEnumerator Attack()
     {
-        if (m_CurrentAmmo <= 0) yield break;
-        m_CurrentAmmo--;
+        if (!m_Mana.HaveEngough(m_ShootCost)) yield break;
+        m_Mana.Remove(m_ShootCost);
         
         Grenade grenade = Instantiate(m_GrenadePrefab, m_AttackPoint.position, m_AttackPoint.rotation);
         grenade.Setup(m_AttackPoint.position, m_AimTarget.Get().position);
@@ -88,6 +83,4 @@ public class GrenadeLauncherCombatStyle : CombatStyle, IAmmoCombatStyle
         m_PreShowCircle.transform.localEulerAngles -= Vector3.up * m_PreShowRotateSpeed * Time.deltaTime;
         m_PreShowTriangle.transform.parent.localEulerAngles += Vector3.up * m_PreShowRotateSpeed * 2 * Time.deltaTime;
     }
-
-    public void AddAmmo(int count) => m_CurrentAmmo = Mathf.Clamp(m_CurrentAmmo + count, 0, m_MaxAmmo);
 }
