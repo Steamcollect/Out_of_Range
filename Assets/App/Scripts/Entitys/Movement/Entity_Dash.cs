@@ -38,7 +38,7 @@ public class Entity_Dash : MonoBehaviour
 
         m_Rb.AddForce(input * m_DashForce, m_DashForceMode);
 
-        StartCoroutine(m_PlayerAnimationVisual.SpawnClones(m_DashTime));
+        StartCoroutine(m_PlayerAnimationVisual.OnDash(m_DashTime));
         StartCoroutine(DashTime());
         StartCoroutine(DashCooldown());
     }
