@@ -11,6 +11,8 @@ public class SupabaseManager : MonoBehaviour
     [SerializeField] private RSE_OnPlayerDie m_OnPlayerDie;
     [SerializeField] private RSO_PlayerController m_PlayerController;
     [SerializeField] private RSE_OnCheckpointRegistered m_OnCheckpointRegistered;
+    [SerializeField] private RSE_OnRunBegin m_OnRunBegin;
+    [SerializeField] private RSE_OnRunEnded m_OnRunEnded;
     
     [Header("Supabase Config")]
     [SerializeField] private SSO_SupabaseConfig m_SupabaseConfig;
@@ -25,6 +27,12 @@ public class SupabaseManager : MonoBehaviour
     {
         // On enregistre pas de données hors des builds
         if (Application.isEditor)
+        {
+            return;
+        }
+        
+        // On enregistre pas de données dans les builds de debug
+        if (Debug.isDebugBuild)
         {
             return;
         }
@@ -56,24 +64,64 @@ public class SupabaseManager : MonoBehaviour
         
         m_OnPlayerDie.Action += HandlePlayerDeath;
         m_OnCheckpointRegistered.Action += HandleCheckpoint;
+        
+        m_OnRunBegin.Action += CreateRun;
+        m_OnRunEnded.Action += EndRun;
     }
 
     private void OnDisable()
     {
         m_OnPlayerDie.Action -= HandlePlayerDeath;
         m_OnCheckpointRegistered.Action -= HandleCheckpoint;
+        
+        m_OnRunBegin.Action -= CreateRun;
+        m_OnRunEnded.Action -= EndRun;
     }
     
     private async void HandlePlayerDeath()
     {
+        if (!m_IsInitialized || runID == Guid.Empty)
+            return;
+            
         DeathQueries dq = new DeathQueries();
         await dq.CreateDeath(runID, m_PlayerController.Get().transform.position);
     }
     
     private async void HandleCheckpoint()
     {
+        if (!m_IsInitialized || runID == Guid.Empty)
+            return;
+            
         CheckpointQueries cq = new CheckpointQueries();
         await cq.CreateCheckpoint(runID);
+    }
+    
+    private async void CreateRun()
+    {
+        if (!m_IsInitialized)
+            return;
+            
+        RunQueries rq = new RunQueries();
+        string version = Application.version;
+        runID = await rq.CreateRun(version);
+        
+        if (runID != Guid.Empty)
+        {
+            Debug.Log($"Run créé avec ID: {runID}");
+        }
+        else
+        {
+            Debug.LogWarning("La création de run a retourné un GUID vide.");
+        }
+    }
+    
+    private void EndRun()
+    {
+        if (runID != Guid.Empty)
+        {
+            Debug.Log($"Run terminé avec ID: {runID}");
+        }
+        runID = Guid.Empty;
     }
     
     private async Task<bool> InitializeSupabase()
@@ -134,20 +182,7 @@ public class SupabaseManager : MonoBehaviour
 
             m_IsInitialized = true;
             Debug.Log("Supabase initialisé et joignable.");
-
-            RunQueries rq = new RunQueries();
-            String version = Application.version;
-            runID = await rq.CreateRun(version);
-
-            // Si runID est renseigné, on considère l'initialisation pleinement réussie
-            if (runID != Guid.Empty)
-            {
-                Debug.Log($"Run créé avec ID: {runID}");
-                return true;
-            }
-
-            Debug.LogWarning("Supabase initialisé mais la création de run a retourné un GUID vide.");
-            return true; // On considère que la connexion est ok même si la création du run a retourné vide
+            return true;
         }
         catch (Exception ex)
         {
