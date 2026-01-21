@@ -6,6 +6,7 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
 {
     [Header("Settings")]
     [SerializeField] protected float m_TurnSmoothTime;
+    [SerializeField] protected bool m_CanRotate = true;
 
     [Header("References")]
     [SerializeField] protected Transform m_VerticalPivot;
@@ -21,7 +22,7 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
 
     public virtual void LookAt(Vector3 targetPos, LookAtAxis lookAtAxis = LookAtAxis.Both)
     {
-        if (!m_CanLookAt) return;
+        if (!m_CanRotate || !m_CanLookAt) return;
 
         Vector3 direction = targetPos - m_HorizontalPivot.position;
         if (direction.sqrMagnitude < 0.0001f) return;

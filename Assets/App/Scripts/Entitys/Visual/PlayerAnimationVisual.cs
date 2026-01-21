@@ -27,6 +27,7 @@ public class PlayerAnimationVisual : MonoBehaviour
     [FoldoutGroup("Dash Anim"), SerializeField] float m_CloneLifeTime;
 
     [Space(10)]
+    [FoldoutGroup("Dash Anim"), SerializeField] bool m_ChangePlayerMat = true;
     [FoldoutGroup("Dash Anim"), SerializeField] GameObject[] m_PlayerMeshs;
     [FoldoutGroup("Dash Anim"), SerializeField] GameObject[] m_PlayerCloneMeshs;
 
@@ -82,10 +83,13 @@ public class PlayerAnimationVisual : MonoBehaviour
 
     public IEnumerator OnDash(float dashTime)
     {
-        foreach (var mesh in m_PlayerCloneMeshs)
-            mesh.SetActive(true);
-        foreach (var mesh in m_PlayerMeshs)
-            mesh.SetActive(false);
+        if (m_ChangePlayerMat)
+        {
+            foreach (var mesh in m_PlayerCloneMeshs)
+                mesh.SetActive(true);
+            foreach (var mesh in m_PlayerMeshs)
+                mesh.SetActive(false);
+        }
 
         for (int i = 0; i < m_Clones.Length; i++)
         {
@@ -99,9 +103,12 @@ public class PlayerAnimationVisual : MonoBehaviour
             yield return new WaitForSeconds(dashTime / m_CloneCountPerDash);
         }
 
-        foreach (var mesh in m_PlayerCloneMeshs)
-            mesh.SetActive(false);
-        foreach (var mesh in m_PlayerMeshs)
-            mesh.SetActive(true);
+        if (m_ChangePlayerMat)
+        {
+            foreach (var mesh in m_PlayerCloneMeshs)
+                mesh.SetActive(false);
+            foreach (var mesh in m_PlayerMeshs)
+                mesh.SetActive(true);
+        }
     }
 }
