@@ -12,6 +12,8 @@ public class ShotgunCombatStyle : OverloadCombatStyle
     [SerializeField] float m_SpreadAngle = 15f;
 
     [Header("Combat References")]
+    [SerializeField] Collider m_CollidToIgnore;
+
     [SerializeField] Transform m_AttackPoint;
     
     [SerializeField] Bullet m_BulletPrefab;
@@ -68,7 +70,7 @@ public class ShotgunCombatStyle : OverloadCombatStyle
                 bullet = PoolManager.Instance.Spawn(m_StrenghtPowerUpBulletPrefab, m_AttackPoint.position, spreadRotation);
             else
                 bullet = PoolManager.Instance.Spawn(m_BulletPrefab, m_AttackPoint.position, spreadRotation);
-            bullet.Setup();
+            bullet.Setup().AvoidCollider(m_CollidToIgnore);
         }
     }
 }

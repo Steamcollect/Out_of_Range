@@ -14,6 +14,7 @@ public class Bullet : MonoBehaviour
 
     [Header("References")]
     [SerializeField] Rigidbody m_RigidBody;
+    [SerializeField] Collider m_Collid;
     [SerializeField] GameObject m_HitPrefab;
 
     Coroutine m_TimeBeforeResetCoroutine;
@@ -34,6 +35,12 @@ public class Bullet : MonoBehaviour
         if (m_TimeBeforeResetCoroutine != null) StopCoroutine(m_TimeBeforeResetCoroutine);
         m_TimeBeforeResetCoroutine = StartCoroutine(TimeBeforeReset());
 
+        return this;
+    }
+
+    public Bullet AvoidCollider(Collider owner)
+    {
+        Physics.IgnoreCollision(m_Collid, owner);
         return this;
     }
 

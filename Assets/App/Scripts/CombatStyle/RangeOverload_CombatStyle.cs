@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class RangeOverload_CombatStyle : OverloadCombatStyle
@@ -9,6 +8,8 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
     [SerializeField] float m_ClonePowerUpBulletSpacing;
 
     [Header("Combat References")]
+    [SerializeField] Collider m_CollidToIgnore;
+
     [SerializeField] MeshRenderer m_MeshRenderer;
     [SerializeField] Gradient m_ColorOverTemperature;
     Material m_RendererMat;
@@ -58,7 +59,7 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
             else
             {
                 Bullet bullet = PoolManager.Instance.Spawn(bulletPrefab, m_AttackPoint.position, m_AttackPoint.rotation);
-                bullet.Setup();
+                bullet.Setup().AvoidCollider(m_CollidToIgnore);
             }               
 
             GameObject muzzleVFX = Instantiate(m_MuzzleFlashPrefab, m_AttackPoint);
