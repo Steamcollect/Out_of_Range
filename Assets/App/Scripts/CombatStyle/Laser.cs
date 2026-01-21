@@ -4,9 +4,10 @@ public class Laser : MonoBehaviour
 {
     [SerializeField] int m_Damage;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collid)
     {
-        if(collision.collider.TryGetComponent(out HurtBox hurtBox))
+        Debug.Log(collid.gameObject.name);
+        if(collid.TryGetComponent(out HurtBox hurtBox))
         {
             hurtBox.TakeDamage(m_Damage);
         }
