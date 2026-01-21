@@ -80,11 +80,11 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.15
+  m_Time: 0.5
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.19986384
+    widthMultiplier: 0.24877481
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -259,7 +259,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -305,13 +305,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManaPickup
   m_ManaGiven: 2
-  m_InitVelocity: 50
-  m_InitAngle: 30
-  m_MoveTime: 0.3
-  m_RangeToPickUp: 6
-  m_MoveSpeedRemovePerSec: 0.15
-  m_TimeBeforeCanBePick: 0.5
+  m_StartMoveTime: 3
+  m_MoveSpeedRemovePerSec: 1
+  m_InitAngle: 45
+  m_StartPropulsionForce: 5
+  m_StartingYVelocity: 5
   m_Mana: {fileID: 11400000, guid: 04380361abcf90443bb76d56ec1ac85d, type: 2}
   m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
-  m_Rb: {fileID: 3622282653884785592}
-  m_Collid: {fileID: 8858071904548501039}

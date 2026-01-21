@@ -6,7 +6,6 @@ public class ManaCreator : MonoBehaviour
     [Header("Settings")]
     [SerializeField] Vector2Int m_ManaCount;
 
-    [SerializeField] float m_PropulsionForce;
     [SerializeField] float m_PropulsionAngle;
 
     [Header("References")]
@@ -25,9 +24,7 @@ public class ManaCreator : MonoBehaviour
 
             ManaPickup mana = PoolManager.Instance.Spawn(m_ManaPrefab, transform.position + direction, Quaternion.identity);
 
-            mana.StartCoroutine(mana.SpawningCooldown());
-            mana.AddForce(direction, ForceMode.Impulse);
-            mana.Setup();
+            mana.AddForce(direction).Setup();
         }
     }
 }

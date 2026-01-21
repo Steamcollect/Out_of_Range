@@ -1,31 +1,25 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class ManaPickup : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] int m_ManaGiven;
 
-    [Space(10)]
-    [SerializeField] float m_InitVelocity;
-    [SerializeField] float m_InitAngle = 30;
-    [SerializeField] float m_MoveTime;
-    [SerializeField] float m_RangeToPickUp;
+    [SerializeField] float m_StartMoveTime;
+    float m_MoveTime;
     [SerializeField] float m_MoveSpeedRemovePerSec;
-    [SerializeField] float m_TimeBeforeCanBePick;
+
+    [Space(10)]
+    [SerializeField] float m_InitAngle;
+    [SerializeField] float m_StartPropulsionForce;
+    [SerializeField] float m_StartingYVelocity;
 
     Vector3 m_Velocity;
-    bool m_CanBePick = false;
-    bool m_IsPickingUp = false;
 
     [Header("References")]
     [SerializeField] RSO_Mana m_Mana;
     [SerializeField] RSO_PlayerController m_Player;
-
-    [Space(10)]
-    [SerializeField] Rigidbody m_Rb;
-    [SerializeField] Collider m_Collid;
 
     PooledObject m_PoolTicket;
 
@@ -33,35 +27,17 @@ public class ManaPickup : MonoBehaviour
 
     private void Update()
     {
-        if (m_CanBePick && m_IsPickingUp)
-        {
-            transform.position = Vector3.SmoothDamp(
-                transform.position,
-                m_Player.Get().GetTargetPosition(),
-                ref m_Velocity,
-                m_MoveTime);
-            
-            m_MoveTime = Mathf.Clamp(m_MoveTime - m_MoveSpeedRemovePerSec * Time.deltaTime, 0, m_MoveTime);
-        }
-    }
+        Vector3 targetPos = Vector3.SmoothDamp(
+            transform.position,
+            m_Player.Get().GetTargetPosition(),
+            ref m_Velocity,
+            m_MoveTime);
 
-    private void FixedUpdate()
-    {
-        if(m_CanBePick && !m_IsPickingUp && Vector3.Distance(m_Player.Get().GetTargetPosition(), transform.position) <= m_RangeToPickUp)
-        {
-            m_Collid.isTrigger = true;
-            m_Rb.isKinematic = true;
+        if (targetPos.y < m_Player.Get().GetTargetPosition().y) 
+            targetPos.y = m_Player.Get().GetTargetPosition().y;
+        transform.position = targetPos;
 
-            m_IsPickingUp = true;
-
-
-            Vector3 dir = (transform.position - m_Player.Get().GetTargetPosition()).normalized;
-
-            float angle = Random.value < .5f ? -m_InitAngle : m_InitAngle;
-
-            Quaternion rot = Quaternion.AngleAxis(angle, Vector3.up);
-            m_Velocity = rot * dir * m_InitVelocity;
-        }
+        m_MoveTime = Mathf.Clamp(m_MoveTime - m_MoveSpeedRemovePerSec * Time.deltaTime, 0.01f, m_MoveTime);
     }
 
     public void Setup()
@@ -86,21 +62,19 @@ public class ManaPickup : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+    public ManaPickup AddForce(Vector3 direction)
     {
-        Gizmos.DrawWireSphere(transform.position, m_RangeToPickUp);
-    }
+        Vector3 dir = (transform.position - m_Player.Get().GetTargetPosition()).normalized;
 
-    public void AddForce(Vector3 direction, ForceMode force)
-    {
-        m_Rb.AddForce(direction, force);
-    }
+        float angle = Random.value < .5f ? -m_InitAngle : m_InitAngle;
 
-    public IEnumerator SpawningCooldown()
-    {
-        m_CanBePick = false;
-        yield return new WaitForSeconds(m_TimeBeforeCanBePick);
-        m_CanBePick = true;
+        Quaternion rot = Quaternion.AngleAxis(angle, Vector3.up);
+        m_Velocity = rot * dir * m_StartPropulsionForce;
+        m_Velocity.y = m_StartingYVelocity;
+
+        m_MoveTime = m_StartMoveTime;
+
+        return this;
     }
 
     void ReturnToPool()
