@@ -8,8 +8,8 @@ public class ShotgunCombatStyle : OverloadCombatStyle
     [SerializeField] float m_TimeBetweenClonePowerUp;
 
     [Space(10)]
-    [SerializeField] int m_BulletsPerShot = 8;
-    [SerializeField] float m_SpreadAngle = 15f;
+    //[SerializeField] int m_BulletsPerShot = 8;
+    //[SerializeField] float m_SpreadAngle = 15f;
 
     [Header("Combat References")]
     [SerializeField] Collider m_CollidToIgnore;
@@ -24,53 +24,55 @@ public class ShotgunCombatStyle : OverloadCombatStyle
 
     public override IEnumerator Attack()
     {
-        if (m_CanAttack
-            && (m_CurrentState == OverloadWeaponState.CanShoot || m_CurrentState == OverloadWeaponState.CoolBuffed))
-        {
-            OnAttack?.Invoke();
+        yield break;
 
-            if(m_CurrentPowerUp.Get() != null && m_CurrentPowerUp.Get().PowerUpType == PowerUpType.Clone)
-            {
-                CreateBullets();
-                yield return new WaitForSeconds(m_TimeBetweenClonePowerUp);
-                CreateBullets();
-            }
-            else CreateBullets();
+        //if (m_CanAttack
+        //    && (m_CurrentState == OverloadWeaponState.CanShoot || m_CurrentState == OverloadWeaponState.CoolBuffed))
+        //{
+        //    OnAttack?.Invoke();
 
-            StartCoroutine(AttackCooldown(
-                m_CurrentPowerUp.Get() != null
-                && m_CurrentPowerUp.Get().PowerUpType == PowerUpType.AttackSpeed ?
-                m_AtkSpdPowerUpAttackCooldown : m_AttackCooldown)); m_OnAttackFeedback?.Invoke();
+        //    if(m_CurrentPowerUp.Get() != null && m_CurrentPowerUp.Get().PowerUpType == PowerUpType.Clone)
+        //    {
+        //        CreateBullets();
+        //        yield return new WaitForSeconds(m_TimeBetweenClonePowerUp);
+        //        CreateBullets();
+        //    }
+        //    else CreateBullets();
 
-            OnShootHeat();
+        //    StartCoroutine(AttackCooldown(
+        //        m_CurrentPowerUp.Get() != null
+        //        && m_CurrentPowerUp.Get().PowerUpType == PowerUpType.AttackSpeed ?
+        //        m_AtkSpdPowerUpAttackCooldown : m_AttackCooldown)); m_OnAttackFeedback?.Invoke();
 
-            yield break;
-        }
+        //    OnShootHeat();
+
+        //    yield break;
+        //}
     }
 
     void CreateBullets()
     {
-        for (int i = 0; i < m_BulletsPerShot; i++)
-        {
-            float yaw;
-            if (m_BulletsPerShot == 1)
-            {
-                yaw = 0f;
-            }
-            else
-            {
-                float step = m_SpreadAngle / (m_BulletsPerShot - 1);
-                yaw = -m_SpreadAngle / 2f + step * i;
-            }
+        //for (int i = 0; i < m_BulletsPerShot; i++)
+        //{
+        //    float yaw;
+        //    if (m_BulletsPerShot == 1)
+        //    {
+        //        yaw = 0f;
+        //    }
+        //    else
+        //    {
+        //        float step = m_SpreadAngle / (m_BulletsPerShot - 1);
+        //        yaw = -m_SpreadAngle / 2f + step * i;
+        //    }
 
-            Quaternion spreadRotation = m_AttackPoint.rotation * Quaternion.Euler(0f, yaw, 0f);
+        //    Quaternion spreadRotation = m_AttackPoint.rotation * Quaternion.Euler(0f, yaw, 0f);
 
-            Bullet bullet;
-            if (m_CurrentPowerUp.Get() != null && m_CurrentPowerUp.Get().PowerUpType == PowerUpType.Strenght)
-                bullet = PoolManager.Instance.Spawn(m_StrenghtPowerUpBulletPrefab, m_AttackPoint.position, spreadRotation);
-            else
-                bullet = PoolManager.Instance.Spawn(m_BulletPrefab, m_AttackPoint.position, spreadRotation);
-            bullet.Setup().AvoidCollider(m_CollidToIgnore);
-        }
+        //    Bullet bullet;
+        //    if (m_CurrentPowerUp.Get() != null && m_CurrentPowerUp.Get().PowerUpType == PowerUpType.Strenght)
+        //        bullet = PoolManager.Instance.Spawn(m_StrenghtPowerUpBulletPrefab, m_AttackPoint.position, spreadRotation);
+        //    else
+        //        bullet = PoolManager.Instance.Spawn(m_BulletPrefab, m_AttackPoint.position, spreadRotation);
+        //    bullet.Setup().AvoidCollider(m_CollidToIgnore);
+        //}
     }
 }

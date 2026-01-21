@@ -17,8 +17,6 @@ public class CloseEnemyCombat : EntityCombat
     [SerializeField] float m_AttackDashForce;
     [SerializeField] ForceMode m_DashForceMode;
 
-    bool m_IsAttacking = false;
-
     [Header("References")]
     [SerializeField] Transform m_WeaponPivot;
     [SerializeField] ColliderCallback m_ColliderCallback;

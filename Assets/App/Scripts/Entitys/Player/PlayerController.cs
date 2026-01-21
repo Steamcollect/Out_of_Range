@@ -38,7 +38,9 @@ public class PlayerController : EntityController
         m_Controller.Set(this);
 
         m_CurrentPowerUp.Set(null);
-        m_Health.OnTakeDamage += () => m_CurrentPowerUp.Set(null);
+
+        m_CurrentPowerUp.Set(new());
+        m_Health.OnTakeDamage += () => m_CurrentPowerUp.Value.Clear();
     }
     
     private void Start() => Teleport(PlayerSpawnPoint.S_Position);

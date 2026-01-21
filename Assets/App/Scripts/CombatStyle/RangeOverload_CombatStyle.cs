@@ -41,20 +41,27 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
             && (m_CurrentState == OverloadWeaponState.CanShoot || m_CurrentState == OverloadWeaponState.CoolBuffed))
         {
             OnAttack?.Invoke();
-                        
-            Bullet bulletPrefab = m_CurrentPowerUp.Get() != null && m_CurrentPowerUp.Get().PowerUpType == PowerUpType.Strenght ?
+
+            bool strength = m_CurrentPowerUp.ContainPowerUp(PowerUpType.Strenght);
+            bool clone = m_CurrentPowerUp.ContainPowerUp(PowerUpType.Clone);
+            bool atkSpeed = m_CurrentPowerUp.ContainPowerUp(PowerUpType.AttackSpeed);
+
+            Bullet bulletPrefab = m_CurrentPowerUp.Get() != null && strength ?
                 m_StrenghtPowerUpBulletPrefab :
                 m_BulletPrefab;
-            
-            if(m_CurrentPowerUp.Get() != null && m_CurrentPowerUp.Get().PowerUpType == PowerUpType.Clone)
+
+
+            if(m_CurrentPowerUp.Get() != null && clone)
             {
-                Vector3 pos = m_AttackPoint.position + m_AttackPoint.transform.right * (m_ClonePowerUpBulletSpacing * .5f);
+                float spacing = strength ? m_ClonePowerUpBulletSpacing * 2f : 1;
+
+                Vector3 pos = m_AttackPoint.position + m_AttackPoint.transform.right * (spacing * .5f);
                 Bullet bullet = PoolManager.Instance.Spawn(bulletPrefab, pos, m_AttackPoint.rotation);
-                bullet.Setup();
-                
-                pos = m_AttackPoint.position + -m_AttackPoint.transform.right * (m_ClonePowerUpBulletSpacing * .5f);
+                bullet.Setup().AvoidCollider(m_CollidToIgnore);
+
+                pos = m_AttackPoint.position + -m_AttackPoint.transform.right * (spacing * .5f);
                 bullet = PoolManager.Instance.Spawn(bulletPrefab, pos, m_AttackPoint.rotation);
-                bullet.Setup();
+                bullet.Setup().AvoidCollider(m_CollidToIgnore);
             }
             else
             {
@@ -67,7 +74,7 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
 
             StartCoroutine(AttackCooldown(
                 m_CurrentPowerUp.Get() != null
-                && m_CurrentPowerUp.Get().PowerUpType == PowerUpType.AttackSpeed ?
+                && atkSpeed ?
                 m_AtkSpdPowerUpAttackCooldown : m_AttackCooldown));
             
             m_OnAttackFeedback?.Invoke();

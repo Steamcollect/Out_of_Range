@@ -11,7 +11,7 @@ public class PowerUpPickUp : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            m_PlayerPowerUp.Set(m_PowerUp);
+            m_PlayerPowerUp.Value.Add(m_PowerUp);
 
             if (m_DestroyAfterPickup)
             {

@@ -5,7 +5,17 @@ namespace MVsToolkit.Wrappers
 {
     public class RuntimeScriptableObject<T> : ScriptableObject
     {
-        private T value = default(T);
+        protected T value = default(T);
+
+        public T Value
+        {
+            get => value;
+            set
+            {
+                this.value = value;
+                OnChanged?.Invoke(value);
+            }
+        }
 
         public event Action<T> OnChanged;
 
