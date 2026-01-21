@@ -95,6 +95,11 @@ public class PlayerController : EntityController
     {
         return m_Combat as PlayerCombat;
     }
+    
+    public Entity_Dash GetDash()
+    {
+        return m_Dash;
+    }
 
     private void OnDrawGizmosSelected()
     {

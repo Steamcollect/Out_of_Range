@@ -55,7 +55,7 @@ public class ManaPickup : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            m_Mana.Add(m_ManaGiven);
+            m_Mana.Get().Add(m_ManaGiven);
 
             if(m_LifeTimeCor != null) StopCoroutine(m_LifeTimeCor);
             ReturnToPool();

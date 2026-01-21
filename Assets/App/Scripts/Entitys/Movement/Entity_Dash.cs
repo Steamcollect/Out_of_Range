@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -28,6 +29,8 @@ public class Entity_Dash : MonoBehaviour
     private float m_BeginDrag;
     private bool m_CanDash = true;
 
+    public Action<float, float> OnDash;
+
     public void Dash(Vector3 input)
     {
         if (!m_CanDash) return;
@@ -37,6 +40,8 @@ public class Entity_Dash : MonoBehaviour
         m_EntityHealth.GainInvincibility(m_InvicibilityTime);
 
         m_Rb.AddForce(input * m_DashForce, m_DashForceMode);
+        
+        OnDash?.Invoke(m_DashTime, m_DashCooldown);
 
         StartCoroutine(m_PlayerAnimationVisual.OnDash(m_DashTime));
         StartCoroutine(DashTime());

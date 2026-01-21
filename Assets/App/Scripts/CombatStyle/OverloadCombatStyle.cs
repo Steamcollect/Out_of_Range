@@ -14,13 +14,13 @@ public abstract class OverloadCombatStyle : CombatStyle
 
     [Space(10)]
     [SerializeField, FoldoutGroup("Overload Settings")] protected float m_ShootTemperature;
-    [SerializeField, FoldoutGroup("Overload Settings"), Tooltip("Delay de bloquage avant de pouvoir recharger quand l'arme est surchauffé")] protected float m_StunDelayOnOverload;
+    [SerializeField, FoldoutGroup("Overload Settings"), Tooltip("Delay de bloquage avant de pouvoir recharger quand l'arme est surchauffï¿½")] protected float m_StunDelayOnOverload;
 
     [Space(10)]
     [SerializeField, FoldoutGroup("Overload Settings"), Tooltip("Refroidissement par seconde quand maximum pas atteint")] protected float m_DefaultCoolsPerSec;
     [SerializeField, FoldoutGroup("Overload Settings"), Tooltip("Refroidissement par seconde quand maximum pas atteint")] protected float m_OverloadCoolsPerSec;
-    [SerializeField, FoldoutGroup("Overload Settings"), Tooltip("Refroidissement par seconde quand input raté")] protected float m_NerfCoolsPerSec;
-    [SerializeField, FoldoutGroup("Overload Settings"), Tooltip("Refroidissement par seconde quand input réussis")] protected float m_BuffCoolsPerSec;
+    [SerializeField, FoldoutGroup("Overload Settings"), Tooltip("Refroidissement par seconde quand input ratï¿½")] protected float m_NerfCoolsPerSec;
+    [SerializeField, FoldoutGroup("Overload Settings"), Tooltip("Refroidissement par seconde quand input rï¿½ussis")] protected float m_BuffCoolsPerSec;
 
     [Space(5)]
     [SerializeField, FoldoutGroup("Overload Settings")] protected Vector2 RangeToReset;
@@ -149,7 +149,7 @@ public abstract class OverloadCombatStyle : CombatStyle
         }
         else return;
 
-        OnOverloadStateChange.Invoke(m_CurrentState);
+        OnOverloadStateChange?.Invoke(m_CurrentState);
         OnOverloadEnd?.Invoke();
     }
 

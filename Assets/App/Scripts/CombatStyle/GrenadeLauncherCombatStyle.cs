@@ -65,8 +65,8 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     public override IEnumerator Attack()
     {
-        if (!m_Mana.HaveEngough(m_ShootCost)) yield break;
-        m_Mana.Remove(m_ShootCost);
+        if (!m_Mana.Get().HaveEngough(m_ShootCost)) yield break;
+        m_Mana.Get().Remove(m_ShootCost);
         
         Grenade grenade = Instantiate(m_GrenadePrefab, m_AttackPoint.position, m_AttackPoint.rotation);
         grenade.Setup(m_AttackPoint.position, m_AimTarget.Get().position);
