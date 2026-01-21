@@ -16,40 +16,38 @@ public class Door : MonoBehaviour
     [SerializeField] private DoorStartType m_Type;
 
     [Header("References")]
+    [SerializeField] private GameObject m_DoorMesh;
     [SerializeField] private Transform m_OpenPoint;
     [SerializeField] private Transform m_ClosePoint;
     
     private Vector3 m_ClosePos;
     private Vector3 m_OpenPos;
 
-    //[Header("Input")]
-    //[Header("Output")]
-
     private void Awake()
     {
-        m_OpenPos = m_OpenPoint.position;
-        m_ClosePos = m_ClosePoint.position;
-
+        m_OpenPos =  m_ClosePoint.position;
+        m_ClosePos = m_OpenPoint.position;
+        
         switch (m_Type)
         {
             case DoorStartType.Open:
-                transform.position = m_OpenPos;
+                m_DoorMesh.transform.position = m_OpenPos;
                 break;
             case DoorStartType.Close:
-                transform.position = m_ClosePos;
+                m_DoorMesh.transform.position = m_ClosePos;
                 break;
         }
     }
 
     public void OpenDoor()
     {
-        transform.DOKill();
-        transform.DOMove(m_OpenPos, m_OpenTime);
+        m_DoorMesh.transform.DOKill();
+        m_DoorMesh.transform.DOMove(m_OpenPos, m_OpenTime);
     }
 
     public void CloseDoor()
     {
-        transform.DOKill();
-        transform.DOMove(m_ClosePos, m_OpenTime);
+        m_DoorMesh.transform.DOKill();
+        m_DoorMesh.transform.DOMove(m_ClosePos, m_OpenTime);
     }
 }
