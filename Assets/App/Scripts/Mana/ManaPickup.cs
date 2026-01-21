@@ -29,6 +29,8 @@ public class ManaPickup : MonoBehaviour
 
     PooledObject m_PoolTicket;
 
+    Coroutine m_LifeTimeCor;
+
     private void Update()
     {
         if (m_CanBePick && m_IsPickingUp)
@@ -62,14 +64,25 @@ public class ManaPickup : MonoBehaviour
         }
     }
 
+    public void Setup()
+    {
+        m_LifeTimeCor = StartCoroutine(LifeTime());
+    }
+
+    IEnumerator LifeTime()
+    {
+        yield return new WaitForSeconds(20);
+        ReturnToPool();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             m_Mana.Add(m_ManaGiven);
 
-            if (m_PoolTicket == null) m_PoolTicket = GetComponent<PooledObject>();
-            m_PoolTicket.Release();
+            if(m_LifeTimeCor != null) StopCoroutine(m_LifeTimeCor);
+            ReturnToPool();
         }
     }
 
@@ -88,5 +101,11 @@ public class ManaPickup : MonoBehaviour
         m_CanBePick = false;
         yield return new WaitForSeconds(m_TimeBeforeCanBePick);
         m_CanBePick = true;
+    }
+
+    void ReturnToPool()
+    {
+        if (m_PoolTicket == null) m_PoolTicket = GetComponent<PooledObject>();
+        m_PoolTicket.Release();
     }
 }

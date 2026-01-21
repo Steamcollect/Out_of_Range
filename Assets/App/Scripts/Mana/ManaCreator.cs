@@ -27,6 +27,7 @@ public class ManaCreator : MonoBehaviour
 
             mana.StartCoroutine(mana.SpawningCooldown());
             mana.AddForce(direction, ForceMode.Impulse);
+            mana.Setup();
         }
     }
 }
