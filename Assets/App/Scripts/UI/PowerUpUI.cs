@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerUpUI : MonoBehaviour
@@ -11,8 +12,8 @@ public class PowerUpUI : MonoBehaviour
         private void OnDisable() => m_CurrentPowerUp.OnChanged -= UpdateUI;
         private void Start() => UpdateUI(m_CurrentPowerUp.Get());
 
-        private void UpdateUI(PowerUp obj)
-        { 
-                m_PowerUpContainer.SetActive(obj != null);
+        private void UpdateUI(HashSet<PowerUp> powerUps)
+        {
+                m_PowerUpContainer.SetActive(powerUps.Count > 0);
         }
 }

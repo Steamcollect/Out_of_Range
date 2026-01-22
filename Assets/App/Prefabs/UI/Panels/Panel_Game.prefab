@@ -369,7 +369,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 631843114676384298}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.041441184, y: -0.17385125, z: 0.016159946, w: 0.9837669}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -1676,13 +1676,46 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4268747286678697826, guid: 64a960279386ce74b84e494832e704ac, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 7247974157645197215}
   m_SourcePrefab: {fileID: 100100000, guid: 64a960279386ce74b84e494832e704ac, type: 3}
+--- !u!1 &462921240409215242 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4268747286678697826, guid: 64a960279386ce74b84e494832e704ac, type: 3}
+  m_PrefabInstance: {fileID: 4418316420412499560}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7247974157645197215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462921240409215242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eff6a655e489ab4a80e909bf0385cfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthUI
+  m_HealthBar: {fileID: 3629277440886152250}
+  m_Controller: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!224 &1430208579491470495 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3352960984195562231, guid: 64a960279386ce74b84e494832e704ac, type: 3}
   m_PrefabInstance: {fileID: 4418316420412499560}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3629277440886152250 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1084465887184812626, guid: 64a960279386ce74b84e494832e704ac, type: 3}
+  m_PrefabInstance: {fileID: 4418316420412499560}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462921240409215242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a42a23ce4f9ed24abde69beacbef2f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MoreMountains.Tools::MoreMountains.Tools.MMProgressBar
 --- !u!1001 &4627142809269162672
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1848,7 +1881,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8268468637141932917, guid: 345a5b31d4b9c5f468d59af2434756d7, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3813365304440373606, guid: 345a5b31d4b9c5f468d59af2434756d7, type: 3}
@@ -2002,10 +2036,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2430259123631942766, guid: 2f5a07d70302d0a498380b408b0e8686, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2430259123631942766, guid: 2f5a07d70302d0a498380b408b0e8686, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2646980107271149418, guid: 2f5a07d70302d0a498380b408b0e8686, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2646980107271149418, guid: 2f5a07d70302d0a498380b408b0e8686, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 7130786850337142959, guid: 2f5a07d70302d0a498380b408b0e8686, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7c80715d236816643893de9d0cea9471, type: 3}
+    - target: {fileID: 8443385184837146809, guid: 2f5a07d70302d0a498380b408b0e8686, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443385184837146809, guid: 2f5a07d70302d0a498380b408b0e8686, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
