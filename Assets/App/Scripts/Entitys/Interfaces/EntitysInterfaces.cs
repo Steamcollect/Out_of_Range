@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public interface IMovement
 {
     void ResetVelocity();
 
     void Move(Vector3 input);
+
+    public float GetMoveSpeed();
 }
 
 public enum LookAtAxis

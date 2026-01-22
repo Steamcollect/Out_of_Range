@@ -1,17 +1,16 @@
 using UnityEngine;
 
-public class Entity_HorizontalLinearMovement : MonoBehaviour, IMovement
+public class PlayerMovement : MonoBehaviour, IMovement
 {
     [Header("Settings")]
-    [SerializeField] private float m_MoveSpeed;
+    [SerializeField] float m_MoveSpeed;
 
     [Header("References")]
-    [SerializeField] private Rigidbody m_Rb;
+    [SerializeField] Rigidbody m_Rb;
 
     //[Header("Input")]
     //[Header("Output")]
-
-    public virtual void Move(Vector3 input)
+    public void Move(Vector3 input)
     {
         m_Rb.AddForce(input * m_MoveSpeed);
     }

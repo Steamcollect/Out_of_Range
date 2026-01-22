@@ -17,6 +17,9 @@ public class PlayerController : EntityController
     [Space(10)]
     [SerializeField] RSO_CurrentPowerUp m_CurrentPowerUp;
 
+    [Space(10)]
+    [SerializeField] LayerMask m_GroundLayer;
+    
     [Header("Output")]
     [SerializeField] private RSE_OnPlayerDie m_OnPlayerDie;
     [SerializeField] private RSO_PlayerController m_Controller;
@@ -72,10 +75,42 @@ public class PlayerController : EntityController
         else
         {
             m_IsMoving = true;
+
+            float stepDistance = m_Movement.Value.GetMoveSpeed() * Time.fixedDeltaTime;
+            Vector3 nextPos = transform.position + m_MoveDir * stepDistance;
+
+            bool hasGround = Physics.Raycast(
+                nextPos + Vector3.up * 0.2f,
+                Vector3.down,
+                out RaycastHit groundHit,
+                2f,
+                m_GroundLayer
+            );
+
+            if (!hasGround)
+            {
+                m_IsMoving = false;
+
+                // Annule la vélocité qui pousse vers le vide
+                Vector3 vel = m_Rb.linearVelocity;
+                float dot = Vector3.Dot(vel, m_MoveDir);
+
+                if (dot > 0f)
+                {
+                    vel -= m_MoveDir * dot;
+                    m_Rb.linearVelocity = vel;
+                }
+
+                m_MoveDir = Vector3.zero;
+                m_AnimVisual.OnMove(Vector3.zero);
+                return;
+            }
+
             m_Movement.Value.Move(m_MoveDir);
         }
 
         m_AnimVisual.OnMove(m_MoveDir);
+
     }
 
     private void Dash(InputAction.CallbackContext ctx)
