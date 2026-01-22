@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -39,6 +40,7 @@ public class LaserEffectController : MonoBehaviour
         }
     }
 
+    [Button("Shoot")]
     private void Shoot(float delayBeforeShoot, float delayAfterShoot)
     {
         m_VisualEffect.Reinit();
