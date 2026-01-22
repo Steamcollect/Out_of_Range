@@ -101,6 +101,11 @@ public class ExplodingEnemyController : EntityController, ISpawnable
         m_Movement.Value.Move(m_Agent.desiredVelocity.normalized);
     }
 
+    public void SetAware()
+    {
+        m_CurrentState = EnemyStates.Chasing;
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;

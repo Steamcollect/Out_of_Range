@@ -1,10 +1,9 @@
 using System.Collections;
 using MVsToolkit.Dev;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CloseEnemyController : EntityController, ISpawnable
+public class CloseEnemyController : EnemyController
 {
     [Header("Settings")]
     [SerializeField] float m_DetectionRange;
@@ -17,8 +16,6 @@ public class CloseEnemyController : EntityController, ISpawnable
 
     [Space(10)]
     [SerializeField] float m_DelayBetweenAttacks;
-
-    [SerializeField, ReadOnly] EnemyStates m_CurrentState;
 
     [Header("Internal References")]
     [SerializeField] NavMeshAgent m_Agent;
@@ -96,11 +93,6 @@ public class CloseEnemyController : EntityController, ISpawnable
             return;
 
         m_Movement.Value.Move(m_Agent.desiredVelocity.normalized);
-    }
-
-    public void OnSpawn()
-    {
-        m_CurrentState = EnemyStates.Chasing;
     }
 
     private void OnDrawGizmosSelected()

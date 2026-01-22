@@ -3,7 +3,7 @@ using MVsToolkit.Dev;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RangeEnemyController : EntityController, ISpawnable
+public class RangeEnemyController : EnemyController
 {
     [Header("Settings")]
     [SerializeField] float m_DetectionRange;
@@ -13,9 +13,6 @@ public class RangeEnemyController : EntityController, ISpawnable
     [Space(5)]
     [SerializeField, Range(1, 180)] float m_AngleRequireToAttack;
     bool m_CanAttack = true;
-
-    [Space(10)]
-    [SerializeField, ReadOnly] EnemyStates m_CurrentState;
 
     [Header("Internal References")]
     [SerializeField] private NavMeshAgent m_Agent;
@@ -106,11 +103,6 @@ public class RangeEnemyController : EntityController, ISpawnable
     {
         m_CurrentState = EnemyStates.Attacking;
         yield return StartCoroutine(m_Combat.Attack());
-        m_CurrentState = EnemyStates.Chasing;
-    }
-
-    public void OnSpawn()
-    {
         m_CurrentState = EnemyStates.Chasing;
     }
 

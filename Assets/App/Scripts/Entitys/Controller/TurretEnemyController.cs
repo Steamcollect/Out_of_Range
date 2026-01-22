@@ -74,6 +74,11 @@ public class TurretEnemyController : EntityController, ISpawnable
         OnStateChanged?.Invoke(m_CurrentState);
     }
 
+    public void SetAware()
+    {
+        m_CurrentState = EnemyStates.Chasing;
+    }
+
     #region Gizmos
 
     void OnDrawGizmosSelected()
