@@ -33,11 +33,9 @@ public class WeaponPrimaryUI : MonoBehaviour
             return;
         }
         
-        Debug.Log("Updating Primary Weapon UI");
-
         m_PrimaryWeaponUIContainer.SetActive(true);
         m_Controller.Get().GetPlayerCombat().GetPrimaryCombatStyle().OnAmmoChange += UpdateUIIndicator;
     }
 
-    private void UpdateUIIndicator(float c, float m) => m_WeaponAmmoFillImage.fillAmount = c/ m;
+    private void UpdateUIIndicator(float c, float m) => m_WeaponAmmoFillImage.fillAmount = 1- c/ m;
 }

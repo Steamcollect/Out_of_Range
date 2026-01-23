@@ -2,7 +2,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DashUI : MonoBehaviour
+public class UI_Dash : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Slider m_DashSlider;
