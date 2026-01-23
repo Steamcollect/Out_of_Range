@@ -1,3 +1,5 @@
+using DefaultNamespace;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +12,7 @@ public class PlayerController : EntityController
     [SerializeField] private InputPlayerController m_InputPlayerController;
     [SerializeField] private PlayerAnimationVisual m_AnimVisual;
     [SerializeField] private Entity_Dash m_Dash;
+    [SerializeField] private PlayerMana m_Mana;
 
     [Space(10)]
     [SerializeField] RSO_CurrentPowerUp m_CurrentPowerUp;
@@ -20,7 +23,7 @@ public class PlayerController : EntityController
     
     private bool m_IsMoving;
     private Vector3 m_MoveDir;
-    
+
     private void OnEnable() => m_InputPlayerController.OnInputDashPressed += Dash;
 
     private void OnDisable() => m_InputPlayerController.OnInputDashPressed -= Dash;
@@ -29,15 +32,13 @@ public class PlayerController : EntityController
     {
         base.OnEntityDie();
         m_OnPlayerDie.Call();
-        SceneLoader.Instance.LoadGameplayScene();
+        SceneLoader.Instance?.LoadGameplayScene();
     }
 
     protected override void Awake()
     {
         base.Awake();
         m_Controller.Set(this);
-
-        m_CurrentPowerUp.Set(null);
 
         m_CurrentPowerUp.Set(new());
         m_Health.OnTakeDamage += () => m_CurrentPowerUp.Value.Clear();
@@ -95,10 +96,20 @@ public class PlayerController : EntityController
     {
         return m_Combat as PlayerCombat;
     }
+    
+    public Entity_Dash GetDash()
+    {
+        return m_Dash;
+    }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(GetTargetPosition(), .2f);
+    }
+
+    public PlayerMana GetPlayerMana()
+    {
+        return m_Mana;
     }
 }

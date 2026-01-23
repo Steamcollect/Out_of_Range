@@ -18,7 +18,6 @@ public class ManaPickup : MonoBehaviour
     Vector3 m_Velocity;
 
     [Header("References")]
-    [SerializeField] RSO_Mana m_Mana;
     [SerializeField] RSO_PlayerController m_Player;
 
     PooledObject m_PoolTicket;
@@ -55,7 +54,7 @@ public class ManaPickup : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            m_Mana.Add(m_ManaGiven);
+            m_Player.Get().GetPlayerMana().Add(m_ManaGiven);
 
             if(m_LifeTimeCor != null) StopCoroutine(m_LifeTimeCor);
             ReturnToPool();
