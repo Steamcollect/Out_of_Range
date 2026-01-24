@@ -11,7 +11,6 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
     [SerializeField] private LayerMask m_LayerMaskHittable;
     [SerializeField] private LayerMask m_LayerMaskTargets;
     [SerializeField] private float m_RadiusCursorDetection = 5;
-    // [SerializeField] private Vector2 m_MinMaxDistanceToTarget = new Vector2(2, 20);
     [SerializeField] private QueryTriggerInteraction m_QueryTriggerInteraction = QueryTriggerInteraction.Ignore;
 
     [Header("References")]
@@ -25,7 +24,6 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
 
     
     private Ray m_RayCamToScreenPoint;
-    private Ray m_RayPlayerToMouseWorld;
     private bool m_TargetDirectlyFound;
     private bool m_TargetInRangeFound;
     
@@ -35,7 +33,7 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
 
     private void Awake()
     {
-        m_SphereRadius = m_RadiusCursorDetection /2f;
+        m_SphereRadius = m_RadiusCursorDetection;
     }
 
     private void OnEnable() => m_MousePositionIa.action.Enable();
@@ -52,6 +50,7 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         {
             return null;
         }
+        
         m_LastMousePosition = hitMouseWorld.point;
         Vector3? resultPosition = FindTargetInRadius(hitMouseWorld.point) ?? FindDirectTarget(hitMouseWorld.point) ?? hitMouseWorld.point;
         return resultPosition;
@@ -65,33 +64,30 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
 
     private Vector3? FindDirectTarget(Vector3 mouseWorldPos)
     {
-        Vector3 playerPos = m_PlayerController.Get().transform.position;
+        Vector3 playerPos = m_PlayerController.Get().GetTargetPosition();
+        
+        mouseWorldPos.y = playerPos.y;
+        
         Vector3 direction = (mouseWorldPos - playerPos).normalized;
         float distance = Vector3.Distance(playerPos, mouseWorldPos);
-        float sphereRadius = m_SphereRadius; // Ajustez selon vos besoins
-
-        if (Physics.SphereCast(playerPos, sphereRadius, direction, out RaycastHit hit, distance, m_LayerMaskHittable, m_QueryTriggerInteraction))
-        {
-            if (!hit.collider.TryGetComponent(out ITargetable target)) return null;
-            if (!TargetInRange(mouseWorldPos, target.GetTargetPosition())) return null;
-            m_TargetDirectlyFound = true;
-            return target.GetTargetPosition();
-        }
-        return null;
         
-        // Vector3 playerPos = m_PlayerController.Get().transform.position;
-        // m_RayPlayerToMouseWorld = new Ray(playerPos, (mouseWorldPos - playerPos).normalized);
-        //
-        // if (Physics.Raycast(m_RayPlayerToMouseWorld, out RaycastHit hit, Vector3.Distance(playerPos, mouseWorldPos), m_LayerMaskHittable, m_QueryTriggerInteraction))
-        // {
-        //     if (hit.collider.TryGetComponent(out ITargetable target))
-        //     {
-        //         if (!TargetInRange(mouseWorldPos,target.GetTargetPosition(),out float _)) return null;
-        //         m_TargetDirectlyFound = true;
-        //         return target.GetTargetPosition();
-        //     }
-        // }
-        // return null;
+        
+        if (!Physics.SphereCast(playerPos, m_SphereRadius, direction, out RaycastHit potentialTarget, distance,
+                m_LayerMaskHittable, m_QueryTriggerInteraction)) return null;
+        
+        if (!potentialTarget.collider.TryGetComponent(out ITargetable target)) return null;
+        
+        Debug.DrawRay(playerPos, target.GetTargetPosition() - playerPos, Color.red);
+        if (!Physics.Raycast(playerPos, (target.GetTargetPosition() - playerPos).normalized, out RaycastHit hit,
+                Vector3.Distance(target.GetTargetPosition(), playerPos), m_LayerMaskHittable,
+                m_QueryTriggerInteraction) || hit.transform != potentialTarget.transform) return null;
+        
+        
+        if (!TargetInRange(mouseWorldPos, target.GetTargetPosition())) return null;
+        
+        m_TargetDirectlyFound = true;
+        return target.GetTargetPosition();
+
     }
 
     private bool TargetInRange(Vector3 origin, Vector3 targetPosition)
@@ -117,7 +113,7 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         {
             if (m_TargetResults[i].TryGetComponent(out ITargetable sphereTarget))
             {
-                Vector3 playerPos = m_PlayerController.Get().transform.position;
+                Vector3 playerPos = m_PlayerController.Get().GetTargetPosition();
                 Vector3 targetPos = sphereTarget.GetTargetPosition();
                 Ray rayToTarget = new(playerPos, (targetPos - playerPos).normalized);
 
@@ -160,30 +156,21 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(m_RayCamToScreenPoint);
 
-        Vector3 playerPos = m_PlayerController.Get().transform.position;
-        float distance = Vector3.Distance(playerPos, m_LastMousePosition);
+        Vector3 playerPos = m_PlayerController.Get().GetTargetPosition();
 
-        Gizmos.color = m_TargetDirectlyFound ? Color.green : Color.red;
-
-        // Dessiner le SphereCast (sphère de départ + sphère d'arrivée + lignes)
-        Vector3 endPos = playerPos + m_RayPlayerToMouseWorld.direction * distance;
-
+        Vector3 targetPos = new(m_LastMousePosition.x, playerPos.y, m_LastMousePosition.z);
+        
+        float distance = Vector3.Distance(playerPos, targetPos);
+        
+        Vector3 endPos = playerPos + (targetPos - playerPos).normalized * distance;
+        
+        
+        Gizmos.color = Color.aquamarine;
         Gizmos.DrawWireSphere(playerPos, m_SphereRadius);
         Gizmos.DrawWireSphere(endPos, m_SphereRadius);
-
-        // Lignes pour visualiser le cylindre du SphereCast
-        Vector3 up = Vector3.Cross(m_RayPlayerToMouseWorld.direction, Vector3.right).normalized * m_SphereRadius;
-        if (up == Vector3.zero) up = Vector3.Cross(m_RayPlayerToMouseWorld.direction, Vector3.forward).normalized * m_SphereRadius;
-
-        Vector3 right = Vector3.Cross(m_RayPlayerToMouseWorld.direction, up).normalized * m_SphereRadius;
-
-        Gizmos.DrawLine(playerPos + up, endPos + up);
-        Gizmos.DrawLine(playerPos - up, endPos - up);
-        Gizmos.DrawLine(playerPos + right, endPos + right);
-        Gizmos.DrawLine(playerPos - right, endPos - right);
-
+        Gizmos.DrawLine(playerPos, endPos);
         
-            Gizmos.color = m_TargetInRangeFound ? Color.green : Color.red;
-            Gizmos.DrawWireSphere(m_LastMousePosition, m_RadiusCursorDetection);
+        Gizmos.color = m_TargetDirectlyFound ? Color.green : (m_TargetInRangeFound ? Color.yellow : Color.red);
+        Gizmos.DrawWireSphere(targetPos, m_RadiusCursorDetection);
     }
 }

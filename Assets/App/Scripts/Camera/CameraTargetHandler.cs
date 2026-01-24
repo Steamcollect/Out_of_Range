@@ -58,7 +58,7 @@ public class CameraTargetHandler : MonoBehaviour
                 m_CameraTargetRunning = m_CameraTargetFreeLook.Value;
                 break;
             default:
-                throw new System.NotImplementedException("CameraTargetType not implemented: " + obj);
+                throw new NotImplementedException("CameraTargetType not implemented: " + obj);
         }
     }
 
