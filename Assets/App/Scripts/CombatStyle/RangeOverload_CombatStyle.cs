@@ -42,7 +42,7 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
         {
             OnAttack?.Invoke();
 
-            bool strength = m_CurrentPowerUp.ContainPowerUp(PowerUpType.Strenght);
+            bool strength = m_CurrentPowerUp.ContainPowerUp(PowerUpType.Strength);
             bool clone = m_CurrentPowerUp.ContainPowerUp(PowerUpType.Clone);
             bool atkSpeed = m_CurrentPowerUp.ContainPowerUp(PowerUpType.AttackSpeed);
 

@@ -394,10 +394,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   m_PreShowRotateSpeed: 20
-  m_Mana: {fileID: 11400000, guid: 04380361abcf90443bb76d56ec1ac85d, type: 2}
   m_PreShowCircle: {fileID: 7788710854176471938}
   m_PreShowTriangle: {fileID: 7697677649050215431}
   m_AimTarget: {fileID: 11400000, guid: 09f66405bedce16448f02f1b689a9c4a, type: 2}
+  m_PlayerController: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
   m_TargetType: {fileID: 11400000, guid: 46d420e2ce5b5534e888cd23c44416a3, type: 2}
 --- !u!1 &2502887800849172274
 GameObject:
@@ -587,6 +587,7 @@ MonoBehaviour:
   m_InputPlayerController: {fileID: 5662550271351511903}
   m_AnimVisual: {fileID: 4411387892471790826}
   m_Dash: {fileID: 4795731786279744601}
+  m_Mana: {fileID: 7387169151000765521}
   m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
   m_OnPlayerDie: {fileID: 11400000, guid: 195049c21bdce3c4e8c37dabbe232c92, type: 2}
   m_Controller: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
@@ -742,6 +743,51 @@ CapsuleCollider:
   m_Height: 2.05618
   m_Direction: 1
   m_Center: {x: 0, y: 0.9937, z: 0}
+--- !u!1 &3769672061468625921
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8760009207521672157}
+  - component: {fileID: 7387169151000765521}
+  m_Layer: 8
+  m_Name: Mana
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8760009207521672157
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3769672061468625921}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6169683258573247542}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7387169151000765521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3769672061468625921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0758feba10c43a8b17251b3917b599a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.PlayerMana
+  m_MaxMana: 10
 --- !u!1 &3806284471548569676
 GameObject:
   m_ObjectHideFlags: 0
@@ -1674,6 +1720,7 @@ Transform:
   - {fileID: 7483373340615603498}
   - {fileID: 1003742095360013401}
   - {fileID: 2074092412787055408}
+  - {fileID: 8760009207521672157}
   m_Father: {fileID: 1409431294601431814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8789801713847434823

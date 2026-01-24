@@ -20,12 +20,11 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     bool m_CanTouchTarget = false;
 
     [Header("References")]
-    [SerializeField] RSO_Mana m_Mana;
-
     [SerializeField] MeshRenderer m_PreShowCircle;
     [SerializeField] MeshRenderer m_PreShowTriangle;
 
     [SerializeField] RSO_PlayerAimTarget m_AimTarget;
+    [SerializeField] RSO_PlayerController m_PlayerController;
     
     [Header("Output")]
     [SerializeField] RSO_CameraTargetType m_TargetType;
@@ -65,27 +64,25 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     public override IEnumerator Attack()
     {
-        if (!m_Mana.HaveEngough(m_ShootCost)) yield break;
-        m_Mana.Remove(m_ShootCost);
+        if (m_PlayerController.Get().GetPlayerMana().CurrentMana <= m_ShootCost) yield break;
+        m_PlayerController.Get().GetPlayerMana().Remove(m_ShootCost);
         
         Grenade grenade = Instantiate(m_GrenadePrefab, m_AttackPoint.position, m_AttackPoint.rotation);
         grenade.Setup(m_AttackPoint.position, m_AimTarget.Get().position);
 
         grenade.Move();
-
-        yield break;
     }
 
     void DrawPreShow()
     {
-        m_PreShowCircle.transform.localScale = Vector3.one * m_GrenadePrefab.GetRadius() * .2f;
+        m_PreShowCircle.transform.localScale = Vector3.one * (m_GrenadePrefab.GetRadius() * .2f);
 
         m_PreShowCircle.material.color = m_CanTouchTarget ? Color.green : Color.red;
         m_PreShowTriangle.material.color = m_CanTouchTarget ? Color.green : Color.red;
 
         m_PreShowCircle.transform.position = m_AimTarget.Get().position + Vector3.up * .1f;
 
-        m_PreShowCircle.transform.localEulerAngles -= Vector3.up * m_PreShowRotateSpeed * Time.deltaTime;
-        m_PreShowTriangle.transform.parent.localEulerAngles += Vector3.up * m_PreShowRotateSpeed * 2 * Time.deltaTime;
+        m_PreShowCircle.transform.localEulerAngles -= Vector3.up * (m_PreShowRotateSpeed * Time.deltaTime);
+        m_PreShowTriangle.transform.parent.localEulerAngles += Vector3.up * (m_PreShowRotateSpeed * 2 * Time.deltaTime);
     }
 }

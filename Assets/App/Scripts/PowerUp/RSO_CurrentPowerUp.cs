@@ -3,11 +3,11 @@ using MVsToolkit.Wrappers;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "RSO_CurrentpowerUp", menuName = "RSO/powerUp/RSO_CurrentpowerUp")]
-public class RSO_CurrentPowerUp : RuntimeScriptableObject<HashSet<PowerUp>>
+public class RSO_CurrentPowerUp : RuntimeScriptableObject<HashSet<SSO_PowerUp>>
 {
     public bool ContainPowerUp(PowerUpType type)
     {
-        foreach (PowerUp powerUp in value)
+        foreach (SSO_PowerUp powerUp in value)
         {
             if (powerUp.PowerUpType == type) return true;
         }
