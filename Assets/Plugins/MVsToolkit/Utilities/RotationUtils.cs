@@ -23,10 +23,10 @@ namespace MVsToolkit.Utils
             // Direction vers la cible
             Vector3 direction = (targetPosition - transform.position).normalized;
 
-            if (direction.sqrMagnitude < 0.0001f)
+            if (direction.sqrMagnitude < 0.0001f || float.IsNaN(direction.x) || float.IsNaN(direction.y) || float.IsNaN(direction.z))
                 return;
 
-            // Rotation désirée
+            // Rotation dï¿½sirï¿½e
             Quaternion targetRotation = Quaternion.LookRotation(direction);
 
             // Convertir en euler pour appliquer SmoothDampAngle
@@ -37,7 +37,12 @@ namespace MVsToolkit.Utils
             currentEuler.y = Mathf.SmoothDampAngle(currentEuler.y, targetEuler.y, ref refVelocity.y, smoothTime);
             currentEuler.z = Mathf.SmoothDampAngle(currentEuler.z, targetEuler.z, ref refVelocity.z, smoothTime);
 
-            transform.rotation = Quaternion.Euler(currentEuler);
+            // Validate the euler angles before applying
+            if (!float.IsNaN(currentEuler.x) && !float.IsNaN(currentEuler.y) && !float.IsNaN(currentEuler.z) &&
+                !float.IsInfinity(currentEuler.x) && !float.IsInfinity(currentEuler.y) && !float.IsInfinity(currentEuler.z))
+            {
+                transform.rotation = Quaternion.Euler(currentEuler);
+            }
         }
     }
 }
