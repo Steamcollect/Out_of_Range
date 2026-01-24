@@ -1,3 +1,4 @@
+using DG.Tweening;
 using MVsToolkit.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -8,30 +9,17 @@ public class VFXController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private VisualEffect visualEffect;
-    [SerializeField] private VFXEventAttribute eventAttribute;
-
-    [Header("Settings")]
-    [SerializeField] private string playEvent = "OnPlay";
-    [SerializeField] private string shootEvent = "Shoot";
 
     [Button("Play")]
     public void PlayEvent()
     {
-        visualEffect.Reinit();
-        visualEffect.SetBool("TrailEnabled", true);
-        visualEffect.SendEvent(playEvent);
-    }
-
-    [Button("Shoot")]
-    public void ShootEvent()
-    {
-        visualEffect.Reinit();
-        visualEffect.SetBool("TrailEnabled", false);
-        visualEffect.SendEvent(shootEvent);
-
-        CoroutineUtils.Delay(this, () =>
+        visualEffect.SendEvent("Dash");  
+        Vector3 originPosition = transform.position;
+        transform.DOMove(originPosition + Vector3.forward * 10, 0.3f);
+        
+        this.Delay(() =>
         {
-            PlayEvent();
-        }, 3.0f);
+            transform.DOMove(originPosition, 0.3f);
+        }, 1f);
     }
 }

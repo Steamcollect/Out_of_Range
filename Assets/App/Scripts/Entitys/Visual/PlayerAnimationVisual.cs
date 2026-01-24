@@ -2,6 +2,7 @@ using System.Collections;
 using MVsToolkit.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class PlayerAnimationVisual : MonoBehaviour
 {
@@ -22,36 +23,17 @@ public class PlayerAnimationVisual : MonoBehaviour
     Vector3 m_ArmsRotationVelocity;
     Vector3 m_HeadRotationVelocity;
 
-    [FoldoutGroup("Dash Anim"), SerializeField] PlayerClone m_playerClonePrefab;
-    [FoldoutGroup("Dash Anim"), SerializeField] int m_CloneCountPerDash;
-    [FoldoutGroup("Dash Anim"), SerializeField] float m_CloneLifeTime;
-
     [Space(10)]
-    [FoldoutGroup("Dash Anim"), SerializeField] bool m_ChangePlayerMat = true;
     [FoldoutGroup("Dash Anim"), SerializeField] GameObject[] m_PlayerMeshs;
-    [FoldoutGroup("Dash Anim"), SerializeField] GameObject[] m_PlayerCloneMeshs;
-
-    PlayerClone[] m_Clones;
+    [FoldoutGroup("Dash Anim"), SerializeField] private VisualEffect m_DashEffect;
 
     [Header("References")]
     [SerializeField] Transform m_ArmsPivot;
     [SerializeField] Transform m_HeadPivot;
 
-    //[Header("Input")]
-    //[Header("Output")]
-
     private void Start()
     {
         m_ArmsPivot.SetParent(null);
-
-        Transform cloneParent = new GameObject("Player Clones").transform;
-        m_Clones = new PlayerClone[m_CloneCountPerDash];
-        for (int i = 0; i < m_Clones.Length; i++)
-        {
-            m_Clones[i] = Instantiate(m_playerClonePrefab, cloneParent);
-            m_Clones[i].gameObject.SetActive(false);
-            m_Clones[i].Init();
-        }
     }
 
     private void Update()
@@ -83,32 +65,14 @@ public class PlayerAnimationVisual : MonoBehaviour
 
     public IEnumerator OnDash(float dashTime)
     {
-        if (m_ChangePlayerMat)
-        {
-            foreach (var mesh in m_PlayerCloneMeshs)
-                mesh.SetActive(true);
-            foreach (var mesh in m_PlayerMeshs)
-                mesh.SetActive(false);
-        }
+        foreach (var mesh in m_PlayerMeshs)
+            mesh.SetActive(false);
+        
+        m_DashEffect.SendEvent("Dash");
 
-        for (int i = 0; i < m_Clones.Length; i++)
-        {
-            m_Clones[i].transform.position = transform.position;
-            m_Clones[i].SetPivots(m_HeadPivot.localPosition, m_ArmsPivot.localPosition - transform.position);
-            m_Clones[i].SetRotations(m_HeadPivot.localRotation, m_ArmsPivot.localRotation);
-            m_Clones[i].gameObject.SetActive(true);
+        yield return new WaitForSeconds(dashTime);
 
-            m_Clones[i].Fade(m_CloneLifeTime);
-
-            yield return new WaitForSeconds(dashTime / m_CloneCountPerDash);
-        }
-
-        if (m_ChangePlayerMat)
-        {
-            foreach (var mesh in m_PlayerCloneMeshs)
-                mesh.SetActive(false);
-            foreach (var mesh in m_PlayerMeshs)
-                mesh.SetActive(true);
-        }
+        foreach (var mesh in m_PlayerMeshs)
+            mesh.SetActive(true);
     }
 }

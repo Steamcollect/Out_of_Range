@@ -21,7 +21,6 @@ public class Entity_Dash : MonoBehaviour
 
     [Header("REFERENCES")]
     [SerializeField] private Rigidbody m_Rb;
-    [SerializeField] VisualEffect m_DustFX;
     [SerializeField] PlayerAnimationVisual m_PlayerAnimationVisual;
     [SerializeField] private EntityHealth m_EntityHealth;
 
@@ -46,11 +45,9 @@ public class Entity_Dash : MonoBehaviour
     private IEnumerator DashTime()
     {        
         LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_DashMask, true);
-        m_DustFX.SendEvent("Play");
 
         yield return new WaitForSeconds(m_DashTime);
-             
-        m_DustFX.SendEvent("Stop");
+        
         LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_DashMask, false);
 
         m_Rb.linearVelocity = m_Rb.linearVelocity.normalized;
