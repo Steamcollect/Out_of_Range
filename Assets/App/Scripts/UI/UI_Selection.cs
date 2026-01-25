@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using System;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ public class UI_Selection : MonoBehaviour
     [ShowIf("@m_Data.Type", SettingType.Float)]
     [SerializeField] private TextMeshProUGUI m_PreviewValue;
 
-    private void Start()
+    private void Awake()
     {
         switch (m_Data.Type) 
         {
@@ -33,22 +34,62 @@ public class UI_Selection : MonoBehaviour
                     m_Data.SetNewFloatValue(value);
                     UpdatePreviewText(value);
                 });
-
-                UpdatePreviewText(m_Data.CurrentFloat);
                 break;
             case SettingType.Enum:
                 m_LeftArrow.onClick.AddListener(() => ChangeEnum(-1));
                 m_RightArrow.onClick.AddListener(() => ChangeEnum(1));
+                break;
+        }
+    }
 
+    private void Start()
+    {
+        switch (m_Data.Type)
+        {
+            case SettingType.Float:
+                UpdatePreviewText(m_Data.CurrentFloat);
+                break;
+            case SettingType.Enum:
                 UpdateEnumDisplay();
                 break;
         }
     }
 
-    private void UpdatePreviewText(float value)
+    private void OnEnable()
     {
-        m_PreviewValue.text = value.ToString("F2");
+        switch (m_Data.Type)
+        {
+            case SettingType.Float:
+                m_Data.OnFloatChanged += UpdateRenderFloat;
+                break;
+            case SettingType.Enum:
+                m_Data.OnEnumChanged += UpdateRenderEnum;
+                break;
+        }
     }
+
+    private void OnDisable()
+    {
+        switch (m_Data.Type)
+        {
+            case SettingType.Float:
+                m_Data.OnFloatChanged -= UpdateRenderFloat;
+                break;
+            case SettingType.Enum:
+                m_Data.OnEnumChanged -= UpdateRenderEnum;
+                break;
+        }
+    }
+
+    
+    private void UpdateRenderFloat(float f)
+    {
+        m_Slider.value = f;
+        UpdatePreviewText(f);
+    }
+    
+    private void UpdateRenderEnum(int i) => UpdateEnumDisplay();
+
 
     private void ChangeEnum(int direction)
     {
@@ -60,6 +101,11 @@ public class UI_Selection : MonoBehaviour
         UpdateEnumDisplay();
     }
 
+    private void UpdatePreviewText(float value)
+    {
+        m_PreviewValue.text = value.ToString("F2");
+    }
+    
     private void UpdateEnumDisplay()
     {
         if(m_Data.EnumOptions.Length > 0)
