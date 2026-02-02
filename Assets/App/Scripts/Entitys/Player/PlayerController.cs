@@ -54,8 +54,6 @@ public class PlayerController : EntityController
 
     private void HandleMovement()
     {
-        if (m_Dash.isDashing) return;
-
         Vector2 moveInput = m_InputPlayerController.GetMoveDirection();
 
         float angle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg
