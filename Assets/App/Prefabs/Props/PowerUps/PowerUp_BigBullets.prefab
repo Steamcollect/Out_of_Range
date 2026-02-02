@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 7702062989297819387}
   - component: {fileID: 8910351320776069097}
   m_Layer: 0
-  m_Name: PowerUp
+  m_Name: PowerUp_BigBullets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -217,10 +217,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f95eb9706fd08894e97aecb5862ebf8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUpPickUp
-  m_PowerUp:
-    PowerUpType: 0
+  m_PowerUp: {fileID: 11400000, guid: 4c22974de620a7742ba391d14e4acb41, type: 2}
   m_PlayerPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
   m_DestroyAfterPickup: 1
+  onWeaponPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &4115375302336725081
 PrefabInstance:
   m_ObjectHideFlags: 0

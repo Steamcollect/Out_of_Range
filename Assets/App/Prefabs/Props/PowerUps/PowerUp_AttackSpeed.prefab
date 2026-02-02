@@ -205,10 +205,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f95eb9706fd08894e97aecb5862ebf8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUpPickUp
-  m_PowerUp:
-    PowerUpType: 1
+  m_PowerUp: {fileID: 11400000, guid: 3a8dd5adaafca014f80e26b5d565283e, type: 2}
   m_PlayerPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
   m_DestroyAfterPickup: 1
+  onWeaponPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7702267970731346805
 GameObject:
   m_ObjectHideFlags: 0
