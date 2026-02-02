@@ -13,7 +13,7 @@ public class RoomWallBaker : MonoBehaviour
     [Header("Wall Settings")]
     public float wallHeight = 2f;
     public float wallThickness = 0.2f;
-    public float wallOffset = 0.2f;
+    public float wallOffset = 0.5f;
 
     [Header("Hierarchy")]
     public string wallsRootName = "GeneratedWalls";
@@ -24,9 +24,6 @@ public class RoomWallBaker : MonoBehaviour
 
     private Transform wallsRoot;
 
-    // =====================================================================
-    //  B A K E
-    // =====================================================================
     [Button]
     public void Bake()
     {
@@ -76,9 +73,14 @@ public class RoomWallBaker : MonoBehaviour
         Debug.Log($"RoomWallBaker : {outerLoop.Count} points dans la boucle extérieure.");
     }
 
-    // =====================================================================
-    //  ROOT DES MURS
-    // =====================================================================
+    public void SetActiveWalls(bool state)
+    {
+        if(wallsRoot != null)
+        {
+            wallsRoot.gameObject.SetActive(state);
+        }
+    }
+
     private void PrepareWallsRoot()
     {
         if (wallsRoot != null)
@@ -97,9 +99,6 @@ public class RoomWallBaker : MonoBehaviour
         wallsRoot = go.transform;
     }
 
-    // =====================================================================
-    //  SNAP
-    // =====================================================================
     private Vector3 Snap(Vector3 v, float precision)
     {
         return new Vector3(
@@ -109,9 +108,6 @@ public class RoomWallBaker : MonoBehaviour
         );
     }
 
-    // =====================================================================
-    //  EXTRACTION DES ARÊTES FRONTIÈRES
-    // =====================================================================
     private List<(Vector3 a, Vector3 b)> ExtractBorderEdges(int[] indices, Vector3[] verts)
     {
         var edgeCount = new Dictionary<(Vector3, Vector3), int>();
@@ -145,9 +141,6 @@ public class RoomWallBaker : MonoBehaviour
                         .ToList();
     }
 
-    // =====================================================================
-    //  RECONSTRUCTION DES BOUCLES
-    // =====================================================================
     private List<List<Vector3>> BuildLoops(List<(Vector3 a, Vector3 b)> edges)
     {
         var adjacency = new Dictionary<Vector3, List<Vector3>>();
@@ -200,9 +193,6 @@ public class RoomWallBaker : MonoBehaviour
         return loops;
     }
 
-    // =====================================================================
-    //  AIRE D’UN POLYGONE (XZ)
-    // =====================================================================
     private float PolygonAreaXZ(List<Vector3> pts)
     {
         float area = 0f;
@@ -215,9 +205,6 @@ public class RoomWallBaker : MonoBehaviour
         return Mathf.Abs(area) * 0.5f;
     }
 
-    // =====================================================================
-    //  CONSTRUCTION DES MURS
-    // =====================================================================
     private void BuildWalls(List<Vector3> loop)
     {
         for (int i = 0; i < loop.Count; i++)
@@ -271,9 +258,6 @@ public class RoomWallBaker : MonoBehaviour
         }
     }
 
-    // =====================================================================
-    //  CLEAR
-    // =====================================================================
     private void ClearWalls()
     {
         if (wallsRoot == null)
@@ -296,9 +280,6 @@ public class RoomWallBaker : MonoBehaviour
         return sum / pts.Count;
     }
 
-    // =====================================================================
-    //  GIZMOS
-    // =====================================================================
     private void OnDrawGizmos()
     {
         if (!showGizmos || outerLoop == null)
