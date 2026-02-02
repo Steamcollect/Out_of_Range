@@ -247,13 +247,19 @@ public class RoomWallBaker : MonoBehaviour
             if (Vector3.Dot(outward, toCenter) > 0f)
                 outward = -outward;
 
-            // Application de l’offset
+            // Application de l’offset extérieur
             p1 += outward * wallOffset;
             p2 += outward * wallOffset;
 
+            // Étirement du mur pour compenser l’écartement
+            p1 -= dir * wallOffset;
+            p2 += dir * wallOffset;
+
+            // Nouvelle longueur après offset + étirement
+            float length = Vector3.Distance(p1, p2);
+
             // Position finale du mur
             Vector3 finalMid = (p1 + p2) * 0.5f;
-            float length = Vector3.Distance(p1, p2);
 
             GameObject wall = new GameObject("WallSegment");
             wall.transform.SetParent(wallsRoot);
