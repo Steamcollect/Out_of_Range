@@ -13,6 +13,7 @@ public class RoomWallBaker : MonoBehaviour
     [Header("Wall Settings")]
     public float wallHeight = 2f;
     public float wallThickness = 0.2f;
+    public float wallOffset = 0.2f;
 
     [Header("Hierarchy")]
     public string wallsRootName = "GeneratedWalls";
@@ -224,15 +225,39 @@ public class RoomWallBaker : MonoBehaviour
             Vector3 p1 = loop[i];
             Vector3 p2 = loop[(i + 1) % loop.Count];
 
+            // Décalage vertical
             p1.y += wallHeight * 0.25f;
             p2.y += wallHeight * 0.25f;
 
+            // Direction du segment
+            Vector3 dir = (p2 - p1).normalized;
+
+            // Normale perpendiculaire dans le plan XZ
+            Vector3 outward = new Vector3(-dir.z, 0f, dir.x).normalized;
+
+            // On détermine si cette normale pointe vers l’extérieur
+            // en comparant avec le barycentre du polygone
+            Vector3 center = PolygonCenter(loop);
             Vector3 mid = (p1 + p2) * 0.5f;
+
+            Vector3 toCenter = (center - mid);
+            toCenter.y = 0f;
+
+            // Si la normale pointe vers l'intérieur, on l'inverse
+            if (Vector3.Dot(outward, toCenter) > 0f)
+                outward = -outward;
+
+            // Application de l’offset
+            p1 += outward * wallOffset;
+            p2 += outward * wallOffset;
+
+            // Position finale du mur
+            Vector3 finalMid = (p1 + p2) * 0.5f;
             float length = Vector3.Distance(p1, p2);
 
             GameObject wall = new GameObject("WallSegment");
             wall.transform.SetParent(wallsRoot);
-            wall.transform.position = mid;
+            wall.transform.position = finalMid;
             wall.transform.LookAt(p2);
 
             var col = wall.AddComponent<BoxCollider>();
@@ -254,6 +279,15 @@ public class RoomWallBaker : MonoBehaviour
 
         foreach (var go in toDelete)
             DestroyImmediate(go);
+    }
+
+    private Vector3 PolygonCenter(List<Vector3> pts)
+    {
+        Vector3 sum = Vector3.zero;
+        foreach (var p in pts)
+            sum += p;
+
+        return sum / pts.Count;
     }
 
     // =====================================================================
