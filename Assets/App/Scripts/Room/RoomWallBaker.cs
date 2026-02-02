@@ -11,7 +11,7 @@ public class RoomWallBaker : MonoBehaviour
     public NavMeshSurface surface;
 
     [Header("Wall Settings")]
-    public float wallHeight = 2f;
+    public float wallHeight = 5f;
     public float wallThickness = 0.2f;
     public float wallOffset = 0.5f;
 
