@@ -11,9 +11,8 @@ public class RoomWallBaker : MonoBehaviour
     public NavMeshSurface surface;
 
     [Header("Wall Settings")]
-    public float wallHeight = 5f;
+    public float wallHeight = 2f;
     public float wallThickness = 0.2f;
-    public float wallOffset = 0.5f;
 
     [Header("Hierarchy")]
     public string wallsRootName = "GeneratedWalls";
@@ -24,6 +23,9 @@ public class RoomWallBaker : MonoBehaviour
 
     private Transform wallsRoot;
 
+    // =====================================================================
+    //  B A K E
+    // =====================================================================
     [Button]
     public void Bake()
     {
@@ -73,14 +75,9 @@ public class RoomWallBaker : MonoBehaviour
         Debug.Log($"RoomWallBaker : {outerLoop.Count} points dans la boucle extérieure.");
     }
 
-    public void SetActiveWalls(bool state)
-    {
-        if(wallsRoot != null)
-        {
-            wallsRoot.gameObject.SetActive(state);
-        }
-    }
-
+    // =====================================================================
+    //  ROOT DES MURS
+    // =====================================================================
     private void PrepareWallsRoot()
     {
         if (wallsRoot != null)
@@ -99,6 +96,9 @@ public class RoomWallBaker : MonoBehaviour
         wallsRoot = go.transform;
     }
 
+    // =====================================================================
+    //  SNAP
+    // =====================================================================
     private Vector3 Snap(Vector3 v, float precision)
     {
         return new Vector3(
@@ -108,6 +108,9 @@ public class RoomWallBaker : MonoBehaviour
         );
     }
 
+    // =====================================================================
+    //  EXTRACTION DES ARÊTES FRONTIÈRES
+    // =====================================================================
     private List<(Vector3 a, Vector3 b)> ExtractBorderEdges(int[] indices, Vector3[] verts)
     {
         var edgeCount = new Dictionary<(Vector3, Vector3), int>();
@@ -141,6 +144,9 @@ public class RoomWallBaker : MonoBehaviour
                         .ToList();
     }
 
+    // =====================================================================
+    //  RECONSTRUCTION DES BOUCLES
+    // =====================================================================
     private List<List<Vector3>> BuildLoops(List<(Vector3 a, Vector3 b)> edges)
     {
         var adjacency = new Dictionary<Vector3, List<Vector3>>();
@@ -193,6 +199,9 @@ public class RoomWallBaker : MonoBehaviour
         return loops;
     }
 
+    // =====================================================================
+    //  AIRE D’UN POLYGONE (XZ)
+    // =====================================================================
     private float PolygonAreaXZ(List<Vector3> pts)
     {
         float area = 0f;
@@ -205,6 +214,9 @@ public class RoomWallBaker : MonoBehaviour
         return Mathf.Abs(area) * 0.5f;
     }
 
+    // =====================================================================
+    //  CONSTRUCTION DES MURS
+    // =====================================================================
     private void BuildWalls(List<Vector3> loop)
     {
         for (int i = 0; i < loop.Count; i++)
@@ -212,45 +224,15 @@ public class RoomWallBaker : MonoBehaviour
             Vector3 p1 = loop[i];
             Vector3 p2 = loop[(i + 1) % loop.Count];
 
-            // Décalage vertical
             p1.y += wallHeight * 0.25f;
             p2.y += wallHeight * 0.25f;
 
-            // Direction du segment
-            Vector3 dir = (p2 - p1).normalized;
-
-            // Normale perpendiculaire dans le plan XZ
-            Vector3 outward = new Vector3(-dir.z, 0f, dir.x).normalized;
-
-            // On détermine si cette normale pointe vers l’extérieur
-            // en comparant avec le barycentre du polygone
-            Vector3 center = PolygonCenter(loop);
             Vector3 mid = (p1 + p2) * 0.5f;
-
-            Vector3 toCenter = (center - mid);
-            toCenter.y = 0f;
-
-            // Si la normale pointe vers l'intérieur, on l'inverse
-            if (Vector3.Dot(outward, toCenter) > 0f)
-                outward = -outward;
-
-            // Application de l’offset extérieur
-            p1 += outward * wallOffset;
-            p2 += outward * wallOffset;
-
-            // Étirement du mur pour compenser l’écartement
-            p1 -= dir * wallOffset;
-            p2 += dir * wallOffset;
-
-            // Nouvelle longueur après offset + étirement
             float length = Vector3.Distance(p1, p2);
-
-            // Position finale du mur
-            Vector3 finalMid = (p1 + p2) * 0.5f;
 
             GameObject wall = new GameObject("WallSegment");
             wall.transform.SetParent(wallsRoot);
-            wall.transform.position = finalMid;
+            wall.transform.position = mid;
             wall.transform.LookAt(p2);
 
             var col = wall.AddComponent<BoxCollider>();
@@ -258,6 +240,9 @@ public class RoomWallBaker : MonoBehaviour
         }
     }
 
+    // =====================================================================
+    //  CLEAR
+    // =====================================================================
     private void ClearWalls()
     {
         if (wallsRoot == null)
@@ -271,15 +256,9 @@ public class RoomWallBaker : MonoBehaviour
             DestroyImmediate(go);
     }
 
-    private Vector3 PolygonCenter(List<Vector3> pts)
-    {
-        Vector3 sum = Vector3.zero;
-        foreach (var p in pts)
-            sum += p;
-
-        return sum / pts.Count;
-    }
-
+    // =====================================================================
+    //  GIZMOS
+    // =====================================================================
     private void OnDrawGizmos()
     {
         if (!showGizmos || outerLoop == null)
