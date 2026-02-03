@@ -43,7 +43,6 @@ public class WeaponSecondaryUI : MonoBehaviour
 
     private void UpdateUIIndicator()
     {
-        m_ManaFillImage.fillAmount =
-            (float)m_Controller.Get().GetPlayerMana().CurrentMana / m_Controller.Get().GetPlayerMana().MaxMana;
+        m_ManaFillImage.fillAmount = (float)m_Controller.Get().GetPlayerMana().CurrentMana / m_Controller.Get().GetPlayerMana().MaxMana;
     }
 }
