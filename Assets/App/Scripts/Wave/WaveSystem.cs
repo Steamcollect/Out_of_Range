@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using MVsToolkit.Utils;
+using MVsToolkit.Utilities;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;

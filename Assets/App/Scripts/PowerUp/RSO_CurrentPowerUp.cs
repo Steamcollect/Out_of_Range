@@ -7,7 +7,7 @@ public class RSO_CurrentPowerUp : RuntimeScriptableObject<HashSet<SSO_PowerUp>>
 {
     public bool ContainPowerUp(PowerUpType type)
     {
-        foreach (SSO_PowerUp powerUp in value)
+        foreach (SSO_PowerUp powerUp in Value)
         {
             if (powerUp.PowerUpType == type) return true;
         }

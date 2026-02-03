@@ -1,23 +1,25 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace MVsToolkit.Wrappers
 {
     public class RuntimeScriptableObject<T> : ScriptableObject
     {
-        protected T value = default(T);
+        [SerializeField,ReadOnly] private T value = default(T);
+
+        public event Action<T> OnChanged;
 
         public T Value
         {
             get => value;
+            [Button]
             set
             {
                 this.value = value;
                 OnChanged?.Invoke(value);
             }
         }
-
-        public event Action<T> OnChanged;
 
         public T Get()
         {

@@ -1,5 +1,5 @@
 using DG.Tweening;
-using MVsToolkit.Utils;
+using MVsToolkit.Utilities;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.VFX;

@@ -1,5 +1,5 @@
 using System.Collections;
-using MVsToolkit.Utils;
+using MVsToolkit.Utilities;
 using UnityEngine;
 
 public class EntityCombat : MonoBehaviour, ILookAtTarget

@@ -1,7 +1,7 @@
 using System.Linq;
 using DG.Tweening;
 using MVsToolkit.Dev;
-using MVsToolkit.Utils;
+using MVsToolkit.Utilities;
 using UnityEngine;
 
 public class Door : MonoBehaviour
