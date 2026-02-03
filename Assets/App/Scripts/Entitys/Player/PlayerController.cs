@@ -69,7 +69,7 @@ public class PlayerController : EntityController
             m_IsMoving = false;
             m_MoveDir = Vector3.zero;
         }
-        else
+        else if (!m_Dash.IsDashing)
         {
             m_IsMoving = true;
             m_Movement.Value.Move(m_MoveDir);
