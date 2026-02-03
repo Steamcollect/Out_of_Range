@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
+using MVsToolkit.Dev;
 using UnityEngine;
-using UnityEngine.VFX;
 
 public class Entity_Dash : MonoBehaviour
 {
@@ -13,12 +13,21 @@ public class Entity_Dash : MonoBehaviour
     [SerializeField] private LayerMask m_PlayerMask;
     [SerializeField] private LayerMask m_DashMask;
 
+    [Space(5)] 
+    [SerializeField] LayerMask m_GroundMask;
+    [SerializeField] LayerMask m_BorderWallMask;
+
     [Space(10)] 
     [SerializeField] private float m_DashDrag;
 
     [SerializeField] private float m_DashForce;
     [SerializeField] private float m_DashTime;
     [SerializeField] private float m_InvicibilityTime;
+
+    [Space(10)] 
+    [SerializeField] float dashCalculationDistance;
+    [SerializeField, Tooltip("Si le calcul de la distance ne trouve rien, marge donné en multiplier à celle ci (sorte de coyotee time pour un dash dans le vide)")]
+    float dashCalculationMarge;
 
     [Header("REFERENCES")]
     [SerializeField] private Rigidbody m_Rb;
@@ -27,6 +36,7 @@ public class Entity_Dash : MonoBehaviour
 
     private float m_BeginDrag;
     private bool m_CanDash = true;
+    [SerializeField, ReadOnly] bool m_IsDashing = false;
 
     public Action<float, float> OnDash;
 
@@ -51,7 +61,9 @@ public class Entity_Dash : MonoBehaviour
     {        
         LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_DashMask, true);
 
+        m_IsDashing = true;
         yield return new WaitForSeconds(m_DashTime);
+        m_IsDashing = false;
         
         LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_DashMask, false);
 
@@ -64,5 +76,10 @@ public class Entity_Dash : MonoBehaviour
         m_CanDash = false;
         yield return new WaitForSeconds(m_DashCooldown);
         m_CanDash = true;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        
     }
 }
