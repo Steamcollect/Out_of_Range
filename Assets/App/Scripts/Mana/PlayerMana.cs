@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerMana : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerMana : MonoBehaviour
     private int m_CurrentMana;
         
     public event Action OnManaChanged;
+    public UnityEvent OnManaCollected;
         
     public int CurrentMana => m_CurrentMana;
     public int MaxMana => m_MaxMana;
@@ -16,6 +18,7 @@ public class PlayerMana : MonoBehaviour
     public void Add(int amount)
     {
         m_CurrentMana = Mathf.Max(m_MaxMana, m_CurrentMana + amount);
+        OnManaCollected?.Invoke();
         OnManaChanged?.Invoke();
     }
         
