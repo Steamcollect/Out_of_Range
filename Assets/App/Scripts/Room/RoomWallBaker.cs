@@ -14,6 +14,9 @@ public class RoomWallBaker : MonoBehaviour
     public float wallThickness = 0.2f;
     public float wallOffset = 0.5f;
 
+    [Header("Layer")]
+    public int wallLayer = 13;
+
     [Header("Hierarchy")]
     public string wallsRootName = "GeneratedWalls";
 
@@ -245,6 +248,8 @@ public class RoomWallBaker : MonoBehaviour
 
             GameObject wall = new GameObject("WallSegment");
             wall.transform.SetParent(wallsRoot);
+            wall.layer = wallLayer;
+
             wall.transform.position = finalMid;
             wall.transform.LookAt(p2);
 
