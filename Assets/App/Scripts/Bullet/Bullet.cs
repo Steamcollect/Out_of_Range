@@ -74,10 +74,6 @@ public class Bullet : MonoBehaviour
 
         if (other.collider.gameObject.TryGetComponent(out HurtBox hurtBox))
         {
-            if (!other.transform.CompareTag("Enemy"))
-            {
-                PoolManager.Instance.Spawn(m_HitPrefab, pos, rot);
-            }
             hurtBox.TakeDamage(m_Damage);
         }
         else

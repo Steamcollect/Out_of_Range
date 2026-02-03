@@ -20,6 +20,7 @@ public class RangeEnemyCombat : EntityCombat
     [Header("References")]
     [SerializeField] private Transform m_AttackPoint;
     [SerializeField] private Bullet m_BulletPrefab;
+    [SerializeField] GameObject m_MuzzleFlashPrefab;
     [Space(5)]
     [SerializeField] private RSO_PlayerController m_Player;
     
@@ -41,6 +42,9 @@ public class RangeEnemyCombat : EntityCombat
         {
             Bullet bullet = PoolManager.Instance.Spawn(m_BulletPrefab, m_AttackPoint.position, m_AttackPoint.rotation);
             bullet.Setup();
+            
+            GameObject muzzleVFX = Instantiate(m_MuzzleFlashPrefab, m_AttackPoint);
+            Destroy(muzzleVFX, muzzleVFX.GetComponent<ParticleSystem>().main.duration);
             
             m_OnShoot.Invoke();
 
