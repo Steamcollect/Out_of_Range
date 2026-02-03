@@ -26,7 +26,7 @@ public class Entity_Dash : MonoBehaviour
 
     [Space(10)] 
     [SerializeField] float dashCalculationDistance;
-    [SerializeField, Tooltip("Si le calcul de la distance ne trouve rien, marge donné en multiplier à celle ci (sorte de coyotee time pour un dash dans le vide)")]
+    [SerializeField, Tooltip("Si le calcul de la distance ne trouve rien, marge donnï¿½ en multiplier ï¿½ celle ci (sorte de coyotee time pour un dash dans le vide)")]
     float dashCalculationMarge;
 
     [Header("REFERENCES")]
@@ -36,7 +36,6 @@ public class Entity_Dash : MonoBehaviour
 
     private float m_BeginDrag;
     private bool m_CanDash = true;
-    [SerializeField, ReadOnly] bool m_IsDashing = false;
 
     public Action<float, float> OnDash;
 
@@ -60,10 +59,8 @@ public class Entity_Dash : MonoBehaviour
     private IEnumerator DashTime()
     {        
         LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_DashMask, true);
-
-        m_IsDashing = true;
+        
         yield return new WaitForSeconds(m_DashTime);
-        m_IsDashing = false;
         
         LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_DashMask, false);
 
@@ -76,10 +73,5 @@ public class Entity_Dash : MonoBehaviour
         m_CanDash = false;
         yield return new WaitForSeconds(m_DashCooldown);
         m_CanDash = true;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        
     }
 }
