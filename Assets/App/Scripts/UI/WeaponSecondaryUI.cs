@@ -6,6 +6,7 @@ public class WeaponSecondaryUI : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject m_PrimaryWeaponUIContainer;
     [SerializeField] private Image m_ManaFillImage;
+    [SerializeField] private Image m_MaxManaIndicatorImage;
     [Space]
     [SerializeField] private Animator m_Animator;
     [Space]
@@ -15,6 +16,7 @@ public class WeaponSecondaryUI : MonoBehaviour
     {
         m_Controller.Get().GetPlayerCombat().OnSecondaryCombatStyleChange += UpdateUI;
         m_Controller.Get().GetPlayerMana().OnManaChanged += UpdateUIIndicator;
+        UpdateUIIndicator();
     }
     
     private void OnDisable()
@@ -43,6 +45,16 @@ public class WeaponSecondaryUI : MonoBehaviour
 
     private void UpdateUIIndicator()
     {
-        m_ManaFillImage.fillAmount = (float)m_Controller.Get().GetPlayerMana().CurrentMana / m_Controller.Get().GetPlayerMana().MaxMana;
+        if (m_Controller.Get().GetPlayerCombat().GetSecondaryCombatStyle() is GrenadeLauncherCombatStyle
+            grenadeLauncherCombatStyle)
+        {
+            m_ManaFillImage.fillAmount = Mathf.Clamp01((float)m_Controller.Get().GetPlayerMana().CurrentMana / grenadeLauncherCombatStyle.Cost);
+        }
+        else
+        {
+            m_ManaFillImage.fillAmount = (float)m_Controller.Get().GetPlayerMana().CurrentMana / m_Controller.Get().GetPlayerMana().MaxMana;
+        }
+        m_MaxManaIndicatorImage.CrossFadeColor(new Color(1,1,1, m_ManaFillImage.fillAmount >= 1 ? 1 : 0), 0.2f, true, true);
+        
     }
 }

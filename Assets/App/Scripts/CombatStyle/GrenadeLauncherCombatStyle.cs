@@ -28,6 +28,8 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     
     [Header("Output")]
     [SerializeField] RSO_CameraTargetType m_TargetType;
+    
+    public int Cost => m_ShootCost;
 
     private void FixedUpdate()
     {
@@ -77,8 +79,18 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     {
         m_PreShowCircle.transform.localScale = Vector3.one * (m_GrenadePrefab.GetRadius() * .2f);
 
-        m_PreShowCircle.material.color = m_CanTouchTarget ? Color.green : Color.red;
-        m_PreShowTriangle.material.color = m_CanTouchTarget ? Color.green : Color.red;
+        if (m_PlayerController.Get().GetPlayerMana().CurrentMana <= m_ShootCost)
+        {
+            m_PreShowCircle.material.color = Color.gray;
+            m_PreShowTriangle.material.color = Color.gray;
+        }
+        else
+        {
+            m_PreShowCircle.material.color = m_CanTouchTarget ? Color.green : Color.red;
+            m_PreShowTriangle.material.color = m_CanTouchTarget ? Color.green : Color.red;
+        }
+        
+        
 
         m_PreShowCircle.transform.position = m_AimTarget.Get().position + Vector3.up * .1f;
 
