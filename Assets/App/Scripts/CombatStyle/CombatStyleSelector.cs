@@ -9,6 +9,10 @@ public class CombatStyleSelector : MonoBehaviour
     [SerializeField] private CombatStyle m_RifleCombatStyle;
     [SerializeField] private CombatStyle m_GrenadeLauncherCombatStyle;
 
+    [Space(10)]
+    [SerializeField] RSO_CanPickupMana m_CanPickupMana;
+
+    [Space(5)]
     [SerializeField] private RSE_OnGrenadeLauncherPickedUp m_OnGrenadeLauncherPickedUp;
     [SerializeField] private RSE_OnShotgunPickedUp m_OnShotgunPickedUp;
     [SerializeField] private RSE_OnRiflePickedUp m_OnRiflePickedUp;
@@ -45,6 +49,7 @@ public class CombatStyleSelector : MonoBehaviour
     
     private void EnableGrenadeLauncher()
     {
+        m_CanPickupMana.Set(true);
         SetSecondaryCombatStyle(m_GrenadeLauncherCombatStyle);
     }
     

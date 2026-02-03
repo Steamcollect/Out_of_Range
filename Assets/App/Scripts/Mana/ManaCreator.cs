@@ -8,8 +8,11 @@ public class ManaCreator : MonoBehaviour
 
     [SerializeField] float m_PropulsionAngle;
 
+    [SerializeField] bool m_RequireShotgunToSpawn = true;
+
     [Header("References")]
     [SerializeField] ManaPickup m_ManaPrefab;
+    [SerializeField] RSO_CanPickupMana m_CanPickupMana;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -17,6 +20,8 @@ public class ManaCreator : MonoBehaviour
     [Button]
     public void Create()
     {
+        if (m_RequireShotgunToSpawn && !m_CanPickupMana.Get()) return;
+
         for (int i = 0; i < Random.Range(m_ManaCount.x, m_ManaCount.y); i++)
         {
             Vector2 dir = Random.insideUnitCircle.normalized;
