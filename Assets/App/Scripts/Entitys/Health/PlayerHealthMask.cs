@@ -27,7 +27,7 @@ public class PlayerHealthMask : MonoBehaviour
         m_BlurMaterial.SetFloat(s_IntensityProp, 0f);
         
         m_CurrentTween = DOTween.To(x => m_BlurMaterial.SetFloat(s_IntensityProp, x), 
-                0, 1f, m_DamageBlurDuration/2f)
+                0, 1f, m_DamageBlurDuration /2f)
             .SetUpdate(m_EffectUseTimeScale).SetLoops(2, LoopType.Yoyo).SetEase(m_Ease)
             .SetAutoKill(false);
         m_CurrentTween.Pause();
