@@ -95,7 +95,7 @@ namespace MoreMountains.Feedbacks
 		{
 			base.CustomInitialization(owner);
 
-			if (Active && UsePool )
+			if (Active && UsePool && GameObjectToInstantiate != null)
 			{
 				PoolManager.Instance.Prewarm(GameObjectToInstantiate, PoolSize);
 			}
