@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using MVsToolkit.Dev;
 using MVsToolkit.Utilities;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Entity_Dash : MonoBehaviour
@@ -68,11 +69,18 @@ public class Entity_Dash : MonoBehaviour
 
         if (disableBorderWall)
         {
-            if(Physics.Linecast(transform.position + Vector3.up * .5f, desirePos + Vector3.up * .5f, m_WallMask))
-            {
+            Vector3 start = transform.position + Vector3.up * 0.5f;
+            Vector3 end = desirePos + Vector3.up * 0.5f;
 
+            if (Physics.Linecast(start, end, out RaycastHit hit, m_WallMask))
+            {
+                Vector3 backedPos = hit.point - input.normalized * 1f; 
+                bool groundedAfterBackstep = IsGrounded(backedPos); 
+                if (!groundedAfterBackstep) 
+                    disableBorderWall = false;
+
+                MVsDebug.DrawCircle(backedPos, 0.5f, Vector3.up, groundedAfterBackstep ? Color.green : Color.red, 1);            }
             }
-        }
     }
 
     bool IsGrounded(Vector3 position) => Physics.Linecast(position + (Vector3.up * .5f), position + (Vector3.down * .5f), m_GroundMask);
