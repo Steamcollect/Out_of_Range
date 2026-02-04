@@ -21,6 +21,7 @@ public class EntityHealth : MonoBehaviour, IHealth
     [Header("REFERENCES")]
     [SerializeField] protected UnityEvent m_OnTakeDamageFeedback;
     [SerializeField] protected UnityEvent m_OnDeathFeedback;
+    [SerializeField] protected UnityEvent m_OnHealFeedback;
 
     protected float m_CurrentInvincibilityTimer;
 
@@ -67,6 +68,7 @@ public class EntityHealth : MonoBehaviour, IHealth
             m_CurrentHealth = m_MaxHealth;
 
         OnHeal?.Invoke();
+        m_OnHealFeedback?.Invoke();
     }
 
     private void Die()
