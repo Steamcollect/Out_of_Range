@@ -42,4 +42,9 @@ public class RadioAntennaController : MonoBehaviour
         m_OnPlayerInteract.Invoke();
         m_Effect.SetVector4("Color", m_ActiveColor);
     }
+
+    public void EndCombat()
+    {
+        m_Effect.SetVector4("Color", m_DefaultColor);
+    }
 }

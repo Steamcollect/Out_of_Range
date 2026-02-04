@@ -17,9 +17,11 @@ public class WaveSystem : MonoBehaviour
     [SerializeField] private UnityEvent m_OnCombatStart;
     [SerializeField] private UnityEvent m_OnCombatCompleted;
     [SerializeField] private UnityEvent m_OnWaveEnd;
+    
+    private RadioAntennaController m_ActiveRadioAntennaController;
 
     [Title("WAVE EVENTS")]
-    [SerializeField, Tooltip("Assign a UnityEvent for each wave index (0 = première vague, 1 = seconde, ...).")]
+    [SerializeField, Tooltip("Assign a UnityEvent for each wave index (0 = premiï¿½re vague, 1 = seconde, ...).")]
     private List<UnityEvent> m_OnWaveStartEvents = new List<UnityEvent>();
 
 
@@ -38,12 +40,12 @@ public class WaveSystem : MonoBehaviour
     }
 
     [Button("Start Combat")]
-    public void StartCombat()
+    public void StartCombat(RadioAntennaController radioAntennaController)
     {
         if (IsInFight) return;
         m_CurrentWaveIndex = 0;
         IsInFight = true;
-
+        m_ActiveRadioAntennaController = radioAntennaController;
         FightDetectorManager.Instance?.OnWaveStart(this);
         m_OnCombatStart?.Invoke();
 
@@ -91,6 +93,8 @@ public class WaveSystem : MonoBehaviour
         if (m_CurrentWaveIndex >= m_MaxWaveCount)
         {
             EndCombat();
+            
+            if(m_ActiveRadioAntennaController != null) m_ActiveRadioAntennaController.EndCombat();
         }
         else
         {
