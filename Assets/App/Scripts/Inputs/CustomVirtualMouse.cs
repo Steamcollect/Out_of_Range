@@ -3,16 +3,16 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Users;
 
-public sealed class VirtualMouseHandler : MonoBehaviour
+public sealed class CustomVirtualMouse : MonoBehaviour
 {
    [Header("Settings")]
    [SerializeField] private float m_CursorSpeed = 400f;
    
    [Header("References")]
-   [SerializeField] private InputActionReference m_StickMovementIA;
+   [SerializeField] private InputActionReference m_StickMovementIa;
    
    [Header("Input")]
-   [SerializeField] private RSE_OnInputDeviceChanged m_OnInputDeviceChanged;
+   [SerializeField] private RSO_CurrentInputDeviceType m_CurrentInputDeviceType;
    
    private Mouse m_VirtualMouse;
    private Mouse m_CurrentMouse;
@@ -23,11 +23,16 @@ public sealed class VirtualMouseHandler : MonoBehaviour
       m_CurrentMouse = Mouse.current;
       HandleVirtualMouseConnexion();
       InputSystem.onAfterUpdate += UpdateMotion;
-      m_OnInputDeviceChanged.Action += HandleChangeDevice;
+      m_CurrentInputDeviceType.OnChanged += HandleChangeDevice;
+      
+      m_StickMovementIa.action.Enable();
    }
 
    private void OnDisable()
    {
+      m_StickMovementIa.action.Disable();
+      
+      m_CurrentInputDeviceType.OnChanged -= HandleChangeDevice;
       InputSystem.onAfterUpdate -= UpdateMotion;
    }
    
@@ -43,11 +48,12 @@ public sealed class VirtualMouseHandler : MonoBehaviour
          m_VirtualMouse = (Mouse)virtualMouseInDevice;
       
       InputUser.PerformPairingWithDevice(m_VirtualMouse);
+      
+      InputState.Change(m_VirtualMouse.position, m_CurrentMouse.position.ReadValue());
    }
 
    private void HandleChangeDevice(InputDeviceType deviceType)
    {
-      
       switch (deviceType)
       {
          case InputDeviceType.Gamepad:
@@ -61,7 +67,7 @@ public sealed class VirtualMouseHandler : MonoBehaviour
 
    private void UpdateMotion()
    {
-      Vector2 stickValue = m_StickMovementIA.action.ReadValue<Vector2>();
+      Vector2 stickValue = m_StickMovementIa.action.ReadValue<Vector2>();
       Vector2 delta = stickValue * m_CursorSpeed * Time.unscaledDeltaTime;
       Vector2 newPosition = m_VirtualMouse.position.ReadValue() + delta;
       newPosition.x = Mathf.Clamp(newPosition.x, 0,Screen.width);

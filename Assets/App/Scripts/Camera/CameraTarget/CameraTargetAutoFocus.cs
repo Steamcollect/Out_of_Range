@@ -15,9 +15,11 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
 
     [Header("References")]
     [SerializeField] private InputActionReference m_MousePositionIa;
+    [SerializeField] private InputActionReference m_DirectionIa;
     [Space(10)]
     [SerializeField] private RSO_PlayerCameraController m_CamController;
     [SerializeField] private RSO_PlayerController m_PlayerController;
+    [SerializeField] private RSO_CurrentInputDeviceType m_CurrentInputDeviceType;
 
     private const int k_TargetResultsBufferSize = 10;
     private readonly Collider[] m_TargetResults = new Collider[k_TargetResultsBufferSize];
@@ -30,19 +32,46 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
     private float m_SphereRadius = 1f;
     
     private Vector3 m_LastMousePosition;
+    
+    private Vector3 m_LastGamepadDirection;
 
     private void Awake()
     {
         m_SphereRadius = m_RadiusCursorDetection;
     }
 
-    private void OnEnable() => m_MousePositionIa.action.Enable();
-    private void OnDisable() => m_MousePositionIa.action.Disable();
+    private void OnEnable()
+    {
+        m_MousePositionIa.action.Enable();
+        m_DirectionIa.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        m_DirectionIa.action.Disable();
+        m_MousePositionIa.action.Disable();
+    }
 
     public Vector3? GetCameraTargetPosition()
     {
         InitDebug();
+
+        return HandleCameraTargetMouse();
         
+
+        switch (m_CurrentInputDeviceType.Value)
+        {
+            case InputDeviceType.Gamepad:
+                return HandleCameraTargetGamepad();
+            case InputDeviceType.KeyboardMouse:
+                return HandleCameraTargetMouse();
+            default:
+                throw new NotImplementedException(m_CurrentInputDeviceType.Value.ToString());
+        }
+    }
+
+    private Vector3? HandleCameraTargetMouse()
+    {
         Vector2 screenPoint = m_MousePositionIa.action.ReadValue<Vector2>();
         m_RayCamToScreenPoint = m_CamController.Get().GetCamera().ScreenPointToRay(screenPoint);
 
@@ -53,6 +82,30 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         
         m_LastMousePosition = hitMouseWorld.point;
         Vector3? resultPosition = FindTargetInRadius(hitMouseWorld.point) ?? FindDirectTarget(hitMouseWorld.point) ?? hitMouseWorld.point;
+        return resultPosition;
+    }
+
+    private Vector3? HandleCameraTargetGamepad()
+    {
+        Vector3 directionInput = m_DirectionIa.action.ReadValue<Vector2>();
+
+        if (directionInput == Vector3.zero)
+            return m_PlayerController.Get().GetTargetPosition() + m_LastGamepadDirection;
+        
+        (directionInput.z, directionInput.y) = (directionInput.y, directionInput.z);
+        
+        m_LastGamepadDirection = directionInput.DirectionRelativeToCamera();
+        
+        m_RayCamToScreenPoint = new Ray(m_PlayerController.Get().GetTargetPosition(), m_LastGamepadDirection);
+        
+        if (!Physics.SphereCast(m_PlayerController.Get().GetTargetPosition(),5f, m_LastGamepadDirection, out RaycastHit hitInfo, Mathf.Infinity,
+                m_LayerMaskHittable, m_QueryTriggerInteraction))
+        {
+           return m_PlayerController.Get().GetTargetPosition() + m_LastGamepadDirection;
+        }
+        
+        Vector3 hitPosition = hitInfo.point;
+        Vector3? resultPosition = FindTargetInRadius(hitPosition) ?? FindDirectTarget(hitPosition) ?? hitPosition;
         return resultPosition;
     }
 
