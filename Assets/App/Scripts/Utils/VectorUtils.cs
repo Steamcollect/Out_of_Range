@@ -27,4 +27,11 @@ public static class VectorUtils
     {
         return Vector3.Distance(a, b);
     }
+    
+    public static Vector3 DirectionRelativeToCamera(this Vector3 directionInput)
+    {
+        if (Camera.main == null) return directionInput;
+        float targetAngle = Mathf.Atan2(directionInput.x, directionInput.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+        return  Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+    }
 }
