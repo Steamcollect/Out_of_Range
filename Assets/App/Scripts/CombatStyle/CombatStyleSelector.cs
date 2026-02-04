@@ -33,8 +33,28 @@ public class CombatStyleSelector : MonoBehaviour
     
     private void Start()
     {
-        SetPrimaryCombatStyle(m_DefaultCombatStyle);
-        SetSecondaryCombatStyle(null);
+        HandleSaveCombat();
+    }
+
+    private void HandleSaveCombat()
+    {
+        if (CombatStyleSelectorPersistant.HasRifle() || CombatStyleSelectorPersistant.HasShotgun())
+        {
+            if (CombatStyleSelectorPersistant.HasRifle())
+            {
+                SetPrimaryCombatStyle(m_RifleCombatStyle);
+            }
+            else if (CombatStyleSelectorPersistant.HasShotgun())
+            {
+                SetPrimaryCombatStyle(m_ShotgunCombatStyle);
+            }
+        }
+        else
+        {
+            SetPrimaryCombatStyle(m_DefaultCombatStyle);
+        }
+
+        SetSecondaryCombatStyle(CombatStyleSelectorPersistant.HasLaunchGrenade() ? m_GrenadeLauncherCombatStyle : null);
     }
     
     private void SetPrimaryCombatStyle(CombatStyle style)
@@ -49,17 +69,20 @@ public class CombatStyleSelector : MonoBehaviour
     
     private void EnableGrenadeLauncher()
     {
+        CombatStyleSelectorPersistant.SetHasLaunchGrenade();
         m_CanPickupMana.Set(true);
         SetSecondaryCombatStyle(m_GrenadeLauncherCombatStyle);
     }
     
     private void EnableShotgun()
     {
+        CombatStyleSelectorPersistant.SetHasShotgun();
         SetPrimaryCombatStyle(m_ShotgunCombatStyle);
     }
     
     private void EnableRifle()
     {
+        CombatStyleSelectorPersistant.SetHasRifle();
         SetPrimaryCombatStyle(m_RifleCombatStyle);
     }
     

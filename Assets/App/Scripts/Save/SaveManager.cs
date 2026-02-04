@@ -4,12 +4,17 @@ using UnityEngine;
 public class SaveManager : RegularSingleton<SaveManager>
 {
     [Header("Setting")]
-    [SerializeField] private bool m_AutoRegularSave = true;
+    [SerializeField] private bool m_AutoRegularSave = false;
     [SerializeField, Tooltip("Time in second")] private float m_AutoRegularSaveTime = 300f;
     
     private float m_Timer;
-    
-    
+
+
+    private void OnEnable()
+    {
+        CombatStyleSelectorPersistant.Initialize();
+    }
+
     private void Update()
     {
         if (!m_AutoRegularSave) 

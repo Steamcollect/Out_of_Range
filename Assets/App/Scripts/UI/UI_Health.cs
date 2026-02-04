@@ -27,7 +27,7 @@ public class UI_Health : MonoBehaviour
    private void UpdateUI()
    {
       m_HealthBar.UpdateBar(m_Controller.Get().GetHealth().GetCurrentHealth()-1, 0,
-         m_Controller.Get().GetHealth().GetMaxHealth());
+         m_Controller.Get().GetHealth().GetMaxHealth()-1);
       if (m_Controller.Get().GetHealth().GetCurrentHealth() <= 0)
       {
          m_LastPointHealthBar.UpdateBar(0, 0,
