@@ -55,10 +55,7 @@ public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
     public Vector3? GetCameraTargetPosition()
     {
         InitDebug();
-
-        return HandleCameraTargetMouse();
         
-
         switch (m_CurrentInputDeviceType.Value)
         {
             case InputDeviceType.Gamepad:
