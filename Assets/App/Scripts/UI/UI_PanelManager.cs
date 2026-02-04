@@ -61,13 +61,13 @@ public class UI_PanelManager : MonoBehaviour
 
         if(m_NewPanelIndex != m_CurrentPanelIndex)
         {
-            StopCoroutine("DisablePreviousPanel");
+            StopCoroutine(nameof(DisablePreviousPanel));
 
             m_CurrentPanelIndex = m_NewPanelIndex;
             m_NewPanel = m_Panels[m_CurrentPanelIndex];
             m_NewPanel.Panel.SetPanelActive(true);
 
-            StartCoroutine("DisablePreviousPanel");
+            StartCoroutine(nameof(DisablePreviousPanel));
         }
     }
 

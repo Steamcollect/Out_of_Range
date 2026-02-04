@@ -33,12 +33,12 @@ public class PlayerAnimationVisual : MonoBehaviour
 
     private void Start()
     {
-        m_ArmsPivot.SetParent(null);
+        // m_ArmsPivot.SetParent(null);
     }
 
     private void Update()
     {
-        m_HeadPivot.localPosition += (Vector3.up * Mathf.Sin(Time.time * m_Speed) * m_Amplitude);
+        m_HeadPivot.localPosition = (Vector3.up * (Mathf.Sin(Time.time * m_Speed) * m_Amplitude));
 
         m_ArmsPivot.position = Vector3.SmoothDamp(
     m_ArmsPivot.position,

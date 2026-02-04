@@ -5,22 +5,18 @@ using UnityEngine.InputSystem;
 
 public class UI_Manager : MonoBehaviour
 {
-    [Title("SETTINGS")]
-    [SerializeField] private string m_OpenPanelName = "Menu";
+    [Title("SETTINGS")] [SerializeField] private string m_OpenPanelName = "Menu";
     [SerializeField] private string m_ClosePanelName = "Game";
 
-    [Title("REFERENCES")]
-    [SerializeField] private InputActionReference m_OpenPauseMenuAction;
+    [Title("REFERENCES")] [SerializeField] private InputActionReference m_OpenPauseMenuAction;
 
     //[Title("LOADING SCREEN")]
     //[SerializeField] private UI_LoadingScreen m_LoadingScreen;
 
-    [Title("INPUTS")]
-    [SerializeField] private RSE_OpenScene m_OpenScene;
+    [Title("INPUTS")] [SerializeField] private RSE_OpenScene m_OpenScene;
     [SerializeField] private RSE_QuitGame m_QuitGame;
 
-    [Title("OUTPUTS")]
-    [SerializeField] private RSE_OpenPanel m_OpenPanel;
+    [Title("OUTPUTS")] [SerializeField] private RSE_OpenPanel m_OpenPanel;
 
     private bool m_IsOpen = false;
 

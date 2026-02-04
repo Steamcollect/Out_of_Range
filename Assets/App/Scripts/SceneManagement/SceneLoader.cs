@@ -26,6 +26,7 @@ public class SceneLoader : RegularSingleton<SceneLoader>
 
     private void Start()
     {
+        if (SceneManager.GetActiveScene().buildIndex != 0) return;
         LoadMainMenuScene();
     }
 

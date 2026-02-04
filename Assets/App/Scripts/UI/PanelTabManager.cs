@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UI_PanelTabManager : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class UI_PanelTabManager : MonoBehaviour
         m_CurrentButton = m_Buttons[m_CurrentButtonIndex];
         m_CurrentButtonAnimator = m_CurrentButton.GetComponent<Animator>();
         m_CurrentButtonAnimator.Play(m_ButtonFadeIn);
-
+        
         m_CurrentPanel = m_Panels[m_CurrentPanelIndex];
         m_CurrentPanelAnimator = m_CurrentPanel.GetComponent<Animator>();
         m_CurrentPanelAnimator.Play(m_PanelFadeIn);
