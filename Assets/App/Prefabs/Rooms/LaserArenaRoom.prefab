@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1809627278535901560}
   - component: {fileID: 2607628601171572761}
   - component: {fileID: 8008864532555454913}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Bridge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 4821184371671325130}
   - component: {fileID: 8481682241556399205}
   - component: {fileID: 1265681500515368303}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_25
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,7 +303,7 @@ GameObject:
   - component: {fileID: 2303327661624107891}
   - component: {fileID: 8098843689947616356}
   - component: {fileID: 679978251445508856}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -955,7 +955,7 @@ GameObject:
   - component: {fileID: 6204372434294103226}
   - component: {fileID: 7017074577158005133}
   - component: {fileID: 6461870965513587819}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1066,7 +1066,7 @@ GameObject:
   - component: {fileID: 4273691736462022821}
   - component: {fileID: 1952173504034191845}
   - component: {fileID: 3850925398877460548}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_27
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1177,7 +1177,7 @@ GameObject:
   - component: {fileID: 732217891124098542}
   - component: {fileID: 2188241133913879243}
   - component: {fileID: 7916870986822657063}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1341,7 +1341,7 @@ GameObject:
   - component: {fileID: 2478556627090046458}
   - component: {fileID: 3310751749415492733}
   - component: {fileID: 4995083956579415193}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1611,7 +1611,7 @@ GameObject:
   - component: {fileID: 3853353618285617165}
   - component: {fileID: 2974438087474010945}
   - component: {fileID: 1270031579831461327}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_26
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1722,7 +1722,7 @@ GameObject:
   - component: {fileID: 3189367472781490837}
   - component: {fileID: 8003886655903641732}
   - component: {fileID: 7538830346516301333}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1941,7 +1941,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6789197813081098055}
-  - component: {fileID: -8532498871728058190}
+  - component: {fileID: 5694016574646720838}
   m_Layer: 0
   m_Name: LaserArenaRoom
   m_TagString: Untagged
@@ -1969,7 +1969,7 @@ Transform:
   - {fileID: 4052699502490393325}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8532498871728058190
+--- !u!114 &5694016574646720838
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1978,9 +1978,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 4885716423291236479}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6cec819e1af61c4da07f3897d34b827, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RoomEntityConnector
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 2
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 15743
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 5ae6270725ab68543aaabdcdb1064373, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &4938684075726142150
 GameObject:
   m_ObjectHideFlags: 0
@@ -2061,7 +2081,7 @@ GameObject:
   - component: {fileID: 5281208812266257246}
   - component: {fileID: 818218554795191699}
   - component: {fileID: 6818207383037092859}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2172,7 +2192,7 @@ GameObject:
   - component: {fileID: 1828937162494711927}
   - component: {fileID: 2596605090094557122}
   - component: {fileID: 7313491456995410115}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2327,7 +2347,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4052699502490393325}
   m_Layer: 0
-  m_Name: InvisibleWalls
+  m_Name: GeneratedWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2369,7 +2389,7 @@ GameObject:
   - component: {fileID: 4862790396566358883}
   - component: {fileID: 2137234959857169994}
   - component: {fileID: 8384086755277488192}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2644,7 +2664,7 @@ GameObject:
   - component: {fileID: 1517733998671856583}
   - component: {fileID: 5598626213302097458}
   - component: {fileID: 5157306981365091537}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2755,7 +2775,7 @@ GameObject:
   - component: {fileID: 8660256942665546498}
   - component: {fileID: 9062869502928445565}
   - component: {fileID: 3757988162004142975}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2866,7 +2886,7 @@ GameObject:
   - component: {fileID: 7701633150630104506}
   - component: {fileID: 9002849620075239176}
   - component: {fileID: 2687189044879477500}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall_24
   m_TagString: Untagged
   m_Icon: {fileID: 0}

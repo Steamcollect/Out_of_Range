@@ -164,7 +164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1509237595510481204}
-  - component: {fileID: -4707273885271175243}
+  - component: {fileID: 8979281327375576741}
   m_Layer: 0
   m_Name: TutoShotgunRoom
   m_TagString: Untagged
@@ -185,8 +185,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5360390096184679047}
-  - {fileID: 152419589508388492}
   - {fileID: 8026167337635460227}
   - {fileID: 8642295960352455491}
   - {fileID: 421092923091498451}
@@ -194,7 +192,7 @@ Transform:
   - {fileID: 8435246033134041152}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-4707273885271175243
+--- !u!114 &8979281327375576741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -203,9 +201,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 307327391968356998}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6cec819e1af61c4da07f3897d34b827, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RoomEntityConnector
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 2
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 15743
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 323112d5ef5adfa47bdff61c54149d44, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &541131340834584670
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,7 +787,7 @@ GameObject:
   - component: {fileID: 758951520208220328}
   - component: {fileID: 7888896418683931177}
   - component: {fileID: 2986637785101982475}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ground_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1065,6 +1083,7 @@ Transform:
   - {fileID: 792666952467365557}
   - {fileID: 2697035314455129548}
   - {fileID: 7606051265290741068}
+  - {fileID: 5360390096184679047}
   m_Father: {fileID: 1509237595510481204}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2469761412207953715
@@ -2020,7 +2039,7 @@ GameObject:
   - component: {fileID: 8345804513538192022}
   - component: {fileID: 3039446809851445619}
   - component: {fileID: 8635571965717345693}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ground_16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2133,7 +2152,7 @@ GameObject:
   - component: {fileID: 5947933093010825380}
   - component: {fileID: 1372075984691058210}
   - component: {fileID: 2320612572001045044}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Stairs_07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2153,7 +2172,7 @@ Transform:
   m_LocalScale: {x: 1.2615008, y: 1.1000154, z: 1.6390834}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1509237595510481204}
+  m_Father: {fileID: 8642295960352455491}
   m_LocalEulerAnglesHint: {x: 0, y: -315, z: 0}
 --- !u!114 &6532518367445735934
 MonoBehaviour:
@@ -8260,7 +8279,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1264
+  m_VersionIndex: 1282
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -8497,7 +8516,7 @@ GameObject:
   - component: {fileID: 6201675296197334010}
   - component: {fileID: 5164593319034595034}
   - component: {fileID: 9088197610494814249}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ground_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8631,6 +8650,7 @@ Transform:
   - {fileID: 3653906987841555854}
   - {fileID: 6474205498472850869}
   - {fileID: 3765286309369537906}
+  - {fileID: 152419589508388492}
   m_Father: {fileID: 1509237595510481204}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5967150510378269238
@@ -9602,7 +9622,7 @@ GameObject:
   - component: {fileID: 5959151940335354607}
   - component: {fileID: 6190244686595879428}
   - component: {fileID: 791455894287689979}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ground_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9969,7 +9989,7 @@ GameObject:
   - component: {fileID: 8572383556103620636}
   - component: {fileID: 7827480053535361392}
   - component: {fileID: 4800034427881955718}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ground_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10348,7 +10368,7 @@ GameObject:
   - component: {fileID: 5743866911010484277}
   - component: {fileID: 3539879649373097702}
   - component: {fileID: 5029327863139824735}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ground_15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11685,7 +11705,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1509237595510481204}
+    m_TransformParent: {fileID: 8026167337635460227}
     m_Modifications:
     - target: {fileID: 711569852501985700, guid: af26124c55fa0034b963c13478c07364, type: 3}
       propertyPath: m_Layer
