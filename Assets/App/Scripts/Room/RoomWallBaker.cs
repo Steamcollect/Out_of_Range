@@ -11,8 +11,8 @@ public class RoomWallBaker : MonoBehaviour
 
     [Header("Wall Settings")]
     public float wallHeight = 5f;
-    public float wallThickness = 0.2f;
-    public float wallOffset = 0.5f;
+    public float wallThickness = 1;
+    public float wallOffset = 1;
 
     [Header("Layer")]
     public int wallLayer = 13;
@@ -153,43 +153,61 @@ public class RoomWallBaker : MonoBehaviour
         }
 
         var loops = new List<List<Vector3>>();
-        var visited = new HashSet<(Vector3, Vector3)>();
+        var visitedVertices = new HashSet<Vector3>();
 
         foreach (var start in adjacency.Keys)
         {
-            foreach (var next in adjacency[start])
+            if (visitedVertices.Contains(start))
+                continue;
+
+            // On démarre une nouvelle boucle à partir de ce sommet
+            var neighbors = adjacency[start];
+            if (neighbors.Count == 0)
+                continue;
+
+            var loop = new List<Vector3>();
+            Vector3 current = start;
+            Vector3 previous = neighbors[0]; // on prend un voisin arbitraire
+
+            loop.Add(current);
+            visitedVertices.Add(current);
+
+            int safety = 0;
+            while (safety++ < 10000)
             {
-                if (visited.Contains((start, next)) || visited.Contains((next, start)))
-                    continue;
+                loop.Add(previous);
+                visitedVertices.Add(previous);
 
-                var loop = new List<Vector3>();
-                Vector3 current = start;
-                Vector3 previous = next;
+                var nextNeighbors = adjacency[previous];
+                Vector3 nextCandidate = nextNeighbors.FirstOrDefault(n => n != current);
 
-                loop.Add(current);
-
-                while (true)
+                if (nextCandidate == start)
                 {
-                    visited.Add((current, previous));
-                    loop.Add(previous);
-
-                    var neighbors = adjacency[previous];
-                    Vector3 nextCandidate = neighbors.FirstOrDefault(n => n != current);
-
-                    if (nextCandidate == start)
-                    {
-                        loops.Add(loop);
-                        break;
-                    }
-
-                    current = previous;
-                    previous = nextCandidate;
+                    // boucle fermée
+                    loops.Add(loop);
+                    break;
                 }
+
+                current = previous;
+                previous = nextCandidate;
             }
         }
 
         return loops;
     }
+
+    private float SignedPolygonAreaXZ(List<Vector3> pts)
+    {
+        float area = 0f;
+        for (int i = 0; i < pts.Count; i++)
+        {
+            Vector3 a = pts[i];
+            Vector3 b = pts[(i + 1) % pts.Count];
+            area += (a.x * b.z - b.x * a.z);
+        }
+        return area * 0.5f;
+    }
+
 
     private float PolygonAreaXZ(List<Vector3> pts)
     {

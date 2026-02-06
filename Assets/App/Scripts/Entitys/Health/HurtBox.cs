@@ -12,7 +12,7 @@ public class HurtBox : MonoBehaviour
     //[Header("Input")]
     //[Header("Output")]
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         if (m_HealthConnected == null) return;
 

@@ -173,7 +173,7 @@ MonoBehaviour:
   m_OnReloadFeedback:
     m_PersistentCalls:
       m_Calls: []
-  m_ShootCost: 30
+  m_ShootCost: 40
   m_GrenadePrefab: {fileID: 4214654211266166565, guid: e1b2f896c04f27242a8e99efd5534f90, type: 3}
   m_AttackPoint: {fileID: 3469035727847309254}
   m_UnpassingWallMask:
@@ -236,6 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   m_TurnSmoothTime: 0.03
   m_CanRotate: 1
+  m_StunTimeOnSpawn: 1
   m_VerticalPivot: {fileID: 0}
   m_HorizontalPivot: {fileID: 0}
   m_InputPlayerController: {fileID: 5662550271351511903}
@@ -254,6 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatStyleSelector
   m_PrimaryPlayerCombat: {fileID: 1149920520322700606}
+  m_Mana: {fileID: 7387169151000765521}
   m_DefaultCombatStyle: {fileID: 1129812706102528412}
   m_ShotgunCombatStyle: {fileID: 3144718910361277535}
   m_RifleCombatStyle: {fileID: 1129812706102528412}
@@ -370,6 +372,8 @@ MonoBehaviour:
     _object: {fileID: 4600652507870665905}
   m_Combat: {fileID: 1149920520322700606}
   m_Rb: {fileID: 7817365298629724350}
+  m_MinYPos: -0.5
+  gravityScale: 200
   m_CamController: {fileID: 11400000, guid: 452bdeba678d33f45929b40fb180f382, type: 2}
   m_InputPlayerController: {fileID: 5662550271351511903}
   m_AnimVisual: {fileID: 89447973270754334}
@@ -471,7 +475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  m_MaxHealth: 3
+  m_MaxHealth: 4
   m_CurrentHealth: 0
   m_ClampDamage: 1
   m_MaxDamage: 1
@@ -502,6 +506,21 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_OnHealFeedback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6582499975316639690}
+        m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMF_Player, MoreMountains.Tools
+        m_MethodName: PlayFeedbacks
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -574,7 +593,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0758feba10c43a8b17251b3917b599a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.PlayerMana
-  m_MaxMana: 10
+  m_MaxMana: 40
+  m_CurrentMana: 0
   OnManaCollected:
     m_PersistentCalls:
       m_Calls:
@@ -732,6 +752,7 @@ MonoBehaviour:
   drawReloadRect: 0
   m_TimeBeforeAutoCool: 1.5
   m_AttackCooldown: 0.1
+  m_AttackCooldownMultOnOverload: 0.7
   m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_AtkSpdPowerUpAttackCooldown: 0.04
@@ -772,6 +793,8 @@ MonoBehaviour:
   m_MuzzleFlashPrefab: {fileID: 4186470608034871016, guid: e1532b720bdc5ad4cb310a851a0a304a, type: 3}
   m_BulletPrefab: {fileID: 4581899121895831684, guid: 11c5c37b2fad53d4c8e99a0565d12384, type: 3}
   m_StrenghtPowerUpBulletPrefab: {fileID: 4581899121895831684, guid: 4f91a86f90821114bb5325e9994d99d1, type: 3}
+  m_OverloadBulletPrefab: {fileID: 0}
+  m_StrengthPowerUpOverloadBulletPrefab: {fileID: 0}
   m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
 --- !u!1 &5283047779086152633
 GameObject:
@@ -862,6 +885,7 @@ MonoBehaviour:
   drawReloadRect: 0
   m_TimeBeforeAutoCool: 1.5
   m_AttackCooldown: 0.15
+  m_AttackCooldownMultOnOverload: 0.8
   m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_AtkSpdPowerUpAttackCooldown: 0.09
@@ -902,6 +926,8 @@ MonoBehaviour:
   m_MuzzleFlashPrefab: {fileID: 4186470608034871016, guid: e1532b720bdc5ad4cb310a851a0a304a, type: 3}
   m_BulletPrefab: {fileID: 4581899121895831684, guid: 11c5c37b2fad53d4c8e99a0565d12384, type: 3}
   m_StrenghtPowerUpBulletPrefab: {fileID: 4581899121895831684, guid: 4f91a86f90821114bb5325e9994d99d1, type: 3}
+  m_OverloadBulletPrefab: {fileID: 4581899121895831684, guid: a76a39c916ade6d40bc11aaee17bf732, type: 3}
+  m_StrengthPowerUpOverloadBulletPrefab: {fileID: 4581899121895831684, guid: 5410d6ed25db20342a610d5f055133a0, type: 3}
   m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
 --- !u!1 &5439680732867493737
 GameObject:
@@ -969,7 +995,7 @@ MonoBehaviour:
     m_Bits: 64
   m_DashMask:
     serializedVersion: 2
-    m_Bits: 2176
+    m_Bits: 2688
   m_GroundMask:
     serializedVersion: 2
     m_Bits: 4096
@@ -980,10 +1006,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_DashDrag: 3
-  m_DashForce: 50
-  m_DashTime: 0.3
-  m_InvicibilityTime: 0.3
-  dashCalculationDistance: 10
+  m_MaxDashDrag: 3
+  m_DashForce: 37.5
+  m_MaxDashForce: 50
+  m_DashTime: 0.25
+  m_InvicibilityTime: 0.25
+  m_DashCalculationDistance: 7
+  m_MaxDashCalculationDistance: 10
+  m_UseMaxDash: 0
   m_Rb: {fileID: 7817365298629724350}
   m_PlayerAnimationVisual: {fileID: 89447973270754334}
   m_EntityHealth: {fileID: 8231817660637434609}
@@ -1143,6 +1173,7 @@ MonoBehaviour:
   drawReloadRect: 0
   m_TimeBeforeAutoCool: 2
   m_AttackCooldown: 0.6
+  m_AttackCooldownMultOnOverload: 0.7
   m_HandleCoolsInput: {fileID: 97074022804792908, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_HandleCoolsSkillInput: {fileID: -3765115832670413013, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_AtkSpdPowerUpAttackCooldown: 0.1
@@ -1183,6 +1214,7 @@ Transform:
   m_Children:
   - {fileID: 2171486778194953827}
   - {fileID: 2093094359333466690}
+  - {fileID: 8825974228996930549}
   - {fileID: 3780244634872170946}
   - {fileID: 1304363369497403558}
   - {fileID: 7547821242812387080}
@@ -2867,6 +2899,107 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: MoreMountains.Tools::MoreMountains.Feedbacks.MMF_Player
+--- !u!1001 &8026044717020408113
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2363715372487203151}
+    m_Modifications:
+    - target: {fileID: 1521677818486575812, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521677818486575812, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521677818486575812, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521677818486575812, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521677818486575812, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521677818486575812, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521677818486575812, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521677818486575812, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521677818486575812, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521677818486575812, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3763744847687771899, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: managedReferences[5796216586036838472].BoundRenderer
+      value: 
+      objectReference: {fileID: 7761061635082686580}
+    - target: {fileID: 3763744847687771899, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: managedReferences[6424410233568231525].AnimateScaleTarget
+      value: 
+      objectReference: {fileID: 2342931128525199106}
+    - target: {fileID: 3763744847687771899, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: 'managedReferences[5796216586036838472].ExtraBoundRenderers.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2328678135081285165}
+    - target: {fileID: 3763744847687771899, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: 'managedReferences[5796216586036838472].ExtraBoundRenderers.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1742270432415192014}
+    - target: {fileID: 6192541778648625803, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6192541778648625803, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6192541778648625803, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7369977268554150832, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+      propertyPath: m_Name
+      value: HealFeedback
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+--- !u!114 &6582499975316639690 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3763744847687771899, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+  m_PrefabInstance: {fileID: 8026044717020408113}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MoreMountains.Tools::MoreMountains.Feedbacks.MMF_Player
+--- !u!4 &8825974228996930549 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1521677818486575812, guid: 84b14012ccdba5c4bb4ba98bb8d28764, type: 3}
+  m_PrefabInstance: {fileID: 8026044717020408113}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9082331047028437033
 PrefabInstance:
   m_ObjectHideFlags: 0

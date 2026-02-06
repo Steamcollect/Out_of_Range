@@ -10,6 +10,7 @@ public class PlayerCursor : MonoBehaviour
     [SerializeField] float m_RotationSpeed;
     
     [Header("References")]
+    [SerializeField] GameObject m_Content;
     [SerializeField] Transform m_CursorImg;
     [SerializeField] InputActionReference m_MousePositionIA;
     [Space]
@@ -50,12 +51,12 @@ public class PlayerCursor : MonoBehaviour
     
     private void ShowCursor()
     {
-        m_CursorImg.gameObject.SetActive(true);
+        m_Content.SetActive(true);
     }
 
     private void HideCursor()
     {
-        m_CursorImg.gameObject.SetActive(false);
+        m_Content.SetActive(false);
     }
 
     private void Update()

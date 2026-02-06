@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RayRangeEnemyCombat
   m_TurnSmoothTime: 0.15
   m_CanRotate: 1
+  m_StunTimeOnSpawn: 1
   m_VerticalPivot: {fileID: 225101198123783752}
   m_HorizontalPivot: {fileID: 418496125244188350}
   m_Damage: 5
@@ -371,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  m_MaxHealth: 10
+  m_MaxHealth: 5
   m_CurrentHealth: 0
   m_ClampDamage: 0
   m_MaxDamage: 0
@@ -431,6 +432,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_OnHealFeedback:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &933780352205531283
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -598,7 +602,7 @@ MonoBehaviour:
   m_Rb: {fileID: 5295188883029591424}
   m_DetectionRange: 20
   m_AttackRange: 20
-  m_AngleRequireToAttack: 20
+  m_AngleRequireToAttack: 25
   m_CurrentState: 0
   m_Detector: {fileID: 1718930974139365487}
   m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}

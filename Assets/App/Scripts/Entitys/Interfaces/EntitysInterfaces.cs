@@ -20,7 +20,7 @@ public interface ILookAtTarget
 
 public interface IHealth
 {
-    void TakeDamage(int damage);
+    void TakeDamage(float damage);
 }
 
 public interface IShield

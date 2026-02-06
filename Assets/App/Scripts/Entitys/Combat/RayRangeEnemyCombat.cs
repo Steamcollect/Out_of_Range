@@ -28,6 +28,8 @@ public class RayRangeEnemyCombat : EntityCombat
 
     public override IEnumerator Attack()
     {
+        if (!m_CanAttack) yield break;
+
         SetActiveLookAt(false);
         m_IsAttacking = true;
         OnShootLaunched?.Invoke(m_TimeBeforeAttack, m_TimeAfterAttack);

@@ -6,10 +6,14 @@ using UnityEngine.Serialization;
 
 public sealed class DeviceManager : RegularSingleton<DeviceManager>
 {
+    [Header("Settings")]
+    [SerializeField] private float m_DelayRefresh = 0.5f;
+    
     [Header("Output")]
     [SerializeField] private RSO_CurrentInputDeviceType m_CurrentInputDeviceType;
 
     private Coroutine m_PendingChangeDeviceCoroutine;
+    private float m_LastRefresh;
     
     private void OnEnable() => InputSystem.onActionChange += CheckControlChange;
     private void OnDisable() => InputSystem.onActionChange -= CheckControlChange;
@@ -33,6 +37,9 @@ public sealed class DeviceManager : RegularSingleton<DeviceManager>
 
         if (newType == m_CurrentInputDeviceType.Value) return;
         
+        if (Time.time < m_LastRefresh + m_DelayRefresh) return;
+        m_LastRefresh = Time.time;
+        
         if (m_PendingChangeDeviceCoroutine != null)
         {
             StopCoroutine(m_PendingChangeDeviceCoroutine);
@@ -44,5 +51,6 @@ public sealed class DeviceManager : RegularSingleton<DeviceManager>
     {
         yield return new WaitForEndOfFrame();
         m_CurrentInputDeviceType.Value = deviceType;
+        
     }
 }

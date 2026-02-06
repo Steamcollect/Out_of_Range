@@ -34,6 +34,7 @@ public abstract class OverloadCombatStyle : CombatStyle
     
     [Space(10)]
     [SerializeField] protected float m_AttackCooldown;
+    [SerializeField] protected float m_AttackCooldownMultOnOverload = .8f; 
 
     protected bool m_HaveFreeShoot = false;
     protected float m_AutoCoolTimer;
@@ -172,7 +173,8 @@ public abstract class OverloadCombatStyle : CombatStyle
     {
         m_CanAttack = false;
         m_AutoCoolTimer = 0;
-        yield return new WaitForSeconds(cooldown);
+        yield return new WaitForSeconds(cooldown 
+            * (m_CurrentState == OverloadWeaponState.CoolBuffed ? m_AttackCooldownMultOnOverload : 1));
         m_CanAttack = true;
     }
 

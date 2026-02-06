@@ -14,20 +14,29 @@ public class Entity_Dash : MonoBehaviour
     [SerializeField] private LayerMask m_PlayerMask;
     [SerializeField] private LayerMask m_DashMask;
 
-    [Space(5)] 
+    [Space(3)] 
     [SerializeField] LayerMask m_GroundMask;
     [SerializeField] LayerMask m_BorderWallMask;
     [SerializeField] LayerMask m_WallMask;
 
     [Space(10)] 
     [SerializeField] private float m_DashDrag;
+    [SerializeField] float m_MaxDashDrag;
 
+    [Space(3)]
     [SerializeField] private float m_DashForce;
+    [SerializeField] float m_MaxDashForce;
+
+    [Space(3)]
     [SerializeField] private float m_DashTime;
     [SerializeField] private float m_InvicibilityTime;
 
-    [Space(10)] 
-    [SerializeField] float dashCalculationDistance;
+    [Space(3)] 
+    [SerializeField] float m_DashCalculationDistance;
+    [SerializeField] float m_MaxDashCalculationDistance;
+
+    [Space(10)]
+    [SerializeField, ReadOnly] bool m_UseMaxDash = false;
 
     [Header("REFERENCES")]
     [SerializeField] private Rigidbody m_Rb;
@@ -47,13 +56,13 @@ public class Entity_Dash : MonoBehaviour
         CalculateDestination(input, out bool disableBorderWall);
 
         m_BeginDrag = m_Rb.linearDamping;
-        m_Rb.linearDamping = m_DashDrag;
+        m_Rb.linearDamping = (m_UseMaxDash ? m_MaxDashDrag : m_DashDrag);
         m_EntityHealth.GainInvincibility(m_InvicibilityTime);
 
-        m_Rb.AddForce(input * m_DashForce, m_DashForceMode);
+        m_Rb.AddForce(input * (m_UseMaxDash ? m_MaxDashForce : m_DashForce), m_DashForceMode);
         
         OnDash?.Invoke(m_DashTime, m_DashCooldown);
-
+        
         StartCoroutine(m_PlayerAnimationVisual.OnDash(m_DashTime));
         StartCoroutine(DashTime(disableBorderWall));
         StartCoroutine(DashCooldown());
@@ -61,10 +70,17 @@ public class Entity_Dash : MonoBehaviour
     
     void CalculateDestination(Vector3 input, out bool disableBorderWall)
     {
-        Vector3 desirePos = transform.position + input * dashCalculationDistance;
+        Vector3 desirePos = transform.position + input * m_DashCalculationDistance;
 
         MVsDebug.DrawCircle(desirePos, 1, Vector3.up, Color.white, 1);
         disableBorderWall = IsGrounded(desirePos);
+
+        if (!disableBorderWall)
+        {
+            desirePos = transform.position + input * m_MaxDashCalculationDistance;
+            disableBorderWall = IsGrounded(desirePos);
+            if (disableBorderWall) m_UseMaxDash = true;
+        }
 
         if (disableBorderWall)
         {
@@ -82,10 +98,12 @@ public class Entity_Dash : MonoBehaviour
             }
     }
 
-    bool IsGrounded(Vector3 position) => Physics.Linecast(position + (Vector3.up * .5f), position + (Vector3.down * .5f), m_GroundMask);
+    public bool IsGrounded(Vector3 position) => Physics.Linecast(position + (Vector3.up * .5f), position + (Vector3.down * .5f), m_GroundMask);
 
     private IEnumerator DashTime(bool disableBorderWall)
     {
+        LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_DashMask, true);
+
         if (disableBorderWall)
         {
             LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_BorderWallMask, true);
@@ -106,6 +124,8 @@ public class Entity_Dash : MonoBehaviour
 
         m_Rb.linearVelocity = m_Rb.linearVelocity.normalized;
         m_Rb.linearDamping = m_BeginDrag;
+
+        m_UseMaxDash = false;
     }
 
     private IEnumerator DashCooldown()
@@ -117,7 +137,7 @@ public class Entity_Dash : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(transform.position + Vector3.forward * dashCalculationDistance + Vector3.up, 1);
-        Gizmos.DrawRay(transform.position + Vector3.forward * dashCalculationDistance + Vector3.up * .5f, Vector3.down);
+        Gizmos.DrawWireSphere(transform.position + Vector3.forward * m_DashCalculationDistance + Vector3.up, 1);
+        Gizmos.DrawWireSphere(transform.position + Vector3.forward * m_MaxDashCalculationDistance + Vector3.up, 1);
     }
 }

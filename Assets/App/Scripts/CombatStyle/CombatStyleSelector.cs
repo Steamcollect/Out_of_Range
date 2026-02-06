@@ -3,7 +3,8 @@ using UnityEngine;
 public class CombatStyleSelector : MonoBehaviour
 {
     [SerializeField] private PlayerCombat m_PrimaryPlayerCombat;
-    
+    [SerializeField] PlayerMana m_Mana;
+
     [SerializeField] private CombatStyle m_DefaultCombatStyle;
     [SerializeField] private CombatStyle m_ShotgunCombatStyle;
     [SerializeField] private CombatStyle m_RifleCombatStyle;
@@ -71,6 +72,7 @@ public class CombatStyleSelector : MonoBehaviour
     {
         CombatStyleSelectorPersistant.SetHasLaunchGrenade();
         m_CanPickupMana.Set(true);
+        m_Mana.SetToMax();
         SetSecondaryCombatStyle(m_GrenadeLauncherCombatStyle);
     }
     

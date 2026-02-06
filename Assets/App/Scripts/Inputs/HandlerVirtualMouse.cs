@@ -3,6 +3,7 @@ using UnityEngine;
 public sealed class HandlerVirtualMouse : MonoBehaviour
 {
         [Header("References")]
+
         [SerializeField] private CustomVirtualMouse m_CustomVirtualMouse;
         [SerializeField] private RSO_CurrentInputDeviceType m_CurrentInputDeviceType;
         [SerializeField] private RSO_CameraTargetType m_CameraTargetType;

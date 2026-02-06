@@ -47,22 +47,12 @@ public class Door : MonoBehaviour
     {
         m_OpenPos =  m_ClosePoint.position;
         m_ClosePos = m_OpenPoint.position;
-        
-        switch (m_Type)
-        {
-            case DoorStartType.Open:
-                m_DoorMesh.transform.position = m_OpenPos;
-                break;
-            case DoorStartType.Close:
-                m_DoorMesh.transform.position = m_ClosePos;
-                break;
-        }
     }
 
     private void Start()
     {
-        foreach (MeshMatChanger mc in m_MeshChanger)
-            mc.ChangeMat(m_LockedMat);
+        if (m_Type == DoorStartType.Open) OpenDoor();
+        else CloseDoor();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -95,10 +85,13 @@ public class Door : MonoBehaviour
     {
         m_IsLock = false;
 
-        this.Delay(() =>
+        if (m_ContainPlayer)
         {
-            if (m_ContainPlayer) Open();
-        }, m_DelayBeforeOpen);
+            this.Delay(() =>
+            {
+                Open();
+            }, m_DelayBeforeOpen);
+        }
 
         foreach (MeshMatChanger mc in m_MeshChanger)
             mc.ChangeMat(m_OpenedMat);

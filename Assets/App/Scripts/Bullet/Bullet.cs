@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] float m_Speed;
-    [SerializeField] int m_Damage;
+    [SerializeField] float m_Damage;
     [SerializeField] float m_Lifetime = 5f;
 
     Vector3 m_OriginalPosition;

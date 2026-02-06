@@ -66,7 +66,7 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     public override IEnumerator Attack()
     {
-        if (m_PlayerController.Get().GetPlayerMana().CurrentMana <= m_ShootCost) yield break;
+        if (m_PlayerController.Get().GetPlayerMana().CurrentMana < m_ShootCost) yield break;
         m_PlayerController.Get().GetPlayerMana().Remove(m_ShootCost);
         
         Grenade grenade = Instantiate(m_GrenadePrefab, m_AttackPoint.position, m_AttackPoint.rotation);
@@ -79,7 +79,7 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     {
         m_PreShowCircle.transform.localScale = Vector3.one * (m_GrenadePrefab.GetRadius() * .2f);
 
-        if (m_PlayerController.Get().GetPlayerMana().CurrentMana <= m_ShootCost)
+        if (m_PlayerController.Get().GetPlayerMana().CurrentMana < m_ShootCost)
         {
             m_PreShowCircle.material.color = Color.gray;
             m_PreShowTriangle.material.color = Color.gray;

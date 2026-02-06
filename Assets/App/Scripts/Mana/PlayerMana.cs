@@ -1,4 +1,5 @@
 using System;
+using MVsToolkit.Dev;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,8 +7,7 @@ public class PlayerMana : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private int m_MaxMana = 100;
-
-    private int m_CurrentMana;
+    [SerializeField, ReadOnly] int m_CurrentMana;
         
     public event Action OnManaChanged;
     public UnityEvent OnManaCollected;
@@ -17,15 +17,20 @@ public class PlayerMana : MonoBehaviour
         
     public void Add(int amount)
     {
-        m_CurrentMana = Mathf.Max(m_MaxMana, m_CurrentMana + amount);
+        m_CurrentMana = Mathf.Clamp(m_CurrentMana + amount, 0, m_MaxMana);
         OnManaCollected?.Invoke();
         OnManaChanged?.Invoke();
     }
         
     public void Remove(int amount)
     {
-        m_CurrentMana = Mathf.Max(0, m_CurrentMana - amount);
+        m_CurrentMana = Mathf.Clamp(m_CurrentMana - amount, 0, m_MaxMana);
         OnManaChanged?.Invoke();
     }
 
+    public void SetToMax()
+    {
+        m_CurrentMana = m_MaxMana;
+        OnManaChanged.Invoke();
+    }
 }

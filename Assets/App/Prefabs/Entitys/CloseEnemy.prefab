@@ -1228,6 +1228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CloseEnemyCombat
   m_TurnSmoothTime: 0.06
   m_CanRotate: 1
+  m_StunTimeOnSpawn: 1
   m_VerticalPivot: {fileID: 3679163108035666795}
   m_HorizontalPivot: {fileID: 3833168557764820987}
   m_Damage: 1
@@ -1297,7 +1298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 135eba6dc3255e44a8dd62d801c88833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_HorizontalLinearMovement
-  m_MoveSpeed: 70
+  m_MoveSpeed: 50
   m_Rb: {fileID: 847507863784800633}
 --- !u!1 &7081913847638917844
 GameObject:
@@ -1933,6 +1934,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_OnHealFeedback:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &5370443096211594654
 CapsuleCollider:
   m_ObjectHideFlags: 0

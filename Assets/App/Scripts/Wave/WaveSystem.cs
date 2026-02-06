@@ -39,13 +39,24 @@ public class WaveSystem : MonoBehaviour
         }
     }
 
-    [Button("Start Combat")]
     public void StartCombat(RadioAntennaController radioAntennaController)
     {
         if (IsInFight) return;
         m_CurrentWaveIndex = 0;
         IsInFight = true;
         m_ActiveRadioAntennaController = radioAntennaController;
+        FightDetectorManager.Instance?.OnWaveStart(this);
+        m_OnCombatStart?.Invoke();
+
+        SpawnCurrentWave();
+    }
+
+    [Button("Start Combat")]
+    public void StartCombat()
+    {
+        if (IsInFight) return;
+        m_CurrentWaveIndex = 0;
+        IsInFight = true;
         FightDetectorManager.Instance?.OnWaveStart(this);
         m_OnCombatStart?.Invoke();
 

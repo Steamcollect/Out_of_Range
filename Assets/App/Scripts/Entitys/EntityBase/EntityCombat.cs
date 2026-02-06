@@ -7,6 +7,7 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
     [Header("Settings")]
     [SerializeField] protected float m_TurnSmoothTime;
     [SerializeField] protected bool m_CanRotate = true;
+    [SerializeField] protected float m_StunTimeOnSpawn = 1;
 
     [Header("References")]
     [SerializeField] protected Transform m_VerticalPivot;
@@ -14,6 +15,7 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
 
     protected bool m_CanLookAt = true;
 
+    protected bool m_CanAttack = true;
     protected bool m_IsAttacking = false;
 
     private float m_CurrentTurnSmoothTime;
@@ -54,6 +56,13 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
                 m_CurrentTurnSmoothTime
             );
         }
+    }
+
+    public virtual IEnumerator LockAttackOnSpawn()
+    {
+        m_CanAttack = false;
+        yield return new WaitForSeconds(m_StunTimeOnSpawn);
+        m_CanAttack = true;
     }
 
     public virtual IEnumerator Attack() { yield break; }

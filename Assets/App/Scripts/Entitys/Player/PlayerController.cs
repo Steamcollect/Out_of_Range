@@ -1,11 +1,12 @@
-using DefaultNamespace;
-using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [DefaultExecutionOrder(-1)]
 public class PlayerController : EntityController
-{    
+{
+    [SerializeField] float m_MinYPos;
+    [SerializeField] float gravityScale;
+
     [Header("References")]
     [SerializeField] private RSO_PlayerCameraController m_CamController;
     [Space(10)] 
@@ -46,8 +47,16 @@ public class PlayerController : EntityController
     
     private void Start() => Teleport(PlayerSpawnPoint.S_Position);
 
+    private void Update()
+    {
+        if (transform.position.y <= m_MinYPos) m_Health.Die();
+    }
 
-    private void FixedUpdate() => HandleMovement();
+    private void FixedUpdate()
+    {
+        HandleMovement();
+        if (!m_Dash.IsGrounded(transform.position)) m_Rb.AddForce(Vector3.down * gravityScale);
+    }
 
     private void HandleMovement()
     {
@@ -106,6 +115,9 @@ public class PlayerController : EntityController
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(GetTargetPosition(), .2f);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(new Vector3(transform.position.x, m_MinYPos, transform.position.z), new Vector3(1, .05f, 1) * 10);
     }
 
     public PlayerMana GetPlayerMana()

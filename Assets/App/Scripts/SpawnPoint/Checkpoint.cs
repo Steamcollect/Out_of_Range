@@ -13,6 +13,10 @@ public class Checkpoint : MonoBehaviour
     [SerializeField] private Transform m_SpawnPoint;
     [SerializeField] RSO_PlayerController m_Player;
 
+    [Space(10)]
+    [SerializeField] GameObject[] roomConnected;
+    [SerializeField] RSE_SetActiveRooms m_SetActiveRooms;
+
     //[Header("Input")]
     
     public Vector3 Position => m_SpawnPoint.position;
@@ -20,13 +24,19 @@ public class Checkpoint : MonoBehaviour
     private void Awake()
     {
         if (m_ApplySpawnPosOnStart && PlayerSpawnPoint.S_Position == Vector3.zero)
+        {
+            m_SetActiveRooms.Call(roomConnected);
+
             PlayerSpawnPoint.S_Position = m_SpawnPoint.position;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            m_SetActiveRooms.Call(roomConnected);
+
             if (PlayerSpawnPoint.S_Position != m_SpawnPoint.position)
             {
                 m_OnCheckpointRegistered.Call();
@@ -40,6 +50,8 @@ public class Checkpoint : MonoBehaviour
 
     public void TpPlayer()
     {
+        m_SetActiveRooms.Call(roomConnected);
+
         m_Player.Get().Teleport(m_SpawnPoint.position);
     }
 }

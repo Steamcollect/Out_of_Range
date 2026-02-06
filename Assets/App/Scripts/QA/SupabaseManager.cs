@@ -25,18 +25,7 @@ public class SupabaseManager : MonoBehaviour
     
     private async void Awake()
     {
-        // On enregistre pas de données hors des builds
-        if (Application.isEditor)
-        {
-            return;
-        }
-        
-        // On enregistre pas de données dans les builds de debug
-        if (Debug.isDebugBuild)
-        {
-            return;
-        }
-        
+        if(!IsValid()) return;
         if (Instance == null)
         {
             Instance = this;
@@ -55,13 +44,24 @@ public class SupabaseManager : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private bool IsValid()
     {
         if (Application.isEditor)
         {
-            return;
+            return false;
         }
-        
+
+        if (Debug.isDebugBuild)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private void OnEnable()
+    {
+        if (!IsValid()) return;
+
         m_OnPlayerDie.Action += HandlePlayerDeath;
         m_OnCheckpointRegistered.Action += HandleCheckpoint;
         
@@ -71,6 +71,8 @@ public class SupabaseManager : MonoBehaviour
 
     private void OnDisable()
     {
+        if (!IsValid()) return;
+
         m_OnPlayerDie.Action -= HandlePlayerDeath;
         m_OnCheckpointRegistered.Action -= HandleCheckpoint;
         
@@ -98,6 +100,7 @@ public class SupabaseManager : MonoBehaviour
     
     private async void CreateRun()
     {
+
         if (!m_IsInitialized)
             return;
             

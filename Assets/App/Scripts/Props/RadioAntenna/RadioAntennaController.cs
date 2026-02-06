@@ -10,6 +10,7 @@ public class RadioAntennaController : MonoBehaviour
     [ColorUsage(true, true)] [SerializeField] private Color m_DefaultColor;
     [ColorUsage(true, true)] [SerializeField] private Color m_ActiveColor;
     [SerializeField] private VisualEffect m_Effect;
+    [SerializeField] private VisualEffect m_GroundEffect;
 
     [Header("Output")]
     [SerializeField] private UnityEvent m_OnPlayerInteract;
@@ -41,6 +42,7 @@ public class RadioAntennaController : MonoBehaviour
         m_Trigger.SetCanPlayerInteract(false);
         m_OnPlayerInteract.Invoke();
         m_Effect.SetVector4("Color", m_ActiveColor);
+        m_GroundEffect.gameObject.SetActive(false);
     }
 
     public void EndCombat()

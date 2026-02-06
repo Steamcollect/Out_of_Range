@@ -7,8 +7,8 @@ using UnityEngine.Events;
 public class EntityHealth : MonoBehaviour, IHealth
 {
     [Header("HEALTH")]
-    [SerializeField] protected int m_MaxHealth;
-    [SerializeField] protected int m_CurrentHealth;
+    [SerializeField] protected float m_MaxHealth;
+    [SerializeField] protected float m_CurrentHealth;
 
     [SerializeField] bool m_ClampDamage;
     [SerializeField, ShowIf("m_ClampDamage", true)] int m_MaxDamage;
@@ -39,7 +39,7 @@ public class EntityHealth : MonoBehaviour, IHealth
         m_CurrentHealth = m_MaxHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         if (m_IsInvincible) return;
 
@@ -60,7 +60,8 @@ public class EntityHealth : MonoBehaviour, IHealth
         }
     }
 
-    public void Heal(int health)
+    [Button]
+    public void Heal(float health)
     {
         m_CurrentHealth += health;
 
@@ -71,7 +72,7 @@ public class EntityHealth : MonoBehaviour, IHealth
         m_OnHealFeedback?.Invoke();
     }
 
-    private void Die()
+    public void Die()
     {
         m_OnDeathFeedback.Invoke();
         OnDeath?.Invoke();
@@ -94,12 +95,12 @@ public class EntityHealth : MonoBehaviour, IHealth
         m_IsInvincible = false;
     }
 
-    public int GetMaxHealth()
+    public float GetMaxHealth()
     {
         return m_MaxHealth;
     }
 
-    public int GetCurrentHealth()
+    public float GetCurrentHealth()
     {
         return m_CurrentHealth;
     }

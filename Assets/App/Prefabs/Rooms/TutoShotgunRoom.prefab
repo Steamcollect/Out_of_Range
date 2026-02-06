@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 15743
+    m_Bits: 4097
   m_UseGeometry: 1
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 323112d5ef5adfa47bdff61c54149d44, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 91d710dbf9e00c54db57895e14b5478d, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &541131340834584670
 GameObject:
@@ -243,7 +243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6301477863013814635
 Transform:
   m_ObjectHideFlags: 0
@@ -252,8 +252,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 541131340834584670}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.35355356, y: 0.3535523, z: -0.14644612, w: 0.8535539}
-  m_LocalPosition: {x: -187.74287, y: 176.44376, z: -191.37262}
+  m_LocalRotation: {x: 0.35355338, y: -0.35355338, z: 0.1464466, w: 0.8535535}
+  m_LocalPosition: {x: 134.98235, y: 189.94376, z: -83.23241}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -606,17 +606,17 @@ MonoBehaviour:
   m_OnCombatStart:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1569778830455728484}
-        m_TargetAssemblyTypeName: Unity.Cinemachine.CinemachineCamera, Unity.Cinemachine
-        m_MethodName: Prioritize
-        m_Mode: 1
+      - m_Target: {fileID: 7189417093792737237}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
   m_OnCombatCompleted:
     m_PersistentCalls:
@@ -633,10 +633,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Unity.Cinemachine.CinemachineCamera, Unity.Cinemachine
-        m_MethodName: Prioritize
-        m_Mode: 1
+      - m_Target: {fileID: 7189417093792737237}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1007,7 +1007,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3522582683569159035}
   - component: {fileID: 7954373277475899601}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: InvisibleWall_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1318,7 +1318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1877324198505502851}
   - component: {fileID: 3546214874250290598}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: InvisibleWall_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8279,7 +8279,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1282
+  m_VersionIndex: 1309
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -8698,7 +8698,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8565599250347259081}
   - component: {fileID: 8075698176563130006}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: InvisibleWall_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9084,7 +9084,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1453669155441518059}
   - component: {fileID: 5452459533415450755}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: Collider_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9479,7 +9479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1263235073936148870
 Transform:
   m_ObjectHideFlags: 0
@@ -9719,8 +9719,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9999998, y: 1, z: 1.9817562}
-  m_Center: {x: -6.295054e-15, y: 0, z: 0.4908782}
+  m_Size: {x: 0.9999998, y: 1, z: 1.0003786}
+  m_Center: {x: -1.2345929e-17, y: 0, z: 0.00018953749}
 --- !u!1 &7544457292731193795
 GameObject:
   m_ObjectHideFlags: 0
@@ -11707,6 +11707,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8026167337635460227}
     m_Modifications:
+    - target: {fileID: 289281949231502752, guid: af26124c55fa0034b963c13478c07364, type: 3}
+      propertyPath: roomConnected.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 289281949231502752, guid: af26124c55fa0034b963c13478c07364, type: 3}
+      propertyPath: 'roomConnected.Array.data[1]'
+      value: 
+      objectReference: {fileID: 307327391968356998}
     - target: {fileID: 711569852501985700, guid: af26124c55fa0034b963c13478c07364, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -11721,7 +11729,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4752811007715147132, guid: af26124c55fa0034b963c13478c07364, type: 3}
       propertyPath: m_Name
-      value: AB_TutoShotgun
+      value: 08_TutoShotgun
       objectReference: {fileID: 0}
     - target: {fileID: 4752811007715147132, guid: af26124c55fa0034b963c13478c07364, type: 3}
       propertyPath: m_Layer
@@ -11737,7 +11745,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878982220579686839, guid: af26124c55fa0034b963c13478c07364, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 17.313408
+      value: 10.35
       objectReference: {fileID: 0}
     - target: {fileID: 7878982220579686839, guid: af26124c55fa0034b963c13478c07364, type: 3}
       propertyPath: m_LocalRotation.w

@@ -65,6 +65,7 @@ public class TurretEnemyController : EntityController, ISpawnable
 
     public void OnSpawn()
     {
+        StartCoroutine(m_Combat.LockAttackOnSpawn());
         SetState(EnemyStates.Chasing);
     }
 

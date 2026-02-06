@@ -32,6 +32,8 @@ public class UI_Manager : MonoBehaviour
         m_OpenPauseMenuAction.action.performed -= PauseMenuButton;
         m_OpenPauseMenuAction.action.Disable();
         m_QuitGame.Action -= Quit;
+
+        ClosePauseMenu();
     }
 
     private void PauseMenuButton(InputAction.CallbackContext ctx)

@@ -24,14 +24,10 @@ public sealed class CustomVirtualMouse : MonoBehaviour
       HandleVirtualMouseConnexion();
       InputSystem.onAfterUpdate += UpdateMotion;
       m_CurrentInputDeviceType.OnChanged += HandleChangeDevice;
-      
-      m_StickMovementIa.action.Enable();
    }
 
    private void OnDisable()
-   {
-      m_StickMovementIa.action.Disable();
-      
+    { 
       m_CurrentInputDeviceType.OnChanged -= HandleChangeDevice;
       InputSystem.onAfterUpdate -= UpdateMotion;
    }
