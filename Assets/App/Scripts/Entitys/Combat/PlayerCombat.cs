@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerCombat : EntityCombat
 {
-    [ShowInInspector] private CombatStyle m_PrimaryCombatStyle, m_SecondaryCombatStyle;
+    [SerializeField, ReadOnly] CombatStyle m_PrimaryCombatStyle, m_SecondaryCombatStyle;
 
     [SerializeField] private InputPlayerController m_InputPlayerController;
     [Space(10)]
