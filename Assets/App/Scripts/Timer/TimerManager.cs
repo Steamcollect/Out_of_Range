@@ -12,6 +12,7 @@ public class TimerManager : MonoBehaviour
     private void Start()
     {
         m_Timer.Set(0);
+        Time.timeScale = 1;
     }
 
     private void Update()
