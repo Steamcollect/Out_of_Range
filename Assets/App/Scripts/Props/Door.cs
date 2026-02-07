@@ -2,6 +2,7 @@ using System.Linq;
 using DG.Tweening;
 using MVsToolkit.Dev;
 using MVsToolkit.Utilities;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Door : MonoBehaviour
@@ -13,7 +14,7 @@ public class Door : MonoBehaviour
     [SerializeField] DoorStartType m_Type;
     public enum DoorStartType { Open, Close, Default }
 
-    [SerializeField, ReadOnly] bool m_ContainPlayer = false;
+    [SerializeField, ReadOnly] int m_DetectionCount = 0;
     [SerializeField, ReadOnly] bool m_IsLock = true;
 
     Vector3 m_ClosePos;
@@ -23,6 +24,8 @@ public class Door : MonoBehaviour
     [SerializeField] GameObject m_DoorMesh;
     [SerializeField] Transform m_OpenPoint;
     [SerializeField] Transform m_ClosePoint;
+
+    EntityController currentEntity;
 
     [Space(10)]
     [SerializeField, Inline] MeshMatChanger[] m_MeshChanger;
@@ -57,27 +60,28 @@ public class Door : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            m_ContainPlayer = true;
+        m_DetectionCount++;
 
-            if (!m_IsLock)
-            {
-                Open();
-            }
+        if(!other.gameObject.CompareTag("Player") && other.gameObject.TryGetComponent(out EntityController entity))
+            entity.OnDeath += ConnectEntityOnDeath;
+
+        if (!m_IsLock)
+        {
+            Open();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            m_ContainPlayer = false;
+        m_DetectionCount--;
 
-            if (!m_IsLock)
-            {
-                Close();
-            }
+        if (!other.gameObject.CompareTag("Player") && other.gameObject.TryGetComponent(out EntityController entity))
+            entity.OnDeath -= ConnectEntityOnDeath;
+
+        if (!m_IsLock && m_DetectionCount <= 0)
+        {
+            m_DetectionCount = 0;
+            Close();
         }
     }
 
@@ -85,7 +89,7 @@ public class Door : MonoBehaviour
     {
         m_IsLock = false;
 
-        if (m_ContainPlayer)
+        if (m_DetectionCount > 0)
         {
             this.Delay(() =>
             {
@@ -100,7 +104,7 @@ public class Door : MonoBehaviour
     public void CloseDoor()
     {
         m_IsLock = true;
-        if (m_ContainPlayer) Close();
+        if (m_DetectionCount > 0) Close();
 
         foreach (MeshMatChanger mc in m_MeshChanger)
             mc.ChangeMat(m_LockedMat);
@@ -116,5 +120,17 @@ public class Door : MonoBehaviour
     {
         m_DoorMesh.transform.DOKill();
         m_DoorMesh.transform.DOMove(m_ClosePos, m_OpenTime);
+    }
+
+    void ConnectEntityOnDeath(EntityController entity)
+    {
+        entity.OnDeath -= ConnectEntityOnDeath;
+
+        m_DetectionCount--;
+        if (!m_IsLock && m_DetectionCount <= 0)
+        {
+            m_DetectionCount = 0;
+            Close();
+        }
     }
 }
