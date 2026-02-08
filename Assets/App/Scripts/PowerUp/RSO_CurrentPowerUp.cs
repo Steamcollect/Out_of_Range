@@ -1,17 +1,5 @@
 using UnityEngine;
 using MVsToolkit.Wrappers;
-using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "RSO_CurrentpowerUp", menuName = "RSO/powerUp/RSO_CurrentpowerUp")]
-public class RSO_CurrentPowerUp : RuntimeScriptableObject<HashSet<SSO_PowerUp>>
-{
-    public bool ContainPowerUp(PowerUpType type)
-    {
-        foreach (SSO_PowerUp powerUp in Value)
-        {
-            if (powerUp.PowerUpType == type) return true;
-        }
-
-        return false;
-    }
-}
+public class RSO_CurrentPowerUp : RuntimeScriptableObject<PlayerPowerUp>{}

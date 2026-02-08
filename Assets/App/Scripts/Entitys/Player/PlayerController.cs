@@ -14,6 +14,7 @@ public class PlayerController : EntityController
     [SerializeField] private PlayerAnimationVisual m_AnimVisual;
     [SerializeField] private Entity_Dash m_Dash;
     [SerializeField] private PlayerMana m_Mana;
+    [SerializeField] PlayerPowerUp m_PowerUp;
 
     [Space(10)]
     [SerializeField] RSO_CurrentPowerUp m_CurrentPowerUp;
@@ -31,6 +32,7 @@ public class PlayerController : EntityController
     
     protected override void OnEntityDie()
     {
+        m_PowerUp.OnPlayerDeath();
         base.OnEntityDie();
         m_OnPlayerDie.Call();
         SceneLoader.Instance?.LoadGameplayScene();
@@ -42,7 +44,6 @@ public class PlayerController : EntityController
         m_Controller.Set(this);
 
         m_CurrentPowerUp.Set(new());
-        m_Health.OnTakeDamage += () => m_CurrentPowerUp.Value.Clear();
     }
     
     private void Start() => Teleport(PlayerSpawnPoint.S_Position);

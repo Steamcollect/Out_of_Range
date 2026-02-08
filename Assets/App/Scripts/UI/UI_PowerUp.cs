@@ -13,11 +13,11 @@ public class UI_PowerUp : MonoBehaviour
 
     private readonly List<UI_PowerUpSlot> m_PowerUpSlots = new(capacity:3);
         
-    private void OnEnable() => m_CurrentPowerUp.OnChanged += UpdateUI;
-    private void OnDisable() => m_CurrentPowerUp.OnChanged -= UpdateUI;
-    private void Start() => UpdateUI(m_CurrentPowerUp.Get());
+    private void OnEnable() => m_CurrentPowerUp.Value.OnListChanged += UpdateUI;
+    private void OnDisable() => m_CurrentPowerUp.Value.OnListChanged -= UpdateUI;
+    private void Start() => UpdateUI(m_CurrentPowerUp.Value.GetPowerUps());
 
-    private void UpdateUI(HashSet<SSO_PowerUp> powerUps)
+    private void UpdateUI(List<SSO_PowerUp> powerUps)
     { 
         HashSet<SSO_PowerUp> currentPowerUps = m_PowerUpSlots.Select(slot => slot.PowerUp).ToHashSet();
                 
@@ -46,8 +46,7 @@ public class UI_PowerUp : MonoBehaviour
         for (int i = 0; i < m_PowerUpSlots.Count; i++)
         {
             m_PowerUpSlots[i].transform.rotation = i % 2 == 0 ? Quaternion.identity : Quaternion.Euler(0f, 0f, 180f);
-        }
-                
+        }                
     }
         
 }

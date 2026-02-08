@@ -7,6 +7,10 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
     [SerializeField] float m_AtkSpdPowerUpAttackCooldown;
     [SerializeField] float m_ClonePowerUpBulletSpacing;
 
+    bool strength = false;
+    bool clone = false;
+    bool atkSpeed = false;
+
     [Header("Combat References")]
     [SerializeField] Collider m_CollidToIgnore;
 
@@ -45,9 +49,19 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
         {
             OnAttack?.Invoke();
 
-            bool strength = m_CurrentPowerUp.ContainPowerUp(PowerUpType.Strength);
-            bool clone = m_CurrentPowerUp.ContainPowerUp(PowerUpType.Clone);
-            bool atkSpeed = m_CurrentPowerUp.ContainPowerUp(PowerUpType.AttackSpeed);
+            if (m_CurrentPowerUp.Value.IsHandlingPowerUps())
+            {
+                strength = m_CurrentPowerUp.Value.ContainPowerUp(PowerUpType.Strength);
+                clone = m_CurrentPowerUp.Value.ContainPowerUp(PowerUpType.Clone);
+                atkSpeed = m_CurrentPowerUp.Value.ContainPowerUp(PowerUpType.AttackSpeed);
+            }
+            else 
+            {
+                strength = false;
+                clone = false;
+                atkSpeed = false;
+            }
+
 
             Bullet bulletPrefab = m_CurrentPowerUp.Get() != null && strength ?
                 (m_CurrentState == OverloadWeaponState.CoolBuffed ?

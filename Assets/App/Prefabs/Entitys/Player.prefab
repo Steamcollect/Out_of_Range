@@ -237,6 +237,8 @@ MonoBehaviour:
   m_StunTimeOnSpawn: 1
   m_VerticalPivot: {fileID: 0}
   m_HorizontalPivot: {fileID: 0}
+  m_PrimaryCombatStyle: {fileID: 0}
+  m_SecondaryCombatStyle: {fileID: 0}
   m_InputPlayerController: {fileID: 5662550271351511903}
   m_AimTarget: {fileID: 11400000, guid: 09f66405bedce16448f02f1b689a9c4a, type: 2}
   m_RotationVisual: {fileID: 89447973270754334}
@@ -255,8 +257,6 @@ MonoBehaviour:
   m_PrimaryPlayerCombat: {fileID: 1149920520322700606}
   m_Mana: {fileID: 7387169151000765521}
   m_DefaultCombatStyle: {fileID: 1129812706102528412}
-  m_ShotgunCombatStyle: {fileID: 0}
-  m_RifleCombatStyle: {fileID: 1129812706102528412}
   m_GrenadeLauncherCombatStyle: {fileID: 3482430135142944213}
   m_CanPickupMana: {fileID: 11400000, guid: a6532f9e9396abf4eb5bebcc181074ba, type: 2}
   m_OnGrenadeLauncherPickedUp: {fileID: 11400000, guid: a06120fb928b878488aa46a4cdf0b9c9, type: 2}
@@ -377,6 +377,7 @@ MonoBehaviour:
   m_AnimVisual: {fileID: 89447973270754334}
   m_Dash: {fileID: 4795731786279744601}
   m_Mana: {fileID: 7387169151000765521}
+  m_PowerUp: {fileID: 5320797001697376354}
   m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
   m_OnPlayerDie: {fileID: 11400000, guid: 195049c21bdce3c4e8c37dabbe232c92, type: 2}
   m_Controller: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
@@ -547,6 +548,56 @@ CapsuleCollider:
   m_Height: 2.05618
   m_Direction: 1
   m_Center: {x: 0, y: 0.9937, z: 0}
+--- !u!1 &3348747126907080549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5959863123488145567}
+  - component: {fileID: 5320797001697376354}
+  m_Layer: 8
+  m_Name: PowerUp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5959863123488145567
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348747126907080549}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6169683258573247542}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5320797001697376354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348747126907080549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6e02b37e796cdc46a8a2cf900077933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerPowerUp
+  m_HandleTime: 10
+  m_MaxInventorySize: 2
+  m_IsHandlingPowerUps: 0
+  m_PowerUps: []
+  m_Script: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
+  m_HandleIA: {fileID: 2887795799804055529, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &3769672061468625921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,6 +1094,7 @@ Transform:
   - {fileID: 1003742095360013401}
   - {fileID: 2074092412787055408}
   - {fileID: 8760009207521672157}
+  - {fileID: 5959863123488145567}
   m_Father: {fileID: 1409431294601431814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2048553328443840748
