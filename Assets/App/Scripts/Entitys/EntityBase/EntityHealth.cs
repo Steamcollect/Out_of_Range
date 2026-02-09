@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using MVsToolkit.Dev;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -27,7 +27,6 @@ public class EntityHealth : MonoBehaviour, IHealth
 
     public Action OnTakeDamage, OnHeal, OnDeath;
 
-    [ContextMenu("Take Damage")]
     private void FakeTakeDamage()
     {
         OnTakeDamage?.Invoke(); 
@@ -39,7 +38,8 @@ public class EntityHealth : MonoBehaviour, IHealth
         m_CurrentHealth = m_MaxHealth;
     }
 
-    public void TakeDamage(float damage)
+    [Button("Take Damage")]
+    public void TakeDamage(float damage = 1)
     {
         if (m_IsInvincible) return;
 
