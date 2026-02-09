@@ -1,3 +1,4 @@
+using MoreMountains.Feedbacks;
 using MVsToolkit.Dev;
 using System;
 using System.Collections;
@@ -26,12 +27,20 @@ public class RayRangeEnemyCombat : EntityCombat
     public event Action<float /*DelayBeforeShoot*/, float /*DelayAfterShoot*/> OnShootLaunched;
     public event Action OnShootCompleted;
 
+    private void Start()
+    {
+        SetTurnSmoothTime(m_TurnSmoothTime);
+    }
+
     public override IEnumerator Attack()
     {
         if (!m_CanAttack) yield break;
+        m_IsAttacking = true;
+
+        yield return new WaitForSeconds(m_TimeBetweenAttacks);
 
         SetActiveLookAt(false);
-        m_IsAttacking = true;
+
         OnShootLaunched?.Invoke(m_TimeBeforeAttack, m_TimeAfterAttack);
 
         yield return new WaitForSeconds(m_TimeBeforeAttack);
@@ -55,7 +64,6 @@ public class RayRangeEnemyCombat : EntityCombat
         SetActiveLookAt(true);
         OnShootCompleted?.Invoke();
 
-        yield return new WaitForSeconds(m_TimeBetweenAttacks);
         m_IsAttacking = false;
     }
 }

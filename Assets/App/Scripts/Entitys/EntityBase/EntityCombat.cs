@@ -10,7 +10,6 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
     [SerializeField] protected float m_StunTimeOnSpawn = 1;
 
     [Header("References")]
-    [SerializeField] protected Transform m_VerticalPivot;
     [SerializeField] protected Transform m_HorizontalPivot;
 
     protected bool m_CanLookAt = true;
@@ -43,19 +42,6 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
                 );
             }
         }
-
-        if (m_VerticalPivot && lookAtAxis != LookAtAxis.Horizontal)
-        {
-            Vector3 verticalDir = direction.normalized;
-
-            Vector3 verticalLookPoint = m_VerticalPivot.position + verticalDir;
-
-            m_VerticalPivot.LookAtSmoothDamp(
-                verticalLookPoint,
-                ref m_TurnSmoothVerticalVelocity,
-                m_CurrentTurnSmoothTime
-            );
-        }
     }
 
     public virtual IEnumerator LockAttackOnSpawn()
@@ -69,8 +55,7 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
 
     public virtual bool IsAttacking() { return m_IsAttacking; }
 
-    public Vector3 GetLookAtDirection() => (m_VerticalPivot.forward + m_HorizontalPivot.forward).normalized;
-    public Vector3 GetVerticalPivotPos() => m_VerticalPivot.position;
+    public Vector3 GetLookAtDirection() => m_HorizontalPivot.forward.normalized;
 
     public void SetActiveLookAt(bool canLookAt) => m_CanLookAt = canLookAt;
 
