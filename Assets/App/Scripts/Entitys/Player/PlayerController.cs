@@ -16,9 +16,6 @@ public class PlayerController : EntityController
     [SerializeField] private PlayerMana m_Mana;
     [SerializeField] PlayerPowerUp m_PowerUp;
 
-    [Space(10)]
-    [SerializeField] RSO_CurrentPowerUp m_CurrentPowerUp;
-
     [Header("Output")]
     [SerializeField] private RSE_OnPlayerDie m_OnPlayerDie;
     [SerializeField] private RSO_PlayerController m_Controller;
@@ -42,8 +39,6 @@ public class PlayerController : EntityController
     {
         base.Awake();
         m_Controller.Set(this);
-
-        m_CurrentPowerUp.Set(new());
     }
     
     private void Start() => Teleport(PlayerSpawnPoint.S_Position);
@@ -125,4 +120,6 @@ public class PlayerController : EntityController
     {
         return m_Mana;
     }
+
+    public PlayerPowerUp GetPowerUp()=> m_PowerUp;
 }

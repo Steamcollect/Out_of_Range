@@ -19,8 +19,7 @@ public class ShotgunCombatStyle : OverloadCombatStyle
     [SerializeField] Bullet m_BulletPrefab;
     [SerializeField] Bullet m_StrenghtPowerUpBulletPrefab;
 
-    [Space(10)]
-    [SerializeField] RSO_CurrentPowerUp m_CurrentPowerUp;
+    //[SerializeField] RSO_CurrentPowerUp m_CurrentPowerUp;
 
     public override IEnumerator Attack()
     {

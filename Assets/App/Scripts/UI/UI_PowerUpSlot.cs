@@ -1,33 +1,28 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_PowerUpSlot : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private Image m_IconImage;
-    [Space] 
-    [SerializeField] private Animator m_Animator;
+    [SerializeField] Image m_VisualImg;
+    [SerializeField] Image m_TimerImg;
 
-    private SSO_PowerUp m_PowerUp;
-    
-    public SSO_PowerUp PowerUp => m_PowerUp;
-    
-    public void Setup(SSO_PowerUp powerUp)
+    PowerUpHandler m_PowerUpHandler;
+
+    public void Setup(PowerUpHandler handler)
     {
-        m_PowerUp = powerUp;
-        
-        m_IconImage.sprite = powerUp.Icon;
-        m_IconImage.color = powerUp.ColorIcon;
+        m_PowerUpHandler = handler;
+        m_VisualImg.sprite = handler.PowerUp.Icon;
+        m_TimerImg.fillAmount = 0;
     }
 
-    private void OnEnable()
+    private void Update()
     {
-        m_Animator.Play("Appear");
+        if (m_PowerUpHandler.timer <= 0)
+        {
+            m_TimerImg.fillAmount = 1;
+        }
+        else m_TimerImg.fillAmount = (m_PowerUpHandler.timer / m_PowerUpHandler.MaxTime) * -1 + 1;
     }
-    
-    public void PlayDisappearAnimation()
-    {
-        m_Animator.Play("Disappear");
-    }
+
+    public PowerUpHandler GetPowerUp() => m_PowerUpHandler;
 }

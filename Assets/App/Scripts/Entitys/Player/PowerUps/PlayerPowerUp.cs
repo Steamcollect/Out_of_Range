@@ -3,24 +3,27 @@ using MVsToolkit.Dev;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEditorInternal;
-using FMODUnity;
 
 public class PlayerPowerUp : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField, ReadOnly] List<PowerUpHandler> m_PowerUps = new();
 
-    [Header("References")]
-    [SerializeField] RSO_CurrentPowerUp m_Script;
+    //[Header("References")]
+    [Header("Input")]
+    [SerializeField] RSE_AddPowerUp m_AddPowerUp;
+    
+    [Header("Output")]
+    [SerializeField] RSE_OnPlayerPowerUpChange m_OnPowerUpChange;
 
-    //[Header("Input")]
-    //[Header("Output")]
-    public Action<List<PowerUpHandler>> OnListChanged;
-
-    private void Awake()
+    private void OnEnable()
     {
-        m_Script.Set(this);
+        m_AddPowerUp.Action += Add;
+    }
+
+    private void OnDisable()
+    {
+        m_AddPowerUp.Action -= Add;
     }
 
     private void Update()
@@ -32,6 +35,7 @@ public class PlayerPowerUp : MonoBehaviour
             if (m_PowerUps[i].timer <= 0)
             {
                 m_PowerUps.RemoveAt(i);
+                m_OnPowerUpChange.Call(m_PowerUps);
                 return;
             }
         }
@@ -47,13 +51,13 @@ public class PlayerPowerUp : MonoBehaviour
         }
 
         m_PowerUps.Add(new PowerUpHandler(powerUp, time));
-        OnListChanged?.Invoke(m_PowerUps);
+        m_OnPowerUpChange.Call(m_PowerUps);
     }
 
     public void Clear()
     {
         m_PowerUps.Clear();
-        OnListChanged?.Invoke(m_PowerUps);
+        m_OnPowerUpChange.Call(m_PowerUps);
     }
 
     public List<PowerUpHandler> GetPowerUps() {  return m_PowerUps; }

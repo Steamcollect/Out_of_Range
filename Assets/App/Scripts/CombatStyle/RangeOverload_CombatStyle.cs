@@ -30,7 +30,7 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
     [SerializeField] Bullet m_StrengthPowerUpOverloadBulletPrefab;
 
     [Space(10)]
-    [SerializeField] RSO_CurrentPowerUp m_CurrentPowerUp;
+    [SerializeField] RSO_PlayerController m_CurrentPowerUp;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -49,9 +49,9 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
         {
             OnAttack?.Invoke();
    
-            strength = m_CurrentPowerUp.Value.ContainPowerUp(PowerUpType.Strength);
-            clone = m_CurrentPowerUp.Value.ContainPowerUp(PowerUpType.Clone);
-            atkSpeed = m_CurrentPowerUp.Value.ContainPowerUp(PowerUpType.AttackSpeed);
+            strength = m_CurrentPowerUp.Value.GetPowerUp().ContainPowerUp(PowerUpType.Strength);
+            clone = m_CurrentPowerUp.Value.GetPowerUp().ContainPowerUp(PowerUpType.Clone);
+            atkSpeed = m_CurrentPowerUp.Value.GetPowerUp().ContainPowerUp(PowerUpType.AttackSpeed);
 
             Bullet bulletPrefab = m_CurrentPowerUp.Get() != null && strength ?
                 (m_CurrentState == OverloadWeaponState.CoolBuffed ?

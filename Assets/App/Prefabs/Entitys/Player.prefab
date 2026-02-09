@@ -494,7 +494,6 @@ MonoBehaviour:
   m_Dash: {fileID: 4795731786279744601}
   m_Mana: {fileID: 7387169151000765521}
   m_PowerUp: {fileID: 5320797001697376354}
-  m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
   m_OnPlayerDie: {fileID: 11400000, guid: 195049c21bdce3c4e8c37dabbe232c92, type: 2}
   m_Controller: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!114 &5662550271351511903
@@ -708,12 +707,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e02b37e796cdc46a8a2cf900077933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPowerUp
-  m_HandleTime: 10
-  m_MaxInventorySize: 2
-  m_IsHandlingPowerUps: 0
   m_PowerUps: []
-  m_Script: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
-  m_HandleIA: {fileID: 2887795799804055529, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_AddPowerUp: {fileID: 11400000, guid: de0477a80b777fd43a378b23c4ed915a, type: 2}
+  m_OnPowerUpChange: {fileID: 11400000, guid: 3a7fbb0d2c90cd04baf9a8fb65bb7d85, type: 2}
 --- !u!1 &3769672061468625921
 GameObject:
   m_ObjectHideFlags: 0
@@ -960,7 +956,7 @@ MonoBehaviour:
   m_StrenghtPowerUpBulletPrefab: {fileID: 4581899121895831684, guid: 4f91a86f90821114bb5325e9994d99d1, type: 3}
   m_OverloadBulletPrefab: {fileID: 4581899121895831684, guid: a76a39c916ade6d40bc11aaee17bf732, type: 3}
   m_StrengthPowerUpOverloadBulletPrefab: {fileID: 4581899121895831684, guid: 5410d6ed25db20342a610d5f055133a0, type: 3}
-  m_CurrentPowerUp: {fileID: 11400000, guid: e0c48be70cc36d34b8023f09e10c855f, type: 2}
+  m_CurrentPowerUp: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!1 &5439680732867493737
 GameObject:
   m_ObjectHideFlags: 0
