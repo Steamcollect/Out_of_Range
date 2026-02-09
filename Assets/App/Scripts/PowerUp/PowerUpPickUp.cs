@@ -8,6 +8,7 @@ public class PowerUpPickUp : MonoBehaviour
     [SerializeField] SSO_PowerUp m_PowerUp;
     [SerializeField] RSO_CurrentPowerUp m_PlayerPowerUp;
     [SerializeField] private bool m_DestroyAfterPickup = false;
+    [SerializeField] float m_HandleTime;
     public UnityEvent onWeaponPickedUp;
 
     private void OnTriggerEnter(Collider other)
@@ -15,7 +16,7 @@ public class PowerUpPickUp : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             if (!m_PowerUp) Debug.LogWarning($"{gameObject.name} : No PowerUp Data assigned!");
-            m_PlayerPowerUp.Value.Add(m_PowerUp);
+            m_PlayerPowerUp.Value.Add(m_PowerUp, m_HandleTime);
             m_PlayerPowerUp.Set(m_PlayerPowerUp.Value);
             onWeaponPickedUp?.Invoke();
 

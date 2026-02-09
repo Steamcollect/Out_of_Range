@@ -48,20 +48,10 @@ public class RangeOverload_CombatStyle : OverloadCombatStyle
             && (m_CurrentState == OverloadWeaponState.CanShoot || m_CurrentState == OverloadWeaponState.CoolBuffed))
         {
             OnAttack?.Invoke();
-
-            if (m_CurrentPowerUp.Value.IsHandlingPowerUps())
-            {
-                strength = m_CurrentPowerUp.Value.ContainPowerUp(PowerUpType.Strength);
-                clone = m_CurrentPowerUp.Value.ContainPowerUp(PowerUpType.Clone);
-                atkSpeed = m_CurrentPowerUp.Value.ContainPowerUp(PowerUpType.AttackSpeed);
-            }
-            else 
-            {
-                strength = false;
-                clone = false;
-                atkSpeed = false;
-            }
-
+   
+            strength = m_CurrentPowerUp.Value.ContainPowerUp(PowerUpType.Strength);
+            clone = m_CurrentPowerUp.Value.ContainPowerUp(PowerUpType.Clone);
+            atkSpeed = m_CurrentPowerUp.Value.ContainPowerUp(PowerUpType.AttackSpeed);
 
             Bullet bulletPrefab = m_CurrentPowerUp.Get() != null && strength ?
                 (m_CurrentState == OverloadWeaponState.CoolBuffed ?
