@@ -21,6 +21,7 @@ public class RayRangeEnemyCombat : EntityCombat
     [SerializeField] private Transform m_AttackPoint;
     [Space(5)]
     [SerializeField] private RSO_PlayerController m_Player;
+    [SerializeField] private GameObject m_ImpactFeedback;
     [Header("Output")]
     [SerializeField] private UnityEvent m_OnShoot;
 
@@ -54,6 +55,11 @@ public class RayRangeEnemyCombat : EntityCombat
             if (hit.collider.TryGetComponent(out HurtBox hurtBox))
             {
                 hurtBox.TakeDamage(m_Damage);
+                if(m_ImpactFeedback) 
+                {
+                    GameObject impact = Instantiate(m_ImpactFeedback, hit.point, Quaternion.LookRotation(hit.normal), hit.transform);
+                    Destroy(impact, 5f);
+                }
             }
         }
 

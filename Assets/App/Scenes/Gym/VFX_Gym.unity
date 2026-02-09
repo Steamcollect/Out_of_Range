@@ -668,29 +668,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1608218501876916987, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
-      propertyPath: m_TimeToLoseTarget
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 2367199991920660355, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_Name
       value: SniperTurretEnemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 4480978148775470157, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
-      propertyPath: Layers.m_Bits
-      value: 193
-      objectReference: {fileID: 0}
-    - target: {fileID: 6787699651712905849, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
-      propertyPath: m_TurnSmoothTime
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6787699651712905849, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
-      propertyPath: m_TimeBeforeAttack
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
-      propertyPath: m_PropertySheet.m_Bool.m_Array.Array.data[0].m_Overridden
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -949,6 +929,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3399886343873886312, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
+      propertyPath: managedReferences[5796216568338972837].Velocity.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3399886343873886312, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
+      propertyPath: managedReferences[5796216568338972837].Velocity.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3399886343873886312, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
+      propertyPath: managedReferences[5796216568338972837].Velocity.z
+      value: -25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3399886343873886312, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
       propertyPath: managedReferences[6424410374724124836].ChannelMode
       value: 0
       objectReference: {fileID: 0}
@@ -991,6 +983,10 @@ PrefabInstance:
     - target: {fileID: 3399886343873886312, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
       propertyPath: managedReferences[6424410374724124836].UniformScaling
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3399886343873886312, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
+      propertyPath: managedReferences[5796216586036838472].FlickerDuration
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3399886343873886312, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
       propertyPath: managedReferences[6424410374724124836].RandomizeOutput
@@ -1235,6 +1231,10 @@ PrefabInstance:
     - target: {fileID: 3399886343873886312, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
       propertyPath: managedReferences[6424410374724124836].Timing.SetPlayCountToZeroOnReset
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3399886343873886312, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
+      propertyPath: managedReferences[5796216568338972837].m_ImpulseDefinition.ImpulseDuration
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 3399886343873886312, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
       propertyPath: managedReferences[6424410374724124836].Timing.MMFeedbacksDirectionCondition
@@ -2009,21 +2009,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 33683855299300724, guid: 18749dca538327045a209859941c9621, type: 3}
-      propertyPath: m_InitialEventName
-      value: OnPlay
-      objectReference: {fileID: 0}
-    - target: {fileID: 33683855299300724, guid: 18749dca538327045a209859941c9621, type: 3}
-      propertyPath: m_InitialEventNameOverriden
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 33683855299300724, guid: 18749dca538327045a209859941c9621, type: 3}
-      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 247176438046835150, guid: 18749dca538327045a209859941c9621, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1178237167778167299, guid: 18749dca538327045a209859941c9621, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2065,21 +2053,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1608218501876916987, guid: 18749dca538327045a209859941c9621, type: 3}
-      propertyPath: m_TimeToLoseTarget
-      value: 0.75
-      objectReference: {fileID: 0}
     - target: {fileID: 2367199991920660355, guid: 18749dca538327045a209859941c9621, type: 3}
       propertyPath: m_Name
       value: RifleTurretEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 2367199991920660355, guid: 18749dca538327045a209859941c9621, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5426350002829843355, guid: 18749dca538327045a209859941c9621, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RangeEnemyCombat
   m_TurnSmoothTime: 0.35
   m_CanRotate: 1
-  m_VerticalPivot: {fileID: 225101198123783752}
+  m_StunTimeOnSpawn: 1
   m_HorizontalPivot: {fileID: 418496125244188350}
   m_BulletCount: 10
   m_TimeBetweenBullets: 0.1
@@ -374,7 +374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1178237167778167299
 Transform:
   m_ObjectHideFlags: 0
@@ -466,6 +466,7 @@ MonoBehaviour:
   m_DetectionRange: 20
   m_AttackRange: 20
   m_AngleRequireToAttack: 20
+  m_TimeToLoseTarget: 0.75
   m_CurrentState: 0
   m_Detector: {fileID: 1718930974139365487}
   m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
@@ -2009,7 +2010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4875023593715799487, guid: 394356303bb447f418b80c0d3fb08c75, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7942635861106849460, guid: 394356303bb447f418b80c0d3fb08c75, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2096,9 +2097,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2341589179162022140, guid: 89a3eb862bfba6a4d8652cc898ff7f5e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7730166156107105811, guid: 89a3eb862bfba6a4d8652cc898ff7f5e, type: 3}
+      propertyPath: m_InitialEventNameOverriden
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7730166156107105811, guid: 89a3eb862bfba6a4d8652cc898ff7f5e, type: 3}
       propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
-      value: 0.12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7730166156107105811, guid: 89a3eb862bfba6a4d8652cc898ff7f5e, type: 3}
       propertyPath: m_PropertySheet.m_NamedObject.m_Array.Array.data[0].m_Value
