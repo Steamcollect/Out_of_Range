@@ -50,6 +50,7 @@ public class LaserEffectController : MonoBehaviour
         m_VisualEffect.SendEvent("Shoot");
     }
 
+    [Button("Target Enemy")]
     private void TargetEnemy()
     {
         m_VisualEffect.Reinit();
@@ -57,6 +58,7 @@ public class LaserEffectController : MonoBehaviour
         m_VisualEffect.SendEvent("Target");
     }
 
+    [Button("Disable")]
     private void Disable()
     {
         m_VisualEffect.Reinit();
