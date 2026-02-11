@@ -9,7 +9,7 @@ public class PlayerHealthMask : MonoBehaviour
     [SerializeField] private float m_DamageBlurDuration = 0.5f;
     [SerializeField] private Ease m_Ease = Ease.OutQuad;
     [SerializeField] private bool m_EffectUseTimeScale = true;
-    [SerializeField] private float m_MaxPersistentIntensity = 0.75f;
+    [SerializeField] float[] intensityPerHealthPoint;
 
     [Header("References")]
     [SerializeField] private Image m_BlurDamageImage;
@@ -38,9 +38,7 @@ public class PlayerHealthMask : MonoBehaviour
     private void OnTakeDamage()
     {
         var health = m_PlayerController.Get().GetHealth();
-        float healthLossRatio = (health.GetMaxHealth() - health.GetCurrentHealth()) / (health.GetMaxHealth() - 1);
-
-        float targetIntensity = healthLossRatio * m_MaxPersistentIntensity;
+        float targetIntensity = intensityPerHealthPoint[(int)health.GetCurrentHealth()];
 
         m_CurrentTween?.Kill();
 
