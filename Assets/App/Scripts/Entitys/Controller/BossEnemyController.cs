@@ -17,6 +17,10 @@ public class BossEnemyController : EntityController, ISpawnable
     [SerializeField] List<CombatPatern> m_CombatPaterns;
     CombatPatern m_CurrentPatern;
 
+    public bool HaveAtkSpeedPowerUp;
+    public bool HaveClonePowerUp;
+    public bool HaveStrenghtPowerUp;
+
     [System.Serializable]
     struct CombatPatern
     {

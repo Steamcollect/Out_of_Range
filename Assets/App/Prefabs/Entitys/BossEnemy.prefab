@@ -276,7 +276,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5728888368075544850}
-  - component: {fileID: 7997397274747046338}
+  - component: {fileID: 3610241575451189292}
   m_Layer: 0
   m_Name: RifleCombat
   m_TagString: Untagged
@@ -299,7 +299,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7462999722803914970}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7997397274747046338
+--- !u!114 &3610241575451189292
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -308,15 +308,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 5305736318182779391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 974fc831719e1d841b353e693e4f1eed, type: 3}
+  m_Script: {fileID: 11500000, guid: a062e8a6c6d62a04a8815099484b35d6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RangeEnemyCombat
+  m_EditorClassIdentifier: Assembly-CSharp::BossRifleCombat
   m_TurnSmoothTime: 0.35
   m_CanRotate: 1
   m_StunTimeOnSpawn: 1
   m_HorizontalPivot: {fileID: 8413012673960646841}
   m_BulletCount: 10
+  m_BulletCountAtkSpeedPowerUp: 16
   m_TimeBetweenBullets: 0.1
+  m_TimeBetweenBulletsAtkSpeedPowerUp: 0.07
   m_TimeBeforeAttack: 0
   m_TimeAfterAttack: 0
   m_TimeBetweenAttacks: 1
@@ -324,23 +326,13 @@ MonoBehaviour:
   m_TurnSmoothTimeOnShoot: 0.1
   m_AttackPoint: {fileID: 2046288196689027119}
   m_BulletPrefab: {fileID: 4581899121895831684, guid: c1701630e3da4b34a8cd45b8ce9fcd78, type: 3}
+  m_StrenghtBulletPrefab: {fileID: 4581899121895831684, guid: de6044e4e40e1104b80d65c53d7e02fd, type: 3}
   m_MuzzleFlashPrefab: {fileID: 4186470608034871016, guid: cc14274dfbcc19749af6ec9434cd4d02, type: 3}
   m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
+  m_Controller: {fileID: 3095546484512107250}
   m_OnShoot:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2048356504647783991}
-        m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMF_Player, MoreMountains.Tools
-        m_MethodName: PlayFeedbacks
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &5661667987507041870
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,8 +937,11 @@ MonoBehaviour:
   m_CurrentState: 0
   m_Detector: {fileID: 439540578963815552}
   m_CombatPaterns:
-  - Combat: {fileID: 7997397274747046338}
+  - Combat: {fileID: 0}
     UseProbability: 30
+  HaveAtkSpeedPowerUp: 0
+  HaveClonePowerUp: 0
+  HaveStrenghtPowerUp: 0
   m_GrenadeCombatPatern:
     Combat: {fileID: 7887234035873099886}
     UseProbability: 40
@@ -1130,17 +1125,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43ce87b795999c6449bae151a80ba911, type: 3}
---- !u!114 &2048356504647783991 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3356646475053575547, guid: 43ce87b795999c6449bae151a80ba911, type: 3}
-  m_PrefabInstance: {fileID: 3672700116839889740}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: MoreMountains.Tools::MoreMountains.Feedbacks.MMF_Player
 --- !u!4 &8548115791747290311 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4924984477820120971, guid: 43ce87b795999c6449bae151a80ba911, type: 3}
