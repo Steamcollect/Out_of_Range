@@ -14,23 +14,13 @@ public class BossEnemyController : EntityController, ISpawnable
 
     [Header("Internal References")]
     [SerializeField] PlayerDetector m_Detector;
-    [SerializeField] List<CombatPatern> m_CombatPaterns;
+    [SerializeField, ReadOnly] List<CombatPatern> m_CombatPaterns;
     CombatPatern m_CurrentPatern;
 
     public bool HaveAtkSpeedPowerUp;
     public bool HaveClonePowerUp;
     public bool HaveStrenghtPowerUp;
-
-    [System.Serializable]
-    struct CombatPatern
-    {
-        public EntityCombat Combat;
-        [Range(0, 100)] public float UseProbability;
-    }
-
-    [Space(10)]
-    [SerializeField] CombatPatern m_GrenadeCombatPatern;
-    
+        
     [Space(10)]
     [SerializeField] private RSO_PlayerController m_Player;
 
@@ -151,11 +141,8 @@ public class BossEnemyController : EntityController, ISpawnable
         m_CurrentPatern = m_CombatPaterns[m_CombatPaterns.Count - 1];
     }
 
-    [Button]
-    public void AddGrenadeCombatPatern()
-    {
-        m_CombatPaterns.Add(m_GrenadeCombatPatern);
-    }
+    public void AddPatern(CombatPatern patern) =>m_CombatPaterns.Add(patern);
+    public void RemovePatern(CombatPatern patern) =>m_CombatPaterns.Remove(patern);
 
     #region Gizmos
 

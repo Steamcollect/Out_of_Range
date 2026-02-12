@@ -29,26 +29,26 @@ public class Grenade : MonoBehaviour
         m_TargetPos = targetPos;
     }
 
-    public void Move()
+    public void Move(float moveTimeMult = 1, float explosionRadiusMult = 1)
     {
         m_WarningEffect.transform.SetParent(null);
         m_WarningEffect.transform.position = m_TargetPos;
         m_WarningEffect.gameObject.SetActive(true);
         
-        m_WarningEffect.SetFloat("ChargingTime", m_MovementTime);
-        m_WarningEffect.SetFloat("ExplosionRadius", m_ExplosionRadius);
+        m_WarningEffect.SetFloat("ChargingTime", m_MovementTime * moveTimeMult);
+        m_WarningEffect.SetFloat("ExplosionRadius", m_ExplosionRadius * explosionRadiusMult);
 
-        StartCoroutine(Movement());
+        StartCoroutine(Movement(m_MovementTime * moveTimeMult, explosionRadiusMult));
     }
 
-    IEnumerator Movement()
+    IEnumerator Movement(float moveTime, float explodeRadiusMult)
     {
         float t = 0;
         float vt;
 
-        while (t < m_MovementTime)
+        while (t < moveTime)
         {
-            vt = t / m_MovementTime;
+            vt = t / moveTime;
 
             transform.position = new Vector3(
                 Mathf.Lerp(m_StartingPos.x, m_TargetPos.x, vt),
@@ -59,17 +59,17 @@ public class Grenade : MonoBehaviour
             yield return null;
         }
 
-        Explode();
+        Explode(explodeRadiusMult);
     }
 
-    void Explode()
+    void Explode(float explodeRadiusMult)
     {
         m_WarningEffect.gameObject.SetActive(false);
         
         m_ExplosionEffect.transform.SetParent(null);
         m_ExplosionEffect.gameObject.SetActive(true);
 
-        int length = Physics.OverlapSphereNonAlloc(transform.position, m_ExplosionRadius, s_CollidHit, m_HurtBoxLayers);
+        int length = Physics.OverlapSphereNonAlloc(transform.position, m_ExplosionRadius * explodeRadiusMult, s_CollidHit, m_HurtBoxLayers);
 
         if (s_CollidHit.Length > 0)
         {

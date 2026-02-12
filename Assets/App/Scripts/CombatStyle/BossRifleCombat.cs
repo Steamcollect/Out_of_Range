@@ -11,6 +11,8 @@ public class BossRifleCombat : EntityCombat
     [SerializeField] private float m_BulletCountAtkSpeedPowerUp;
     [SerializeField] private float m_TimeBetweenBullets;
     [SerializeField] private float m_TimeBetweenBulletsAtkSpeedPowerUp;
+    [SerializeField] float m_AtkSpeedBulletSpeedMult = 1.5f;
+    [SerializeField] float m_CloneBulletSpacing;
     [Space(5)]
     [SerializeField] private float m_TimeBeforeAttack;
     [SerializeField] private float m_TimeAfterAttack;
@@ -46,10 +48,25 @@ public class BossRifleCombat : EntityCombat
 
         for (int i = 0; i < (m_Controller.HaveAtkSpeedPowerUp ? m_BulletCountAtkSpeedPowerUp : m_BulletCount); i++)
         {
-            Bullet bullet = PoolManager.Instance.Spawn(m_Controller.HaveStrenghtPowerUp ? m_StrenghtBulletPrefab : m_BulletPrefab, m_AttackPoint.position, m_AttackPoint.rotation);
-            bullet.Setup();
+            if (!m_Controller.HaveClonePowerUp)
+            {
+                Vector3 position = m_AttackPoint.position;
+                Bullet bullet = PoolManager.Instance.Spawn(m_Controller.HaveStrenghtPowerUp ? m_StrenghtBulletPrefab : m_BulletPrefab, position, m_AttackPoint.rotation);
+                bullet.Setup(m_Controller.HaveAtkSpeedPowerUp ? m_AtkSpeedBulletSpeedMult : 1);
+            }
+            else
+            {
+                Vector3 position = m_AttackPoint.position + m_AttackPoint.right * m_CloneBulletSpacing * .5f;
+                Bullet bullet = PoolManager.Instance.Spawn(m_Controller.HaveStrenghtPowerUp ? m_StrenghtBulletPrefab : m_BulletPrefab, position, m_AttackPoint.rotation);
+                bullet.Setup(m_Controller.HaveAtkSpeedPowerUp ? m_AtkSpeedBulletSpeedMult : 1);
 
-            GameObject muzzleVFX = Instantiate(m_MuzzleFlashPrefab, m_AttackPoint);
+                position = m_AttackPoint.position + -m_AttackPoint.right * m_CloneBulletSpacing * .5f;
+                bullet = PoolManager.Instance.Spawn(m_Controller.HaveStrenghtPowerUp ? m_StrenghtBulletPrefab : m_BulletPrefab, position, m_AttackPoint.rotation);
+                bullet.Setup(m_Controller.HaveAtkSpeedPowerUp ? m_AtkSpeedBulletSpeedMult : 1);
+            }
+
+
+                GameObject muzzleVFX = Instantiate(m_MuzzleFlashPrefab, m_AttackPoint);
             Destroy(muzzleVFX, muzzleVFX.GetComponent<ParticleSystem>().main.duration);
 
             m_OnShoot.Invoke();

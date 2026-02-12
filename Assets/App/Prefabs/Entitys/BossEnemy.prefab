@@ -319,6 +319,8 @@ MonoBehaviour:
   m_BulletCountAtkSpeedPowerUp: 16
   m_TimeBetweenBullets: 0.1
   m_TimeBetweenBulletsAtkSpeedPowerUp: 0.07
+  m_AtkSpeedBulletSpeedMult: 1.4
+  m_CloneBulletSpacing: 1
   m_TimeBeforeAttack: 0
   m_TimeAfterAttack: 0
   m_TimeBetweenAttacks: 1
@@ -427,14 +429,20 @@ MonoBehaviour:
   m_CanRotate: 1
   m_StunTimeOnSpawn: 1
   m_HorizontalPivot: {fileID: 8413012673960646841}
+  m_RandomTargetRadius: 5
   m_GrenadeCount: 7
-  m_TimeBetweenGrenade: 0.5
+  m_AtkSpeedGrenadesCount: 12
+  m_TimeBetweenGrenades: 0.7
+  m_AtkSpeedTimeBetweenGrenades: 0.4
   m_TimeBeforeAttack: 0
   m_TimeAfterAttack: 0
   m_TimeBetweenAttacks: 1
+  m_StrenghtGrenadeSpeedMult: 0.8
+  m_StrenghtExplosionRadiusMult: 1.3
   m_AttackPoint: {fileID: 8413012673960646841}
   m_GrenadePrefab: {fileID: 4214654211266166565, guid: 7e4fd71aff25221478a8d9d1002d71c5, type: 3}
   m_MuzzleFlashPrefab: {fileID: 4186470608034871016, guid: cc14274dfbcc19749af6ec9434cd4d02, type: 3}
+  m_Controller: {fileID: 3095546484512107250}
   m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
   m_OnShoot:
     m_PersistentCalls:
@@ -820,6 +828,7 @@ Transform:
   - {fileID: 2706841500843817659}
   - {fileID: 5728888368075544850}
   - {fileID: 9171098585741486113}
+  - {fileID: 8809651191043869757}
   m_Father: {fileID: 5395568183152498045}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8471830854940732926
@@ -936,15 +945,10 @@ MonoBehaviour:
   m_TimeToLoseTarget: 2
   m_CurrentState: 0
   m_Detector: {fileID: 439540578963815552}
-  m_CombatPaterns:
-  - Combat: {fileID: 0}
-    UseProbability: 30
+  m_CombatPaterns: []
   HaveAtkSpeedPowerUp: 0
   HaveClonePowerUp: 0
   HaveStrenghtPowerUp: 0
-  m_GrenadeCombatPatern:
-    Combat: {fileID: 7887234035873099886}
-    UseProbability: 40
   m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!208 &2767508260004088271
 NavMeshObstacle:
@@ -995,6 +999,57 @@ Transform:
   - {fileID: 1012433668366942287}
   m_Father: {fileID: 5395568183152498045}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9219866331771807445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8809651191043869757}
+  - component: {fileID: 5622969715551451952}
+  m_Layer: 0
+  m_Name: PaternManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8809651191043869757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9219866331771807445}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7462999722803914970}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5622969715551451952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9219866331771807445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1988320bd741a8340a6eb7e243deca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossPaternManager
+  m_Controller: {fileID: 3095546484512107250}
+  m_RiflePatern:
+    Combat: {fileID: 3610241575451189292}
+    UseProbability: 30
+  m_GrenadePatern:
+    Combat: {fileID: 7887234035873099886}
+    UseProbability: 30
 --- !u!1001 &569985073079285006
 PrefabInstance:
   m_ObjectHideFlags: 0
