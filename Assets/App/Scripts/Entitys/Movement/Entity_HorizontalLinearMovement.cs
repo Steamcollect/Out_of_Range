@@ -1,3 +1,4 @@
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -16,6 +17,7 @@ public class Entity_HorizontalLinearMovement : MonoBehaviour, IMovement
 
     public void Move(Vector3 input)
     {
+        if (m_MoveSpeed <= 0) return;
         m_Rb.AddForce(input * m_MoveSpeed);
     }
 
