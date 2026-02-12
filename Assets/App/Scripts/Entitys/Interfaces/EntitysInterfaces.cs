@@ -21,6 +21,8 @@ public interface ILookAtTarget
 public interface IHealth
 {
     void TakeDamage(float damage);
+
+    void Die();
 }
 
 public interface IShield
