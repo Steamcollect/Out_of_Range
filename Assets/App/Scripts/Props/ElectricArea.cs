@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using System;
+using UnityEngine.VFX;
 
 public class ElectricArea : MonoBehaviour
 {
@@ -24,15 +25,11 @@ public class ElectricArea : MonoBehaviour
     public enum ElectricAreaState { Safe, Warning, Damage }
 
     [Header("References")]
-    [SerializeField] GameObject m_WarningGO;
-    [SerializeField] GameObject m_DamageGO;
+    [SerializeField] private VisualEffect m_ElectricAreaVFX;
 
     List<IHealth> m_HealthsInside = new();
 
     Coroutine m_CurrentLoop;
-
-    //[Header("Input")]
-    //[Header("Output")]
 
     private void Start()
     {
@@ -101,22 +98,19 @@ public class ElectricArea : MonoBehaviour
     {
         if(m_CurrentLoop != null) StopCoroutine(m_CurrentLoop);
 
-        m_WarningGO.SetActive(false);
-        m_DamageGO.SetActive(false);
+        m_ElectricAreaVFX.SetFloat("Intensity", 0);
     }
 
     public void OnSetAsWarning()
     {
-        m_WarningGO.SetActive(true);
-        m_DamageGO.SetActive(false);
+        m_ElectricAreaVFX.SetFloat("Intensity", 0.95f);
     }
 
     public void OnSetAsDamage()
     {
         ApplyDamage();
 
-        m_WarningGO.SetActive(false);
-        m_DamageGO.SetActive(true);
+        m_ElectricAreaVFX.SetFloat("Intensity", 1);
     }
 
     public void SetState(ElectricAreaState state) => m_CurrentState = state;
