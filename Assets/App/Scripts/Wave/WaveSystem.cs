@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MVsToolkit.Utilities;
 using Sirenix.OdinInspector;
@@ -21,8 +22,8 @@ public class WaveSystem : MonoBehaviour
     private RadioAntennaController m_ActiveRadioAntennaController;
 
     [Title("WAVE EVENTS")]
-    [SerializeField, Tooltip("Assign a UnityEvent for each wave index (0 = premi�re vague, 1 = seconde, ...).")]
-    private List<UnityEvent> m_OnWaveStartEvents = new List<UnityEvent>();
+    [Tooltip("Assign a UnityEvent for each wave index (0 = premiere vague, 1 = seconde, ...).")]
+    public List<UnityEvent> m_OnWaveStartEvents = new List<UnityEvent>();
 
 
     // State
@@ -118,6 +119,11 @@ public class WaveSystem : MonoBehaviour
         IsInFight = false;
         FightDetectorManager.Instance?.OnWaveEnd(this);
         m_OnCombatCompleted?.Invoke();
+    }
+
+    public void AddOnCombatCompleteListener(UnityAction callback)
+    {
+        m_OnCombatCompleted.AddListener(callback);
     }
 
 #if UNITY_EDITOR
