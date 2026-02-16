@@ -25,11 +25,11 @@ Transform:
   m_GameObject: {fileID: 1182493118278891771}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.511, z: 1.014}
+  m_LocalPosition: {x: 0, y: 1.5110002, z: 1.014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3220706608293926624}
+  m_Father: {fileID: 4199909735923839260}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1273423135184557703
 GameObject:
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4199909735923839260}
   m_Layer: 8
-  m_Name: Head
+  m_Name: HeadPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,6 +60,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5633605569418596335}
   - {fileID: 3220706608293926624}
   m_Father: {fileID: 8428042896751623452}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -282,7 +283,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3220706608293926624}
   m_Layer: 8
-  m_Name: HeadPivot
+  m_Name: HeadMouvementPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -301,7 +302,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5633605569418596335}
   - {fileID: 58603254314874239}
   m_Father: {fileID: 4199909735923839260}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1114,5 +1114,6 @@ MonoBehaviour:
   - {fileID: 6135974477116197134}
   m_DashEffect: {fileID: 139181698621177830}
   m_ArmsPivot: {fileID: 7024439137611952150}
-  m_HeadPivot: {fileID: 3220706608293926624}
+  m_HeadPivot: {fileID: 4199909735923839260}
+  m_HeadMovementPivot: {fileID: 3220706608293926624}
   m_PlayerTargetLookVisual: {fileID: 2523212797960390921}

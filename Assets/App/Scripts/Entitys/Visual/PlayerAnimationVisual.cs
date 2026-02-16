@@ -31,11 +31,12 @@ public class PlayerAnimationVisual : MonoBehaviour
     [Header("References")]
     [SerializeField] Transform m_ArmsPivot;
     [SerializeField] Transform m_HeadPivot;
+    [SerializeField] Transform m_HeadMovementPivot;
     [SerializeField] PlayerTargetLookVisual m_PlayerTargetLookVisual;
 
     private void Update()
     {
-        m_HeadPivot.localPosition = (Vector3.up * (Mathf.Sin(Time.time * m_Speed) * m_Amplitude));
+        m_HeadMovementPivot.localPosition = (Vector3.up * (Mathf.Sin(Time.time * m_Speed) * m_Amplitude));
 
         m_ArmsPivot.position = Vector3.SmoothDamp(
     m_ArmsPivot.position,

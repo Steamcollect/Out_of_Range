@@ -52,9 +52,9 @@ public sealed class CameraTargetHandler : MonoBehaviour
         transform.position = m_PlayerController.Get().GetTargetPosition();
     }    
 
-    private void HandleCameraTypeChange(CameraTargetType obj)
+    private void HandleCameraTypeChange(CameraTargetType type)
     {
-        switch (obj)
+        switch (type)
         {
             case CameraTargetType.AutoFocus:
                 m_CameraTargetRunning = m_CameraTargetAutoFocus.Value;
@@ -63,7 +63,7 @@ public sealed class CameraTargetHandler : MonoBehaviour
                 m_CameraTargetRunning = m_CameraTargetFreeLook.Value;
                 break;
             default:
-                throw new NotImplementedException("CameraTargetType not implemented: " + obj);
+                throw new NotImplementedException("CameraTargetType not implemented: " + type);
         }
     }
     
