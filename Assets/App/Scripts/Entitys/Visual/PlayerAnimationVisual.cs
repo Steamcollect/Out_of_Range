@@ -1,4 +1,5 @@
 using System.Collections;
+using DefaultNamespace;
 using MVsToolkit.Utilities;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -30,11 +31,7 @@ public class PlayerAnimationVisual : MonoBehaviour
     [Header("References")]
     [SerializeField] Transform m_ArmsPivot;
     [SerializeField] Transform m_HeadPivot;
-
-    private void Start()
-    {
-        // m_ArmsPivot.SetParent(null);
-    }
+    [SerializeField] PlayerTargetLookVisual m_PlayerTargetLookVisual;
 
     private void Update()
     {
@@ -61,6 +58,7 @@ public class PlayerAnimationVisual : MonoBehaviour
         target.y = m_ArmsPivot.position.y;
         m_ArmsPivot.LookAtSmoothDamp(target, ref m_ArmsRotationVelocity, m_ArmsRotationTime);
         m_HeadPivot.LookAtSmoothDamp(target, ref m_HeadRotationVelocity, m_HeadRotationTime);
+        m_PlayerTargetLookVisual.RotateToward(target);
     }
 
     public IEnumerator OnDash(float dashTime)
