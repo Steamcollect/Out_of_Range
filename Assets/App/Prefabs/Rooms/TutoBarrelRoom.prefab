@@ -598,7 +598,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 837245410633937526}
-  - component: {fileID: 2553900548371006047}
   m_Layer: 0
   m_Name: Entity_Connector
   m_TagString: Untagged
@@ -622,18 +621,6 @@ Transform:
   - {fileID: 8526653919247716986}
   m_Father: {fileID: 9041958634957751351}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2553900548371006047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5878676516454369177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6cec819e1af61c4da07f3897d34b827, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RoomEntityConnector
 --- !u!1 &6798376395583919510
 GameObject:
   m_ObjectHideFlags: 0
@@ -920,7 +907,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -1035,7 +1023,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -1082,6 +1071,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8526653919247716986}
     m_Modifications:
+    - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
+      propertyPath: m_MaxHealth
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
       propertyPath: m_OnDeathFeedback.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -1228,7 +1221,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -1409,7 +1403,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -1586,7 +1581,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -1767,7 +1763,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -1814,6 +1811,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8526653919247716986}
     m_Modifications:
+    - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
+      propertyPath: m_MaxHealth
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
       propertyPath: m_OnDeathFeedback.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -1960,7 +1961,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -2007,6 +2009,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8526653919247716986}
     m_Modifications:
+    - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
+      propertyPath: m_MaxHealth
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
       propertyPath: m_OnDeathFeedback.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -2153,7 +2159,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -2200,6 +2207,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8526653919247716986}
     m_Modifications:
+    - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
+      propertyPath: m_MaxHealth
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
       propertyPath: m_OnDeathFeedback.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -2344,6 +2355,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8526653919247716986}
     m_Modifications:
+    - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
+      propertyPath: m_MaxHealth
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
       propertyPath: m_OnDeathFeedback.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -2647,7 +2662,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -2762,7 +2778,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -2877,7 +2894,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -2992,7 +3010,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -3107,7 +3126,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -3154,6 +3174,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8526653919247716986}
     m_Modifications:
+    - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
+      propertyPath: m_MaxHealth
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
       propertyPath: m_OnDeathFeedback.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -3334,6 +3358,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8526653919247716986}
     m_Modifications:
+    - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
+      propertyPath: m_MaxHealth
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
       propertyPath: m_OnDeathFeedback.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -3546,7 +3574,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -3661,7 +3690,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -3776,7 +3806,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: caed417d0c17a134696ff2ef8b52a764, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64037968271859960, guid: baebdd3b26f756b4c8f1b2d2efe1cf42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -3823,6 +3854,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8526653919247716986}
     m_Modifications:
+    - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
+      propertyPath: m_MaxHealth
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1408150523670328044, guid: 791694bd5be7fa241a1fc111e4864ab2, type: 3}
       propertyPath: m_OnDeathFeedback.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
