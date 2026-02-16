@@ -2,7 +2,7 @@ using System;
 using MVsToolkit.Dev;
 using UnityEngine;
 
-public class CameraTargetHandler : MonoBehaviour
+public sealed class CameraTargetHandler : MonoBehaviour
 {
     
     [Header("Settings")]
