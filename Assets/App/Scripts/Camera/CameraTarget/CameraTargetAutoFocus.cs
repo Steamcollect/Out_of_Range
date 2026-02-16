@@ -335,9 +335,13 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
     private Vector3? ComputeFallback(Vector3 playerPos, Vector3 inputDir)
     {
         if (inputDir != Vector3.zero)
+        {
             return playerPos + inputDir.normalized;
+        }
+            
 
         Vector3 velocity = m_PlayerController.Value.Velocity;
+        velocity.y = 0f;
 
         if (velocity.sqrMagnitude > 0.001f)
             return playerPos + velocity.normalized;
