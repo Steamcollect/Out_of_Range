@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,6 +8,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] float m_Speed;
     [SerializeField] float m_Damage;
     [SerializeField] float m_Lifetime = 5f;
+
+    [SerializeField] bool m_IsOverloadBullet = false;
 
     Vector3 m_OriginalPosition;
 
@@ -76,7 +77,10 @@ public class Bullet : MonoBehaviour
 
         if (other.collider.gameObject.TryGetComponent(out HurtBox hurtBox))
         {
-            hurtBox.TakeDamage(m_Damage);
+            if(!hurtBox.IsInvincibleForOverload() || m_IsOverloadBullet)
+            {
+                hurtBox.TakeDamage(m_Damage);
+            }
         }
 
         m_OnImpact.Invoke();
