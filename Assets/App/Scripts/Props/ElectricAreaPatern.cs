@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -46,6 +47,18 @@ public class ElectricAreaPatern : MonoBehaviour
             {
                 m_Parterns[i].Areas[j].OnSetAsSafe();
             }
+        }
+    }
+
+    [Button]
+    public void GetAllChildAreaAsPatern()
+    {
+        ElectricArea[] areas = transform.GetComponentsInChildren<ElectricArea>(true);
+        m_Parterns = new ElectricPatern[areas.Length];
+        for (int i = 0; i < areas.Length; i++)
+        {
+            m_Parterns[i].Areas = new ElectricArea[] { areas[i] };
+            m_Parterns[i].WaitingTime = .5f;
         }
     }
 }
