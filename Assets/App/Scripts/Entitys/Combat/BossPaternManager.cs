@@ -8,6 +8,25 @@ public class BossPaternManager : MonoBehaviour
     [SerializeField] CombatPatern m_RiflePatern;
     [SerializeField] CombatPatern m_GrenadePatern;
 
+    [Space(10)]
+    [SerializeField] RSE_AddGrenadePatern m_AddGrenade;
+    [SerializeField] RSE_AddRiflePatern m_AddRifle;
+    [SerializeField] RSE_RemoveRiflePatern m_RemoveRifle;
+
+    private void OnEnable()
+    {
+        m_AddGrenade.Action += AddGrenade;
+        m_AddRifle.Action += AddRifle;
+        m_RemoveRifle.Action += RemoveRifle;
+    }
+
+    private void OnDisable()
+    {
+        m_AddGrenade.Action -= AddGrenade;
+        m_AddRifle.Action -= AddRifle;
+        m_RemoveRifle.Action -= RemoveRifle;
+    }
+
     private void Start()
     {
         AddRifle();

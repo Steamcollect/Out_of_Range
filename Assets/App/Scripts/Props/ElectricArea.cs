@@ -10,18 +10,18 @@ public class ElectricArea : MonoBehaviour
     [SerializeField] bool m_IsLethalDamage = false;
     [SerializeField, ShowIf("m_IsLethalDamage", false)] int m_Damage = 1;
 
+    [SerializeField] bool m_HandleOnStart = false;
+
     [Space(10)]
     [SerializeField] float m_SafeTime = 1;
     [SerializeField] float m_WarningTime = 1;
     [SerializeField] float m_DamageTime = 1;
 
-    float m_Timer = 0;
-
     [Space(10)]
     [SerializeField, EnumButtons] ElectricAreaState m_StartingState;
     [SerializeField, ReadOnly] ElectricAreaState m_CurrentState;
 
-    enum ElectricAreaState { Safe, Warning, Damage }
+    public enum ElectricAreaState { Safe, Warning, Damage }
 
     [Header("References")]
     [SerializeField] GameObject m_WarningGO;
@@ -41,88 +41,85 @@ public class ElectricArea : MonoBehaviour
         switch (m_CurrentState)
         {
             case ElectricAreaState.Safe:
-                SetAsWarning();
+                OnSetAsSafe();
                 break;
 
             case ElectricAreaState.Warning:
-                SetAsDamage();
+                OnSetAsWarning();
                 break;
 
             case ElectricAreaState.Damage:
-                SetAsSafe();
+                OnSetAsDamage();
                 break;
         }
+
+        if(m_HandleOnStart)
+            m_CurrentLoop = StartCoroutine(Loop());
     }
 
-    public void HandleLoop(Action OnLoopEnd = null)
+    public void HandleLoop()
     {
-        m_CurrentLoop = StartCoroutine(Loop(OnLoopEnd));
+        SetState(ElectricAreaState.Warning);
+        OnSetAsWarning();
+        m_CurrentLoop = StartCoroutine(Loop());
     }
 
-    IEnumerator Loop(Action OnLoopEnd)
+    IEnumerator Loop()
     {
-        bool firstLoop = true;
-        while (firstLoop)
+        switch (m_CurrentState)
         {
-            yield return null;
-            m_Timer += Time.deltaTime;
+            case ElectricAreaState.Safe:
 
-            switch (m_CurrentState)
-            {
-                case ElectricAreaState.Safe:
-                    if (m_Timer >= m_SafeTime)
-                    {
-                        m_Timer = 0;
-                        m_CurrentState = ElectricAreaState.Warning;
-                        SetAsWarning();
-                    }
-                    break;
+                yield return new WaitForSeconds(m_SafeTime);
 
-                case ElectricAreaState.Warning:
-                    if (m_Timer >= m_WarningTime)
-                    {
-                        m_Timer = 0;
-                        m_CurrentState = ElectricAreaState.Damage;
-                        SetAsDamage();
-                    }
-                    break;
+                m_CurrentState = ElectricAreaState.Warning;
+                OnSetAsWarning();
+                break;
 
-                case ElectricAreaState.Damage:
-                    if (m_Timer >= m_DamageTime)
-                    {
-                        firstLoop = false;
-                        m_Timer = 0;
-                        m_CurrentState = ElectricAreaState.Safe;
-                        SetAsSafe();
-                        OnLoopEnd?.Invoke();
-                    }
-                    break;
-            }
+            case ElectricAreaState.Warning:
+
+                yield return new WaitForSeconds(m_WarningTime);
+                
+                m_CurrentState = ElectricAreaState.Damage;
+                OnSetAsDamage();
+                break;
+
+            case ElectricAreaState.Damage:
+
+                if (m_DamageTime == -1) yield break;
+                else yield return new WaitForSeconds(m_DamageTime);
+
+                m_CurrentState = ElectricAreaState.Safe;
+                OnSetAsSafe();
+                break;
         }
+
+        m_CurrentLoop = StartCoroutine(Loop());
     }
 
-    public void SetAsSafe()
+    public void OnSetAsSafe()
     {
         if(m_CurrentLoop != null) StopCoroutine(m_CurrentLoop);
 
-        m_Timer = 0;
         m_WarningGO.SetActive(false);
         m_DamageGO.SetActive(false);
     }
 
-    void SetAsWarning()
+    public void OnSetAsWarning()
     {
         m_WarningGO.SetActive(true);
         m_DamageGO.SetActive(false);
     }
 
-    void SetAsDamage()
+    public void OnSetAsDamage()
     {
         ApplyDamage();
 
         m_WarningGO.SetActive(false);
         m_DamageGO.SetActive(true);
     }
+
+    public void SetState(ElectricAreaState state) => m_CurrentState = state;
 
     void ApplyDamage()
     {
@@ -135,7 +132,7 @@ public class ElectricArea : MonoBehaviour
 
     public void StopLoop()
     {
-        SetAsSafe();
+        OnSetAsSafe();
     }
 
     private void OnTriggerEnter(Collider other)

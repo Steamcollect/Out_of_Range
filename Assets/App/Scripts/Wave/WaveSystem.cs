@@ -14,16 +14,16 @@ public class WaveSystem : MonoBehaviour
     [Title("REFERENCES")]
     [SerializeField] private List<WaveSpawner> m_Spawners = new List<WaveSpawner>();
 
-    [Title("EVENTS")]
-    [SerializeField] private UnityEvent m_OnCombatStart;
-    [SerializeField] private UnityEvent m_OnCombatCompleted;
-    [SerializeField] private UnityEvent m_OnWaveEnd;
+    [SerializeField, FoldoutGroup("Events")] private UnityEvent m_OnCombatStart;
+    [SerializeField, FoldoutGroup("Events")] private UnityEvent m_OnCombatCompleted;
+    [SerializeField, FoldoutGroup("Events")] private UnityEvent m_OnWaveEnd;
     
     private RadioAntennaController m_ActiveRadioAntennaController;
 
     [Title("WAVE EVENTS")]
     [Tooltip("Assign a UnityEvent for each wave index (0 = premiere vague, 1 = seconde, ...).")]
     public List<UnityEvent> m_OnWaveStartEvents = new List<UnityEvent>();
+    public List<UnityEvent> m_OnWaveEndEvents = new List<UnityEvent>();
 
 
     // State
@@ -101,6 +101,13 @@ public class WaveSystem : MonoBehaviour
     {
         m_CurrentWaveIndex++;
         m_OnWaveEnd.Invoke();
+
+        if (m_CurrentWaveIndex - 1 >= 0 &&
+            m_CurrentWaveIndex - 1 < m_OnWaveEndEvents.Count &&
+            m_OnWaveEndEvents.Count == m_MaxWaveCount)
+        {
+            m_OnWaveEndEvents[m_CurrentWaveIndex - 1]?.Invoke();
+        }
 
         if (m_CurrentWaveIndex >= m_MaxWaveCount)
         {

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ElectricAreaPatern : MonoBehaviour
 {
-    [SerializeField] int m_CurrentIndex = 0;
     [SerializeField] ElectricPatern[] m_Parterns;
 
     [System.Serializable]
@@ -27,16 +26,16 @@ public class ElectricAreaPatern : MonoBehaviour
 
     IEnumerator HandlePaterns()
     {
-        foreach (var area in m_Parterns[m_CurrentIndex].Areas)
+        for (int i = 0; i < m_Parterns.Length; i++)
         {
-            area.HandleLoop();
+            for (int j = 0; j < m_Parterns[i].Areas.Length; j++)
+            {
+                m_Parterns[i].Areas[j].SetState(ElectricArea.ElectricAreaState.Warning);
+                m_Parterns[i].Areas[j].OnSetAsWarning();
+                m_Parterns[i].Areas[j].HandleLoop();
+            }
+            yield return new WaitForSeconds(m_Parterns[i].WaitingTime);
         }
-
-        yield return new WaitForSeconds(m_Parterns[m_CurrentIndex].WaitingTime);
-
-        m_CurrentIndex = (m_CurrentIndex + 1) %  m_Parterns.Length;
-
-        StartCoroutine(HandlePaterns());
     }
 
     public void ResetAreas()
@@ -45,7 +44,7 @@ public class ElectricAreaPatern : MonoBehaviour
         {
             for (int j = 0; j < m_Parterns[i].Areas.Length; j++)
             {
-                m_Parterns[i].Areas[j].SetAsSafe();
+                m_Parterns[i].Areas[j].OnSetAsSafe();
             }
         }
     }

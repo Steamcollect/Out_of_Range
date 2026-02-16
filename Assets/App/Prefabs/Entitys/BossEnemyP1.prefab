@@ -113,6 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HurtBox
   m_DamageMultiplier: 1
+  m_InvincibleForOverload: 0
   m_HealthConnected:
     _object: {fileID: 8166769201413022601}
 --- !u!114 &8166769201413022601
@@ -127,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  m_MaxHealth: 500
+  m_MaxHealth: 60
   m_CurrentHealth: 0
   m_ClampDamage: 0
   m_MaxDamage: 0
@@ -845,7 +846,7 @@ GameObject:
   - component: {fileID: 3095546484512107250}
   - component: {fileID: 2767508260004088271}
   m_Layer: 7
-  m_Name: BossEnemy
+  m_Name: BossEnemyP1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1050,6 +1051,9 @@ MonoBehaviour:
   m_GrenadePatern:
     Combat: {fileID: 7887234035873099886}
     UseProbability: 30
+  m_AddGrenade: {fileID: 11400000, guid: 18b0e2e79a017bd4b987c27363377ad0, type: 2}
+  m_AddRifle: {fileID: 11400000, guid: 139e6ae25e7506b428fc2ae0e626de0e, type: 2}
+  m_RemoveRifle: {fileID: 11400000, guid: 9ba77bc4dd9204c4abd1fe289e6be492, type: 2}
 --- !u!1001 &569985073079285006
 PrefabInstance:
   m_ObjectHideFlags: 0
