@@ -88,6 +88,11 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         };
     }
 
+    public ITargetable GetCameraTarget()
+    {
+        return m_CurrentTarget;
+    }
+
     #endregion
 
     #region Mouse Logic

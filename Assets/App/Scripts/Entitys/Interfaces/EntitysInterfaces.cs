@@ -34,6 +34,7 @@ public interface IShield
 public interface ITargetable
 {
     Vector3 GetTargetPosition();
+    Vector3 GetTargetIndicatorPosition();
 }
 
 public interface ISpawnable

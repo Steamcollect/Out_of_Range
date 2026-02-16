@@ -6,6 +6,7 @@ public abstract class EntityController : MonoBehaviour, ITargetable
 {
     [Header("Settings")]
     [SerializeField] Vector3 m_TargetPos;
+    [SerializeField] Vector3 m_TargetIndicatorPos;
 
     [Header("References")]
     [SerializeField] protected EntityHealth m_Health;
@@ -34,6 +35,11 @@ public abstract class EntityController : MonoBehaviour, ITargetable
     public virtual Vector3 GetTargetPosition()
     {
         return transform.position + m_TargetPos;
+    }
+
+    public Vector3 GetTargetIndicatorPosition()
+    {
+        return transform.position + m_TargetIndicatorPos;
     }
 
     public virtual EntityHealth GetHealth() {  return m_Health; }
