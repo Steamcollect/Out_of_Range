@@ -291,23 +291,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b9d6ec21ab34fedba53b0d4ebb40b52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.CameraTargetAutoFocus
-  m_LayerMaskHittable:
-    serializedVersion: 2
-    m_Bits: 129
-  m_LayerMaskTargets:
+  m_TargetLayer:
     serializedVersion: 2
     m_Bits: 128
+  m_HittableLayer:
+    serializedVersion: 2
+    m_Bits: 129
+  m_ObstructionLayer:
+    serializedVersion: 2
+    m_Bits: 1
   m_QueryTriggerInteraction: 1
-  m_RadiusSphereCastCursor: 5
-  m_RadiusDetectionCursor: 15
-  m_RadiusSphereCastGamepad: 5
-  m_RadiusDetectionGamepad: 15
-  m_MaxDistanceSphereCast: 25
-  m_MousePositionIa: {fileID: -1654692200621890270, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_DirectionIa: {fileID: -8784545083839296357, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_CamController: {fileID: 11400000, guid: 452bdeba678d33f45929b40fb180f382, type: 2}
+  m_DetectionRadiusGamepad: 12
+  m_DetectionRadiusSphereCastGamepad: 5
+  m_DetectionRangeSphereCastGamepad: 15
+  m_DetectionRadiusMouse: 5
+  m_WeightDistance: 1
+  m_WeightInputAlignment: 2
+  m_WeightPersistence: 0
+  m_MinimumScoreToLock: 0
+  m_HysteresisRatio: 1.15
+  m_SwitchCooldown: 0.2
+  m_MousePositionInput: {fileID: -1654692200621890270, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_DirectionInput: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_CurrentInputDevice: {fileID: 11400000, guid: 966504faacf828b4881b47282c5143cb, type: 2}
   m_PlayerController: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
-  m_CurrentInputDeviceType: {fileID: 11400000, guid: 966504faacf828b4881b47282c5143cb, type: 2}
+  m_CameraController: {fileID: 11400000, guid: 452bdeba678d33f45929b40fb180f382, type: 2}
 --- !u!114 &439728910979045657
 MonoBehaviour:
   m_ObjectHideFlags: 0
