@@ -1,4 +1,5 @@
 using System.Collections;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.VFX;
@@ -16,6 +17,7 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
     [SerializeField] private VisualEffect m_LoadingEffect;
     [SerializeField] private VisualEffect m_ExplosionEffect;
     [SerializeField] private LayerMask mask;
+    [SerializeField] Collider[] m_Collids;
 
     public UnityEvent OnLoading;
     public UnityEvent OnExplode;
@@ -62,6 +64,10 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
     public void Explosion()
     {
         m_LoadingEffect.Stop();
+        foreach (Collider collid in m_Collids)
+        {
+            collid.enabled = false;
+        }
         m_LoadingEffect.gameObject.SetActive(false);
 
         OnExplode.Invoke();
