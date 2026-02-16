@@ -205,6 +205,7 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
             if (best != null) return best.GetTargetPosition();
         }
 
+        Debug.Log("No valid target found, falling back to default behavior.");
         ClearTargetState();
         return ComputeFallback(playerPos, inputDir);
     }
@@ -335,9 +336,13 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
     private Vector3? ComputeFallback(Vector3 playerPos, Vector3 inputDir)
     {
         if (inputDir != Vector3.zero)
+        {
             return playerPos + inputDir.normalized;
+        }
+            
 
         Vector3 velocity = m_PlayerController.Value.Velocity;
+        velocity.y = 0f;
 
         if (velocity.sqrMagnitude > 0.001f)
             return playerPos + velocity.normalized;
