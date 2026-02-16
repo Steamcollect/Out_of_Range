@@ -39,9 +39,6 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
     
     private Vector3  m_InputGamepadDirectionRelativeToCamera;
     private bool m_SphereCastCheckValid;
-    
-    private bool m_TargetDirectCheckValid;
-    private bool m_TargetInRangeCheckValid;
     private Vector3 m_HitPosition;
 
     #endregion
@@ -85,9 +82,6 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         
         m_InputGamepadDirectionRelativeToCamera = Vector3.zero;
         m_SphereCastCheckValid= false;
-        
-        m_TargetDirectCheckValid = false;
-        m_TargetInRangeCheckValid = false;
         m_HitPosition = Vector3.zero;
     }
     
@@ -117,32 +111,35 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         if (m_InputGamepadDirection == Vector3.zero)
         {
             Vector3? targetInRadius = FindTargetInRadius(m_PlayerController.Get().GetTargetPosition(),m_RadiusDetectionGamepadNoInput);
-
             if (targetInRadius.HasValue) return targetInRadius.Value;
             if (m_PlayerController.Value.Velocity == Vector3.zero) return null;
-            return m_PlayerController.Get().GetTargetPosition() + m_PlayerController.Value.Velocity.normalized;
+            return ForwardPlayerMovement();
 
         }
         
         (m_InputGamepadDirection.z, m_InputGamepadDirection.y) = (m_InputGamepadDirection.y, m_InputGamepadDirection.z);
-
          m_InputGamepadDirectionRelativeToCamera = m_InputGamepadDirection.DirectionRelativeToCamera();
         
         
-        if (!Physics.SphereCast(m_PlayerController.Get().GetTargetPosition(),m_RadiusSphereCastGamepad, m_InputGamepadDirectionRelativeToCamera, out RaycastHit hitInfo, m_MaxDistanceSphereCast,
+         // SphereCast serve to get a world hit point to next raycast
+         if (!Physics.SphereCast(m_PlayerController.Get().GetTargetPosition(),m_RadiusSphereCastGamepad, m_InputGamepadDirectionRelativeToCamera, out RaycastHit hitInfo, m_MaxDistanceSphereCast,
                 m_LayerMaskHittable, m_QueryTriggerInteraction))
         {
             return FindTargetInRadius(m_PlayerController.Get().GetTargetPosition(),m_RadiusDetectionGamepad) 
-                   ?? m_PlayerController.Get().GetTargetPosition() + m_InputGamepadDirectionRelativeToCamera;
+                   ?? ForwardPlayerInput();
         }
 
         m_SphereCastCheckValid = true;
-        
         m_HitPosition = hitInfo.point;
-        Vector3? resultPosition = FindTargetInRadius(m_HitPosition, m_RadiusSphereCastCursor) ?? 
-                                  FindDirectTarget(m_HitPosition,m_RadiusSphereCastGamepad) ?? m_HitPosition;
+        
+        Vector3? resultPosition = FindDirectTarget(m_HitPosition, m_RadiusSphereCastGamepad) ?? 
+                                  FindTargetInRadius(m_HitPosition, m_RadiusDetectionGamepad) ?? 
+                                  ForwardPlayerInput();
+        
         return resultPosition;
     }
+
+    
 
     #endregion
     
@@ -163,7 +160,6 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         
         if (!potentialTarget.collider.TryGetComponent(out ITargetable target)) return null;
         
-        Debug.DrawRay(playerPos, target.GetTargetPosition() - playerPos, Color.red);
         if (!Physics.Raycast(playerPos, (target.GetTargetPosition() - playerPos).normalized, out RaycastHit hit,
                 Vector3.Distance(target.GetTargetPosition(), playerPos), m_LayerMaskHittable,
                 m_QueryTriggerInteraction) || hit.transform != potentialTarget.transform) return null;
@@ -171,12 +167,9 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
 
         if (!TargetInRange(target.GetTargetPosition()))
         {
-            m_TargetDirectCheckValid = false;
             return null;
         }
-
-
-        m_TargetDirectCheckValid = true;
+        
         
         return target.GetTargetPosition();
 
@@ -197,43 +190,39 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         
         for (int i = 0; i < size; i++)
         {
-            if (m_TargetResults[i].TryGetComponent(out ITargetable sphereTarget))
+            if (!m_TargetResults[i].TryGetComponent(out ITargetable sphereTarget)) continue;
+            
+            Vector3 playerPos = m_PlayerController.Get().GetTargetPosition();
+            Vector3 targetPos = sphereTarget.GetTargetPosition();
+            Ray rayToTarget = new(playerPos, (targetPos - playerPos).normalized);
+
+            if (!TargetInRange(targetPos)) continue;
+                
+            float dPlayerTarget = Vector3.Distance(playerPos, targetPos);
+            float dMouseTarget = Vector3.Distance(originPoint, targetPos);
+                
+                
+            bool isObstructed = Physics.Raycast(rayToTarget, out RaycastHit obstructionHit, dPlayerTarget, m_LayerMaskHittable, m_QueryTriggerInteraction) &&
+                                obstructionHit.transform != m_TargetResults[i].transform;
+            if (isObstructed) continue;
+                
+            if (dPlayerTarget < dClosePlayerTarget)
             {
-                Vector3 playerPos = m_PlayerController.Get().GetTargetPosition();
-                Vector3 targetPos = sphereTarget.GetTargetPosition();
-                Ray rayToTarget = new(playerPos, (targetPos - playerPos).normalized);
+                dClosePlayerTarget = dPlayerTarget;
+                closestTargetToPlayer = sphereTarget;
+            }
 
-                if (!TargetInRange(targetPos)) continue;
-                
-                float dPlayerTarget = Vector3.Distance(playerPos, targetPos);
-                float dMouseTarget = Vector3.Distance(originPoint, targetPos);
-                
-                
-                bool isObstructed = Physics.Raycast(rayToTarget, out RaycastHit obstructionHit, dPlayerTarget, m_LayerMaskHittable, m_QueryTriggerInteraction) &&
-                                    obstructionHit.transform != m_TargetResults[i].transform;
-                if (isObstructed) continue;
-                
-                if (dPlayerTarget < dClosePlayerTarget)
-                {
-                    dClosePlayerTarget = dPlayerTarget;
-                    closestTargetToPlayer = sphereTarget;
-                }
-
-                if (dMouseTarget < dCloseMouseTarget)
-                {
-                    dCloseMouseTarget = dMouseTarget;
-                    closestTargetToMouse = sphereTarget;
-                }
+            if (dMouseTarget < dCloseMouseTarget)
+            {
+                dCloseMouseTarget = dMouseTarget;
+                closestTargetToMouse = sphereTarget;
             }
         }
 
         if (closestTargetToMouse == null)
         {
-            m_TargetInRangeCheckValid = false;
             return null;
         }
-        
-        m_TargetInRangeCheckValid = true;
         
         return dClosePlayerTarget < dCloseMouseTarget ? closestTargetToPlayer!.GetTargetPosition() : closestTargetToMouse.GetTargetPosition();
     }
@@ -246,8 +235,17 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
                targetPositionVS.y is >= 0 and <= 1 &&
                targetPositionVS.z > 0;
     }
-    
 
+    private Vector3 ForwardPlayerMovement()
+    {
+        return m_PlayerController.Get().GetTargetPosition() + m_PlayerController.Get().Velocity.normalized;
+    }
+    
+    private Vector3 ForwardPlayerInput()
+    {
+        return m_PlayerController.Get().GetTargetPosition() + m_InputGamepadDirectionRelativeToCamera;
+    }
+    
     #endregion
     
     private void OnDrawGizmosSelected()
@@ -274,7 +272,7 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         }
         else
         {
-            Gizmos.color = Color.darkCyan;
+            Gizmos.color = Color.yellow;
             
             Gizmos.DrawWireSphere(m_PlayerController.Get().GetTargetPosition(),m_RadiusSphereCastGamepad);
             Gizmos.DrawLine(m_PlayerController.Get().GetTargetPosition(),m_PlayerController.Get().GetTargetPosition() + m_MaxDistanceSphereCast * m_InputGamepadDirectionRelativeToCamera);
@@ -287,9 +285,9 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
             }
             else
             {
-                Gizmos.color = m_TargetInRangeCheckValid ? Color.green : Color.red;
+                Gizmos.color = Color.green;
                 Gizmos.DrawWireSphere(m_OriginPointInRadiusTargetCheck, m_RadiusDetectionGamepad);
-                Gizmos.color = m_TargetDirectCheckValid ? Color.green : Color.red;
+                Gizmos.color = Color.blueViolet;
                 float distanceToHit = Vector3.Distance(m_PlayerController.Get().GetTargetPosition(), m_HitPosition);
                 Vector3 direction = (m_HitPosition - m_PlayerController.Get().GetTargetPosition()).normalized;
                 Gizmos.DrawWireSphere(m_PlayerController.Get().GetTargetPosition(),m_RadiusSphereCastGamepad);
@@ -301,9 +299,9 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
 
     private void OnDrawGizmosMouse()
     {
-        Gizmos.color = m_TargetInRangeCheckValid ? Color.green : Color.red;
+        Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(m_OriginPointInRadiusTargetCheck, m_RadiusDetectionCursor);
-        Gizmos.color = m_TargetDirectCheckValid ? Color.green : Color.red;
+        Gizmos.color = Color.green;
         float distanceToHit = Vector3.Distance(m_PlayerController.Get().GetTargetPosition(), m_HitPosition);
         Vector3 direction = (m_HitPosition - m_PlayerController.Get().GetTargetPosition()).normalized;
         Gizmos.DrawWireSphere(m_PlayerController.Get().GetTargetPosition(),m_RadiusSphereCastCursor);
