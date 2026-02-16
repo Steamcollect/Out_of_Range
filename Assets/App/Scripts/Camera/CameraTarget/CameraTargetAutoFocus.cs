@@ -205,7 +205,6 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
             if (best != null) return best.GetTargetPosition();
         }
 
-        Debug.Log("No valid target found, falling back to default behavior.");
         ClearTargetState();
         return ComputeFallback(playerPos, inputDir);
     }
