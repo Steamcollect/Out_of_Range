@@ -5,6 +5,7 @@ public class HurtBox : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] float m_DamageMultiplier = 1;
+    [SerializeField] bool m_InvincibleForOverload = false;
 
     [Header("References")]
     [SerializeField] InterfaceReference<IHealth> m_HealthConnected;
@@ -18,4 +19,6 @@ public class HurtBox : MonoBehaviour
 
         m_HealthConnected.Value.TakeDamage(Mathf.RoundToInt(damage * m_DamageMultiplier));
     }
+
+    public bool IsInvincibleForOverload() => m_InvincibleForOverload;
 }
