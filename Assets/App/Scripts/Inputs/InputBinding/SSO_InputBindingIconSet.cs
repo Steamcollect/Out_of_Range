@@ -3,10 +3,6 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-/// <summary>
-/// ScriptableObject contenant la configuration des icônes pour les binding paths.
-/// Permet de mapper des binding paths Unity Input System vers des icônes visuelles.
-/// </summary>
 [CreateAssetMenu(fileName = "SSO_InputBindingIconSet", menuName = "SSO/Input/InputBindingIconSet")]
 public class SSO_InputBindingIconSet : ScriptableObject
 {

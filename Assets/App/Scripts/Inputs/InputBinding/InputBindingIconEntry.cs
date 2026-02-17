@@ -8,6 +8,7 @@ using UnityEngine;
 public struct InputBindingIconEntry
 {
     [Tooltip("Le binding path exact Unity Input System (ex: '<Keyboard>/z', '<Gamepad>/leftStick')")]
+    [InputBindingPath(nameof(DeviceType))]
     public string BindingPath;
 
     [Tooltip("Le type de périphérique associé à cette icône")]

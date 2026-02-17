@@ -13,16 +13,17 @@ public class InputActionIconDisplay : MonoBehaviour
     private const string k_LogPrefix = "[InputActionIconDisplay]";
 
     [Title("Settings")]
-    [SerializeField] 
-    private bool m_AutoUpdateOnDeviceChange = true;
-    [SerializeField] 
-    private bool m_HideImageIfNoIcon = true;
-    [SerializeField] 
-    private InputActionReference m_ActionReference;
+    [SerializeField] private bool m_AutoUpdateOnDeviceChange = true;
+    [SerializeField] private bool m_HideImageIfNoIcon = true;
+    [SerializeField] private bool m_ShowTextOnlyOnMouse = true;
+    [SerializeField] private bool m_ShowTextIfIcon;
+    [SerializeField] private InputActionReference m_ActionReference;
 
     [Title("References")]
     [SerializeField] 
     private Image m_IconImage;
+    [SerializeField]
+    private SpriteRenderer m_SpriteRenderer;
     [SerializeField] 
     private TMP_Text m_LabelText;
     [Space]
@@ -31,6 +32,9 @@ public class InputActionIconDisplay : MonoBehaviour
     [SerializeField] 
     private RSO_CurrentInputDeviceType m_CurrentInputDeviceType;
 
+    
+    private Sprite m_CurrentIcon;
+    
     private void OnEnable()
     {
         if (m_AutoUpdateOnDeviceChange && m_CurrentInputDeviceType != null)
@@ -66,7 +70,7 @@ public class InputActionIconDisplay : MonoBehaviour
             return;
         }
 
-        var action = m_ActionReference.action;
+        InputAction action = m_ActionReference.action;
         if (action == null)
         {
             Debug.LogWarning($"{k_LogPrefix} Action is null for {m_ActionReference.name}");
@@ -79,43 +83,40 @@ public class InputActionIconDisplay : MonoBehaviour
 
     private void UpdateIcon(InputAction action)
     {
-        if (m_IconImage == null) return;
-
-        var icon = m_IconResolver.GetIconForAction(action);
-        m_IconImage.sprite = icon;
-
-        if (m_HideImageIfNoIcon)
+        m_CurrentIcon = m_IconResolver.GetIconForAction(action);
+        if (m_IconImage)
         {
-            m_IconImage.gameObject.SetActive(icon != null);
+            m_IconImage.sprite = m_CurrentIcon;
+            if (m_HideImageIfNoIcon)
+            {
+                m_IconImage.enabled = m_CurrentIcon;
+            }
         }
+
+        if (m_SpriteRenderer)
+        {
+            m_SpriteRenderer.sprite = m_CurrentIcon;
+            if (m_HideImageIfNoIcon)
+            {
+                m_SpriteRenderer.enabled = m_CurrentIcon;
+            }
+        }
+
+        
     }
 
     private void UpdateLabel(InputAction action)
     {
-        if (m_LabelText == null) return;
+        if (!m_LabelText) return;
 
         m_LabelText.text = m_IconResolver.GetDisplayNameForAction(action);
-    }
 
-    /// <summary>
-    /// Change l'action affichée dynamiquement.
-    /// </summary>
-    /// <param name="actionReference">La nouvelle référence d'action</param>
-    public void SetAction(InputActionReference actionReference)
-    {
-        m_ActionReference = actionReference;
-        UpdateDisplay();
-    }
+        bool hasIcon = m_CurrentIcon != null;
+        bool hideTextBecauseIcon = hasIcon && !m_ShowTextIfIcon;
+        
+        // Option pour afficher le texte uniquement sur clavier/souris
+        bool hideTextBecauseNotMouse = m_ShowTextOnlyOnMouse && m_CurrentInputDeviceType.Get() != InputDeviceType.KeyboardMouse;
 
-    /// <summary>
-    /// Change l'action affichée dynamiquement.
-    /// </summary>
-    /// <param name="action">La nouvelle action</param>
-    public void SetAction(InputAction action)
-    {
-        if (m_IconResolver == null || action == null) return;
-
-        UpdateIcon(action);
-        UpdateLabel(action);
+        m_LabelText.enabled = !hideTextBecauseIcon && !hideTextBecauseNotMouse;
     }
 }
