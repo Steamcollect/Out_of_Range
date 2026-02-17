@@ -10,36 +10,26 @@ using Sirenix.OdinInspector;
 /// </summary>
 public class InputActionIconDisplay : MonoBehaviour
 {
-    [Title("Configuration")]
-    [Tooltip("Référence à l'InputAction à afficher")]
+    private const string k_LogPrefix = "[InputActionIconDisplay]";
+
+    [Title("Settings")]
+    [SerializeField] 
+    private bool m_AutoUpdateOnDeviceChange = true;
+    [SerializeField] 
+    private bool m_HideImageIfNoIcon = true;
     [SerializeField] 
     private InputActionReference m_ActionReference;
 
-    [Tooltip("Le resolver d'icônes à utiliser")]
-    [SerializeField] 
-    private SSO_InputBindingIconResolver m_IconResolver;
-
-    [Tooltip("Référence au RSO du type de périphérique actuel")]
-    [SerializeField] 
-    private RSO_CurrentInputDeviceType m_CurrentInputDeviceType;
-
-    [Title("Affichage")]
-    [Tooltip("Image UI pour afficher l'icône (optionnel)")]
+    [Title("References")]
     [SerializeField] 
     private Image m_IconImage;
-
-    [Tooltip("TextMeshPro pour afficher le label (optionnel)")]
     [SerializeField] 
     private TMP_Text m_LabelText;
-
-    [Title("Options")]
-    [Tooltip("Mettre à jour automatiquement lors du changement de périphérique")]
+    [Space]
     [SerializeField] 
-    private bool m_AutoUpdateOnDeviceChange = true;
-
-    [Tooltip("Cacher l'image si aucune icône n'est disponible")]
+    private SSO_InputBindingIconResolver m_IconResolver;
     [SerializeField] 
-    private bool m_HideImageIfNoIcon = true;
+    private RSO_CurrentInputDeviceType m_CurrentInputDeviceType;
 
     private void OnEnable()
     {
@@ -67,39 +57,44 @@ public class InputActionIconDisplay : MonoBehaviour
     /// <summary>
     /// Met à jour l'affichage de l'icône et du label.
     /// </summary>
-    [Button("Rafraîchir l'affichage")]
+    [Button("Refresh")]
     public void UpdateDisplay()
     {
         if (m_IconResolver == null || m_ActionReference == null)
         {
-            Debug.LogWarning($"[InputActionIconDisplay] Missing references on {gameObject.name}");
+            Debug.LogWarning($"{k_LogPrefix} Missing references on {gameObject.name}");
             return;
         }
 
         var action = m_ActionReference.action;
         if (action == null)
         {
-            Debug.LogWarning($"[InputActionIconDisplay] Action is null for {m_ActionReference.name}");
+            Debug.LogWarning($"{k_LogPrefix} Action is null for {m_ActionReference.name}");
             return;
         }
 
-        // Mettre à jour l'icône
-        if (m_IconImage != null)
-        {
-            var icon = m_IconResolver.GetIconForAction(action);
-            m_IconImage.sprite = icon;
+        UpdateIcon(action);
+        UpdateLabel(action);
+    }
 
-            if (m_HideImageIfNoIcon)
-            {
-                m_IconImage.gameObject.SetActive(icon != null);
-            }
-        }
+    private void UpdateIcon(InputAction action)
+    {
+        if (m_IconImage == null) return;
 
-        // Mettre à jour le label
-        if (m_LabelText != null)
+        var icon = m_IconResolver.GetIconForAction(action);
+        m_IconImage.sprite = icon;
+
+        if (m_HideImageIfNoIcon)
         {
-            m_LabelText.text = m_IconResolver.GetDisplayNameForAction(action);
+            m_IconImage.gameObject.SetActive(icon != null);
         }
+    }
+
+    private void UpdateLabel(InputAction action)
+    {
+        if (m_LabelText == null) return;
+
+        m_LabelText.text = m_IconResolver.GetDisplayNameForAction(action);
     }
 
     /// <summary>
@@ -118,24 +113,9 @@ public class InputActionIconDisplay : MonoBehaviour
     /// <param name="action">La nouvelle action</param>
     public void SetAction(InputAction action)
     {
-        // Note: Pour utiliser directement une InputAction, il faut créer une référence temporaire
-        // ou utiliser directement le resolver
-        if (m_IconResolver != null && action != null)
-        {
-            if (m_IconImage != null)
-            {
-                var icon = m_IconResolver.GetIconForAction(action);
-                m_IconImage.sprite = icon;
-                if (m_HideImageIfNoIcon)
-                {
-                    m_IconImage.gameObject.SetActive(icon != null);
-                }
-            }
+        if (m_IconResolver == null || action == null) return;
 
-            if (m_LabelText != null)
-            {
-                m_LabelText.text = m_IconResolver.GetDisplayNameForAction(action);
-            }
-        }
+        UpdateIcon(action);
+        UpdateLabel(action);
     }
 }

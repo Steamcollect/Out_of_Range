@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// ScriptableObject contenant la configuration des icônes pour les binding paths.
@@ -9,22 +10,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SSO_InputBindingIconSet", menuName = "SSO/Input/InputBindingIconSet")]
 public class SSO_InputBindingIconSet : ScriptableObject
 {
-    [Title("Configuration des icônes")]
-    [InfoBox("Ajoutez les binding paths avec leurs icônes correspondantes pour chaque type de périphérique.")]
+    
+    // Button labels
+    private const string k_ButtonAddKeyboard = "Ajouter Keyboard Entry";
+    private const string k_ButtonAddMouse = "Ajouter Mouse Entry";
+    private const string k_ButtonAddGamepad = "Ajouter Gamepad Entry";
+    
+    // Default binding paths
+    private const string k_DefaultKeyboardPath = "<Keyboard>/";
+    private const string k_DefaultMousePath = "<Mouse>/";
+    private const string k_DefaultGamepadPath = "<Gamepad>/";
+
+    [Title("Settings")]
     [TableList(ShowIndexLabels = true, AlwaysExpanded = true)]
     [SerializeField] 
     private List<InputBindingIconEntry> m_IconEntries = new();
-
-    [Title("Icône par défaut")]
-    [Tooltip("Icône à utiliser si aucun binding path ne correspond")]
-    [SerializeField] 
-    private Sprite m_DefaultIcon;
-
-    [Title("Table de mapping des labels")]
-    [InfoBox("Personnalisez les labels humains pour des contrôles spécifiques.")]
+    [Space]
     [DictionaryDrawerSettings(KeyLabel = "Control ID", ValueLabel = "Label affiché")]
     [SerializeField]
-    private Dictionary<string, string> m_DisplayNameOverrides = new()
+    private SerializedDictionary<string, string> m_DisplayNameOverrides = new()
     {
         // Keyboard
         { "space", "Space" },
@@ -79,29 +83,17 @@ public class SSO_InputBindingIconSet : ScriptableObject
         { "start", "Start" },
         { "select", "Select" }
     };
+    [Space]
+    [SerializeField] 
+    private Sprite m_DefaultIcon;
+    
 
-    /// <summary>
-    /// Obtient toutes les entrées d'icônes configurées.
-    /// </summary>
     public IReadOnlyList<InputBindingIconEntry> IconEntries => m_IconEntries;
 
-    /// <summary>
-    /// Obtient l'icône par défaut.
-    /// </summary>
     public Sprite DefaultIcon => m_DefaultIcon;
 
-    /// <summary>
-    /// Obtient la table de mapping des labels personnalisés.
-    /// </summary>
     public IReadOnlyDictionary<string, string> DisplayNameOverrides => m_DisplayNameOverrides;
-
-    /// <summary>
-    /// Recherche une entrée d'icône pour un binding path et un type de périphérique donnés.
-    /// </summary>
-    /// <param name="bindingPath">Le binding path à rechercher</param>
-    /// <param name="deviceType">Le type de périphérique souhaité</param>
-    /// <param name="entry">L'entrée trouvée si elle existe</param>
-    /// <returns>True si une entrée correspondante a été trouvée</returns>
+    
     public bool TryGetIconEntry(string bindingPath, InputDeviceType deviceType, out InputBindingIconEntry entry)
     {
         // Recherche exacte (path + device type)
@@ -119,12 +111,6 @@ public class SSO_InputBindingIconSet : ScriptableObject
         return false;
     }
 
-    /// <summary>
-    /// Recherche une entrée d'icône pour un binding path (sans filtrage par device type).
-    /// </summary>
-    /// <param name="bindingPath">Le binding path à rechercher</param>
-    /// <param name="entry">L'entrée trouvée si elle existe</param>
-    /// <returns>True si une entrée correspondante a été trouvée</returns>
     public bool TryGetIconEntryByPath(string bindingPath, out InputBindingIconEntry entry)
     {
         foreach (var iconEntry in m_IconEntries)
@@ -140,50 +126,46 @@ public class SSO_InputBindingIconSet : ScriptableObject
         return false;
     }
 
-    /// <summary>
-    /// Obtient le label personnalisé pour un contrôle, ou null s'il n'existe pas.
-    /// </summary>
-    /// <param name="controlId">L'identifiant du contrôle (partie après '/' dans le path)</param>
-    /// <returns>Le label personnalisé ou null</returns>
+
     public string GetDisplayNameOverride(string controlId)
     {
-        return m_DisplayNameOverrides.TryGetValue(controlId, out var displayName) ? displayName : null;
+        return m_DisplayNameOverrides.GetValueOrDefault(controlId);
     }
 
 #if UNITY_EDITOR
-    [Button("Ajouter Keyboard Entry"), GUIColor(0.4f, 0.8f, 0.4f)]
+    [Button(k_ButtonAddKeyboard), GUIColor(0.4f, 0.8f, 0.4f)]
     private void AddKeyboardEntry()
     {
         m_IconEntries.Add(new InputBindingIconEntry
         {
-            BindingPath = "<Keyboard>/",
+            BindingPath = k_DefaultKeyboardPath,
             DeviceType = InputDeviceType.KeyboardMouse,
             Icon = null,
-            CustomDisplayName = ""
+            CustomDisplayName = string.Empty
         });
     }
 
-    [Button("Ajouter Mouse Entry"), GUIColor(0.4f, 0.6f, 0.8f)]
+    [Button(k_ButtonAddMouse), GUIColor(0.4f, 0.6f, 0.8f)]
     private void AddMouseEntry()
     {
         m_IconEntries.Add(new InputBindingIconEntry
         {
-            BindingPath = "<Mouse>/",
+            BindingPath = k_DefaultMousePath,
             DeviceType = InputDeviceType.KeyboardMouse,
             Icon = null,
-            CustomDisplayName = ""
+            CustomDisplayName = string.Empty
         });
     }
 
-    [Button("Ajouter Gamepad Entry"), GUIColor(0.8f, 0.6f, 0.4f)]
+    [Button(k_ButtonAddGamepad), GUIColor(0.8f, 0.6f, 0.4f)]
     private void AddGamepadEntry()
     {
         m_IconEntries.Add(new InputBindingIconEntry
         {
-            BindingPath = "<Gamepad>/",
+            BindingPath = k_DefaultGamepadPath,
             DeviceType = InputDeviceType.Gamepad,
             Icon = null,
-            CustomDisplayName = ""
+            CustomDisplayName = string.Empty
         });
     }
 #endif
