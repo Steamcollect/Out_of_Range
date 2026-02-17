@@ -94,7 +94,7 @@ public class TurretEnemyController : EntityController, ISpawnable
 
     public void SetAware()
     {
-        m_CurrentState = EnemyStates.Chasing;
+        SetState(EnemyStates.Chasing);
         m_LoseSightTimer = m_TimeToLoseTarget;
     }
 

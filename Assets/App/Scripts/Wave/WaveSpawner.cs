@@ -2,6 +2,8 @@ using System.Collections;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using MVsToolkit.Utilities;
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -14,6 +16,12 @@ public class WaveSpawner : MonoBehaviour
     [SerializeField] private float m_SpawnFeedbackDuration = 1.0f;
     
     public int ConfiguredWaveCount => m_Wave.Count;
+
+    [Button]
+    void SpawnFirstWave()
+    {
+        StartCoroutine(SpawnWave(0, null));
+    }
 
     public IEnumerator SpawnWave(int waveIndex, System.Action<EntityController> onSpawnCallback)
     {
@@ -41,7 +49,11 @@ public class WaveSpawner : MonoBehaviour
                 
                 EntityController spawnedEntity = Instantiate(entity, transform.position, transform.rotation);
 
-                if (spawnedEntity.TryGetComponent(out ISpawnable spawnable)) spawnable.OnSpawn();
+                this.Delay(() =>
+                {
+                    if (spawnedEntity.TryGetComponent(out ISpawnable spawnable)) spawnable.OnSpawn();
+
+                }, .1f);
 
                 onSpawnCallback?.Invoke(spawnedEntity);
             }
