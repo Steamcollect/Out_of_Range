@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using UnityEngine.Events;
 
 public class BossEnemyController : EntityController, ISpawnable
 {
@@ -17,21 +18,40 @@ public class BossEnemyController : EntityController, ISpawnable
     [SerializeField, ReadOnly] List<CombatPatern> m_CombatPaterns;
     CombatPatern m_CurrentPatern;
 
-    public bool HaveAtkSpeedPowerUp;
-    public bool HaveClonePowerUp;
-    public bool HaveStrenghtPowerUp;
-        
+    [ReadOnly] public bool HaveAtkSpeedPowerUp;
+    [ReadOnly] public bool HaveClonePowerUp;
+    [ReadOnly] public bool HaveStrenghtPowerUp;
+
+    [SerializeField] BossHealthStep[] m_HealthSteps;
+
     [Space(10)]
     [SerializeField] private RSO_PlayerController m_Player;
 
     private float m_LoseSightTimer;
     public event System.Action<EnemyStates> OnStateChanged;
 
+    [System.Serializable]
+    class BossHealthStep
+    {
+        public int HealthRequire;
+        [HideInInspector] public bool IsUsed = false;
+        public UnityEvent Callback;
+    }
+
     void Start()
     {
         m_Health.OnTakeDamage += () =>
         {
             SetState(EnemyStates.Attacking);
+
+            foreach (BossHealthStep step in m_HealthSteps)
+            {
+                if (!step.IsUsed && m_Health.GetCurrentHealth() <= step.HealthRequire)
+                {
+                    step.Callback?.Invoke();
+                    step.IsUsed = true;
+                }
+            }
         };
     }
 
@@ -143,6 +163,10 @@ public class BossEnemyController : EntityController, ISpawnable
 
     public void AddPatern(CombatPatern patern) =>m_CombatPaterns.Add(patern);
     public void RemovePatern(CombatPatern patern) =>m_CombatPaterns.Remove(patern);
+
+    public void SetAtkSpeedPowerUp(bool value) => HaveAtkSpeedPowerUp = value;
+    public void SetClonePowerUp(bool value) => HaveClonePowerUp = value;
+    public void SetStrengthPowerUp(bool value) => HaveStrenghtPowerUp = value;
 
     #region Gizmos
 
