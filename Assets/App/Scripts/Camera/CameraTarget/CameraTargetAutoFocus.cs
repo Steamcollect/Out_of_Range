@@ -144,6 +144,8 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
             }
         }
 
+        UpdateTargetState(closest, closest != null ? 1f : 0f);
+
         return closest?.GetTargetPosition() ?? hit.point;
     }
 

@@ -6,7 +6,6 @@ public class CameraTargetVisual : MonoBehaviour
     [SerializeField] private float m_Amplitude = 0.5f;
     [SerializeField] private float m_Frequency = 1f;
     
-    
     [Header("References")]
     [SerializeField] private GameObject m_VisualContainer;
 
