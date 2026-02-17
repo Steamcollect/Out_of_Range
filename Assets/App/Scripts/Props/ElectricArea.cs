@@ -1,8 +1,6 @@
 using DG.Tweening;
 using MVsToolkit.Dev;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -126,6 +124,8 @@ public class ElectricArea : MonoBehaviour
 
     void ApplyDamage()
     {
+        if (m_PlayerHealth == null) return;
+
         if (m_IsLethalDamage) m_PlayerHealth.Die();
         else m_PlayerHealth.TakeDamage(m_Damage);
     }
@@ -142,6 +142,7 @@ public class ElectricArea : MonoBehaviour
             if(other.TryGetComponent(out PlayerController player))
             {
                 m_PlayerHealth = player.GetHealth();
+                player.GetDash().OnDashInvincibilityEnd += ApplyDamage;
 
                 if (m_CurrentState == ElectricAreaState.Damage)
                 {
@@ -154,9 +155,13 @@ public class ElectricArea : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.TryGetComponent(out IHealth health))
+        if (other.CompareTag("Player"))
         {
-            m_PlayerHealth = null;
+            if (other.TryGetComponent(out PlayerController player))
+            {
+                player.GetDash().OnDashInvincibilityEnd -= ApplyDamage;
+                m_PlayerHealth = null;
+            }
         }
     }
 }

@@ -48,6 +48,7 @@ public class Entity_Dash : MonoBehaviour
     [ReadOnly] public bool IsDashing = false;
 
     public Action<float, float> OnDash;
+    public Action OnDashInvincibilityEnd;
 
     public void Dash(Vector3 input)
     {
@@ -57,7 +58,12 @@ public class Entity_Dash : MonoBehaviour
 
         m_BeginDrag = m_Rb.linearDamping;
         m_Rb.linearDamping = (m_UseMaxDash ? m_MaxDashDrag : m_DashDrag);
+
         m_EntityHealth.GainInvincibility(m_InvicibilityTime);
+        this.Delay(() =>
+        {
+            OnDashInvincibilityEnd?.Invoke();
+        }, m_InvicibilityTime + .05f);
 
         m_Rb.AddForce(input * (m_UseMaxDash ? m_MaxDashForce : m_DashForce), m_DashForceMode);
         
