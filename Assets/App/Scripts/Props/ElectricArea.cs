@@ -2,6 +2,7 @@ using DG.Tweening;
 using MVsToolkit.Dev;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -29,7 +30,7 @@ public class ElectricArea : MonoBehaviour
     [Header("References")]
     [SerializeField] private VisualEffect m_ElectricAreaVFX;
 
-    List<IHealth> m_HealthsInside = new();
+    IHealth m_PlayerHealth;
 
     Coroutine m_CurrentLoop;
 
@@ -125,11 +126,8 @@ public class ElectricArea : MonoBehaviour
 
     void ApplyDamage()
     {
-        foreach (var health in m_HealthsInside)
-        {
-            if (m_IsLethalDamage) health.Die();
-            else health.TakeDamage(m_Damage);
-        }
+        if (m_IsLethalDamage) m_PlayerHealth.Die();
+        else m_PlayerHealth.TakeDamage(m_Damage);
     }
 
     public void StopLoop()
@@ -139,14 +137,17 @@ public class ElectricArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent(out IHealth health))
+        if (other.CompareTag("Player"))
         {
-            m_HealthsInside.Add(health);
-
-            if(m_CurrentState == ElectricAreaState.Damage)
+            if(other.TryGetComponent(out PlayerController player))
             {
-                if (m_IsLethalDamage) health.Die();
-                else health.TakeDamage(m_Damage);
+                m_PlayerHealth = player.GetHealth();
+
+                if (m_CurrentState == ElectricAreaState.Damage)
+                {
+                    if (m_IsLethalDamage) m_PlayerHealth.Die();
+                    else m_PlayerHealth.TakeDamage(m_Damage);
+                }
             }
         }
     }
@@ -155,7 +156,7 @@ public class ElectricArea : MonoBehaviour
     {
         if(other.TryGetComponent(out IHealth health))
         {
-            m_HealthsInside.Remove(health);
+            m_PlayerHealth = null;
         }
     }
 }
