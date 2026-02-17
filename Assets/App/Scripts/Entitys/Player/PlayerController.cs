@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,10 @@ public class PlayerController : EntityController
 {
     [SerializeField] float m_MinYPos;
     [SerializeField] float gravityScale;
+
+    Vector3 m_LastGroundPos;
+    private readonly Queue<(float time, Vector3 pos)> m_PositionHistory
+        = new Queue<(float time, Vector3 pos)>();
 
     [Header("References")]
     [SerializeField] private RSO_PlayerCameraController m_CamController;
@@ -45,14 +50,24 @@ public class PlayerController : EntityController
 
     private void Update()
     {
-        if (transform.position.y <= m_MinYPos) m_Health.Die();
+        if (transform.position.y <= m_MinYPos) m_Rb.position = m_LastGroundPos;
     }
 
     private void FixedUpdate()
     {
+        if (m_Dash.IsGrounded(transform.position))
+        {
+            if (!m_Dash.IsDashing)
+                UpdateLastGroundPosBuffer();
+        }
+        else
+        {
+            m_Rb.AddForce(Vector3.down * gravityScale);
+        }
+
         HandleMovement();
-        if (!m_Dash.IsGrounded(transform.position)) m_Rb.AddForce(Vector3.down * gravityScale);
     }
+
 
     private void HandleMovement()
     {
@@ -64,7 +79,6 @@ public class PlayerController : EntityController
         Vector3 rawDir = Quaternion.Euler(0, angle, 0) * Vector3.forward;
 
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 2f))
-            // Projection de la direction sur le plan du sol
             m_MoveDir = Vector3.ProjectOnPlane(rawDir, hit.normal).normalized;
         else
             m_MoveDir = rawDir;
@@ -97,15 +111,21 @@ public class PlayerController : EntityController
         m_CamController.Get().TeleportCamera();
     }
 
-    public PlayerCombat GetPlayerCombat()
+    private void UpdateLastGroundPosBuffer()
     {
-        return m_Combat as PlayerCombat;
+        float now = Time.time;
+
+        m_PositionHistory.Enqueue((now, transform.position));
+
+        // Supprimer les positions trop anciennes (> 1 seconde)
+        while (m_PositionHistory.Count > 0 && now - m_PositionHistory.Peek().time > 1f)
+            m_PositionHistory.Dequeue();
+
+        // La plus ancienne position restante = position d'il y a ~1 seconde
+        if (m_PositionHistory.Count > 0)
+            m_LastGroundPos = m_PositionHistory.Peek().pos;
     }
-    
-    public Entity_Dash GetDash()
-    {
-        return m_Dash;
-    }
+
 
     private void OnDrawGizmosSelected()
     {
@@ -114,6 +134,16 @@ public class PlayerController : EntityController
 
         Gizmos.color = Color.red;
         Gizmos.DrawCube(new Vector3(transform.position.x, m_MinYPos, transform.position.z), new Vector3(1, .05f, 1) * 10);
+    }
+
+    public PlayerCombat GetPlayerCombat()
+    {
+        return m_Combat as PlayerCombat;
+    }
+
+    public Entity_Dash GetDash()
+    {
+        return m_Dash;
     }
 
     public PlayerMana GetPlayerMana()

@@ -124,7 +124,7 @@ public class ElectricArea : MonoBehaviour
 
     void ApplyDamage()
     {
-        if (m_PlayerHealth == null) return;
+        if (m_PlayerHealth == null || m_CurrentState != ElectricAreaState.Damage) return;
 
         if (m_IsLethalDamage) m_PlayerHealth.Die();
         else m_PlayerHealth.TakeDamage(m_Damage);
@@ -144,11 +144,7 @@ public class ElectricArea : MonoBehaviour
                 m_PlayerHealth = player.GetHealth();
                 player.GetDash().OnDashInvincibilityEnd += ApplyDamage;
 
-                if (m_CurrentState == ElectricAreaState.Damage)
-                {
-                    if (m_IsLethalDamage) m_PlayerHealth.Die();
-                    else m_PlayerHealth.TakeDamage(m_Damage);
-                }
+                ApplyDamage();
             }
         }
     }
