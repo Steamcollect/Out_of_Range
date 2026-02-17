@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class InteractionUIManager : MonoBehaviour
+public class InteractionUIManager : RegularSingleton<InteractionUIManager>
 {
-    public static InteractionUIManager S_Instance;
 
     [FormerlySerializedAs("startingPointerCount")]
     [Header("Settings")]
@@ -17,11 +16,6 @@ public class InteractionUIManager : MonoBehaviour
     [FormerlySerializedAs("content")] [SerializeField] private Transform m_Content;
 
     private readonly Queue<PointerUI> m_Pointers = new();
-
-    private void Awake()
-    {
-        S_Instance = this;
-    }
 
     private void Start()
     {

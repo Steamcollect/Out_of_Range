@@ -1,13 +1,16 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class PointerUI : MonoBehaviour
 {
-    [FormerlySerializedAs("txt")] [SerializeField] private TMP_Text m_Txt;
+    
+    [Header("References")]
+    [SerializeField] private InputActionIconDisplay m_InputActionIconDisplay;
 
-    public void SetText(string text)
+    public void Set(InputActionReference inputActionReference)
     {
-        m_Txt.text = text;
+        m_InputActionIconDisplay.SetAction(inputActionReference);
     }
 }
