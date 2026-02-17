@@ -23,4 +23,9 @@ public sealed class CameraTargetFree : MonoBehaviour, ICameraTarget
             
         return hit.point;
     }
+
+    public ITargetable GetCameraTarget()
+    {
+        return null;
+    }
 }

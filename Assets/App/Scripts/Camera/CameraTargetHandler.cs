@@ -11,7 +11,9 @@ public sealed class CameraTargetHandler : MonoBehaviour
     [Header("References")]
     [SerializeField] private InterfaceReference<ICameraTarget> m_CameraTargetAutoFocus;
     [SerializeField] private InterfaceReference<ICameraTarget> m_CameraTargetFreeLook;
-
+    [Space]
+    [SerializeField] private CameraTargetVisual m_TargetFocusVisual;
+    
     [Header("Input")]
     [SerializeField] private RSO_CameraTargetType m_CameraTargetType;
     [Header("References")]
@@ -19,8 +21,7 @@ public sealed class CameraTargetHandler : MonoBehaviour
     
     [Header("Output")]
     [SerializeField] private RSO_PlayerAimTarget m_AimTarget;
-
-
+    
     private ICameraTarget m_CameraTargetRunning;
     private Vector3? m_TargetPosition;
 
@@ -51,9 +52,9 @@ public sealed class CameraTargetHandler : MonoBehaviour
         transform.position = m_PlayerController.Get().GetTargetPosition();
     }    
 
-    private void HandleCameraTypeChange(CameraTargetType obj)
+    private void HandleCameraTypeChange(CameraTargetType type)
     {
-        switch (obj)
+        switch (type)
         {
             case CameraTargetType.AutoFocus:
                 m_CameraTargetRunning = m_CameraTargetAutoFocus.Value;
@@ -62,7 +63,7 @@ public sealed class CameraTargetHandler : MonoBehaviour
                 m_CameraTargetRunning = m_CameraTargetFreeLook.Value;
                 break;
             default:
-                throw new NotImplementedException("CameraTargetType not implemented: " + obj);
+                throw new NotImplementedException("CameraTargetType not implemented: " + type);
         }
     }
     
@@ -80,5 +81,6 @@ public sealed class CameraTargetHandler : MonoBehaviour
     private void UpdateTargetPosition()
     {
         transform.position = Vector3.SmoothDamp(transform.position, m_TargetPosition ?? transform.position, ref m_Velocity, m_FreshRate);
+        m_TargetFocusVisual.HandleCameraTarget(m_CameraTargetRunning.GetCameraTarget());
     }
 }

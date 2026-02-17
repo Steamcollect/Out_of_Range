@@ -88,6 +88,11 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         };
     }
 
+    public ITargetable GetCameraTarget()
+    {
+        return m_CurrentTarget;
+    }
+
     #endregion
 
     #region Mouse Logic
@@ -138,6 +143,8 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
                 closest = target;
             }
         }
+
+        UpdateTargetState(closest, closest != null ? 1f : 0f);
 
         return closest?.GetTargetPosition() ?? hit.point;
     }
@@ -330,9 +337,13 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
     private Vector3? ComputeFallback(Vector3 playerPos, Vector3 inputDir)
     {
         if (inputDir != Vector3.zero)
+        {
             return playerPos + inputDir.normalized;
+        }
+            
 
         Vector3 velocity = m_PlayerController.Value.Velocity;
+        velocity.y = 0f;
 
         if (velocity.sqrMagnitude > 0.001f)
             return playerPos + velocity.normalized;
