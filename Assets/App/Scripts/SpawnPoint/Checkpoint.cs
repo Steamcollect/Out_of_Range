@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Checkpoint : MonoBehaviour
 {
@@ -8,6 +7,7 @@ public class Checkpoint : MonoBehaviour
     
     [Header("Settings")]
     [SerializeField] private bool m_ApplySpawnPosOnStart;
+    bool m_IsActivated = false;
 
     [Header("References")]
     [SerializeField] private Transform m_SpawnPoint;
@@ -33,8 +33,9 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && !m_IsActivated)
         {
+            m_IsActivated = true;
             m_SetActiveRooms.Call(roomConnected);
 
             if (PlayerSpawnPoint.S_Position != m_SpawnPoint.position)
