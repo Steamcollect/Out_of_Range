@@ -119,4 +119,10 @@ public class InputActionIconDisplay : MonoBehaviour
 
         m_LabelText.enabled = !hideTextBecauseIcon && !hideTextBecauseNotMouse;
     }
+
+    public void SetAction(InputActionReference action)
+    {
+        m_ActionReference = action;
+        UpdateDisplay();
+    }
 }
