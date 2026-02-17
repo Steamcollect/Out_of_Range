@@ -103,7 +103,7 @@ public class ElectricArea : MonoBehaviour
 
     public void OnSetAsWarning()
     {
-        m_ElectricAreaVFX.SetFloat("Intensity", 0.95f);
+        m_ElectricAreaVFX.SetFloat("Intensity", 0.5f);
     }
 
     public void OnSetAsDamage()
