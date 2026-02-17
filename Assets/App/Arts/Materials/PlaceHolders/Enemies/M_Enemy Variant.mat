@@ -23,15 +23,16 @@ Material:
   m_Name: M_Enemy Variant
   m_Shader: {fileID: -6465566751694194690, guid: 323332610092cfc419c70e113bfb5c0f, type: 3}
   m_Parent: {fileID: 2100000, guid: 2abe227e004228d47aced524b41f1c5b, type: 2}
-  m_ModifiedSerializedProperties: 2
-  m_ValidKeywords: []
+  m_ModifiedSerializedProperties: 18
+  m_ValidKeywords:
+  - _ALPHATEST_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Opaque
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -39,7 +40,8 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _AlphaToMask: 1
     m_Colors:
     - _BaseColor: {r: 0.14150941, g: 0, b: 0.035930395, a: 1}
   m_BuildTextureStacks: []
