@@ -39,6 +39,8 @@ public class PlayerTargetLookVisual : MonoBehaviour
         
     public void RotateToward(Vector3 target)
     {
+        
+        // m_RenderContainer.transform.LookAt(target);
         m_RenderContainer.transform.LookAtSmoothDamp(target, ref m_RenderRotationVelocity, m_RenderRotationTime);
     }
 }
