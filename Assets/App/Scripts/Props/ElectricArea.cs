@@ -33,6 +33,8 @@ public class ElectricArea : MonoBehaviour
 
     Coroutine m_CurrentLoop;
 
+    private static readonly int IntensityID = Shader.PropertyToID("Intensity");
+
     private void Start()
     {
         m_CurrentState = m_StartingState;
@@ -100,13 +102,13 @@ public class ElectricArea : MonoBehaviour
     {
         if(m_CurrentLoop != null) StopCoroutine(m_CurrentLoop);
 
-        m_ElectricAreaVFX.SetFloat("Intensity", 0);
+        m_ElectricAreaVFX.SetFloat(IntensityID, 0);
     }
 
     public void OnSetAsWarning()
     {
         DOTween.To(() => 0f,
-               x => m_ElectricAreaVFX.SetFloat("Intensity", x),
+               x => m_ElectricAreaVFX.SetFloat(IntensityID, x),
                m_WarningVisualIntensity,
                m_WarningTime)
                .SetEase(Ease.OutQuad);
@@ -116,7 +118,7 @@ public class ElectricArea : MonoBehaviour
     {
         ApplyDamage();
 
-        m_ElectricAreaVFX.SetFloat("Intensity", 1);
+        m_ElectricAreaVFX.SetFloat(IntensityID, 1);
     }
 
     public void SetState(ElectricAreaState state) => m_CurrentState = state;
