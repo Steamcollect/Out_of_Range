@@ -1,8 +1,8 @@
+using DG.Tweening;
 using MVsToolkit.Dev;
-using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
-using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.VFX;
 
 public class ElectricArea : MonoBehaviour
@@ -17,6 +17,8 @@ public class ElectricArea : MonoBehaviour
     [SerializeField] float m_SafeTime = 1;
     [SerializeField] float m_WarningTime = 1;
     [SerializeField] float m_DamageTime = 1;
+    [Space(10)]
+    [SerializeField] private float m_WarningVisualIntensity = 0.5f;
 
     [Space(10)]
     [SerializeField, EnumButtons] ElectricAreaState m_StartingState;
@@ -30,6 +32,8 @@ public class ElectricArea : MonoBehaviour
     List<IHealth> m_HealthsInside = new();
 
     Coroutine m_CurrentLoop;
+
+    private static readonly int IntensityID = Shader.PropertyToID("Intensity");
 
     private void Start()
     {
@@ -98,19 +102,23 @@ public class ElectricArea : MonoBehaviour
     {
         if(m_CurrentLoop != null) StopCoroutine(m_CurrentLoop);
 
-        m_ElectricAreaVFX.SetFloat("Intensity", 0);
+        m_ElectricAreaVFX.SetFloat(IntensityID, 0);
     }
 
     public void OnSetAsWarning()
     {
-        m_ElectricAreaVFX.SetFloat("Intensity", 0.5f);
+        DOTween.To(() => 0f,
+               x => m_ElectricAreaVFX.SetFloat(IntensityID, x),
+               m_WarningVisualIntensity,
+               m_WarningTime)
+               .SetEase(Ease.OutQuad);
     }
 
     public void OnSetAsDamage()
     {
         ApplyDamage();
 
-        m_ElectricAreaVFX.SetFloat("Intensity", 1);
+        m_ElectricAreaVFX.SetFloat(IntensityID, 1);
     }
 
     public void SetState(ElectricAreaState state) => m_CurrentState = state;
