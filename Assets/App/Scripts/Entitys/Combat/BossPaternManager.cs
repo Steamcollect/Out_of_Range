@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class BossPaternManager : MonoBehaviour
 {
+    [SerializeField] bool hasGrenadePatern = false;
+    [SerializeField] bool hasRiflePatern = true;
+
     [SerializeField] BossEnemyController m_Controller;
 
     [SerializeField] CombatPatern m_RiflePatern;
@@ -12,12 +15,16 @@ public class BossPaternManager : MonoBehaviour
     [SerializeField] RSE_AddGrenadePatern m_AddGrenade;
     [SerializeField] RSE_AddRiflePatern m_AddRifle;
     [SerializeField] RSE_RemoveRiflePatern m_RemoveRifle;
+    [SerializeField] RSE_AddPowerUpsBoss m_AddPowerUps;
+
+
 
     private void OnEnable()
     {
         m_AddGrenade.Action += AddGrenade;
         m_AddRifle.Action += AddRifle;
         m_RemoveRifle.Action += RemoveRifle;
+        m_AddPowerUps.Action += AddPowerUps;
     }
 
     private void OnDisable()
@@ -25,11 +32,21 @@ public class BossPaternManager : MonoBehaviour
         m_AddGrenade.Action -= AddGrenade;
         m_AddRifle.Action -= AddRifle;
         m_RemoveRifle.Action -= RemoveRifle;
+        m_AddPowerUps.Action -= AddPowerUps;
     }
 
     private void Start()
     {
-        AddRifle();
+        if(hasRiflePatern) AddRifle();
+        if(hasGrenadePatern) AddGrenade();
+    }
+
+    [Button]
+    public void AddPowerUps()
+    {
+        m_Controller.HaveAtkSpeedPowerUp = true;
+        m_Controller.HaveClonePowerUp = true;
+        m_Controller.HaveStrenghtPowerUp = true;
     }
 
     [Button]

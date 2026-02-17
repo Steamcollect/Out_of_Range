@@ -950,6 +950,58 @@ MonoBehaviour:
   HaveAtkSpeedPowerUp: 0
   HaveClonePowerUp: 0
   HaveStrenghtPowerUp: 0
+  m_HealthSteps:
+  - HealthRequire: 400
+    IsUsed: 0
+    Callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3095546484512107250}
+          m_TargetAssemblyTypeName: BossEnemyController, Assembly-CSharp
+          m_MethodName: SetAtkSpeedPowerUp
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - HealthRequire: 300
+    IsUsed: 0
+    Callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3095546484512107250}
+          m_TargetAssemblyTypeName: BossEnemyController, Assembly-CSharp
+          m_MethodName: SetClonePowerUp
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - HealthRequire: 200
+    IsUsed: 0
+    Callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3095546484512107250}
+          m_TargetAssemblyTypeName: BossEnemyController, Assembly-CSharp
+          m_MethodName: SetStrengthPowerUp
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
   m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!208 &2767508260004088271
 NavMeshObstacle:
@@ -992,9 +1044,9 @@ Transform:
   m_GameObject: {fileID: 8489817699150855884}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: -4.320918, z: -0.30904675}
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8413012673960646841}
   - {fileID: 1012433668366942287}
@@ -1044,6 +1096,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1988320bd741a8340a6eb7e243deca73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossPaternManager
+  hasGrenadePatern: 1
+  hasRiflePatern: 0
   m_Controller: {fileID: 3095546484512107250}
   m_RiflePatern:
     Combat: {fileID: 3610241575451189292}
@@ -1054,6 +1108,7 @@ MonoBehaviour:
   m_AddGrenade: {fileID: 11400000, guid: 18b0e2e79a017bd4b987c27363377ad0, type: 2}
   m_AddRifle: {fileID: 11400000, guid: 139e6ae25e7506b428fc2ae0e626de0e, type: 2}
   m_RemoveRifle: {fileID: 11400000, guid: 9ba77bc4dd9204c4abd1fe289e6be492, type: 2}
+  m_AddPowerUps: {fileID: 11400000, guid: e64d1d0d8ecc57d48817fb7690fd7f89, type: 2}
 --- !u!1001 &569985073079285006
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1378,7 +1433,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1883084624102959633, guid: 394356303bb447f418b80c0d3fb08c75, type: 3}
       propertyPath: managedReferences[6424410233568231528].RemapCurveOne
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1883084624102959633, guid: 394356303bb447f418b80c0d3fb08c75, type: 3}
       propertyPath: managedReferences[6424410233568231528].DisplayColor.a
@@ -1398,7 +1453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1883084624102959633, guid: 394356303bb447f418b80c0d3fb08c75, type: 3}
       propertyPath: managedReferences[6424410233568231528].RemapCurveZero
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1883084624102959633, guid: 394356303bb447f418b80c0d3fb08c75, type: 3}
       propertyPath: managedReferences[6424410233568231528].Timing.TrackID
