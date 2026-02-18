@@ -9,45 +9,36 @@ public class UI_KeybindingGamepadItem : MonoBehaviour
 {
     [Header("Preset Configuration")]
     [SerializeField] private SSO_KeybindingGamepadPreset m_Preset;
-    
+
     [Header("UI Display (Optional)")]
     [SerializeField] private GameObject m_DisplayContent;
-    
+
     public SSO_KeybindingGamepadPreset Preset => m_Preset;
-    
+
     /// <summary>
     /// Applies the preset's keybindings to the InputActionAsset
     /// Called automatically when this item becomes the active preset
     /// </summary>
     public void ApplyPreset()
     {
-        if (m_Preset != null)
-        {
-            m_Preset.ApplyPreset();
-        }
+        if (m_Preset != null) m_Preset.ApplyPreset();
     }
-    
+
     /// <summary>
     /// Shows the display content
     /// </summary>
     public void Show()
     {
         gameObject.SetActive(true);
-        if (m_DisplayContent != null)
-        {
-            m_DisplayContent.SetActive(true);
-        }
+        if (m_DisplayContent != null) m_DisplayContent.SetActive(true);
     }
-    
+
     /// <summary>
     /// Hides the display content
     /// </summary>
     public void Hide()
     {
         gameObject.SetActive(false);
-        if (m_DisplayContent != null)
-        {
-            m_DisplayContent.SetActive(false);
-        }
+        if (m_DisplayContent != null) m_DisplayContent.SetActive(false);
     }
 }
