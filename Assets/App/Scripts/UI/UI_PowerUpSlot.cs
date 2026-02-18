@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,11 @@ public class UI_PowerUpSlot : MonoBehaviour
         m_PowerUpHandler = handler;
         m_VisualImg.sprite = handler.PowerUp.Icon;
         m_TimerImg.fillAmount = 0;
+
+        transform.DOScale(1.1f, .07f).OnComplete(() =>
+        {
+            transform.DOScale(1, .1f);
+        });
     }
 
     private void Update()
