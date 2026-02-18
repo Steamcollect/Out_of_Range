@@ -3,7 +3,7 @@ using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class PlayerCameraController : MonoBehaviour
+public sealed class PlayerCameraController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Camera m_Camera;

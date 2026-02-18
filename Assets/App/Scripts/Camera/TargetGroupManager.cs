@@ -2,7 +2,7 @@ using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class TargetGroupManager : MonoBehaviour
+public sealed class TargetGroupManager : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float m_Weight = 3f;

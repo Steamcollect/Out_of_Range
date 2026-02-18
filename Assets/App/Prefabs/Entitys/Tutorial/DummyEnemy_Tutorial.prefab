@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.DummyEnemyController
   m_TargetPos: {x: 0, y: 0, z: 0}
+  m_TargetIndicatorPos: {x: 0, y: 0, z: 0}
   m_Health: {fileID: 298566563517937847}
   m_Movement:
     _object: {fileID: 0}
@@ -249,7 +250,8 @@ MonoBehaviour:
   m_FeedbackImage: {fileID: 1088167953964371901}
   m_FillImg: {fileID: 1722291614835116355}
   m_CursorRct: {fileID: 7483883524297955838}
-  m_ReloadTxt: {fileID: 7177274483801577495}
+  m_ReloadGo: {fileID: 47846287770854583}
+  m_ReloadSkillsGo: {fileID: 4348682696149619849}
   m_ParentRect: {fileID: 6328905309066457753}
   m_BuffZoneRct: {fileID: 5841624704374833183}
   m_ResetZoneRct: {fileID: 2015270820182220181}
@@ -470,6 +472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HurtBox
   m_DamageMultiplier: 1
+  m_InvincibleForOverload: 0
   m_HealthConnected:
     _object: {fileID: 298566563517937847}
 --- !u!136 &5313234726415753557
@@ -976,6 +979,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b1b8d285256b6c438f854c163c6984a, type: 3}
+--- !u!1 &47846287770854583 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2777884268200888510, guid: 3b1b8d285256b6c438f854c163c6984a, type: 3}
+  m_PrefabInstance: {fileID: 2748599813932428297}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1088167953964371901 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2971546769326285748, guid: 3b1b8d285256b6c438f854c163c6984a, type: 3}
@@ -1003,6 +1011,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4454995534940107164, guid: 3b1b8d285256b6c438f854c163c6984a, type: 3}
   m_PrefabInstance: {fileID: 2748599813932428297}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4348682696149619849 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1908790844346300544, guid: 3b1b8d285256b6c438f854c163c6984a, type: 3}
+  m_PrefabInstance: {fileID: 2748599813932428297}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5841624704374833183 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8589879892173990934, guid: 3b1b8d285256b6c438f854c163c6984a, type: 3}
@@ -1013,17 +1026,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8210120598435192464, guid: 3b1b8d285256b6c438f854c163c6984a, type: 3}
   m_PrefabInstance: {fileID: 2748599813932428297}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7177274483801577495 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5025509117118280734, guid: 3b1b8d285256b6c438f854c163c6984a, type: 3}
-  m_PrefabInstance: {fileID: 2748599813932428297}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!224 &7483883524297955838 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4753800774701037047, guid: 3b1b8d285256b6c438f854c163c6984a, type: 3}

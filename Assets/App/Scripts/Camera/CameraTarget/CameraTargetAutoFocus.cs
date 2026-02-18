@@ -1,226 +1,392 @@
-
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
+public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
 {
-    [Header("Settings")]
-    [SerializeField] private bool m_IsVerbose;
-    [Tooltip("Must contain hittable, ex: Wall, Default ... And Target Layer")]
-    [SerializeField] private LayerMask m_LayerMaskHittable;
-    [SerializeField] private LayerMask m_LayerMaskTargets;
-    [SerializeField] private float m_RadiusCursorDetection = 5;
+    #region Serialized Fields
+
+    [Header("Layers")]
+    [SerializeField] private LayerMask m_TargetLayer;
+    [SerializeField] private LayerMask m_HittableLayer;
+    [SerializeField] private LayerMask m_ObstructionLayer;
     [SerializeField] private QueryTriggerInteraction m_QueryTriggerInteraction = QueryTriggerInteraction.Ignore;
 
+    [Header("Detection")]
+    [SerializeField] private float m_DetectionRadiusGamepad = 15f;
+    [SerializeField] private float m_DetectionRadiusSphereCastGamepad = 20f;
+    [SerializeField] private float m_DetectionRangeSphereCastGamepad = 30f;
+    [SerializeField] private float m_DetectionRadiusMouse = 5f;
+
+    [Header("Scoring Weights")]
+    [SerializeField] private float m_WeightDistance = 1f;
+    [SerializeField] private float m_WeightInputAlignment = 2f;
+    [SerializeField] private float m_WeightPersistence = 3f;
+
+    [Header("Stability")]
+    [SerializeField] private float m_MinimumScoreToLock = 0.5f;
+    [SerializeField] private float m_HysteresisRatio = 1.15f;
+    [SerializeField] private float m_SwitchCooldown = 0.15f;
+
+    [Header("Input")]
+    [SerializeField] private InputActionReference m_MousePositionInput;
+    [SerializeField] private InputActionReference m_DirectionInput;
+    [SerializeField] private RSO_CurrentInputDeviceType m_CurrentInputDevice;
+
     [Header("References")]
-    [SerializeField] private InputActionReference m_MousePositionIa;
-    [SerializeField] private InputActionReference m_DirectionIa;
-    [Space(10)]
-    [SerializeField] private RSO_PlayerCameraController m_CamController;
     [SerializeField] private RSO_PlayerController m_PlayerController;
-    [SerializeField] private RSO_CurrentInputDeviceType m_CurrentInputDeviceType;
+    [SerializeField] private RSO_PlayerCameraController m_CameraController;
 
-    private const int k_TargetResultsBufferSize = 10;
-    private readonly Collider[] m_TargetResults = new Collider[k_TargetResultsBufferSize];
+    #endregion
 
-    
-    private Ray m_RayCamToScreenPoint;
-    private bool m_TargetDirectlyFound;
-    private bool m_TargetInRangeFound;
-    
-    private float m_SphereRadius = 1f;
-    
-    private Vector3 m_LastMousePosition;
-    
-    private Vector3 m_LastGamepadDirection;
+    #region Private Fields
 
-    private void Awake()
-    {
-        m_SphereRadius = m_RadiusCursorDetection;
-    }
+    private const int k_BufferSize = 16;
+    private readonly Collider[] m_CandidateBuffer = new Collider[k_BufferSize*2];
+    private readonly Collider[] m_OverlapBuffer = new Collider[k_BufferSize];
+    private readonly RaycastHit[] m_SphereCastBuffer = new RaycastHit[k_BufferSize];
+
+    private ITargetable m_CurrentTarget;
+    private float m_CurrentScore;
+    private float m_LastSwitchTime;
+
+    // Debug
+    private Vector3 m_DebugOrigin;
+    private Vector3 m_DebugHitPoint;
+    private Vector3 m_DebugInputDirection;
+    private bool m_DebugHasHit;
+
+    #endregion
+
+    #region Unity Lifecycle
 
     private void OnEnable()
     {
-        m_MousePositionIa.action.Enable();
-        m_DirectionIa.action.Enable();
+        m_MousePositionInput.action.Enable();
+        m_DirectionInput.action.Enable();
     }
 
     private void OnDisable()
     {
-        m_DirectionIa.action.Disable();
-        m_MousePositionIa.action.Disable();
+        m_MousePositionInput.action.Disable();
+        m_DirectionInput.action.Disable();
     }
+
+    #endregion
+
+    #region ICameraTarget
 
     public Vector3? GetCameraTargetPosition()
     {
-        InitDebug();
-        
-        switch (m_CurrentInputDeviceType.Value)
+        ResetDebug();
+
+        return m_CurrentInputDevice.Value switch
         {
-            case InputDeviceType.Gamepad:
-                return HandleCameraTargetGamepad();
-            case InputDeviceType.KeyboardMouse:
-                return HandleCameraTargetMouse();
-            default:
-                throw new NotImplementedException(m_CurrentInputDeviceType.Value.ToString());
-        }
+            InputDeviceType.Gamepad => ResolveGamepadTarget(),
+            InputDeviceType.KeyboardMouse => ResolveMouseTarget(),
+            _ => null
+        };
     }
 
-    private Vector3? HandleCameraTargetMouse()
+    public ITargetable GetCameraTarget()
     {
-        Vector2 screenPoint = m_MousePositionIa.action.ReadValue<Vector2>();
-        m_RayCamToScreenPoint = m_CamController.Get().GetCamera().ScreenPointToRay(screenPoint);
+        return m_CurrentTarget;
+    }
 
-        if (!Physics.Raycast(m_RayCamToScreenPoint, out RaycastHit hitMouseWorld, Mathf.Infinity, m_LayerMaskHittable, m_QueryTriggerInteraction))
+    #endregion
+
+    #region Mouse Logic
+
+    private Vector3? ResolveMouseTarget()
+    {
+        Camera cam = m_CameraController.Get().GetCamera();
+        Vector2 screenPos = m_MousePositionInput.action.ReadValue<Vector2>();
+
+        if (!Physics.Raycast(
+                cam.ScreenPointToRay(screenPos),
+                out RaycastHit hit,
+                Mathf.Infinity,
+                m_HittableLayer,
+                m_QueryTriggerInteraction))
         {
             return null;
         }
-        
-        m_LastMousePosition = hitMouseWorld.point;
-        Vector3? resultPosition = FindTargetInRadius(hitMouseWorld.point) ?? FindDirectTarget(hitMouseWorld.point) ?? hitMouseWorld.point;
-        return resultPosition;
-    }
 
-    private Vector3? HandleCameraTargetGamepad()
-    {
-        Vector3 directionInput = m_DirectionIa.action.ReadValue<Vector2>();
+        m_DebugHasHit = true;
+        m_DebugHitPoint = hit.point;
+        m_DebugOrigin = hit.point;
 
-        if (directionInput == Vector3.zero)
-            return m_PlayerController.Get().GetTargetPosition() + m_LastGamepadDirection;
-        
-        (directionInput.z, directionInput.y) = (directionInput.y, directionInput.z);
-        
-        m_LastGamepadDirection = directionInput.DirectionRelativeToCamera();
-        
-        m_RayCamToScreenPoint = new Ray(m_PlayerController.Get().GetTargetPosition(), m_LastGamepadDirection);
-        
-        if (!Physics.SphereCast(m_PlayerController.Get().GetTargetPosition(),5f, m_LastGamepadDirection, out RaycastHit hitInfo, Mathf.Infinity,
-                m_LayerMaskHittable, m_QueryTriggerInteraction))
+        int count = Physics.OverlapSphereNonAlloc(
+            hit.point,
+            m_DetectionRadiusMouse,
+            m_CandidateBuffer,
+            m_TargetLayer,
+            m_QueryTriggerInteraction);
+
+        ITargetable closest = null;
+        float minDist = float.MaxValue;
+
+        for (int i = 0; i < count; i++)
         {
-           return m_PlayerController.Get().GetTargetPosition() + m_LastGamepadDirection;
-        }
-        
-        Vector3 hitPosition = hitInfo.point;
-        Vector3? resultPosition = FindTargetInRadius(hitPosition) ?? FindDirectTarget(hitPosition) ?? hitPosition;
-        return resultPosition;
-    }
+            if (!m_CandidateBuffer[i].TryGetComponent(out ITargetable target))
+                continue;
 
-    private void InitDebug()
-    {
-        m_TargetDirectlyFound = false;
-        m_TargetInRangeFound = false;
-    }
+            Vector3 targetPos = target.GetTargetPosition();
+            float dist = Vector3.Distance(hit.point, targetPos);
 
-    private Vector3? FindDirectTarget(Vector3 mouseWorldPos)
-    {
-        Vector3 playerPos = m_PlayerController.Get().GetTargetPosition();
-        
-        mouseWorldPos.y = playerPos.y;
-        
-        Vector3 direction = (mouseWorldPos - playerPos).normalized;
-        float distance = Vector3.Distance(playerPos, mouseWorldPos);
-        
-        
-        if (!Physics.SphereCast(playerPos, m_SphereRadius, direction, out RaycastHit potentialTarget, distance,
-                m_LayerMaskHittable, m_QueryTriggerInteraction)) return null;
-        
-        if (!potentialTarget.collider.TryGetComponent(out ITargetable target)) return null;
-        
-        Debug.DrawRay(playerPos, target.GetTargetPosition() - playerPos, Color.red);
-        if (!Physics.Raycast(playerPos, (target.GetTargetPosition() - playerPos).normalized, out RaycastHit hit,
-                Vector3.Distance(target.GetTargetPosition(), playerPos), m_LayerMaskHittable,
-                m_QueryTriggerInteraction) || hit.transform != potentialTarget.transform) return null;
-        
-        
-        if (!TargetInRange(mouseWorldPos, target.GetTargetPosition())) return null;
-        
-        m_TargetDirectlyFound = true;
-        return target.GetTargetPosition();
+            if (!IsTargetVisible(m_PlayerController.Get().GetTargetPosition(), targetPos))
+                continue;
 
-    }
-
-    private bool TargetInRange(Vector3 origin, Vector3 targetPosition)
-    {
-        Vector3 targetPositionVS = m_CamController.Get().GetCamera().WorldToViewportPoint(targetPosition);
-
-        return targetPositionVS.x is >= 0 and <= 1 &&
-               targetPositionVS.y is >= 0 and <= 1 &&
-               targetPositionVS.z > 0;
-    }
-
-    private Vector3? FindTargetInRadius(Vector3 mouseWorldPos)
-    {
-        int size = Physics.OverlapSphereNonAlloc(mouseWorldPos, m_RadiusCursorDetection, m_TargetResults, m_LayerMaskTargets, m_QueryTriggerInteraction);
-
-        ITargetable closestTargetToMouse = null;
-        float dCloseMouseTarget = Mathf.Infinity;
-        
-        ITargetable closestTargetToPlayer = null;
-        float dClosePlayerTarget = Mathf.Infinity;
-        
-        for (int i = 0; i < size; i++)
-        {
-            if (m_TargetResults[i].TryGetComponent(out ITargetable sphereTarget))
+            if (dist < minDist)
             {
-                Vector3 playerPos = m_PlayerController.Get().GetTargetPosition();
-                Vector3 targetPos = sphereTarget.GetTargetPosition();
-                Ray rayToTarget = new(playerPos, (targetPos - playerPos).normalized);
-
-                if (!TargetInRange(mouseWorldPos,targetPos)) continue;
-                
-                float dPlayerTarget = Vector3.Distance(playerPos, targetPos);
-                float dMouseTarget = Vector3.Distance(mouseWorldPos, targetPos);
-                
-                
-                bool isObstructed = Physics.Raycast(rayToTarget, out RaycastHit obstructionHit, dPlayerTarget, m_LayerMaskHittable, m_QueryTriggerInteraction) &&
-                                    obstructionHit.transform != m_TargetResults[i].transform;
-                if (isObstructed) continue;
-                
-                if (dPlayerTarget < dClosePlayerTarget)
-                {
-                    dClosePlayerTarget = dPlayerTarget;
-                    closestTargetToPlayer = sphereTarget;
-                }
-
-                if (dMouseTarget < dCloseMouseTarget)
-                {
-                    dCloseMouseTarget = dMouseTarget;
-                    closestTargetToMouse = sphereTarget;
-                }
+                minDist = dist;
+                closest = target;
             }
         }
 
-        if (closestTargetToMouse == null) return null;
-        
-        
-        m_TargetInRangeFound = true;
-        return dClosePlayerTarget < dCloseMouseTarget ? closestTargetToPlayer!.GetTargetPosition() : closestTargetToMouse.GetTargetPosition();
+        UpdateTargetState(closest, closest != null ? 1f : 0f);
+
+        return closest?.GetTargetPosition() ?? hit.point;
     }
+
+    #endregion
+
+    #region Gamepad Logic
+
+    private Vector3? ResolveGamepadTarget()
+    {
+        Vector3 playerPos = m_PlayerController.Get().GetTargetPosition();
+        Vector3 inputDir = GetInputDirectionRelativeToCamera();
+
+        m_DebugOrigin = playerPos;
+        m_DebugInputDirection = inputDir;
+
+        int overlapSphereCount = Physics.OverlapSphereNonAlloc(
+            playerPos,
+            m_DetectionRadiusGamepad,
+            m_OverlapBuffer,
+            m_TargetLayer,
+            m_QueryTriggerInteraction);
+        
+        int sphereCastCount = 0;
+        
+        if (inputDir != Vector3.zero)
+        {
+            sphereCastCount  = Physics.SphereCastNonAlloc(
+                playerPos,
+                m_DetectionRadiusSphereCastGamepad,
+                inputDir.normalized,
+                m_SphereCastBuffer,
+                m_DetectionRangeSphereCastGamepad,
+                m_TargetLayer,
+                m_QueryTriggerInteraction);
+        }
+
+        ITargetable best = null;
+        float bestScore = float.MinValue;
+
+        int count = sphereCastCount + overlapSphereCount;
+        Array.Clear(m_CandidateBuffer,0,m_CandidateBuffer.Length);
+        if (overlapSphereCount > 0)
+        {
+            Array.Copy(m_OverlapBuffer, 0, m_CandidateBuffer, 0, overlapSphereCount);
+        }
+        for (int i = 0; i < sphereCastCount; i++)
+        {
+            m_CandidateBuffer[overlapSphereCount + i] = m_SphereCastBuffer[i].collider;
+        }
+        
+        if (count > 0)
+        {
+            best = SelectBestTarget(playerPos, inputDir, count,m_CandidateBuffer, out bestScore);
+        }
+
+        if (IsValidTarget(best, bestScore))
+        {
+            UpdateTargetState(best, bestScore);
+            if (best != null) return best.GetTargetPosition();
+        }
+
+        ClearTargetState();
+        return ComputeFallback(playerPos, inputDir);
+    }
+
+    #endregion
+
+    #region Selection & Scoring
+
+    private ITargetable SelectBestTarget(
+        Vector3 playerPos,
+        Vector3 inputDir,
+        int count,Collider[] buffer,
+        out float bestScore)
+    {
+        bestScore = float.MinValue;
+        ITargetable best = null;
+
+        for (int i = 0; i < count; i++)
+        {
+            if (!buffer[i].TryGetComponent(out ITargetable target))
+                continue;
+
+            Vector3 targetPos = target.GetTargetPosition();
+
+            if (!IsTargetVisible(playerPos, targetPos))
+                continue;
+
+            float score = ComputeScore(playerPos, targetPos, inputDir, target);
+
+            if (score > bestScore)
+            {
+                bestScore = score;
+                best = target;
+            }
+        }
+
+        return best;
+    }
+
+    private float ComputeScore(
+        Vector3 playerPos,
+        Vector3 targetPos,
+        Vector3 inputDir,
+        ITargetable target)
+    {
+        float score = 0f;
+
+        Vector3 toTarget = targetPos - playerPos;
+        float distance = toTarget.magnitude;
+        Vector3 dir = toTarget.normalized;
+
+        score += (1f / (1f + distance)) * m_WeightDistance;
+
+        if (inputDir != Vector3.zero)
+        {
+            float alignment = Vector3.Dot(inputDir.normalized, dir);
+            score += Mathf.Max(0f, alignment) * m_WeightInputAlignment;
+        }
+
+        if (target == m_CurrentTarget)
+            score += m_WeightPersistence;
+
+        return score;
+    }
+
+    #endregion
+
+    #region Validation
+
+    private bool IsValidTarget(ITargetable target, float score)
+    {
+        if (target == null) return false;
+        if (score < m_MinimumScoreToLock) return false;
+
+        if (m_CurrentTarget != null && target != m_CurrentTarget)
+        {
+            if (score < m_CurrentScore * m_HysteresisRatio) return false;
+            if (Time.time - m_LastSwitchTime < m_SwitchCooldown) return false;
+        }
+
+        return true;
+    }
+
+    private void UpdateTargetState(ITargetable target, float score)
+    {
+        if (target != m_CurrentTarget)
+            m_LastSwitchTime = Time.time;
+
+        m_CurrentTarget = target;
+        m_CurrentScore = score;
+    }
+
+    private void ClearTargetState()
+    {
+        m_CurrentTarget = null;
+        m_CurrentScore = 0f;
+    }
+
+    #endregion
+
+    #region Helpers
+
+    private bool IsTargetVisible(Vector3 from, Vector3 to)
+    {
+        Vector3 dir = (to - from).normalized;
+        float dist = Vector3.Distance(from, to);
+
+        if (Physics.Raycast(from, dir, dist, m_ObstructionLayer, m_QueryTriggerInteraction))
+            return false;
+
+        Vector3 vp = m_CameraController.Get().GetCamera().WorldToViewportPoint(to);
+
+        return vp.x is >= 0 and <= 1 &&
+               vp.y is >= 0 and <= 1 &&
+               vp.z > 0;
+    }
+
+    private Vector3 GetInputDirectionRelativeToCamera()
+    {
+        Vector2 raw = m_DirectionInput.action.ReadValue<Vector2>();
+        if (raw == Vector2.zero)
+            return Vector3.zero;
+
+        Vector3 input = new(raw.x, 0f, raw.y);
+        return input.DirectionRelativeToCamera();
+    }
+
+    private Vector3? ComputeFallback(Vector3 playerPos, Vector3 inputDir)
+    {
+        if (inputDir != Vector3.zero)
+        {
+            return playerPos + inputDir.normalized;
+        }
+            
+
+        Vector3 velocity = m_PlayerController.Value.Velocity;
+        velocity.y = 0f;
+
+        if (velocity.sqrMagnitude > 0.001f)
+            return playerPos + velocity.normalized;
+
+        return null;
+    }
+
+    private void ResetDebug()
+    {
+        m_DebugHasHit = false;
+        m_DebugInputDirection = Vector3.zero;
+        m_DebugOrigin = Vector3.zero;
+    }
+
+    #endregion
+
+    #region Gizmos
 
     private void OnDrawGizmosSelected()
     {
-        if (!Application.isPlaying || !m_IsVerbose) return;
-        
-        
-        Gizmos.color = Color.blue;
-        Gizmos.DrawRay(m_RayCamToScreenPoint);
+        if (!Application.isPlaying) return;
 
-        Vector3 playerPos = m_PlayerController.Get().GetTargetPosition();
+        if (m_CurrentInputDevice.Value == InputDeviceType.Gamepad)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(m_DebugOrigin, m_DetectionRadiusGamepad);
 
-        Vector3 targetPos = new(m_LastMousePosition.x, playerPos.y, m_LastMousePosition.z);
-        
-        float distance = Vector3.Distance(playerPos, targetPos);
-        
-        Vector3 endPos = playerPos + (targetPos - playerPos).normalized * distance;
-        
-        
-        Gizmos.color = Color.aquamarine;
-        Gizmos.DrawWireSphere(playerPos, m_SphereRadius);
-        Gizmos.DrawWireSphere(endPos, m_SphereRadius);
-        Gizmos.DrawLine(playerPos, endPos);
-        
-        Gizmos.color = m_TargetDirectlyFound ? Color.green : (m_TargetInRangeFound ? Color.yellow : Color.red);
-        Gizmos.DrawWireSphere(targetPos, m_RadiusCursorDetection);
+            if (m_DebugInputDirection != Vector3.zero)
+            {
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawLine(m_DebugOrigin, m_DebugOrigin + m_DebugInputDirection * m_DetectionRangeSphereCastGamepad);
+                Gizmos.DrawWireSphere(m_DebugOrigin + m_DebugInputDirection * m_DetectionRangeSphereCastGamepad, m_DetectionRadiusSphereCastGamepad);
+            }
+        }
+        else
+        {
+            if (m_DebugHasHit)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(m_DebugHitPoint, m_DetectionRadiusMouse);
+            }
+        }
     }
+
+    #endregion
 }

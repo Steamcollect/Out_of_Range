@@ -27,6 +27,8 @@ public class PlayerController : EntityController
     
     private bool m_IsMoving;
     private Vector3 m_MoveDir;
+    
+    public Vector3 Velocity => m_Rb.linearVelocity;
 
     private void OnEnable() => m_InputPlayerController.OnInputDashPressed += Dash;
 
