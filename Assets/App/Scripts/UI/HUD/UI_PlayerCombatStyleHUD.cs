@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerCombatStyleHUD : BaseCombatStyleHUD
+public class UI_PlayerCombatStyleHUD : UI_BaseCombatStyleHUD
 {
     [Header("Player Settings")]
     [SerializeField] Vector2 m_PosOffset;

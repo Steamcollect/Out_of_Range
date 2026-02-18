@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WeaponPrimaryUI : MonoBehaviour
+public class UI_WeaponPrimary : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject m_PrimaryWeaponUIContainer;

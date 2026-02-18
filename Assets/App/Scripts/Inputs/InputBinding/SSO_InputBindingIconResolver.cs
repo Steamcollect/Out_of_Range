@@ -18,16 +18,8 @@ public sealed class SSO_InputBindingIconResolver : ScriptableObject
     private const string k_ControlSchemeMouse = "Mouse";
     private const string k_ControlSchemeGamepad = "Gamepad";
     
-    // Device Paths
-    private const string k_DevicePathKeyboard = "<keyboard>";
-    private const string k_DevicePathMouse = "<mouse>";
-    private const string k_DevicePathGamepad = "<gamepad>";
-    private const string k_DevicePathXinput = "<xinputcontroller>";
-    private const string k_DevicePathDualshock = "<dualshockgamepad>";
-    private const string k_DevicePathSwitch = "<switchprocontroller>";
-    
-    // Regex pattern
-    private const string k_BindingPathPattern = "^<([^>]+)>/(.+)$";
+    // Regex patterns - supporte les formats: <Device>/control et /Device/control
+    private const string k_BindingPathPattern = @"^<?([^>/]+)>?/(.+)$";
     private const string k_CamelCaseSplitPattern = @"([a-z])([A-Z])";
     private const string k_CamelCaseReplacement = "$1 $2";
 
@@ -81,6 +73,87 @@ public sealed class SSO_InputBindingIconResolver : ScriptableObject
         string bindingPath = GetRelevantBindingPath(action, m_CurrentInputDeviceType.Value);
             
         return string.IsNullOrEmpty(bindingPath) ? action.name : GetDisplayNameFromPath(bindingPath);
+    }
+
+    public Sprite GetIconForBinding(string bindingPath, InputDeviceType deviceType)
+    {
+        if (string.IsNullOrEmpty(bindingPath))
+            return m_IconSet?.DefaultIcon;
+
+        // Normaliser le path pour essayer avec le device générique
+        string normalizedPath = NormalizeBindingPath(bindingPath, deviceType);
+
+        // Essayer avec le path normalisé d'abord
+        if (m_IconSet.TryGetIconEntry(normalizedPath, deviceType, out InputBindingIconEntry entry))
+            return entry.Icon != null ? entry.Icon : m_IconSet.DefaultIcon;
+
+        // Essayer avec le path original
+        if (m_IconSet.TryGetIconEntry(bindingPath, deviceType, out InputBindingIconEntry originalEntry))
+            return originalEntry.Icon != null ? originalEntry.Icon : m_IconSet.DefaultIcon;
+
+        // Fallback par path
+        if (m_IconSet.TryGetIconEntryByPath(normalizedPath, out InputBindingIconEntry fallbackEntry))
+            return fallbackEntry.Icon != null ? fallbackEntry.Icon : m_IconSet.DefaultIcon;
+
+        if (m_IconSet.TryGetIconEntryByPath(bindingPath, out InputBindingIconEntry fallbackEntry2))
+            return fallbackEntry2.Icon != null ? fallbackEntry2.Icon : m_IconSet.DefaultIcon;
+
+        return m_IconSet?.DefaultIcon;
+    }
+
+    public string GetDisplayNameForBinding(string bindingPath, InputDeviceType deviceType)
+    {
+        if (string.IsNullOrEmpty(bindingPath))
+            return string.Empty;
+
+        // Normaliser le path pour essayer avec le device générique
+        string normalizedPath = NormalizeBindingPath(bindingPath, deviceType);
+
+        return GetDisplayNameFromPath(normalizedPath);
+    }
+
+    /// <summary>
+    /// Normalise un binding path vers le format générique du device.
+    /// Ex: "/XInputControllerWindows/rightShoulder" devient "&lt;Gamepad&gt;/rightShoulder"
+    /// </summary>
+    private string NormalizeBindingPath(string bindingPath, InputDeviceType deviceType)
+    {
+        if (string.IsNullOrEmpty(bindingPath))
+            return bindingPath;
+
+        // Normaliser le path pour l'analyse
+        string normalizedPath = bindingPath.TrimStart('/');
+        
+        // Extraire le nom du device et le control
+        int slashIndex = normalizedPath.IndexOf('/');
+        if (slashIndex <= 0) return bindingPath;
+        
+        string devicePart = normalizedPath.Substring(0, slashIndex).Trim('<', '>').ToLowerInvariant();
+        string controlPart = normalizedPath.Substring(slashIndex + 1);
+
+        // Vérifier si c'est un device spécifique qui hérite d'un device générique
+        if (deviceType == InputDeviceType.Gamepad)
+        {
+            // Si c'est un type de gamepad spécifique, normaliser vers <Gamepad>
+            if (devicePart.Contains("xinput") || 
+                devicePart.Contains("dualshock") || 
+                devicePart.Contains("dualsense") ||
+                devicePart.Contains("switch") ||
+                devicePart.Contains("gamepad"))
+            {
+                return $"<Gamepad>/{controlPart}";
+            }
+        }
+        else if (deviceType == InputDeviceType.KeyboardMouse)
+        {
+            if (devicePart.Contains("keyboard"))
+                return $"<Keyboard>/{controlPart}";
+            if (devicePart.Contains("mouse"))
+                return $"<Mouse>/{controlPart}";
+        }
+
+        // Retourner le format standard avec <>
+        return $"<{normalizedPath.Substring(0, slashIndex).Trim('<', '>')}>/{controlPart}";
     }
 
 
@@ -178,19 +251,56 @@ public sealed class SSO_InputBindingIconResolver : ScriptableObject
     {
         if (string.IsNullOrEmpty(bindingPath)) return false;
 
-        var pathLower = bindingPath.ToLowerInvariant();
+        
+        // Normaliser le path pour l'analyse
+        string normalizedPath = bindingPath.TrimStart('/');
+        
+        // Extraire le nom du device et le control
+        int slashIndex = normalizedPath.IndexOf('/');
+        if (slashIndex <= 0) return false;
+        
+        string devicePart = normalizedPath.Substring(0, slashIndex).Trim('<', '>').ToLowerInvariant();
+        string controlPart = normalizedPath.Substring(slashIndex + 1);
 
+        // Méthode 1: Essayer de trouver le control avec différents formats de path
+        string[] pathsToTry = new[]
+        {
+            bindingPath,
+            $"<{devicePart}>/{controlPart}",
+            $"<Gamepad>/{controlPart}",
+            $"<Keyboard>/{controlPart}",
+            $"<Mouse>/{controlPart}"
+        };
+
+        foreach (string pathToTry in pathsToTry)
+        {
+            InputControl control = InputSystem.FindControl(pathToTry);
+            if (control != null)
+            {
+                InputDevice device = control.device;
+                bool matches = deviceType switch
+                {
+                    InputDeviceType.KeyboardMouse => device is Keyboard or Mouse,
+                    InputDeviceType.Gamepad => device is Gamepad,
+                    _ => false
+                };
+                if (matches) return true;
+            }
+        }
+
+        // Méthode 2: Fallback par analyse du nom du device dans le path
         return deviceType switch
         {
-            InputDeviceType.KeyboardMouse => pathLower.Contains(k_DevicePathKeyboard) || 
-                                             pathLower.Contains(k_DevicePathMouse),
-            InputDeviceType.Gamepad => pathLower.Contains(k_DevicePathGamepad) || 
-                                       pathLower.Contains(k_DevicePathXinput) ||
-                                       pathLower.Contains(k_DevicePathDualshock) ||
-                                       pathLower.Contains(k_DevicePathSwitch),
+            InputDeviceType.KeyboardMouse => devicePart.Contains("keyboard") || devicePart.Contains("mouse"),
+            InputDeviceType.Gamepad => devicePart.Contains("gamepad") || 
+                                       devicePart.Contains("xinput") || 
+                                       devicePart.Contains("dualshock") || 
+                                       devicePart.Contains("dualsense") ||
+                                       devicePart.Contains("switch"),
             _ => false
         };
     }
+
 
     private string GetDisplayNameFromPath(string bindingPath)
     {
@@ -199,13 +309,29 @@ public sealed class SSO_InputBindingIconResolver : ScriptableObject
             return string.Empty;
         }
 
-        Match match = s_BindingPathRegex.Match(bindingPath);
-        if (!match.Success)
+        // Normaliser le path
+        string normalizedPath = bindingPath.TrimStart('/');
+        
+        Match match = s_BindingPathRegex.Match(normalizedPath);
+        
+        string controlId;
+        if (match.Success)
         {
-            return bindingPath;
+            controlId = match.Groups[2].Value;
         }
-
-        string controlId = match.Groups[2].Value;
+        else
+        {
+            // Fallback: extraire la partie après le premier /
+            int slashIndex = normalizedPath.IndexOf('/');
+            if (slashIndex >= 0 && slashIndex < normalizedPath.Length - 1)
+            {
+                controlId = normalizedPath.Substring(slashIndex + 1);
+            }
+            else
+            {
+                return bindingPath;
+            }
+        }
 
         if (m_IconSet != null && m_IconSet.TryGetIconEntryByPath(bindingPath, out var entry) 
                               && !string.IsNullOrEmpty(entry.CustomDisplayName))

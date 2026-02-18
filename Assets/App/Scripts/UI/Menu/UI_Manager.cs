@@ -25,6 +25,7 @@ public class UI_Manager : MonoBehaviour
         m_OpenPauseMenuAction.action.performed += PauseMenuButton;
         m_OpenPauseMenuAction.action.Enable();
         m_QuitGame.Action += Quit;
+        Cursor.visible = true;
     }
 
     private void OnDisable()

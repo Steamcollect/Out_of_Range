@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BaseCombatStyleHUD : MonoBehaviour
+public class UI_BaseCombatStyleHUD : MonoBehaviour
 {
     [Header("Colors")]
     [SerializeField] protected Color m_ShootColor;
