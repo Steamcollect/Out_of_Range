@@ -2,11 +2,10 @@ using UnityEngine;
 using UnityEngine.Pool;
 using System.Collections.Generic;
 
-public class PoolManager : MonoBehaviour
+public class PoolManager: RegularSingleton<PoolManager>
 {
     [Header("PREWARM")]
     [SerializeField] private List<PoolDefinition> m_PoolsToPrewarm = new List<PoolDefinition>();
-    public static PoolManager Instance { get; private set; }
 
     private Dictionary<int, ObjectPool<GameObject>> m_Pools = new Dictionary<int, ObjectPool<GameObject>>();
     private Dictionary<int, Transform> m_PoolParents = new Dictionary<int, Transform>();
@@ -18,16 +17,7 @@ public class PoolManager : MonoBehaviour
         public GameObject Prefab;
         [Min(1)] public int InitialAmount = 20;
     }
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-    }
+    
 
     private void Start()
     {
