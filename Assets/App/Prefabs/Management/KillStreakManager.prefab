@@ -1,0 +1,260 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3702978288057152962
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5108300850789834220}
+  - component: {fileID: 4508747974799009552}
+  m_Layer: 0
+  m_Name: KillStreakManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5108300850789834220
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3702978288057152962}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4508747974799009552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3702978288057152962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d85573e9280a73b43ae064d5f0d65604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerKillStreakManager
+  m_StepTime: 8
+  m_Steps:
+  - SpeedMult: 1
+    KillStreakRequire: 0
+    StepName: 
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1
+    KillStreakRequire: 1
+    StepName: Quick Hit
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.0204082
+    KillStreakRequire: 2
+    StepName: Double Strike
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.0408163
+    KillStreakRequire: 3
+    StepName: Triple Threat
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.0612245
+    KillStreakRequire: 4
+    StepName: Chain Attack
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.0816326
+    KillStreakRequire: 5
+    StepName: Savage Burst
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.1020408
+    KillStreakRequire: 6
+    StepName: Blood Rush
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.1224489
+    KillStreakRequire: 7
+    StepName: Blade Dance
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.1428572
+    KillStreakRequire: 8
+    StepName: Steel Storm
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.1632653
+    KillStreakRequire: 9
+    StepName: Fury Rise
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.1836735
+    KillStreakRequire: 10
+    StepName: Rampage
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.2040817
+    KillStreakRequire: 11
+    StepName: Relentless Assault
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.2244898
+    KillStreakRequire: 12
+    StepName: Frenzy Mode
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.244898
+    KillStreakRequire: 13
+    StepName: Death Surge
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.2653061
+    KillStreakRequire: 14
+    StepName: Chaos Drive
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.2857143
+    KillStreakRequire: 15
+    StepName: Execution Strike
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.3061224
+    KillStreakRequire: 16
+    StepName: Massacre Flow
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.3265306
+    KillStreakRequire: 17
+    StepName: Havoc Spin
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.3469388
+    KillStreakRequire: 18
+    StepName: Destruction Wave
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.367347
+    KillStreakRequire: 19
+    StepName: Doom Barrage
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.3877552
+    KillStreakRequire: 20
+    StepName: Cataclysm
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.4081633
+    KillStreakRequire: 21
+    StepName: Obliteration
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.4285715
+    KillStreakRequire: 22
+    StepName: Annihilation
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.4489796
+    KillStreakRequire: 23
+    StepName: Devastation
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.4693878
+    KillStreakRequire: 24
+    StepName: Ruin Storm
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.4897959
+    KillStreakRequire: 25
+    StepName: Nightmare Chain
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.5102041
+    KillStreakRequire: 26
+    StepName: Inferno Break
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.5306122
+    KillStreakRequire: 27
+    StepName: Apocalypse
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.5510204
+    KillStreakRequire: 28
+    StepName: Hellstorm
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.5714285
+    KillStreakRequire: 29
+    StepName: Void Clash
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.5918367
+    KillStreakRequire: 30
+    StepName: Titan Rampage
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.6122448
+    KillStreakRequire: 31
+    StepName: Omega Strike
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.632653
+    KillStreakRequire: 32
+    StepName: Reality Crack
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.6530612
+    KillStreakRequire: 33
+    StepName: Dimension Rend
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.6734693
+    KillStreakRequire: 34
+    StepName: Cosmic Fury
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.6938776
+    KillStreakRequire: 35
+    StepName: Infinity Assault
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.7142857
+    KillStreakRequire: 36
+    StepName: Eternal Carnage
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.7346939
+    KillStreakRequire: 37
+    StepName: Godslayer Mode
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.755102
+    KillStreakRequire: 38
+    StepName: Divine Collapse
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.7755102
+    KillStreakRequire: 39
+    StepName: Planet Breaker
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.7959183
+    KillStreakRequire: 40
+    StepName: Starfall Rampage
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.8163266
+    KillStreakRequire: 41
+    StepName: Galaxy Reaper
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.8367348
+    KillStreakRequire: 42
+    StepName: Universe Shatter
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.8571429
+    KillStreakRequire: 43
+    StepName: Multiverse Mayhem
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.8775511
+    KillStreakRequire: 44
+    StepName: Existence Erasure
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.8979592
+    KillStreakRequire: 45
+    StepName: Absolute Catastrophe
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.9183674
+    KillStreakRequire: 46
+    StepName: Omni Destruction
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.9387755
+    KillStreakRequire: 47
+    StepName: Paradox Fury
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.9591837
+    KillStreakRequire: 48
+    StepName: Time Collapse
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 1.9795918
+    KillStreakRequire: 49
+    StepName: Creation's End
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  - SpeedMult: 2
+    KillStreakRequire: 50
+    StepName: Finality
+    StepColor: {r: 1, g: 1, b: 1, a: 1}
+  m_StreakLosePerDamage: 1
+  m_CurrentStreak: 0
+  m_DebugCombosNames: 
+  m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
+  m_TimerOnMax: {fileID: 11400000, guid: ac15e74dc47892840ae14eeac9f0d30e, type: 2}
+  m_OnEnemyKilled: {fileID: 11400000, guid: ca1f78f7532955f4bb13b4b60dab38fa, type: 2}
+  m_OnStepIncrease: {fileID: 11400000, guid: 515c85c09e6381a419c950b53611d744, type: 2}
+  m_OnStepDecrease: {fileID: 11400000, guid: 34e3983e6d5725647ab392323a033beb, type: 2}

@@ -5,6 +5,8 @@ public interface IMovement
     void ResetVelocity();
 
     void Move(Vector3 input);
+
+    public void SetSpeedMult(float mult);
 }
 
 public enum LookAtAxis
