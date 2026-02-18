@@ -1,44 +1,183 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using TMPro;
 
-/// <summary>
-/// Represents a gamepad preset item with its own UI display.
-/// Contains a reference to a UI_KeybindingGamepadPreset which defines the keybindings.
-/// When activated, applies the preset bindings to the InputActionAsset.
-/// </summary>
 public class UI_KeybindingGamepadItem : MonoBehaviour
 {
-    [Header("Preset Configuration")]
-    [SerializeField] private SSO_KeybindingGamepadPreset m_Preset;
+    [Header("References")]
+    [SerializeField] private TextMeshProUGUI m_ActionNameText;
 
-    [Header("UI Display (Optional)")]
-    [SerializeField] private GameObject m_DisplayContent;
+    [Header("Primary Binding")]
+    [SerializeField] private Button m_PrimarySlotButton;
+    [SerializeField] private TextMeshProUGUI m_PrimaryBindingText;
+    [SerializeField] private Image m_PrimaryBindingIcon;
 
-    public SSO_KeybindingGamepadPreset Preset => m_Preset;
+    [Header("Secondary Binding")]
+    [SerializeField] private Button m_SecondarySlotButton;
+    [SerializeField] private TextMeshProUGUI m_SecondaryBindingText;
+    [SerializeField] private Image m_SecondaryBindingIcon;
 
-    /// <summary>
-    /// Applies the preset's keybindings to the InputActionAsset
-    /// Called automatically when this item becomes the active preset
-    /// </summary>
-    public void ApplyPreset()
+    [Header("Display Settings")]
+    [SerializeField] private bool m_HideImageIfNoIcon = true;
+    [SerializeField] private bool m_HideTextIfIcon = true;
+    [SerializeField] private string m_EmptyBindingText = "---";
+
+    private UI_KeybindingManager m_Manager;
+    private UI_KeybindingManager.ActionBinding m_ActionBinding;
+    private InputAction m_InputAction;
+    private int m_PrimaryBindingIndex = -1;
+    private int m_SecondaryBindingIndex = -1;
+
+    public UI_KeybindingManager.ActionBinding ActionBinding => m_ActionBinding;
+    public int PrimaryBindingIndex => m_PrimaryBindingIndex;
+    public int SecondaryBindingIndex => m_SecondaryBindingIndex;
+
+    private void Awake()
     {
-        if (m_Preset != null) m_Preset.ApplyPreset();
+        if (m_PrimarySlotButton != null)
+            m_PrimarySlotButton.onClick.AddListener(OnPrimarySlotClicked);
+        if (m_SecondarySlotButton != null)
+            m_SecondarySlotButton.onClick.AddListener(OnSecondarySlotClicked);
     }
 
-    /// <summary>
-    /// Shows the display content
-    /// </summary>
-    public void Show()
+    private void OnDestroy()
     {
-        gameObject.SetActive(true);
-        if (m_DisplayContent != null) m_DisplayContent.SetActive(true);
+        if (m_PrimarySlotButton != null)
+            m_PrimarySlotButton.onClick.RemoveListener(OnPrimarySlotClicked);
+        if (m_SecondarySlotButton != null)
+            m_SecondarySlotButton.onClick.RemoveListener(OnSecondarySlotClicked);
     }
 
-    /// <summary>
-    /// Hides the display content
-    /// </summary>
-    public void Hide()
+    public void Initialize(UI_KeybindingManager manager,
+        UI_KeybindingManager.ActionBinding actionBinding,
+        InputAction inputAction,
+        int primaryBindingIndex,
+        int secondaryBindingIndex = -1)
     {
-        gameObject.SetActive(false);
-        if (m_DisplayContent != null) m_DisplayContent.SetActive(false);
+        m_Manager = manager;
+        m_ActionBinding = actionBinding;
+        m_InputAction = inputAction;
+        m_PrimaryBindingIndex = primaryBindingIndex;
+        m_SecondaryBindingIndex = secondaryBindingIndex;
+        UpdateDisplay();
+    }
+
+    public void UpdateDisplay()
+    {
+        if (m_ActionBinding == null) return;
+
+        if (m_ActionNameText != null)
+            m_ActionNameText.text = m_ActionBinding.DisplayName;
+
+        UpdateSlotDisplay(m_PrimaryBindingText, m_PrimaryBindingIcon, m_PrimaryBindingIndex);
+        UpdateSlotDisplay(m_SecondaryBindingText, m_SecondaryBindingIcon, m_SecondaryBindingIndex);
+
+        if (m_SecondarySlotButton != null)
+        {
+            // Afficher le slot secondaire si HasSecondarySlot est true OU si un binding secondaire existe déjà
+            bool showSecondary = m_ActionBinding.HasSecondarySlot || m_SecondaryBindingIndex >= 0;
+            m_SecondarySlotButton.gameObject.SetActive(showSecondary);
+        }
+    }
+
+    private void UpdateSlotDisplay(TextMeshProUGUI bindingText, Image bindingIcon, int bindingIndex)
+    {
+        if (m_InputAction == null || bindingIndex < 0)
+        {
+            if (bindingText != null)
+                bindingText.text = m_EmptyBindingText;
+            if (bindingIcon != null && m_HideImageIfNoIcon)
+                bindingIcon.enabled = false;
+            return;
+        }
+
+        InputBinding binding = m_InputAction.bindings[bindingIndex];
+
+        if (string.IsNullOrEmpty(binding.effectivePath))
+        {
+            if (bindingText != null)
+            {
+                bindingText.text = m_EmptyBindingText;
+                bindingText.enabled = true;
+            }
+            if (bindingIcon != null && m_HideImageIfNoIcon)
+                bindingIcon.enabled = false;
+            return;
+        }
+
+        SSO_InputBindingIconResolver iconResolver = m_Manager?.IconResolver;
+        Sprite icon = null;
+        string displayText = string.Empty;
+
+        if (iconResolver != null)
+        {
+            icon = iconResolver.GetIconForBinding(binding.effectivePath, InputDeviceType.Gamepad);
+            displayText = iconResolver.GetDisplayNameForBinding(binding.effectivePath, InputDeviceType.Gamepad);
+        }
+
+        if (icon == null)
+        {
+            displayText = InputControlPath.ToHumanReadableString(
+                binding.effectivePath,
+                InputControlPath.HumanReadableStringOptions.OmitDevice);
+        }
+
+        if (bindingIcon != null)
+        {
+            bindingIcon.sprite = icon;
+            bindingIcon.enabled = !m_HideImageIfNoIcon || icon != null;
+        }
+
+        if (bindingText != null)
+        {
+            bindingText.text = displayText;
+            bindingText.enabled = !m_HideTextIfIcon || icon == null;
+        }
+    }
+
+    private void OnPrimarySlotClicked()
+    {
+        if (m_Manager != null && m_InputAction != null && m_PrimaryBindingIndex >= 0)
+            m_Manager.StartRebind(this, m_InputAction, m_PrimaryBindingIndex,
+                m_ActionBinding?.DisplayName ?? m_InputAction.name, true);
+    }
+
+    private void OnSecondarySlotClicked()
+    {
+        if (m_Manager == null || m_InputAction == null) return;
+        
+        // Si pas de binding secondaire existant, demander au manager de créer un nouveau binding
+        if (m_SecondaryBindingIndex < 0)
+        {
+            m_Manager.StartRebindNewBinding(this, m_InputAction, 
+                m_ActionBinding?.DisplayName ?? m_InputAction.name, false);
+        }
+        else
+        {
+            m_Manager.StartRebind(this, m_InputAction, m_SecondaryBindingIndex,
+                m_ActionBinding?.DisplayName ?? m_InputAction.name, false);
+        }
+    }
+
+    public void SetInteractable(bool interactable)
+    {
+        if (m_PrimarySlotButton != null)
+            m_PrimarySlotButton.interactable = interactable;
+        if (m_SecondarySlotButton != null)
+            m_SecondarySlotButton.interactable = interactable;
+    }
+
+    public void ClearBinding(int bindingIndex)
+    {
+        if (m_InputAction == null || bindingIndex < 0) return;
+        m_InputAction.ApplyBindingOverride(bindingIndex, "");
+        UpdateDisplay();
+    }
+
+    public void SetSecondaryBindingIndex(int index)
+    {
+        m_SecondaryBindingIndex = index;
+        UpdateDisplay();
     }
 }

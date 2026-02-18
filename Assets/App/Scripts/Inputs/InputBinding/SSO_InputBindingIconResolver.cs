@@ -83,6 +83,28 @@ public sealed class SSO_InputBindingIconResolver : ScriptableObject
         return string.IsNullOrEmpty(bindingPath) ? action.name : GetDisplayNameFromPath(bindingPath);
     }
 
+    public Sprite GetIconForBinding(string bindingPath, InputDeviceType deviceType)
+    {
+        if (string.IsNullOrEmpty(bindingPath))
+            return m_IconSet?.DefaultIcon;
+
+        if (m_IconSet.TryGetIconEntry(bindingPath, deviceType, out InputBindingIconEntry entry))
+            return entry.Icon != null ? entry.Icon : m_IconSet.DefaultIcon;
+
+        if (m_IconSet.TryGetIconEntryByPath(bindingPath, out InputBindingIconEntry fallbackEntry))
+            return fallbackEntry.Icon != null ? fallbackEntry.Icon : m_IconSet.DefaultIcon;
+
+        return m_IconSet?.DefaultIcon;
+    }
+
+    public string GetDisplayNameForBinding(string bindingPath, InputDeviceType deviceType)
+    {
+        if (string.IsNullOrEmpty(bindingPath))
+            return string.Empty;
+
+        return GetDisplayNameFromPath(bindingPath);
+    }
+
 
     private string GetRelevantBindingPath(InputAction action, InputDeviceType deviceType)
     {

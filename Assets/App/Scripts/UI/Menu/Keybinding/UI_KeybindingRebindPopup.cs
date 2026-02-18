@@ -15,16 +15,18 @@ public class UI_KeybindingRebindPopup : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_CurrentBindingText;
     [SerializeField] private Button m_ConfirmButton;
     [SerializeField] private Button m_CancelButton;
+    [SerializeField] private Button m_ClearButton;
     [SerializeField] private UI_PanelTabManager m_PanelTabManager;
 
     [Header("Settings")]
     [SerializeField] private string m_WaitingMessage = "Press any button...";
-
     [SerializeField] private float m_TimeoutDuration = 5f;
+    [SerializeField] private InputDeviceType m_AllowedDeviceTypes = InputDeviceType.KeyboardMouse;
 
     private InputActionRebindingExtensions.RebindingOperation m_RebindOperation;
     private Action<string> m_OnRebindComplete;
     private Action m_OnRebindCancelled;
+    private Action m_OnRebindCleared;
     private string m_NewBindingPath;
 
     private void Awake()
@@ -38,10 +40,11 @@ public class UI_KeybindingRebindPopup : MonoBehaviour
     }
 
     public void Show(string actionName, InputAction action, int bindingIndex,
-        Action<string> onComplete, Action onCancelled)
+        Action<string> onComplete, Action onCancelled, Action onCleared = null)
     {
         m_OnRebindComplete = onComplete;
         m_OnRebindCancelled = onCancelled;
+        m_OnRebindCleared = onCleared;
         m_NewBindingPath = null;
 
         if (m_BlockingOverlay != null)
@@ -61,6 +64,9 @@ public class UI_KeybindingRebindPopup : MonoBehaviour
 
         if (m_ConfirmButton != null)
             m_ConfirmButton.interactable = false;
+
+        if (m_ClearButton != null)
+            m_ClearButton.gameObject.SetActive(m_OnRebindCleared != null);
 
         StartRebindOperation(action, bindingIndex);
         m_PanelTabManager.TakeFocus(this);
@@ -92,8 +98,17 @@ public class UI_KeybindingRebindPopup : MonoBehaviour
             .OnComplete(operation => OnRebindOperationComplete(operation, action))
             .OnCancel(operation => OnRebindOperationCancelled(operation, action));
 
-        rebindOperation.WithControlsHavingToMatchPath("<Keyboard>");
-        rebindOperation.WithControlsHavingToMatchPath("<Mouse>");
+        switch (m_AllowedDeviceTypes)
+        {
+            case InputDeviceType.KeyboardMouse:
+                rebindOperation.WithControlsHavingToMatchPath("<Keyboard>");
+                rebindOperation.WithControlsHavingToMatchPath("<Mouse>");
+                break;
+            case InputDeviceType.Gamepad:
+                rebindOperation.WithControlsHavingToMatchPath("<Gamepad>");
+                break;
+        }
+
 
         m_RebindOperation = rebindOperation;
         m_RebindOperation.Start();
@@ -141,6 +156,12 @@ public class UI_KeybindingRebindPopup : MonoBehaviour
     public void CancelClicked()
     {
         m_OnRebindCancelled?.Invoke();
+        Hide();
+    }
+
+    public void ClearClicked()
+    {
+        m_OnRebindCleared?.Invoke();
         Hide();
     }
 

@@ -8,13 +8,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 868171142298042797, guid: 04cc239dd2f5fa341a99a051f396da3c, type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 868171142298042797, guid: 04cc239dd2f5fa341a99a051f396da3c, type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1712078432381692707, guid: 04cc239dd2f5fa341a99a051f396da3c, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2704322220351418012, guid: 04cc239dd2f5fa341a99a051f396da3c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2834111259443203445, guid: 04cc239dd2f5fa341a99a051f396da3c, type: 3}
       propertyPath: m_Name
       value: KeyboardSubPanelSettings Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201986200929224102, guid: 04cc239dd2f5fa341a99a051f396da3c, type: 3}
+      propertyPath: m_Spacing
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4994677863843538186, guid: 04cc239dd2f5fa341a99a051f396da3c, type: 3}
       propertyPath: m_Pivot.x
@@ -138,15 +154,60 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI_KeybindingKeyboardManager
   m_InputActionAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_ActionMapName: Player
-  m_ActionBindings: []
+  m_DeviceType: 0
+  m_ActionBindings:
+  - ActionName: PrimaryAttack
+    DisplayName: Shoot
+    Category: Action
+    BindingIcon: {fileID: 0}
+    OverrideSecondarySlot: 0
+    HasSecondarySlot: 1
+  - ActionName: SecondaryAttack
+    DisplayName: Bomb
+    Category: Action
+    BindingIcon: {fileID: 0}
+    OverrideSecondarySlot: 0
+    HasSecondarySlot: 1
+  - ActionName: Interact
+    DisplayName: Interact
+    Category: Action
+    BindingIcon: {fileID: 0}
+    OverrideSecondarySlot: 0
+    HasSecondarySlot: 1
+  - ActionName: Pause
+    DisplayName: Pause
+    Category: Other
+    BindingIcon: {fileID: 0}
+    OverrideSecondarySlot: 0
+    HasSecondarySlot: 1
+  - ActionName: Reload
+    DisplayName: Reload
+    Category: Action
+    BindingIcon: {fileID: 0}
+    OverrideSecondarySlot: 0
+    HasSecondarySlot: 1
+  - ActionName: ReloadSkill
+    DisplayName: ReloadSkill
+    Category: Action
+    BindingIcon: {fileID: 0}
+    OverrideSecondarySlot: 0
+    HasSecondarySlot: 1
+  - ActionName: Move
+    DisplayName: Move
+    Category: General
+    BindingIcon: {fileID: 0}
+    OverrideSecondarySlot: 0
+    HasSecondarySlot: 0
   m_DefaultCategory: General
   m_ExcludedActions:
   - Look
   m_OnlyShowDefinedActions: 0
   m_ScrollContent: {fileID: 3209007887013429022}
-  m_ItemPrefab: {fileID: 7254614030997123809, guid: f19051e72437dbf4e81192f6be39f988, type: 3}
+  m_KeyboardItemPrefab: {fileID: 7254614030997123809, guid: f19051e72437dbf4e81192f6be39f988, type: 3}
+  m_GamepadItemPrefab: {fileID: 0}
   m_CategoryHeaderPrefab: {fileID: 2992554997086936127, guid: 2826b6178aaf523419e1c0c949cfe4d8, type: 3}
   m_RebindPopup: {fileID: 390811919533835016}
+  m_IconResolver: {fileID: 11400000, guid: 2f300a0780705c84cbd67dcb016ae6ec, type: 2}
 --- !u!224 &3209007887013429022 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1712078432381692707, guid: 04cc239dd2f5fa341a99a051f396da3c, type: 3}
