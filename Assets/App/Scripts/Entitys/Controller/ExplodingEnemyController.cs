@@ -1,7 +1,8 @@
 using MVsToolkit.Dev;
+using MVsToolkit.Utilities;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections;
 
 public class ExplodingEnemyController : EntityController, ISpawnable
 {
@@ -45,6 +46,8 @@ public class ExplodingEnemyController : EntityController, ISpawnable
 
     private void FixedUpdate()
     {
+        if(IsSpawning) return;
+
         if (m_ExplosionState != ExplosionStates.Idle) return;
 
         if (m_CurrentState == EnemyStates.Chasing)
@@ -124,5 +127,13 @@ public class ExplodingEnemyController : EntityController, ISpawnable
     public void OnSpawn()
     {
         m_CurrentState = EnemyStates.Chasing;
+        m_SpawnVisual.PlaySpawnVisual();
+
+        IsSpawning = true;
+        m_Health.GainInvincibility(m_SpawnDuration);
+
+        this.Delay(() => {
+            IsSpawning = false;
+        }, m_SpawnDuration);
     }
 }

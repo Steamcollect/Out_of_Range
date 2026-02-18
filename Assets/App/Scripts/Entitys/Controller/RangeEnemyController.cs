@@ -37,7 +37,9 @@ public class RangeEnemyController : EnemyController
 
     private void FixedUpdate()
     {
-        if(m_CurrentState == EnemyStates.Chasing)
+        if(IsSpawning) return;
+
+        if (m_CurrentState == EnemyStates.Chasing)
         {
             bool canSeePlayer = m_Detector.IsPlayerInRange(m_DetectionRange);
 

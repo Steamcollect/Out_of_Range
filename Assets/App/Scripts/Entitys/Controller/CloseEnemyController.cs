@@ -46,6 +46,8 @@ public class CloseEnemyController : EnemyController
 
     private void FixedUpdate()
     {
+        if(IsSpawning) return;
+
         if (m_CurrentState == EnemyStates.Chasing)
         {
             if(m_CanAttack

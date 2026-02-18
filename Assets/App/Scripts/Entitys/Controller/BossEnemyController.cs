@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine.Events;
+using MVsToolkit.Utilities;
 
 public class BossEnemyController : EntityController, ISpawnable
 {
@@ -42,6 +43,8 @@ public class BossEnemyController : EntityController, ISpawnable
     {
         m_Health.OnTakeDamage += () =>
         {
+            if(IsSpawning) return;
+
             SetState(EnemyStates.Attacking);
 
             foreach (BossHealthStep step in m_HealthSteps)
@@ -57,6 +60,8 @@ public class BossEnemyController : EntityController, ISpawnable
 
     private void FixedUpdate()
     {
+        if(IsSpawning) return;
+
         bool canSee = m_Detector.CanSeePlayer(m_DetectionRange);
 
         if (canSee)
@@ -112,6 +117,14 @@ public class BossEnemyController : EntityController, ISpawnable
         StartCoroutine(m_Combat.LockAttackOnSpawn());
         SetState(EnemyStates.Chasing);
         m_LoseSightTimer = 0;
+        m_SpawnVisual.PlaySpawnVisual();
+
+        IsSpawning = true;
+        m_Health.GainInvincibility(m_SpawnDuration);
+
+        this.Delay(() =>         {
+            IsSpawning = false;
+        }, m_SpawnDuration);
     }
 
     private void SetState(EnemyStates newState)

@@ -7,19 +7,20 @@ public abstract class EntityController : MonoBehaviour, ITargetable
     [Header("Settings")]
     [SerializeField] Vector3 m_TargetPos;
     [SerializeField] Vector3 m_TargetIndicatorPos;
+    [SerializeField] protected float m_SpawnDuration = 3f;
 
     [Header("References")]
     [SerializeField] protected EntityHealth m_Health;
     [SerializeField] protected InterfaceReference<IMovement> m_Movement;
     [SerializeField] protected EntityCombat m_Combat;
-        
+    [SerializeField] protected SpawnVisual m_SpawnVisual;
+
     [Space(10)]
     [SerializeField] protected Rigidbody m_Rb;
 
-    //[Header("Input")]
-    //[Header("Output")]
-
     public Action<EntityController> OnDeath;
+
+    public bool IsSpawning;
 
     protected virtual void Awake()
     {
