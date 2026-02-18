@@ -29,6 +29,9 @@ public class UI_KeybindingManager : MonoBehaviour
     [Header("Gamepad Icons")]
     [SerializeField] private SSO_InputBindingIconResolver m_IconResolver;
 
+    [Header("Input")]
+    [SerializeField] private RSE_Reset m_Reset;
+
     private readonly List<MonoBehaviour> m_CreatedItems = new();
     private readonly List<GameObject> m_CreatedCategoryHeaders = new();
     private readonly Dictionary<string, string> m_SessionOverrides = new();
@@ -54,36 +57,12 @@ public class UI_KeybindingManager : MonoBehaviour
         m_CurrentKeyboardLayout = Keyboard.current?.keyboardLayout ?? "Unknown";
         ApplySessionOverrides();
         RefreshUI();
-        InputSystem.onDeviceChange += OnDeviceChange;
+        m_Reset.Action += ResetAllBindings;
     }
 
     private void OnDisable()
     {
-        InputSystem.onDeviceChange -= OnDeviceChange;
-    }
-
-    private void OnDeviceChange(InputDevice device, InputDeviceChange change)
-    {
-        if (device is Keyboard && change == InputDeviceChange.ConfigurationChanged)
-        {
-            string newLayout = Keyboard.current?.keyboardLayout ?? "Unknown";
-            if (newLayout != m_CurrentKeyboardLayout)
-            {
-                m_CurrentKeyboardLayout = newLayout;
-                RefreshAllItemDisplays();
-            }
-        }
-    }
-
-    private void RefreshAllItemDisplays()
-    {
-        foreach (var item in m_CreatedItems)
-        {
-            if (item is UI_KeybindingKeyboardItem keyboardItem)
-                keyboardItem.UpdateDisplay();
-            else if (item is UI_KeybindingGamepadItem gamepadItem)
-                gamepadItem.UpdateDisplay();
-        }
+        m_Reset.Action -= ResetAllBindings;
     }
 
     public static string GetKeyDisplayString(InputBinding binding)
