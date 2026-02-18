@@ -33,8 +33,6 @@ public class UI_PanelTabManager : MonoBehaviour
     private int m_CurrentPanelIndex = -1;
     private bool m_HasExclusiveFocus;
     
-    private const string k_AnimPanelFadeIn = "FadeIn";
-    private const string k_AnimPanelFadeOut = "FadeOut";
     private const string k_AnimButtonSelected = "HoverToPressed";
     private const string k_AnimButtonDeselected = "PressedToNormal";
     
@@ -83,23 +81,13 @@ public class UI_PanelTabManager : MonoBehaviour
         public string PanelName = "Panel";
         
         [FoldoutGroup("Main/References")]
-        public GameObject Panel;
+        [Tooltip("Référence au panel UI (doit hériter de UI_PanelBase)")]
+        public UI_PanelBase Panel;
         
         [FoldoutGroup("Main/References")]
         public GameObject TabButton;
         
-        [FoldoutGroup("Main/References")]
-        [Tooltip("CanvasGroup optionnel pour bloquer les interactions")]
-        public CanvasGroup CanvasGroup;
-        
-        [FoldoutGroup("Main/Events")]
-        public UnityEvent OnFocused;
-        
-        [FoldoutGroup("Main/Events")]
-        public UnityEvent OnUnfocused;
-        
         // Cached components
-        [NonSerialized] public Animator PanelAnimator;
         [NonSerialized] public Animator ButtonAnimator;
         [NonSerialized] public Button Button;
         
@@ -129,9 +117,6 @@ public class UI_PanelTabManager : MonoBehaviour
     {
         foreach (var tabPanel in m_TabPanels)
         {
-            if (tabPanel.Panel != null)
-                tabPanel.PanelAnimator = tabPanel.Panel.GetComponent<Animator>();
-            
             if (tabPanel.TabButton != null)
             {
                 tabPanel.ButtonAnimator = tabPanel.TabButton.GetComponent<Animator>();
@@ -229,11 +214,8 @@ public class UI_PanelTabManager : MonoBehaviour
         
         var tabPanel = m_TabPanels[index];
         
-        if (tabPanel.CanvasGroup != null)
-        {
-            tabPanel.CanvasGroup.interactable = interactable;
-            tabPanel.CanvasGroup.blocksRaycasts = interactable;
-        }
+        if (tabPanel.Panel != null)
+            tabPanel.Panel.SetInteractable(interactable);
     }
     
     /// <summary>
@@ -259,16 +241,14 @@ public class UI_PanelTabManager : MonoBehaviour
         
         var tabPanel = m_TabPanels[index];
         
-        // Animation du panel
-        if (tabPanel.PanelAnimator != null)
-            tabPanel.PanelAnimator.Play(k_AnimPanelFadeIn);
+        // Focus du panel via UI_PanelBase (gère animation + events)
+        if (tabPanel.Panel != null)
+            tabPanel.Panel.Focus();
         
         // Animation du bouton
         if (tabPanel.ButtonAnimator != null)
             tabPanel.ButtonAnimator.Play(k_AnimButtonSelected);
         
-        // Déclencher les events
-        tabPanel.OnFocused?.Invoke();
         OnPanelFocused?.Invoke(index);
     }
     
@@ -278,16 +258,14 @@ public class UI_PanelTabManager : MonoBehaviour
         
         var tabPanel = m_TabPanels[index];
         
-        // Animation du panel
-        if (tabPanel.PanelAnimator != null)
-            tabPanel.PanelAnimator.Play(k_AnimPanelFadeOut);
+        // Unfocus du panel via UI_PanelBase (gère animation + events)
+        if (tabPanel.Panel != null)
+            tabPanel.Panel.Unfocus();
         
         // Animation du bouton
         if (tabPanel.ButtonAnimator != null)
             tabPanel.ButtonAnimator.Play(k_AnimButtonDeselected);
         
-        // Déclencher les events
-        tabPanel.OnUnfocused?.Invoke();
         OnPanelUnfocused?.Invoke(index);
     }
     

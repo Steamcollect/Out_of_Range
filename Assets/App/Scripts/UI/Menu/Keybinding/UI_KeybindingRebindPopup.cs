@@ -15,6 +15,7 @@ public class UI_KeybindingRebindPopup : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_CurrentBindingText;
     [SerializeField] private Button m_ConfirmButton;
     [SerializeField] private Button m_CancelButton;
+    [SerializeField] private UI_PanelTabManager m_PanelTabManager;
     
     [Header("Settings")]
     [SerializeField] private string m_WaitingMessage = "Press any button...";
@@ -69,11 +70,13 @@ public class UI_KeybindingRebindPopup : MonoBehaviour
             m_ConfirmButton.interactable = false;
         
         StartRebindOperation(action, bindingIndex);
+        m_PanelTabManager.TakeFocus(this);
     }
     
    
     public void Hide()
     {
+        m_PanelTabManager.TakeFocus(false);
         CleanupRebindOperation();
         
         if (m_BlockingOverlay != null)

@@ -29,15 +29,6 @@ public class UI_KeybindingGamepadManager : MonoBehaviour
     {
         ApplyCurrentPreset();
     }
-
-    private void OnDestroy()
-    {
-        if (m_PreviousPresetButton != null)
-            m_PreviousPresetButton.onClick.RemoveListener(PreviousPreset);
-        
-        if (m_NextPresetButton != null)
-            m_NextPresetButton.onClick.RemoveListener(NextPreset);
-    }
     
     /// <summary>
     /// Switches to the previous preset in the list

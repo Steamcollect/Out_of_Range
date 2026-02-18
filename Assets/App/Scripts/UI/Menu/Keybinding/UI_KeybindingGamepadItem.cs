@@ -8,12 +8,12 @@ using UnityEngine;
 public class UI_KeybindingGamepadItem : MonoBehaviour
 {
     [Header("Preset Configuration")]
-    [SerializeField] private UI_KeybindingGamepadPreset m_Preset;
+    [SerializeField] private SSO_KeybindingGamepadPreset m_Preset;
     
     [Header("UI Display (Optional)")]
     [SerializeField] private GameObject m_DisplayContent;
     
-    public UI_KeybindingGamepadPreset Preset => m_Preset;
+    public SSO_KeybindingGamepadPreset Preset => m_Preset;
     
     /// <summary>
     /// Applies the preset's keybindings to the InputActionAsset
