@@ -1,71 +1,75 @@
-using System;
-using MVsToolkit.Dev;
 using UnityEngine;
-    using UnityEngine.VFX;
-    
-    public class SpawnVisual : MonoBehaviour
+using DG.Tweening;
+using MVsToolkit.Dev;
+using UnityEngine.VFX;
+using MVsToolkit.Utilities;
+
+public class SpawnVisual : MonoBehaviour
+{
+    private static readonly int s_CutoffHeightID = Shader.PropertyToID("_CutoffHeight");
+    private static readonly int s_VfxHeightID = Shader.PropertyToID("Height");
+    private static readonly int s_VfxSpawnDurationID = Shader.PropertyToID("SpawnDuration");
+    private static readonly int s_VfxPreSpawnDurationID = Shader.PropertyToID("PreSpawnDuration");
+
+    [Header("Settings")]
+    [SerializeField] private float m_Height = 3.0f;
+    [SerializeField] private float m_PreSpawnDuration = 0.5f;
+    [SerializeField] private float m_SpawnDuration = 1.0f;
+
+    [Header("References")]
+    [SerializeField] private VisualEffect m_SpawnVFX;
+    [SerializeField] private MeshRenderer[] m_Renderers;
+
+    private MaterialPropertyBlock m_Block;
+    private Tween m_SpawnTween;
+
+    private void Awake()
     {
-        private static readonly int s_DamageAmount = Shader.PropertyToID("_DamageAmount");
-        private static readonly int s_VfxIntensity = Shader.PropertyToID("Intensity");
-    
-        [Header("Settings")]
-        [SerializeField] private bool m_UseSmokeVfx = true;
-        
-        [Header("References")]
-        [SerializeField] private EntityHealth m_EntityHealth;
-        [SerializeField, ShowIf("m_UseSmokeVfx",true)] private VisualEffect m_SmokeDamage;
-        [SerializeField] private MeshRenderer[] m_Renderers;
-        private MaterialPropertyBlock m_Block;
-    
-        private void Awake()
-        {
-            m_Block = new MaterialPropertyBlock();
-        }
+        m_Block = new MaterialPropertyBlock();
+    }
 
-        private void Start() => HandleTakeDamage();
+    private void OnDestroy()
+    {
+        m_SpawnTween?.Kill();
+    }
 
-        private void OnEnable()
+    [Sirenix.OdinInspector.Button("Play Spawn Visual")]
+    public void PlaySpawnVisual()
+    {
+        m_SpawnVFX.SendEvent("Spawn");
+        m_SpawnVFX.SetFloat(s_VfxHeightID, m_Height);
+        m_SpawnVFX.SetFloat(s_VfxSpawnDurationID, m_SpawnDuration);
+        m_SpawnVFX.SetFloat(s_VfxPreSpawnDurationID, m_PreSpawnDuration);
+
+        float startValue = transform.position.y;
+        float endValue = startValue + m_Height;
+        float totalDuration = m_PreSpawnDuration + m_SpawnDuration;
+
+        m_SpawnTween?.Kill();
+
+        ApplyHeight(startValue);
+
+        this.Delay(() =>
         {
-            if (!m_EntityHealth) return;
-            m_EntityHealth.OnTakeDamage += HandleTakeDamage;
-        }
-    
-        private void OnDisable()
+            m_SpawnTween = DOVirtual.Float(startValue, endValue, m_SpawnDuration, ApplyHeight)
+                .SetEase(Ease.Linear)
+                .SetLink(gameObject);
+        }, m_PreSpawnDuration);
+
+    }
+
+    private void ApplyHeight(float currentHeight)
+    {
+        if (m_Renderers != null)
         {
-            if (!m_EntityHealth) return;
-            m_EntityHealth.OnTakeDamage -= HandleTakeDamage;
-        }
-    
-        private void Update()
-        {
-            float value = 1f - (m_EntityHealth ? m_EntityHealth.GetHealthPercentage() : 1f);
-            SetDamage(value);
-        }
-    
-        private void HandleTakeDamage()
-        {
-            if (!m_EntityHealth) return;
-            SetDamage(1f - m_EntityHealth.GetHealthPercentage());
-        }
-    
-        private void SetDamage(float value)
-        {
-            value = Mathf.Clamp01(value);
-    
-            if (m_Renderers != null)
+            foreach (MeshRenderer rend in m_Renderers)
             {
-                foreach (MeshRenderer rend in m_Renderers)
-                {
-                    if (!rend) continue;
-                    rend.GetPropertyBlock(m_Block);
-                    m_Block.SetFloat(s_DamageAmount, value);
-                    rend.SetPropertyBlock(m_Block);
-                }
-            }
-    
-            if (m_UseSmokeVfx && m_SmokeDamage)
-            {
-                m_SmokeDamage.SetFloat(s_VfxIntensity, value);
+                if (rend == null) continue;
+
+                rend.GetPropertyBlock(m_Block);
+                m_Block.SetFloat(s_CutoffHeightID, currentHeight);
+                rend.SetPropertyBlock(m_Block);
             }
         }
     }
+}

@@ -1,4 +1,5 @@
 using MVsToolkit.Dev;
+using MVsToolkit.Utilities;
 using UnityEngine;
 
 public class TurretEnemyController : EntityController, ISpawnable
@@ -30,6 +31,8 @@ public class TurretEnemyController : EntityController, ISpawnable
 
     private void FixedUpdate()
     {
+        if(IsSpawning) return;
+
         bool canSee = m_Detector.CanSeePlayer(m_DetectionRange);
 
         if (canSee)
@@ -83,6 +86,14 @@ public class TurretEnemyController : EntityController, ISpawnable
         StartCoroutine(m_Combat.LockAttackOnSpawn());
         SetState(EnemyStates.Chasing);
         m_LoseSightTimer = 0;
+        m_SpawnVisual.PlaySpawnVisual();
+
+        IsSpawning = true;
+        m_Health.GainInvincibility(m_SpawnDuration);
+
+        this.Delay(() => {
+            IsSpawning = false;
+        }, m_SpawnDuration);
     }
 
     private void SetState(EnemyStates newState)
