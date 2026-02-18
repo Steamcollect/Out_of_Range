@@ -16,15 +16,19 @@ public class BossMovementController : MonoBehaviour
     public Vector2 m_Input;
 
     //[Header("References")]
-    Transform m_PivotPoint;
+    Transform m_RoomPivotPoint;
+    Transform m_BodyPivotPoint;
 
     //[Header("Input")]
     //[Header("Output")]
 
     private void Start()
     {
-        m_PivotPoint = new GameObject("BossPivotPoint").transform;
-        m_PivotPoint.position = m_PivotPos;
+        m_RoomPivotPoint = new GameObject("RoomPivotPoint").transform;
+        m_RoomPivotPoint.position = m_PivotPos;
+
+        m_BodyPivotPoint = new GameObject("BossPivotPoint").transform;
+        m_BodyPivotPoint.position = m_PivotPos;
 
         m_PosY = transform.position.y;
     }
@@ -33,20 +37,39 @@ public class BossMovementController : MonoBehaviour
     {
         transform.position = GetPosFromInput(transform.position, m_Input * m_MoveSpeed);
 
-        Vector3 lookAtPos = m_PivotPoint.position;
+        Vector3 lookAtPos = m_RoomPivotPoint.position;
         lookAtPos.y = m_PosY;
         transform.LookAt(lookAtPos);
     }
 
     public Vector3 GetPosFromInput(Vector3 current, Vector2 direction)
     {
-        m_PivotPoint.eulerAngles += Vector3.up * direction.x * Time.deltaTime;
-        Vector3 targetPos = m_PivotPoint.position + m_PivotPoint.forward * m_Distance;
+        m_BodyPivotPoint.eulerAngles += Vector3.up * direction.x * Time.deltaTime;
+        Vector3 targetPos = m_BodyPivotPoint.position + m_BodyPivotPoint.forward * m_Distance;
 
         m_PosY += direction.y * m_VerticalSpeedRatio * Time.deltaTime;
         targetPos.y = m_PosY;
 
         return targetPos;
+    }
+
+    public Vector3 GetUpwardDir(Vector3 position)
+    {
+        Vector3 pos = (position - m_RoomPivotPoint.position).normalized;
+        pos.y = position.y;
+        return pos;
+    }
+
+    public Vector3 ApplyOnCylinder(Vector3 position)
+    {
+        Vector3 pos = position;
+        pos.y = m_RoomPivotPoint.position.y;
+        m_RoomPivotPoint.LookAt(pos);
+
+        Vector3 newPos = m_RoomPivotPoint.position + m_RoomPivotPoint.forward * m_Distance;
+        newPos.y = position.y;
+
+        return newPos;
     }
 
     private void OnDrawGizmos()
