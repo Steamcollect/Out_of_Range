@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HurtBox
   m_DamageMultiplier: 1
+  m_InvincibleForOverload: 0
   m_HealthConnected:
     _object: {fileID: 167269885798792605}
 --- !u!114 &167269885798792605
@@ -673,11 +674,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ExplodingEnemyController
   m_TargetPos: {x: 0, y: 0.5, z: 0}
   m_TargetIndicatorPos: {x: 0, y: 1, z: 0}
+  m_SpawnDuration: 2
   m_Health: {fileID: 167269885798792605}
   m_Movement:
     _object: {fileID: 1403357139717071914}
   m_Combat: {fileID: 31068974312726290}
+  m_SpawnVisual: {fileID: 0}
   m_Rb: {fileID: 5544383979145703636}
+  IsSpawning: 0
   m_DetectionRange: 10
   m_MinChaseRange: 1.6
   m_AttackRange: 2.8
