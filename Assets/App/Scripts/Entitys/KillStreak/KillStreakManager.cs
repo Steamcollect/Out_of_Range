@@ -1,40 +1,46 @@
+using System;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class PlayerKillStreakManager : MonoBehaviour
+public class KillStreakManager : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] float m_StepTime = 8;
     [SerializeField] KillStreakStep[] m_Steps;
-
-    [SerializeField] string m_CombosNames;
+    [SerializeField] int m_StreakLosePerDamage = 1;
 
     [Space(5)]
     [SerializeField, ReadOnly] int m_CurrentStreak = 0;
     
+    [Space(10)]
+    [SerializeField] string m_DebugCombosNames;
+
     float m_Timer;
     int m_CurrentStep;
 
     [Header("References")]
     [SerializeField] RSO_PlayerController m_Player;
+    [SerializeField] RSO_KillStreakTimer m_TimerOnMax;
 
     [Header("Input")]
     [SerializeField] RSE_OnEnemyDie m_OnEnemyKilled;
 
-    //[Header("Output")]
+    [Header("Output")]
+    [SerializeField] RSE_OnStepIncrease m_OnStepIncrease;
+    [SerializeField] RSE_OnStepDecrease m_OnStepDecrease;
 
     private void OnEnable()
     {
-        m_OnEnemyKilled.Action += OnEnemyKilled;
-        m_Player.Value.GetHealth().OnTakeDamage += OnPlayerTakeDamage;
+        m_OnEnemyKilled.Action += IncreaseStep;
+        m_Player.Value.GetHealth().OnTakeDamage += DecreaseStep;
         
     }
 
     private void OnDisable()
     {
-        m_OnEnemyKilled.Action -= OnEnemyKilled;
-        m_Player.Value.GetHealth().OnTakeDamage -= OnPlayerTakeDamage;
+        m_OnEnemyKilled.Action -= IncreaseStep;
+        m_Player.Value.GetHealth().OnTakeDamage -= DecreaseStep;
     }
 
     private void Start()
@@ -64,15 +70,19 @@ public class PlayerKillStreakManager : MonoBehaviour
 
             if(m_Timer <= 0)
             {
-                m_CurrentStep--;
                 m_Timer = m_StepTime;
+                DecreaseStep();
             }
+
+            if(m_CurrentStep > 0)
+                m_TimerOnMax.Set(m_Timer / m_StepTime);
         }
     }
 
-    void OnEnemyKilled()
+    void IncreaseStep()
     {
         m_CurrentStreak++;
+        m_Timer = m_StepTime;
 
         for (int i = 0; i < m_Steps.Length; i++)
         {
@@ -82,13 +92,17 @@ public class PlayerKillStreakManager : MonoBehaviour
                 m_Player.Value.GetMovement().SetSpeedMult(m_Steps[i].SpeedMult);
             }
         }
+
+        m_OnStepIncrease.Call(m_Steps[m_CurrentStep]);
+        m_TimerOnMax.Set(m_Timer / m_StepTime);
     }
 
-    void OnPlayerTakeDamage()
+    void DecreaseStep()
     {
-        m_CurrentStreak = 0;
-        m_CurrentStep = 0;
-        m_Player.Value.GetMovement().SetSpeedMult(1);
+        m_CurrentStreak = Mathf.Clamp(m_CurrentStreak - m_StreakLosePerDamage, 0, m_Steps.Length);
+        m_CurrentStep = m_CurrentStreak;
+        m_Player.Value.GetMovement().SetSpeedMult(m_Steps[m_CurrentStep].SpeedMult);
+        m_OnStepDecrease.Call(m_Steps[m_CurrentStep]);
     }
 
     [Button]
@@ -112,11 +126,11 @@ public class PlayerKillStreakManager : MonoBehaviour
     [Button]
     void CreateStepsByName()
     {
-        if (string.IsNullOrWhiteSpace(m_CombosNames))
+        if (string.IsNullOrWhiteSpace(m_DebugCombosNames))
             return;
 
         // Sépare par virgule et nettoie les espaces
-        string[] names = m_CombosNames
+        string[] names = m_DebugCombosNames
             .Split(',')
             .Select(n => n.Trim())
             .Where(n => !string.IsNullOrEmpty(n))
@@ -135,7 +149,6 @@ public class PlayerKillStreakManager : MonoBehaviour
             };
         }
     }
-
 
     public KillStreakStep GetKillStreakStep() =>m_Steps[m_CurrentStep];
 
