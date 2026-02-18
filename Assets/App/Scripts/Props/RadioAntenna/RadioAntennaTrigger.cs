@@ -9,7 +9,6 @@ public class RadioAntennaTrigger : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField, TagName] private string m_PlayerTag;
-    [SerializeField] private string m_InteractInput = "E";
     [SerializeField, Handle] private Vector3 m_PointerPosition;
 
     [Space(10)] 
@@ -56,8 +55,8 @@ public class RadioAntennaTrigger : MonoBehaviour
         if (!m_IsPlayerDetected && other.CompareTag(m_PlayerTag))
         {
             m_IsPlayerDetected = true;
-            m_CurrentPointer = InteractionUIManager.S_Instance.GetPointer();
-            m_CurrentPointer.SetText(m_InteractInput);
+            m_CurrentPointer = InteractionUIManager.Instance.GetPointer();
+            m_CurrentPointer.Set(m_InteractIa);
 
             m_CurrentPointer.transform.DOKill();
             m_CurrentPointer.transform.DOScale(m_BumpScaleValue, m_BumpScaleTime).SetLoops(2, LoopType.Yoyo);
@@ -69,7 +68,7 @@ public class RadioAntennaTrigger : MonoBehaviour
         if (m_IsPlayerDetected && other.CompareTag(m_PlayerTag))
         {
             m_IsPlayerDetected = false;
-            InteractionUIManager.S_Instance.ReturnPointer(m_CurrentPointer);
+            InteractionUIManager.Instance.ReturnPointer(m_CurrentPointer);
         }
     }
 
@@ -85,7 +84,7 @@ public class RadioAntennaTrigger : MonoBehaviour
         this.m_CanPlayerInteract = canPlayerInteract;
 
         if (canPlayerInteract == false)
-            InteractionUIManager.S_Instance.ReturnPointer(m_CurrentPointer);
+            InteractionUIManager.Instance.ReturnPointer(m_CurrentPointer);
     }
 
     private void OnDrawGizmos()

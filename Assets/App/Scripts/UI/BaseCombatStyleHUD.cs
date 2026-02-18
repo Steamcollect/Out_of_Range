@@ -19,7 +19,8 @@ public class BaseCombatStyleHUD : MonoBehaviour
     [Header("UI References")]
     [SerializeField] protected Image m_FillImg;
     [SerializeField] protected RectTransform m_CursorRct;
-    [SerializeField] protected TMP_Text m_ReloadTxt;
+    [SerializeField] protected GameObject m_ReloadGo;
+    [SerializeField] protected GameObject m_ReloadSkillsGo;
 
     [Space(10)]
     [SerializeField] protected RectTransform m_ParentRect;
@@ -91,31 +92,31 @@ public class BaseCombatStyleHUD : MonoBehaviour
 
     protected virtual void UpdateVisualsByState(OverloadWeaponState state, float normalizedValue)
     {
+        m_ReloadGo?.SetActive(false);
+        m_ReloadSkillsGo?.SetActive(false);
+        
         switch (state)
         {
             case OverloadWeaponState.CanShoot:
                 m_FillImg.color = m_ShootColor;
-                m_ReloadTxt.text = normalizedValue > .5f ? "R" : string.Empty;
+                m_ReloadGo?.SetActive(normalizedValue > .5f);
                 break;
 
             case OverloadWeaponState.DefaultCool:
                 m_FillImg.color = m_ReloadColor;
-                m_ReloadTxt.text = string.Empty;
                 break;
 
             case OverloadWeaponState.CoolBuffed:
                 m_FillImg.color = m_OverloadBuffColor;
-                m_ReloadTxt.text = string.Empty;
                 break;
 
             case OverloadWeaponState.CoolNerfed:
                 m_FillImg.color = m_OverloadNerfColor;
-                m_ReloadTxt.text = string.Empty;
                 break;
 
             case OverloadWeaponState.OverloadCool:
                 m_FillImg.color = m_ReloadColor;
-                m_ReloadTxt.text = "LClick";
+                m_ReloadSkillsGo?.SetActive(true);
                 break;
         }
     }
