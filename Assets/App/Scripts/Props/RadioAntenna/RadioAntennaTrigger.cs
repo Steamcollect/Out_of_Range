@@ -21,7 +21,7 @@ public class RadioAntennaTrigger : MonoBehaviour
     private bool m_CanPlayerInteract;
 
     //[Header("References")]
-    private PointerUI m_CurrentPointer;
+    private UI_Pointer m_CurrentPointer;
     private bool m_IsPlayerDetected;
 
     //[Header("Output")]

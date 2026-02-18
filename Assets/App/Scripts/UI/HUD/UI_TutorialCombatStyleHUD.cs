@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TutorialCombatStyleHUD : BaseCombatStyleHUD
+public class UI_TutorialCombatStyleHUD : UI_BaseCombatStyleHUD
 {
     [Header("Tutorial References")]
     [SerializeField] private FakeOverloadCombatStyle m_FakeOverloadStyle;

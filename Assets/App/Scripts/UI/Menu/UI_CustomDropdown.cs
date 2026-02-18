@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CustomDropdown : MonoBehaviour, IPointerExitHandler
+public class UI_CustomDropdown : MonoBehaviour, IPointerExitHandler
 {
     [Title("SETTINGS")]
     [SerializeField] private bool m_EnableIcon = true;
