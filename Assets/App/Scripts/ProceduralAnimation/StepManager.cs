@@ -15,7 +15,7 @@ public class StepManager : MonoBehaviour
     [SerializeField] Transform m_MainBody;
     [SerializeField] BossMovementController m_Movement;
 
-    private void Awake()
+    private void Start()
     {
         if (!m_MainBody)
         {

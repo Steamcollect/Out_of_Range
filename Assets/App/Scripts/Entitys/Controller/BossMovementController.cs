@@ -22,7 +22,7 @@ public class BossMovementController : MonoBehaviour
     //[Header("Input")]
     //[Header("Output")]
 
-    private void Start()
+    private void Awake()
     {
         m_RoomPivotPoint = new GameObject("RoomPivotPoint").transform;
         m_RoomPivotPoint.position = m_PivotPos;
