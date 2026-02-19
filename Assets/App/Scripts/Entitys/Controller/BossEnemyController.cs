@@ -22,6 +22,7 @@ public class BossEnemyController : EntityController, ISpawnable
     [ReadOnly] public bool HaveAtkSpeedPowerUp;
     [ReadOnly] public bool HaveClonePowerUp;
     [ReadOnly] public bool HaveStrenghtPowerUp;
+    [HideInInspector] public bool CanHandlePaterns;
 
     [SerializeField] BossHealthStep[] m_HealthSteps;
 
@@ -60,7 +61,7 @@ public class BossEnemyController : EntityController, ISpawnable
 
     private void FixedUpdate()
     {
-        if(IsSpawning) return;
+        if(IsSpawning || !CanHandlePaterns) return;
 
         bool canSee = m_Detector.CanSeePlayer(m_DetectionRange);
 

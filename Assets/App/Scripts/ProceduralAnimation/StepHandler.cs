@@ -39,7 +39,7 @@ public class StepHandler : MonoBehaviour
         m_CurrentIkPosition = m_IkTarget.position;
 
         m_CurrentIkPosition = m_Movement.ApplyOnCylinder(m_BodyPivot.TransformPoint(
-            new Vector3(-m_StartLocalPosition.x, m_StartLocalPosition.y, -m_StartLocalPosition.z)
+            new Vector3(m_StartLocalPosition.x, m_StartLocalPosition.y, m_StartLocalPosition.z)
             + Random.insideUnitSphere.normalized * (m_StepLength * .5f)));
     }
 
@@ -59,7 +59,7 @@ public class StepHandler : MonoBehaviour
             return;
 
         float distance = Vector3.Distance(m_Movement.ApplyOnCylinder(m_BodyPivot.TransformPoint(
-            new Vector3(-m_StartLocalPosition.x, m_StartLocalPosition.y, -m_StartLocalPosition.z))),
+            new Vector3(m_StartLocalPosition.x, m_StartLocalPosition.y, m_StartLocalPosition.z))),
             m_IkTarget.position);
 
         if (distance > m_StepLength)
@@ -88,9 +88,9 @@ public class StepHandler : MonoBehaviour
         Vector3 endPos = m_Movement.ApplyOnCylinder(
             m_BodyPivot.TransformPoint(
             new Vector3(
-                -m_StartLocalPosition.x, 
+                m_StartLocalPosition.x, 
                 m_StartLocalPosition.y, 
-                -m_StartLocalPosition.z)
+                m_StartLocalPosition.z)
             ));
 
         while (elapsed < m_StepDuration)

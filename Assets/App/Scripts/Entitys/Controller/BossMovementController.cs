@@ -1,4 +1,5 @@
-using System.Collections;
+﻿using System.Collections;
+using DG.Tweening;
 using MVsToolkit.Utilities;
 using UnityEngine;
 
@@ -21,17 +22,23 @@ public class BossMovementController : MonoBehaviour, IMovement
     [SerializeField, Range(0, 360)] int m_MaxHorizontalAngle;
     [SerializeField] int m_AngleOffset;
 
+    [Space(10)]
+    [SerializeField] bool m_CanMove = false;
+    [SerializeField] float m_TargetY;
+
     float m_PosY;
     bool m_IsLockLeft, m_IsLockRight;
 
     [Header("References")]
     [SerializeField] Transform m_Body;
-    [SerializeField] Rigidbody m_Rb;
-    
+    [SerializeField] BossEnemyController m_Controller;
+
     Transform m_RoomPivotPoint;
     Transform m_BodyPivotPoint;
 
-    //[Header("Input")]
+    [Header("Input")]
+    [SerializeField] RSE_SetBossCanMove m_SetCanMove;
+    
     //[Header("Output")]
 
     private void Awake()
@@ -45,13 +52,68 @@ public class BossMovementController : MonoBehaviour, IMovement
         m_PosY = m_Body.position.y;
     }
 
+    void OnEnable()
+    {
+        m_SetCanMove.Action += SetCanMove;
+    }
+    void OnDisable()
+    {
+        m_SetCanMove.Action -= SetCanMove;
+    }
+
     void Start()
     {
+        StartCoroutine(Spawn());
+    }
+
+    IEnumerator Spawn()
+    {
+        m_Controller.CanHandlePaterns = false;
+
+        // Initialise l’orientation du pivot comme tu le fais déjà
+        m_BodyPivotPoint.eulerAngles = new Vector3(
+            m_BodyPivotPoint.eulerAngles.x,
+            m_AngleOffset,
+            m_BodyPivotPoint.eulerAngles.z
+        );
+
+        // Tant que la hauteur n’est pas atteinte
+        while (!Mathf.Approximately(m_PosY, m_TargetY))
+        {
+            yield return null;
+
+            // Direction verticale (1 si target au-dessus, -1 si target en dessous)
+            float sign = Mathf.Sign(m_TargetY - m_PosY);
+
+            // Même logique que Movement : vitesse * ratio
+            float deltaY = sign * m_MoveSpeed * m_VerticalSpeedRatio * Time.deltaTime;
+
+            // Empêche de dépasser la cible
+            if (Mathf.Abs(m_TargetY - m_PosY) < Mathf.Abs(deltaY))
+                deltaY = m_TargetY - m_PosY;
+
+            m_PosY += deltaY;
+
+            // Position finale sur le cylindre
+            Vector3 targetPos = m_BodyPivotPoint.position + m_BodyPivotPoint.forward * m_Distance;
+            targetPos.y = m_PosY;
+
+            m_Body.position = targetPos;
+
+            // LookAt cohérent avec Movement
+            Vector3 lookAtPos = m_RoomPivotPoint.position;
+            lookAtPos.y = m_PosY;
+            m_Body.LookAt(lookAtPos);
+        }
+
+        m_Controller.CanHandlePaterns = true;
+
         StartCoroutine(Movement());
     }
 
     IEnumerator Movement()
     {
+        yield return new WaitUntil(() => m_CanMove);
         yield return new WaitForSeconds(Random.Range(m_MovementSpacing.x, m_MovementSpacing.y));
 
         float x = 0;
@@ -97,13 +159,13 @@ public class BossMovementController : MonoBehaviour, IMovement
     {
         float y = m_BodyPivotPoint.eulerAngles.y;
 
-        // Convertit en angle sign� [-180, 180]
+        // Convertit en angle signé [-180, 180]
         float signedY = Mathf.DeltaAngle(0f, y);
 
-        // Angle relatif � l�offset
+        // Angle relatif à l’offset
         float relative = signedY - m_AngleOffset;
 
-        // D�tection des locks
+        // Détection des locks
         if (relative <= -m_MaxHorizontalAngle)
         {
             lockLeft = true;
@@ -149,6 +211,8 @@ public class BossMovementController : MonoBehaviour, IMovement
 
         return newPos;
     }
+
+    void SetCanMove(bool value) => m_CanMove = value;
 
     private void OnDrawGizmos()
     {
