@@ -12,15 +12,19 @@ public class Elevator : MonoBehaviour
     [SerializeField] Ease m_MovementEase;
 
     bool m_IsMoving = false;
+    bool m_HasMoved = false;
 
     enum ElevatorState { Top, Buttom}
 
     [Header("References")]
     [SerializeField] Transform m_Movable;
     [SerializeField] Transform m_ButtomPos, m_TopPos;
+    [SerializeField] GameObject m_LockCollids;
 
     [Space(8)]
     [SerializeField] ColliderCallback m_ColliderDetector;
+
+    Transform m_PlayerCollided;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -39,8 +43,14 @@ public class Elevator : MonoBehaviour
 
     private void OnEnter(Collider collid)
     {
-        if (collid.CompareTag("Player"))
+        if (!m_HasMoved && collid.CompareTag("Player"))
         {
+            m_HasMoved = true;
+            m_LockCollids.SetActive(true);
+
+            m_PlayerCollided = collid.transform;
+            m_PlayerCollided.SetParent(m_Movable);
+
             if (!m_IsMoving)
             {
                 this.Delay(() =>
@@ -61,6 +71,7 @@ public class Elevator : MonoBehaviour
         {
             m_IsMoving = false;
             m_State = ElevatorState.Top;
+            m_PlayerCollided.SetParent(null);
         });
     }
 
