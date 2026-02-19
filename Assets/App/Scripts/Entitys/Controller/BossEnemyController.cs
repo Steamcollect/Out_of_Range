@@ -118,7 +118,7 @@ public class BossEnemyController : EntityController, ISpawnable
         StartCoroutine(m_Combat.LockAttackOnSpawn());
         SetState(EnemyStates.Chasing);
         m_LoseSightTimer = 0;
-        m_SpawnVisual.PlaySpawnVisual();
+        m_SpawnVisual?.PlaySpawnVisual();
 
         IsSpawning = true;
         m_Health.GainInvincibility(m_SpawnDuration);
