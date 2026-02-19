@@ -1,10 +1,16 @@
+using System.Collections;
 using MVsToolkit.Utilities;
 using UnityEngine;
 
-public class BossMovementController : MonoBehaviour
+public class BossMovementController : MonoBehaviour, IMovement
 {
     [Header("Settings")]
     [SerializeField] float m_MoveSpeed;
+    [SerializeField] float m_SpeedMult = 1;
+
+    [Space(10)]
+    [SerializeField] Vector2 m_MovementSpacing;
+    [SerializeField] Vector2 m_MovementTime;
 
     [Space(10)]
     [SerializeField, Tooltip("Center of the rotation, the body will move around it")] Vector3 m_PivotPos;
@@ -16,9 +22,12 @@ public class BossMovementController : MonoBehaviour
     [SerializeField] int m_AngleOffset;
 
     float m_PosY;
-    public Vector2 m_Input;
+    bool m_IsLockLeft, m_IsLockRight;
 
-    //[Header("References")]
+    [Header("References")]
+    [SerializeField] Transform m_Body;
+    [SerializeField] Rigidbody m_Rb;
+    
     Transform m_RoomPivotPoint;
     Transform m_BodyPivotPoint;
 
@@ -33,49 +42,88 @@ public class BossMovementController : MonoBehaviour
         m_BodyPivotPoint = new GameObject("BossPivotPoint").transform;
         m_BodyPivotPoint.position = m_PivotPos;
 
-        m_PosY = transform.position.y;
+        m_PosY = m_Body.position.y;
     }
 
-    private void Update()
+    void Start()
     {
-        transform.position = GetPosFromInput(transform.position, m_Input * m_MoveSpeed);
-        FixHorizontalAngle();
-
-        Vector3 lookAtPos = m_RoomPivotPoint.position;
-        lookAtPos.y = m_PosY;
-        transform.LookAt(lookAtPos);
+        StartCoroutine(Movement());
     }
 
-    public Vector3 GetPosFromInput(Vector3 current, Vector2 direction)
+    IEnumerator Movement()
     {
-        m_BodyPivotPoint.eulerAngles += Vector3.up * direction.x * Time.deltaTime;
+        yield return new WaitForSeconds(Random.Range(m_MovementSpacing.x, m_MovementSpacing.y));
 
-        Vector3 targetPos = m_BodyPivotPoint.position + m_BodyPivotPoint.forward * m_Distance;
+        float x = 0;
+        if (m_IsLockLeft) x = 1;
+        else if (m_IsLockRight) x = -1;
+        else x = Random.value > .5f ? 1 : -1;
 
-        m_PosY += direction.y * m_VerticalSpeedRatio * Time.deltaTime;
-        targetPos.y = m_PosY;
+        float t = 0;
 
-        return targetPos;
+        float m_Time = Random.Range(m_MovementTime.x, m_MovementTime.y);
+        while (t < m_Time)
+        {
+            t += Time.deltaTime;
+            yield return null;
+
+            Vector2 dir = new Vector2(x, 0) * m_MoveSpeed * m_SpeedMult;
+
+            m_BodyPivotPoint.eulerAngles += Vector3.up * dir.x * Time.deltaTime;
+
+            Vector3 targetPos = m_BodyPivotPoint.position + m_BodyPivotPoint.forward * m_Distance;
+
+            m_PosY += dir.y * m_VerticalSpeedRatio * Time.deltaTime;
+            targetPos.y = m_PosY;
+
+            m_Body.position = targetPos;
+            FixHorizontalAngle(ref m_IsLockLeft, ref m_IsLockRight);
+
+            if (m_IsLockLeft || m_IsLockRight)
+            {
+                StartCoroutine(Movement());
+                yield break;
+            }
+
+            Vector3 lookAtPos = m_RoomPivotPoint.position;
+            lookAtPos.y = m_PosY;
+            m_Body.LookAt(lookAtPos);
+        }
+
+        StartCoroutine(Movement());
     }
 
-    void FixHorizontalAngle()
+    void FixHorizontalAngle(ref bool lockLeft, ref bool lockRight)
     {
         float y = m_BodyPivotPoint.eulerAngles.y;
 
         // Convertit en angle signé [-180, 180]
         float signedY = Mathf.DeltaAngle(0f, y);
 
-        // Angle cible relatif à l’offset
-        float target = Mathf.Clamp(
-            signedY - m_AngleOffset,
-            -m_MaxHorizontalAngle,
-            m_MaxHorizontalAngle
-        );
+        // Angle relatif à l’offset
+        float relative = signedY - m_AngleOffset;
 
-        // Reconstruit l’angle final
-        float finalY = m_AngleOffset + target;
+        // Détection des locks
+        if (relative <= -m_MaxHorizontalAngle)
+        {
+            lockLeft = true;
+            lockRight = false;
+        }
+        else if (relative >= m_MaxHorizontalAngle)
+        {
+            lockRight = true;
+            lockLeft = false;
+        }
+        else
+        {
+            lockLeft = false;
+            lockRight = false;
+        }
 
-        // Applique en repassant en [0, 360)
+        // Clamp final
+        float clamped = Mathf.Clamp(relative, -m_MaxHorizontalAngle, m_MaxHorizontalAngle);
+        float finalY = m_AngleOffset + clamped;
+
         m_BodyPivotPoint.eulerAngles = new Vector3(
             m_BodyPivotPoint.eulerAngles.x,
             finalY,
@@ -117,5 +165,12 @@ public class BossMovementController : MonoBehaviour
 
         Gizmos.color = Color.blue;
         MVsGizmos.DrawCircle(m_PivotPos, m_Distance, Vector3.up);
+    }
+
+    public void Move(Vector3 input) { }
+    public void ResetVelocity() { }
+    public void SetSpeedMult(float mult)
+    {
+        m_SpeedMult = mult;
     }
 }
