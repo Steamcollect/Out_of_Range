@@ -1,43 +1,47 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class StepManager : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float m_TimeBetweenSteps = 0.15f;
-    [SerializeField] private StepHandler[] m_Handlers;
-    
+    [SerializeField] float mTimeBetweenSteps = 0.15f;
+    [SerializeField] StepHandler[] m_Handlers;
+
+    Queue<Action> m_NextSteps = new Queue<Action>();
+    float m_StepTimer = 0f;
+
     [Header("References")]
-    [SerializeField] private Transform m_MainBody;
-    [SerializeField] private Rigidbody m_MainRb;
+    [SerializeField] Transform m_MainBody;
+    [SerializeField] BossMovementController m_Movement;
 
-    private readonly Queue<Action> m_NextSteps = new();
-    private float m_StepTimer;
-
-    private void Awake()
+    private void Start()
     {
-        if (!m_MainBody) Debug.LogError($"[{nameof(StepManager)}] mainBody n'est pas assigne sur {name} !");
+        if (!m_MainBody)
+        {
+            Debug.LogError($"[{nameof(StepManager)}] mainBody n'est pas assigné sur {name} !");
+        }
 
         if (m_Handlers == null || m_Handlers.Length == 0)
         {
-            Debug.LogWarning($"[{nameof(StepManager)}] Aucun StepHandler assignï¿½ sur {name}.");
+            Debug.LogWarning($"[{nameof(StepManager)}] Aucun StepHandler assigné sur {name}.");
             return;
         }
 
         foreach (StepHandler stepHandler in m_Handlers)
+        {
             if (stepHandler != null)
-                stepHandler.Setup(m_MainBody, m_MainRb, this);
+                stepHandler.Setup(m_MainBody, this, m_Movement);
+        }
     }
 
     private void Update()
     {
         m_StepTimer += Time.deltaTime;
 
-        if (m_NextSteps.Count > 0 && m_StepTimer >= m_TimeBetweenSteps)
+        if (m_NextSteps.Count > 0 && m_StepTimer >= mTimeBetweenSteps)
         {
-            Action step = m_NextSteps.Dequeue();
+            var step = m_NextSteps.Dequeue();
             step?.Invoke();
             m_StepTimer = 0f;
         }
@@ -45,8 +49,10 @@ public class StepManager : MonoBehaviour
         if (m_Handlers == null) return;
 
         foreach (StepHandler stepHandler in m_Handlers)
-            if (stepHandler)
+        {
+            if (stepHandler != null)
                 stepHandler.HandleIkPosition();
+        }
     }
 
     private void FixedUpdate()
@@ -54,8 +60,10 @@ public class StepManager : MonoBehaviour
         if (m_Handlers == null) return;
 
         foreach (StepHandler stepHandler in m_Handlers)
-            if (stepHandler)
+        {
+            if (stepHandler != null)
                 stepHandler.CheckStep();
+        }
     }
 
     public void AddStep(Action step)
