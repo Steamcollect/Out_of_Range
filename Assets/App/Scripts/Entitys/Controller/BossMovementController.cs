@@ -1,6 +1,5 @@
-using MoreMountains.Feedbacks;
+using MVsToolkit.Utilities;
 using UnityEngine;
-using UnityEngine.ProBuilder;
 
 public class BossMovementController : MonoBehaviour
 {
@@ -11,6 +10,7 @@ public class BossMovementController : MonoBehaviour
     [SerializeField, Tooltip("Center of the rotation, the body will move around it")] Vector3 m_PivotPos;
     [SerializeField] float m_Distance;
     [SerializeField] float m_VerticalSpeedRatio = .2f;
+    [SerializeField, Range(0, 360)] int m_MaxHorizontalAngle;
 
     float m_PosY;
     public Vector2 m_Input;
@@ -77,5 +77,15 @@ public class BossMovementController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(m_PivotPos, .5f);
         Gizmos.DrawRay(m_PivotPos, Vector3.forward * m_Distance);
+
+        Gizmos.color = Color.cyan;
+        Vector3 dirLeft = Quaternion.Euler(0f, -m_MaxHorizontalAngle, 0f) * Vector3.forward;
+        Vector3 dirRight = Quaternion.Euler(0f, m_MaxHorizontalAngle, 0f) * Vector3.forward;
+
+        Gizmos.DrawLine(m_PivotPos, m_PivotPos + dirLeft * m_Distance);
+        Gizmos.DrawLine(m_PivotPos, m_PivotPos + dirRight * m_Distance);
+
+        Gizmos.color = Color.blue;
+        MVsGizmos.DrawCircle(m_PivotPos, m_Distance, Vector3.up);
     }
 }

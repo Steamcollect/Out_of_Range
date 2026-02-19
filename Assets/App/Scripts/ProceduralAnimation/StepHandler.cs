@@ -37,6 +37,10 @@ public class StepHandler : MonoBehaviour
 
         m_StartLocalPosition = m_IkTarget.position - bodyPivot.position;
         m_CurrentIkPosition = m_IkTarget.position;
+
+        m_CurrentIkPosition = m_Movement.ApplyOnCylinder(m_BodyPivot.TransformPoint(
+            new Vector3(-m_StartLocalPosition.x, m_StartLocalPosition.y, -m_StartLocalPosition.z)
+            + Random.insideUnitSphere.normalized * (m_StepLength * .5f)));
     }
 
     public void HandleIkPosition()
