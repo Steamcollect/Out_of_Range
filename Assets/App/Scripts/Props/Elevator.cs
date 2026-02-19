@@ -24,7 +24,8 @@ public class Elevator : MonoBehaviour
     [Space(8)]
     [SerializeField] ColliderCallback m_ColliderDetector;
 
-    Transform m_PlayerCollided;
+    float m_OffsetY;
+    PlayerController m_Player;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -48,8 +49,8 @@ public class Elevator : MonoBehaviour
             m_HasMoved = true;
             m_LockCollids.SetActive(true);
 
-            m_PlayerCollided = collid.transform;
-            m_PlayerCollided.SetParent(m_Movable);
+            m_Player = collid.GetComponent<PlayerController>();
+            m_OffsetY = m_Player.GetRigidbody().position.y - m_Movable.position.y;
 
             if (!m_IsMoving)
             {
@@ -67,11 +68,13 @@ public class Elevator : MonoBehaviour
         m_IsMoving = true;
         
         m_Movable.DOKill();
+        m_Player.transform.DOMoveY(m_TopPos.position.y + m_OffsetY, m_MovementTime).SetEase(m_MovementEase);
         m_Movable.DOMove(m_TopPos.position, m_MovementTime).SetEase(m_MovementEase).OnComplete(() =>
         {
             m_IsMoving = false;
             m_State = ElevatorState.Top;
-            m_PlayerCollided.SetParent(null);
+            m_Player = null;
+            m_LockCollids.SetActive(false);
         });
     }
 
@@ -80,6 +83,7 @@ public class Elevator : MonoBehaviour
         m_IsMoving = true;
 
         m_Movable.DOKill();
+        m_Player.transform.DOMoveY(m_ButtomPos.position.y + m_OffsetY, m_MovementTime).SetEase(m_MovementEase);
         m_Movable.DOMove(m_ButtomPos.position, m_MovementTime).SetEase(m_MovementEase).OnComplete(() =>
         {
             m_IsMoving = false;
