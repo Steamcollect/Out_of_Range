@@ -31,6 +31,6 @@ public class PlayerMana : MonoBehaviour
     public void SetToMax()
     {
         m_CurrentMana = m_MaxMana;
-        OnManaChanged.Invoke();
+        OnManaChanged?.Invoke();
     }
 }
