@@ -63,6 +63,8 @@ public class EntityHealth : MonoBehaviour, IHealth
     [Button]
     public void Heal(float health)
     {
+        if (m_CurrentHealth == m_MaxHealth) return;
+
         m_CurrentHealth += health;
 
         if (m_CurrentHealth > m_MaxHealth)

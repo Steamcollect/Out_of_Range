@@ -2,6 +2,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class KillStreakHUD : MonoBehaviour
 {
@@ -44,6 +45,8 @@ public class KillStreakHUD : MonoBehaviour
     {
         ResetTxt();
 
+        if (step.StepName == "") return;
+
         m_CurrentStreakNameTxt.text = step.StepName;
         m_CurrentStreakNameTxt.color = step.StepColor;
         m_CurrentStreakNameTxt.transform.DOPunchRotation(Vector3.forward * m_IncreaseShakeForce, m_IncreaseShakeDuration, 1, 20);
@@ -55,19 +58,21 @@ public class KillStreakHUD : MonoBehaviour
 
         if (step.KillStreakRequire == 0)
         {
+            m_CurrentStreakImage.fillAmount = 0;
             m_CurrentStreakNameTxt.transform.DOScale(1.1f, m_DecreaseBumpDuration).OnComplete(() =>
             {
                 m_CurrentStreakNameTxt.transform.DOScale(0, m_DecreaseBumpDuration * 1.5f);
             });
         }
-
-
-        m_CurrentStreakNameTxt.text = step.StepName;
-        m_CurrentStreakNameTxt.color = step.StepColor;
-        m_CurrentStreakNameTxt.transform.DOScale(m_DecreaseBumpSize, m_DecreaseBumpDuration * .8f).OnComplete(() =>
+        else
         {
-            m_CurrentStreakNameTxt.transform.DOScale(1, m_DecreaseBumpDuration);
-        });
+            m_CurrentStreakNameTxt.text = step.StepName;
+            m_CurrentStreakNameTxt.color = step.StepColor;
+            m_CurrentStreakNameTxt.transform.DOScale(m_DecreaseBumpSize, m_DecreaseBumpDuration * .8f).OnComplete(() =>
+            {
+                m_CurrentStreakNameTxt.transform.DOScale(1, m_DecreaseBumpDuration);
+            });
+        }        
     }
 
     void OnTimerChange(float value)
