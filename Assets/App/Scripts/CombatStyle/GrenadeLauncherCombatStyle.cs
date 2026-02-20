@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GrenadeLauncherCombatStyle : CombatStyle
 {
@@ -25,11 +26,23 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     [SerializeField] RSO_PlayerAimTarget m_AimTarget;
     [SerializeField] RSO_PlayerController m_PlayerController;
-    
+
+    [Space(10)]
+    [SerializeField] InputActionReference m_CancelAttackIA;
+
     [Header("Output")]
     [SerializeField] RSO_CameraTargetType m_TargetType;
     
     public int Cost => m_ShootCost;
+
+    private void OnEnable()
+    {
+        m_CancelAttackIA.action.started += CancelAttack;
+    }
+    private void OnDisable()
+    {
+        m_CancelAttackIA.action.started -= CancelAttack;
+    }
 
     private void FixedUpdate()
     {
@@ -57,9 +70,18 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     public override void AttackEnd()
     {
+        if (!m_InputPress) return;
+
         m_InputPress = false;
         if(m_CanTouchTarget) StartCoroutine(Attack());
 
+        m_PreShowCircle.gameObject.SetActive(false);
+        m_TargetType.Set(CameraTargetType.AutoFocus);
+    }
+
+    public void CancelAttack(InputAction.CallbackContext ctx)
+    {
+        m_InputPress = false;
         m_PreShowCircle.gameObject.SetActive(false);
         m_TargetType.Set(CameraTargetType.AutoFocus);
     }
