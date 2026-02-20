@@ -34,7 +34,7 @@ public class ElectricArea : MonoBehaviour
 
     private static readonly int IntensityID = Shader.PropertyToID("Intensity");
 
-    private void Start()
+    private void OnEnable()
     {
         m_CurrentState = m_StartingState;
 
@@ -53,8 +53,13 @@ public class ElectricArea : MonoBehaviour
                 break;
         }
 
-        if(m_HandleOnStart)
+        if (m_HandleOnStart)
             m_CurrentLoop = StartCoroutine(Loop());
+    }
+
+    private void OnDisable()
+    {
+        if (m_CurrentLoop != null) StopCoroutine(m_CurrentLoop);
     }
 
     public void HandleLoop()
