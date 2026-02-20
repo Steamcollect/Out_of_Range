@@ -152,20 +152,14 @@ public class KillStreakManager : MonoBehaviour
 
     public KillStreakStep GetKillStreakStep() =>m_Steps[m_CurrentStep];
 
-    private void OnValidate()
-    {
-        for (int i = 0; i < m_Steps.Length; i++)
-        {
-            m_Steps[i].KillStreakRequire = i;
-        }
-    }
+   
 }
 
 [System.Serializable]
 public class KillStreakStep
 {
     public float SpeedMult;
-    [ReadOnly] public int KillStreakRequire;
+    public int KillStreakRequire;
 
     [Space(10)]
     public string StepName;
