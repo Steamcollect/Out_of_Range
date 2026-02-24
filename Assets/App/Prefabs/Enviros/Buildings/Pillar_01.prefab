@@ -123,8 +123,41 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a0956572ca04eb0418a75c331dda6e0a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3414242921608871496}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a0956572ca04eb0418a75c331dda6e0a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8488648608736880721}
   m_SourcePrefab: {fileID: 100100000, guid: a0956572ca04eb0418a75c331dda6e0a, type: 3}
+--- !u!23 &807366798061261485 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: a0956572ca04eb0418a75c331dda6e0a, type: 3}
+  m_PrefabInstance: {fileID: 2086787799708618281}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1167746921965384568 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a0956572ca04eb0418a75c331dda6e0a, type: 3}
+  m_PrefabInstance: {fileID: 2086787799708618281}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8488648608736880721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167746921965384568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c24aef38a3a1e4b4693d33d370be0f3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeshMaterialChanger
+  m_MeshsChanger:
+  - MatIndex: 2
+    Mesh: {fileID: 807366798061261485}
+  m_BlueMat: {fileID: 2100000, guid: 1207b7a795a164e42b70da7e385030b5, type: 2}
+  m_RedMat: {fileID: 2100000, guid: 41913b883dfc6604fb3037d3dd8f7f84, type: 2}
+  m_ChangeToBlueOnPlayerDetection: 1
+  m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
+  m_PlayerDetectionRadius: 12
 --- !u!4 &1981437669413824962 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a0956572ca04eb0418a75c331dda6e0a, type: 3}
