@@ -158,6 +158,9 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         Vector3 playerPos = m_PlayerController.Get().GetTargetPosition();
         Vector3 inputDir = GetInputDirectionRelativeToCamera();
 
+        if (inputDir.sqrMagnitude < .3f)
+            return ComputeFallback(playerPos, Vector3.zero);
+
         m_DebugOrigin = playerPos;
         m_DebugInputDirection = inputDir;
 
@@ -340,7 +343,6 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         {
             return playerPos + inputDir.normalized;
         }
-            
 
         Vector3 velocity = m_PlayerController.Value.Velocity;
         velocity.y = 0f;
