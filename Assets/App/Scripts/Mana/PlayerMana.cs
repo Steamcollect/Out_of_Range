@@ -11,10 +11,15 @@ public class PlayerMana : MonoBehaviour
         
     public event Action OnManaChanged;
     public UnityEvent OnManaCollected;
-        
+    
     public int CurrentMana => m_CurrentMana;
     public int MaxMana => m_MaxMana;
-        
+
+    private void Start()
+    {
+        SetToMax();
+    }
+
     public void Add(int amount)
     {
         m_CurrentMana = Mathf.Clamp(m_CurrentMana + amount, 0, m_MaxMana);
