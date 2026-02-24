@@ -6,6 +6,8 @@ public class RoomBaker : MonoBehaviour
 {
     [SerializeField, Tooltip("Objets qui ne seront pas calculé par les mur invisible")] GameObject[] navMeshObjects;
     [SerializeField, Tooltip("Objets qui ne seront pas calculé par le navmesh surface")] GameObject[] wallsObjects;
+
+    [SerializeField] bool m_BakeOnlyRoom = false;
     [SerializeField] NavMeshSurface surface;
     [SerializeField] RoomWallBaker wallBaker;
 
@@ -27,7 +29,7 @@ public class RoomBaker : MonoBehaviour
 
         wallBaker.SetActiveWalls(false);
         surface.BuildNavMesh();
-        wallBaker.Bake(surface);
+        if(!m_BakeOnlyRoom) wallBaker.Bake(surface);
 
         foreach (var obj in navMeshObjects)
             obj.SetActive(true);

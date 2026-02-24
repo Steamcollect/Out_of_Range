@@ -17,6 +17,9 @@ public class ManaCreator : MonoBehaviour
     //[Header("Input")]
     //[Header("Output")]
 
+    /// <summary>
+    /// Spawn mana pick up
+    /// </summary>
     [Button]
     public void Create()
     {

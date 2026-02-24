@@ -25,26 +25,9 @@ public class Door : MonoBehaviour
     [SerializeField] Transform m_OpenPoint;
     [SerializeField] Transform m_ClosePoint;
 
-    EntityController currentEntity;
-
     [Space(10)]
     [SerializeField, Inline] MeshMatChanger[] m_MeshChanger;
     [SerializeField] Material m_LockedMat, m_OpenedMat;
-
-    [System.Serializable]
-    struct MeshMatChanger
-    {
-        public int MatIndex;
-        public MeshRenderer Mesh;
-
-        public void ChangeMat(Material mat)
-        {
-            Material[] mats = Mesh.materials;
-            mats[MatIndex] = mat;
-
-            Mesh.SetMaterials(mats.ToList());
-        }
-    }
 
     private void Awake()
     {

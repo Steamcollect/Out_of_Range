@@ -25,10 +25,14 @@ public class Checkpoint : MonoBehaviour
     {
         if (m_ApplySpawnPosOnStart && PlayerSpawnPoint.S_Position == Vector3.zero)
         {
-            m_SetActiveRooms.Call(roomConnected);
-
             PlayerSpawnPoint.S_Position = m_SpawnPoint.position;
         }
+    }
+
+    private void Start()
+    {
+        if (m_ApplySpawnPosOnStart)
+            m_SetActiveRooms.Call(roomConnected);
     }
 
     private void OnTriggerEnter(Collider other)

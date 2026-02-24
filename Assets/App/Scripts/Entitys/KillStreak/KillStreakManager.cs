@@ -81,8 +81,8 @@ public class KillStreakManager : MonoBehaviour
 
     void IncreaseStep()
     {
+        int current = m_CurrentStep;
         m_CurrentStreak++;
-        m_Timer = m_StepTime;
 
         for (int i = 0; i < m_Steps.Length; i++)
         {
@@ -93,14 +93,17 @@ public class KillStreakManager : MonoBehaviour
             }
         }
 
+        if (current == m_CurrentStep) return;
+
+        m_Timer = m_StepTime;
         m_OnStepIncrease.Call(m_Steps[m_CurrentStep]);
         m_TimerOnMax.Set(m_Timer / m_StepTime);
     }
 
     void DecreaseStep()
     {
-        m_CurrentStreak = Mathf.Clamp(m_CurrentStreak - m_StreakLosePerDamage, 0, m_Steps.Length);
-        m_CurrentStep = m_CurrentStreak;
+        m_CurrentStreak = 0;
+        m_CurrentStep = 0;
         m_Player.Value.GetMovement().SetSpeedMult(m_Steps[m_CurrentStep].SpeedMult);
         m_OnStepDecrease.Call(m_Steps[m_CurrentStep]);
     }
@@ -152,20 +155,14 @@ public class KillStreakManager : MonoBehaviour
 
     public KillStreakStep GetKillStreakStep() =>m_Steps[m_CurrentStep];
 
-    private void OnValidate()
-    {
-        for (int i = 0; i < m_Steps.Length; i++)
-        {
-            m_Steps[i].KillStreakRequire = i;
-        }
-    }
+   
 }
 
 [System.Serializable]
 public class KillStreakStep
 {
     public float SpeedMult;
-    [ReadOnly] public int KillStreakRequire;
+    public int KillStreakRequire;
 
     [Space(10)]
     public string StepName;
