@@ -421,7 +421,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossPaternManager
   hasGrenadePatern: 0
-  hasRiflePatern: 1
+  hasRiflePatern: 0
+  hasRifleWavePatern: 1
   m_Controller: {fileID: 3316161964527602809}
   m_RiflePatern:
     Combat: {fileID: 7437937668801270797}
@@ -429,9 +430,14 @@ MonoBehaviour:
   m_GrenadePatern:
     Combat: {fileID: 4783614989497186947}
     UseProbability: 30
+  m_RifleWavePatern:
+    Combat: {fileID: 2822973573687749451}
+    UseProbability: 30
   m_AddGrenade: {fileID: 11400000, guid: 18b0e2e79a017bd4b987c27363377ad0, type: 2}
   m_AddRifle: {fileID: 11400000, guid: 139e6ae25e7506b428fc2ae0e626de0e, type: 2}
   m_RemoveRifle: {fileID: 11400000, guid: 9ba77bc4dd9204c4abd1fe289e6be492, type: 2}
+  m_AddRifleWave: {fileID: 11400000, guid: c203466da80222843964239141520cd1, type: 2}
+  m_RemoveRifleWave: {fileID: 11400000, guid: 89db89ab29b29c14c85fa194f177f7c2, type: 2}
   m_AddPowerUps: {fileID: 11400000, guid: e64d1d0d8ecc57d48817fb7690fd7f89, type: 2}
 --- !u!1 &1478016481468718756
 GameObject:
@@ -1707,41 +1713,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StepHandler
   m_StepDuration: 0.2
   m_StepLength: 1.5
-  m_StepHeight: 0.1
-  m_StepCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 5.342185
-      outSlope: 5.342185
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.06294417
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_AnticipationMultiplier: 0.5
   m_IkTarget: {fileID: 40198073497818012}
 --- !u!1 &4262869450419016432
 GameObject:
@@ -2093,13 +2064,13 @@ MonoBehaviour:
   m_SpeedMult: 1
   m_MovementSpacing: {x: 3, y: 5}
   m_MovementTime: {x: 3, y: 5}
-  m_PivotPos: {x: -324.9211, y: 111, z: 1051.7}
+  m_PivotPos: {x: 0, y: 0, z: 0}
   m_Distance: 20
   m_VerticalSpeedRatio: 0.2
   m_MaxHorizontalAngle: 65
   m_AngleOffset: 0
   m_CanMove: 0
-  m_TargetY: 117
+  m_TargetY: 1
   m_Body: {fileID: 2281128793066169461}
   m_Controller: {fileID: 3316161964527602809}
   m_SetCanMove: {fileID: 11400000, guid: 6f228de9a44a0224d910cbd3ecf7c2bb, type: 2}
@@ -2176,41 +2147,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StepHandler
   m_StepDuration: 0.2
   m_StepLength: 1.5
-  m_StepHeight: 0.1
-  m_StepCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 5.342185
-      outSlope: 5.342185
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.06294417
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_AnticipationMultiplier: 0.5
   m_IkTarget: {fileID: 4882586647928870989}
 --- !u!1 &5114194917273569008
 GameObject:
@@ -2245,6 +2181,7 @@ Transform:
   - {fileID: 3215718857489662154}
   - {fileID: 6892014452697723885}
   - {fileID: 2219852147485660652}
+  - {fileID: 5883580435403422619}
   - {fileID: 4345493331919637633}
   - {fileID: 631473272870666706}
   m_Father: {fileID: 2281128793066169461}
@@ -2750,41 +2687,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StepHandler
   m_StepDuration: 0.2
   m_StepLength: 1.5
-  m_StepHeight: 0.1
-  m_StepCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 5.342185
-      outSlope: 5.342185
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.06294417
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_AnticipationMultiplier: 0.5
   m_IkTarget: {fileID: 2624930600817716014}
 --- !u!1 &7010828101065357538
 GameObject:
@@ -2859,41 +2761,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StepHandler
   m_StepDuration: 0.2
   m_StepLength: 1.5
-  m_StepHeight: 0.1
-  m_StepCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 5.342185
-      outSlope: 5.342185
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.06294417
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_AnticipationMultiplier: 0.5
   m_IkTarget: {fileID: 7170604085907631031}
 --- !u!1 &7018562162766838953
 GameObject:
@@ -3063,42 +2930,73 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StepHandler
   m_StepDuration: 0.2
   m_StepLength: 1.5
-  m_StepHeight: 0.1
-  m_StepCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 5.342185
-      outSlope: 5.342185
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.06294417
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_AnticipationMultiplier: 0.5
   m_IkTarget: {fileID: 1931536016687621254}
+--- !u!1 &8010511849559762721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5883580435403422619}
+  - component: {fileID: 2822973573687749451}
+  m_Layer: 0
+  m_Name: RifleWaveCombat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5883580435403422619
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8010511849559762721}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 781566039207709815}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2822973573687749451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8010511849559762721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07567d89ee0d57a4f82f8396fd4b69e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RangeWaveShootEnemyCombat
+  m_TurnSmoothTime: 0.35
+  m_CanRotate: 1
+  m_StunTimeOnSpawn: 1
+  m_HorizontalPivot: {fileID: 170801731212874545}
+  m_BulletCount: 30
+  m_BulletCountAtkSpeedPowerUp: 45
+  m_AtkSpeedBulletSpeedMult: 1.4
+  m_CloneBulletSpacing: 1
+  m_TimeBeforeAttack: 0
+  m_TimeAfterAttack: 0
+  m_TimeBetweenAttacks: 1
+  m_StartAngle: 40
+  m_RotationTime: 4
+  m_AttackPoint: {fileID: 430326667451270363}
+  m_BulletPrefab: {fileID: 4581899121895831684, guid: c1701630e3da4b34a8cd45b8ce9fcd78, type: 3}
+  m_StrenghtBulletPrefab: {fileID: 4581899121895831684, guid: de6044e4e40e1104b80d65c53d7e02fd, type: 3}
+  m_MuzzleFlashPrefab: {fileID: 4186470608034871016, guid: cc14274dfbcc19749af6ec9434cd4d02, type: 3}
+  m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
+  m_Controller: {fileID: 3316161964527602809}
+  m_OnShoot:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8190327143389210389
 GameObject:
   m_ObjectHideFlags: 0
@@ -3416,41 +3314,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StepHandler
   m_StepDuration: 0.2
   m_StepLength: 1.5
-  m_StepHeight: 0.1
-  m_StepCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 5.342185
-      outSlope: 5.342185
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.06294417
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_AnticipationMultiplier: 0.5
   m_IkTarget: {fileID: 9086145392071075581}
 --- !u!1 &8572569044695946039
 GameObject:
