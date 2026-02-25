@@ -17,6 +17,9 @@ public class EntityHealth : MonoBehaviour, IHealth
     [SerializeField] protected float m_InvincibilityRegainDuration;
 
     [SerializeField, ReadOnly] protected bool m_IsInvincible;
+    protected float m_CurrentInvincibilityDuration = 0;
+
+    Coroutine m_InvincibilityCoroutine;
 
     [Header("REFERENCES")]
     [SerializeField] protected UnityEvent m_OnTakeDamageFeedback;
@@ -87,13 +90,24 @@ public class EntityHealth : MonoBehaviour, IHealth
     
     public void GainInvincibility(float duration)
     {
-        StartCoroutine(OnInvincibilityGain(duration));
+        if (m_CurrentInvincibilityDuration > duration) return;
+
+        if(m_InvincibilityCoroutine != null) StopCoroutine(m_InvincibilityCoroutine);
+        m_InvincibilityCoroutine = StartCoroutine(OnInvincibilityGain(duration));
     }
 
     private IEnumerator OnInvincibilityGain(float duration)
     {
         m_IsInvincible = true;
-        yield return new WaitForSeconds(duration);
+        m_CurrentInvincibilityDuration = duration;
+
+        while(m_CurrentInvincibilityDuration > 0)
+        {
+            m_CurrentInvincibilityDuration -= Time.deltaTime;
+            yield return null;
+        }
+
+        m_CurrentInvincibilityDuration = 0;
         m_IsInvincible = false;
     }
 
