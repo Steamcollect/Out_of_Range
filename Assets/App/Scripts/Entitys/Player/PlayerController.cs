@@ -80,8 +80,12 @@ public class PlayerController : EntityController
 
         Vector3 rawDir = Quaternion.Euler(0, angle, 0) * Vector3.forward;
 
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 2f))
+        if (Physics.Raycast(transform.position + Vector3.up * .3f, Vector3.down, out RaycastHit hit, 2f))
+        {
+            Debug.DrawRay(hit.point, hit.normal, Color.yellow);
             m_MoveDir = Vector3.ProjectOnPlane(rawDir, hit.normal).normalized;
+
+        }
         else
             m_MoveDir = rawDir;
 
@@ -102,6 +106,8 @@ public class PlayerController : EntityController
     private void Dash(InputAction.CallbackContext ctx)
     {
         if (!m_IsMoving) return;
+
+        Debug.DrawRay(transform.position, m_MoveDir, Color.red, 1);
         m_Dash.Dash(m_MoveDir);
     }
     

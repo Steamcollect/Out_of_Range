@@ -113,7 +113,6 @@ public class Entity_Dash : MonoBehaviour
         if (disableBorderWall)
         {
             LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_BorderWallMask, true);
-            m_Rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
         }
 
         IsDashing = true;
@@ -123,7 +122,6 @@ public class Entity_Dash : MonoBehaviour
         if (disableBorderWall)
         {
             LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_BorderWallMask, false);
-            m_Rb.constraints = RigidbodyConstraints.FreezeRotation;
         }
 
         LayerUtils.IgnoreLayerMaskCollision(m_PlayerMask, m_DashMask, false);
