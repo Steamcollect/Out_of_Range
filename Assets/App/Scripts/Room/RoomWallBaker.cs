@@ -7,7 +7,6 @@ using UnityEngine.AI;
 
 public class RoomWallBaker : MonoBehaviour
 {
-    NavMeshSurface surface;
 
     [Header("Wall Settings")]
     public float wallHeight = 5f;
@@ -29,8 +28,6 @@ public class RoomWallBaker : MonoBehaviour
     [Button]
     public void Bake(NavMeshSurface surface)
     {
-        this.surface = surface;
-
         PrepareWallsRoot();
         ClearWalls();
 
@@ -68,7 +65,14 @@ public class RoomWallBaker : MonoBehaviour
         // Pour le debug, on garde la plus grande boucle
         outerLoop = loops.OrderByDescending(PolygonAreaXZ).First();
 
+        // Hauteur du navmesh (on prend la moyenne des Y des vertices)
+        float navMeshHeight = tri.vertices.Average(v => v.y);
+
+        // Génération du sol de sécurité
+        BuildSafetyFloor(outerLoop, navMeshHeight);
+
         Debug.Log($"RoomWallBaker : {outerLoop.Count} points dans la boucle extérieure.");
+
     }
 
     public void SetActiveWalls(bool state)
@@ -275,6 +279,35 @@ public class RoomWallBaker : MonoBehaviour
             col.size = new Vector3(wallThickness, wallHeight, length);
         }
     }
+
+    private void BuildSafetyFloor(List<Vector3> loop, float navMeshHeight)
+    {
+        // Calcul du bounding box horizontal
+        float minX = loop.Min(p => p.x);
+        float maxX = loop.Max(p => p.x);
+        float minZ = loop.Min(p => p.z);
+        float maxZ = loop.Max(p => p.z);
+
+        float width = (maxX - minX) + 4f;   // dépasse de 2m de chaque côté
+        float depth = (maxZ - minZ) + 4f;
+
+        float centerX = (minX + maxX) * 0.5f;
+        float centerZ = (minZ + maxZ) * 0.5f;
+
+        // Hauteur légèrement sous le navmesh
+        float y = navMeshHeight - 0.05f;
+
+        // Création du GO
+        GameObject floor = new GameObject("SafetyFloor");
+        floor.transform.SetParent(wallsRoot);
+        floor.layer = LayerMask.NameToLayer("Default");
+
+        floor.transform.position = new Vector3(centerX, y, centerZ);
+
+        var col = floor.AddComponent<BoxCollider>();
+        col.size = new Vector3(width, 0.2f, depth); // très fin, juste un sol
+    }
+
 
     private void ClearWalls()
     {
