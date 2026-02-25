@@ -26,7 +26,7 @@ public class PlayerHealthMask : MonoBehaviour
         m_BlurDamageImage.material = m_BlurMaterial;
     }
 
-    private void OnEnable()
+    private void Start()
     {
         m_PlayerController.Get().GetHealth().OnTakeDamage += OnTakeDamage;
         OnTakeDamage();
@@ -36,8 +36,8 @@ public class PlayerHealthMask : MonoBehaviour
     {
         EntityHealth healthComp = m_PlayerController.Get().GetHealth();
         
-        int healthDiff = Mathf.RoundToInt(1- healthComp.GetCurrentHealth() -healthComp.GetMaxHealth());
         
+        int healthDiff = Mathf.RoundToInt(healthComp.GetMaxHealth() - healthComp.GetCurrentHealth());
         int index = Mathf.Clamp(healthDiff, 0, m_DamageMaskEffects.Length - 1);
         
         ApplyEffect(index);
@@ -49,7 +49,7 @@ public class PlayerHealthMask : MonoBehaviour
         m_DamageMaskEffects[index].PlayEffect(in m_BlurMaterial);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         m_PlayerController.Get().GetHealth().OnTakeDamage -= OnTakeDamage;
     }

@@ -1249,14 +1249,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 889a33cda0552fe4c8ba12ddd7be7546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  m_DamageBlurDuration: 1
-  m_Ease: 27
   m_EffectUseTimeScale: 1
-  intensityPerHealthPoint:
-  - 1
-  - 1
-  - 0.8
-  - 0
+  m_DamageMaskEffects:
+  - Intensity: 0
+    SmoothBorder: 0
+    PowerDithering: 0
+    SpeedWarning: 0
+    Thickness: 0
+  - Intensity: 1
+    SmoothBorder: 0.35
+    PowerDithering: 0.8
+    SpeedWarning: 4
+    Thickness: 0.13
+  - Intensity: 1
+    SmoothBorder: 0.35
+    PowerDithering: 1.8
+    SpeedWarning: 8
+    Thickness: 0.135
+  m_MaskMaterial: {fileID: 2100000, guid: 0b5736d1f977442449c9871467fe48e0, type: 2}
   m_BlurDamageImage: {fileID: 4882014018092695065}
   m_PlayerController: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!1001 &1061437163282445530
