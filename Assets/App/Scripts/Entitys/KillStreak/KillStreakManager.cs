@@ -8,7 +8,6 @@ public class KillStreakManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float m_StepTime = 8;
     [SerializeField] KillStreakStep[] m_Steps;
-    [SerializeField] int m_StreakLosePerDamage = 1;
 
     [Space(5)]
     [SerializeField, ReadOnly] int m_CurrentStreak = 0;

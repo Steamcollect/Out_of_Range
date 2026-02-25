@@ -13,7 +13,7 @@ public class WaveSpawner : MonoBehaviour
     [SerializeField] private List<GameObject> m_Wave = new List<GameObject>();
 
     [SerializeField] private GameObject m_SpawnFeedback;
-    [SerializeField] private float m_SpawnFeedbackDuration = 1.0f;
+    //[SerializeField] private float m_SpawnFeedbackDuration = 1.0f;
     
     public int ConfiguredWaveCount => m_Wave.Count;
 

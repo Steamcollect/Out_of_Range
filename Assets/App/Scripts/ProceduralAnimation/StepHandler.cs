@@ -8,11 +8,6 @@ public class StepHandler : MonoBehaviour
 
     [Space(10)]
     [SerializeField] float m_StepLength = 0.5f;
-    [SerializeField] float m_StepHeight = 0.1f;
-    [SerializeField] AnimationCurve m_StepCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
-
-    [Space(10)]
-    [SerializeField, Range(0, 1)] float m_AnticipationMultiplier = .5f;
 
     Vector3 m_StartLocalPosition;
     Vector3 m_CurrentIkPosition;
