@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,12 +7,11 @@ public class PlayerHealthMask : MonoBehaviour
 {
     
     [Header("Settings")]
-    [SerializeField] private float m_DamageBlurDuration = 0.5f;
-    [SerializeField] private Ease m_Ease = Ease.OutQuad;
     [SerializeField] private bool m_EffectUseTimeScale = true;
-    [SerializeField] float[] intensityPerHealthPoint;
+    [SerializeField] private DamageMaskEffect[] m_DamageMaskEffects;
 
     [Header("References")]
+    [SerializeField] private Material m_MaskMaterial;
     [SerializeField] private Image m_BlurDamageImage;
 
     [Header("Input")] 
@@ -19,46 +19,63 @@ public class PlayerHealthMask : MonoBehaviour
 
     private Material m_BlurMaterial;
     
-    private static readonly  int s_IntensityProp = Shader.PropertyToID("_Intensity");
-    
-    private Tween m_CurrentTween;
-    
     private void Awake()
     {
-        m_BlurMaterial = new Material(m_BlurDamageImage.material);
+        // Create a new material instance, because image not support material property blocks
+        m_BlurMaterial = new Material(m_MaskMaterial);
         m_BlurDamageImage.material = m_BlurMaterial;
-        m_BlurMaterial.SetFloat(s_IntensityProp, 0f);
     }
 
     private void Start()
     {
         m_PlayerController.Get().GetHealth().OnTakeDamage += OnTakeDamage;
+        OnTakeDamage();
     }
 
     private void OnTakeDamage()
     {
-        var health = m_PlayerController.Get().GetHealth();
-        float targetIntensity = intensityPerHealthPoint[(int)health.GetCurrentHealth()];
-
-        m_CurrentTween?.Kill();
-
-        Sequence dmgSequence = DOTween.Sequence();
-
-        dmgSequence.Append(DOTween.To(() => m_BlurMaterial.GetFloat(s_IntensityProp),
-            x => m_BlurMaterial.SetFloat(s_IntensityProp, x), 1f, m_DamageBlurDuration * 0.2f)
-            .SetEase(Ease.OutExpo));
-
-        dmgSequence.Append(DOTween.To(() => m_BlurMaterial.GetFloat(s_IntensityProp),
-            x => m_BlurMaterial.SetFloat(s_IntensityProp, x), targetIntensity, m_DamageBlurDuration * 0.8f)
-            .SetEase(m_Ease));
-
-        dmgSequence.SetUpdate(m_EffectUseTimeScale);
-        m_CurrentTween = dmgSequence;
+        EntityHealth healthComp = m_PlayerController.Get().GetHealth();
+        
+        
+        int healthDiff = Mathf.RoundToInt(healthComp.GetMaxHealth() - healthComp.GetCurrentHealth());
+        int index = Mathf.Clamp(healthDiff, 0, m_DamageMaskEffects.Length - 1);
+        
+        ApplyEffect(index);
+    }
+    
+    [Button]
+    private void ApplyEffect(int index)
+    {
+        m_DamageMaskEffects[index].PlayEffect(in m_BlurMaterial);
     }
 
     private void OnDestroy()
     {
         m_PlayerController.Get().GetHealth().OnTakeDamage -= OnTakeDamage;
-        m_CurrentTween.Kill();
+    }
+    
+    [System.Serializable]
+    private struct DamageMaskEffect
+    {
+        public float Intensity;
+        public float SmoothBorder;
+        public float PowerDithering;
+        public float SpeedWarning;
+        public float Thickness;
+        
+        private static readonly  int s_IntensityProp = Shader.PropertyToID("_Intensity");
+        private static readonly int s_SmoothnessProp = Shader.PropertyToID("_SmoothGradientBorder");
+        private static readonly int s_PowerDitheringProp = Shader.PropertyToID("_PowerDithering");
+        private static readonly int s_SpeedWarningProp = Shader.PropertyToID("_SpeedWarning");
+        private static readonly int s_ThicknessProp = Shader.PropertyToID("_Thickness");
+
+        public void PlayEffect(in Material material)
+        {
+            material.SetFloat(s_SmoothnessProp, SmoothBorder);
+            material.SetFloat(s_IntensityProp, Intensity);
+            material.SetFloat(s_PowerDitheringProp, PowerDithering);
+            material.SetFloat(s_SpeedWarningProp, SpeedWarning);
+            material.SetFloat(s_ThicknessProp, Thickness);
+        }
     }
 }
