@@ -44,6 +44,5 @@ public class RoomBaker : MonoBehaviour
         {
             _surface.gameObject.SetActive(true);
         }
-
     }
 }
