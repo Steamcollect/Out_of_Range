@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerHealthMask : MonoBehaviour
 {
-    
     [Header("Settings")]
-    [SerializeField] private bool m_EffectUseTimeScale = true;
     [SerializeField] private DamageMaskEffect[] m_DamageMaskEffects;
 
     [Header("References")]
