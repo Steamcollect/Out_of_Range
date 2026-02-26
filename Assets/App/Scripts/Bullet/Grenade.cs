@@ -21,7 +21,7 @@ public class Grenade : MonoBehaviour
 
     Vector3 m_StartingPos, m_TargetPos;
 
-    static Collider[] s_CollidHit = new Collider[100];
+    static readonly Collider[] s_CollidHit = new Collider[100];
 
     public void Setup(Vector3 initPos, Vector3 targetPos)
     {

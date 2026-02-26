@@ -69,7 +69,7 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        ContactPoint contact = other.contacts[0];
+        ContactPoint contact = other.GetContact(0);
         Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
         Vector3 pos = contact.point;
 
