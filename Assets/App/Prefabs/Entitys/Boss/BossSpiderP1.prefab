@@ -2062,15 +2062,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossMovementController
   m_MoveSpeed: 15
   m_SpeedMult: 1
+  m_VerticalSpeedRatio: 0.2
+  m_TimeAterSpawn: 1
   m_MovementSpacing: {x: 3, y: 5}
   m_MovementTime: {x: 3, y: 5}
-  m_PivotPos: {x: 0, y: 0, z: 0}
-  m_Distance: 20
-  m_VerticalSpeedRatio: 0.2
-  m_MaxHorizontalAngle: 65
-  m_AngleOffset: 0
   m_CanMove: 0
-  m_TargetY: 1
   m_Body: {fileID: 2281128793066169461}
   m_Controller: {fileID: 3316161964527602809}
   m_SetCanMove: {fileID: 11400000, guid: 6f228de9a44a0224d910cbd3ecf7c2bb, type: 2}
@@ -3721,7 +3717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  m_MaxHealth: 50
+  m_MaxHealth: 100
   m_CurrentHealth: 0
   m_ClampDamage: 0
   m_MaxDamage: 0
@@ -3767,7 +3763,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.75
+  m_Radius: 3
   m_Height: 5.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.55, z: 0.74}
