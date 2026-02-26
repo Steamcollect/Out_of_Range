@@ -1,22 +1,19 @@
 using DG.Tweening;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerManaHUD : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField] Vector2 m_PosOffset;
+
     [Header("References")]
     [SerializeField] GameObject m_Content;
-    [SerializeField] TMP_Text m_PercentageTxt;
-
-    [Space]
-    [SerializeField] Image m_ManaBackgroundImage;
     [SerializeField] Image m_ManaFillImage;
 
     [Space]
-    [SerializeField] RSO_PlayerController m_Player;
-
-    int lastValue;
+    [SerializeField] private RSO_PlayerController m_Player;
+    [SerializeField] RSO_PlayerCameraController m_Camera;
 
     private void OnEnable()
     {
@@ -37,6 +34,20 @@ public class PlayerManaHUD : MonoBehaviour
         UpdateUIIndicator();
     }
 
+    private void LateUpdate()
+    {
+        UpdatePosition();
+    }
+
+    private void UpdatePosition()
+    {
+        if (!m_Camera || !m_Camera.Get()) return;
+        if (!m_Player || !m_Player.Get()) return;
+
+        transform.position = (Vector2)m_Camera.Get().GetCamera()
+            .WorldToScreenPoint(m_Player.Get().GetTargetPosition()) + m_PosOffset;
+    }
+
     private void UpdateUI()
     {
         if (!m_Player.Get().GetPlayerCombat().GetSecondaryCombatStyle())
@@ -47,19 +58,12 @@ public class PlayerManaHUD : MonoBehaviour
 
     private void UpdateUIIndicator()
     {
-        if(m_Player.Get().GetPlayerMana().GetManaGivenOverTime(lastValue) != m_Player.Get().GetPlayerMana().CurrentMana)
+        m_ManaFillImage.fillAmount = (float)m_Player.Get().GetPlayerMana().CurrentMana / m_Player.Get().GetPlayerMana().MaxMana;
+
+        m_Content.transform.DOKill();
+        m_Content.transform.DOScale(1.1f, .07f).OnComplete(() =>
         {
-            m_Content.transform.DOKill();
-            m_Content.transform.DOScale(1.1f, .07f).OnComplete(() =>
-            {
-                m_Content.transform.DOScale(1, .1f);
-            });
-        }
-
-        lastValue = m_Player.Get().GetPlayerMana().CurrentMana;
-        float value = (float)m_Player.Get().GetPlayerMana().CurrentMana / m_Player.Get().GetPlayerMana().MaxMana;
-
-        m_ManaFillImage.fillAmount = value * m_ManaBackgroundImage.fillAmount;
-        m_PercentageTxt.text = (value * 100).ToString("F0") + "%";
+            m_Content.transform.DOScale(1, .1f);
+        });
     }
 }
