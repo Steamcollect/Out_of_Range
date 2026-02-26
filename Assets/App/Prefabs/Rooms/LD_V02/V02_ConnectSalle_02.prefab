@@ -3194,6 +3194,59 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &4501797261841936460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3703133363314567564}
+  - component: {fileID: 8365764016306205848}
+  m_Layer: 0
+  m_Name: ColliderHole
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &3703133363314567564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4501797261841936460}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -85.12999, y: 0, z: 1.3156128}
+  m_LocalScale: {x: 4.382331, y: 0.52899855, z: 3.9764364}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1902000064831803118}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8365764016306205848
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4501797261841936460}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 17.060476, y: 1.8485827, z: 10.047391}
+  m_Center: {x: 6.53024, y: -0.9660729, z: -2.2692664}
 --- !u!1 &4593725135191635267
 GameObject:
   m_ObjectHideFlags: 0
@@ -3838,6 +3891,7 @@ Transform:
   - {fileID: 7569338676445221823}
   - {fileID: 2847005474187558046}
   - {fileID: 7671033158666431110}
+  - {fileID: 3703133363314567564}
   - {fileID: 3870511223316605960}
   - {fileID: 9034643066319619631}
   - {fileID: 547513265342451489}
@@ -5952,15 +6006,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
-      value: 0.8915436
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
-      value: -0.45293498
+      value: -0.000003695488
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.x
-      value: -132.80379
+      value: -128.56737
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.y
@@ -5968,7 +6026,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.z
-      value: 764.7893
+      value: 759.3276
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6303,15 +6361,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
-      value: -0.92997
+      value: -1.0000001
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
-      value: -0.36763573
+      value: 0.00000009126961
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.x
-      value: -71.67432
+      value: -132.61
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.y
@@ -6319,7 +6377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.z
-      value: 756.9137
+      value: 756.70557
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6996,7 +7054,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Bool.m_Array.Array.data[0].m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
@@ -7004,19 +7062,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.x
-      value: -109.27011
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.y
-      value: 85.76
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.z
-      value: 778.68176
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7160,7 +7218,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Bool.m_Array.Array.data[0].m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
@@ -7168,19 +7226,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.x
-      value: -113.89011
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.y
-      value: 85.76
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.z
-      value: 778.68176
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7627,7 +7685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Bool.m_Array.Array.data[0].m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
@@ -7635,19 +7693,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.x
-      value: -104.20011
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.y
-      value: 85.76
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.z
-      value: 778.68176
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7713,7 +7771,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Bool.m_Array.Array.data[0].m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
@@ -7721,19 +7779,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.x
-      value: -118.74011
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.y
-      value: 85.76
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.z
-      value: 778.68176
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8180,7 +8238,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Bool.m_Array.Array.data[0].m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
@@ -8188,19 +8246,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.x
-      value: -99.920105
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.y
-      value: 85.76
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.z
-      value: 778.68176
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
