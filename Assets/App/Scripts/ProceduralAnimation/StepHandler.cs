@@ -22,18 +22,16 @@ public class StepHandler : MonoBehaviour
 
     Transform m_BodyPivot;
     StepManager m_StepManager;
-    BossMovementController m_Movement;
 
-    public void Setup(Transform bodyPivot, StepManager stepManager, BossMovementController movement)
+    public void Setup(Transform bodyPivot, StepManager stepManager)
     {
         m_StepManager = stepManager;
         m_BodyPivot = bodyPivot;
-        m_Movement = movement;
 
         m_StartLocalPosition = m_IkTarget.position - bodyPivot.position;
         m_CurrentIkPosition = m_IkTarget.position;
 
-        m_CurrentIkPosition = m_Movement.ApplyOnCylinder(m_BodyPivot.TransformPoint(
+        m_CurrentIkPosition = BossMovementPivot.Instance.ApplyOnCylinder(m_BodyPivot.TransformPoint(
             new Vector3(m_StartLocalPosition.x, m_StartLocalPosition.y, m_StartLocalPosition.z)
             + Random.insideUnitSphere.normalized * (m_StepLength * .5f)));
     }
@@ -53,7 +51,7 @@ public class StepHandler : MonoBehaviour
             || !m_IkTarget) 
             return;
 
-        float distance = Vector3.Distance(m_Movement.ApplyOnCylinder(m_BodyPivot.TransformPoint(
+        float distance = Vector3.Distance(BossMovementPivot.Instance.ApplyOnCylinder(m_BodyPivot.TransformPoint(
             new Vector3(m_StartLocalPosition.x, m_StartLocalPosition.y, m_StartLocalPosition.z))),
             m_IkTarget.position);
 
@@ -80,7 +78,7 @@ public class StepHandler : MonoBehaviour
 
         Vector3 startPos = m_IkTarget.position;
 
-        Vector3 endPos = m_Movement.ApplyOnCylinder(
+        Vector3 endPos = BossMovementPivot.Instance.ApplyOnCylinder(
             m_BodyPivot.TransformPoint(
             new Vector3(
                 m_StartLocalPosition.x, 

@@ -31,7 +31,7 @@ public class StepManager : MonoBehaviour
         foreach (StepHandler stepHandler in m_Handlers)
         {
             if (stepHandler != null)
-                stepHandler.Setup(m_MainBody, this, m_Movement);
+                stepHandler.Setup(m_MainBody, this);
         }
     }
 
