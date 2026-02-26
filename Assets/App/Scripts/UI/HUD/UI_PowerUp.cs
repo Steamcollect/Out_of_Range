@@ -27,7 +27,8 @@ public class UI_PowerUp : MonoBehaviour
 
     private void UpdateUI(List<PowerUpHandler> powerUps)
     {
-        // --- CREATE NEW SLOTS ---
+        StopAllCoroutines();
+        
         foreach (PowerUpHandler powerUp in powerUps)
         {
             UI_PowerUpSlot slot = m_PowerUpSlots.FirstOrDefault(c => c.GetPowerUp() == powerUp);
@@ -40,7 +41,6 @@ public class UI_PowerUp : MonoBehaviour
             }
         }
 
-        // --- REMOVE OLD SLOTS ---
         List<UI_PowerUpSlot> toRemove = new();
 
         foreach (UI_PowerUpSlot slot in m_PowerUpSlots)
@@ -54,6 +54,8 @@ public class UI_PowerUp : MonoBehaviour
             m_PowerUpSlots.Remove(slot);
             slot.DestoyUI();
         }
+
+        StartCoroutine(Animation());
     }
 
     IEnumerator Animation()
