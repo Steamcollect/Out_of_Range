@@ -2,13 +2,13 @@ using UnityEngine;
 using UnityEngine.Pool;
 using System.Collections.Generic;
 
-public class PoolManager: RegularSingleton<PoolManager>
+public sealed class PoolManager: RegularSingleton<PoolManager>
 {
     [Header("PREWARM")]
-    [SerializeField] private List<PoolDefinition> m_PoolsToPrewarm = new List<PoolDefinition>();
+    [SerializeField] private List<PoolDefinition> m_PoolsToPrewarm = new();
 
-    private Dictionary<int, ObjectPool<GameObject>> m_Pools = new Dictionary<int, ObjectPool<GameObject>>();
-    private Dictionary<int, Transform> m_PoolParents = new Dictionary<int, Transform>();
+    private readonly Dictionary<int, ObjectPool<GameObject>> m_Pools = new(capacity:8);
+    private readonly Dictionary<int, Transform> m_PoolParents = new(capacity:8);
 
     [System.Serializable]
     public class PoolDefinition
@@ -23,7 +23,7 @@ public class PoolManager: RegularSingleton<PoolManager>
     {
         foreach(PoolDefinition def in m_PoolsToPrewarm)
         {
-            if (def.Prefab == null) continue;
+            if (!def.Prefab) continue;
 
             Prewarm(def.Prefab, def.InitialAmount);
         }
@@ -35,7 +35,7 @@ public class PoolManager: RegularSingleton<PoolManager>
 
         InitPool(prefab, prefabID);
 
-        List<GameObject> tempObjects = new List<GameObject>(count);
+        var tempObjects = new List<GameObject>(count);
 
         for(int i = 0; i < count; i++)
         {
@@ -61,13 +61,13 @@ public class PoolManager: RegularSingleton<PoolManager>
 
         GameObject spawnedObject = m_Pools[prefabID].Get();
 
-        if (parent != null)
+        if (parent)
         {
             spawnedObject.transform.parent = parent;
         }
 
         PooledObject returnHandler = spawnedObject.GetComponent<PooledObject>();
-        if (returnHandler == null) returnHandler = spawnedObject.AddComponent<PooledObject>();
+        if (!returnHandler) returnHandler = spawnedObject.AddComponent<PooledObject>();
         returnHandler.Initialize(prefabID);
 
         spawnedObject.transform.SetPositionAndRotation(position, rotation);
@@ -85,13 +85,13 @@ public class PoolManager: RegularSingleton<PoolManager>
 
         GameObject spawnedObject = m_Pools[prefabID].Get();
 
-        if (parent != null)
+        if (parent)
         {
             spawnedObject.transform.parent = parent;
         }
 
         PooledObject returnHandler = spawnedObject.GetComponent<PooledObject>();
-        if (returnHandler == null) returnHandler = spawnedObject.AddComponent<PooledObject>();
+        if (!returnHandler) returnHandler = spawnedObject.AddComponent<PooledObject>();
         returnHandler.Initialize(prefabID);
 
         spawnedObject.transform.SetPositionAndRotation(position, rotation);
@@ -117,7 +117,7 @@ public class PoolManager: RegularSingleton<PoolManager>
     {
         if(m_Pools.ContainsKey(prefabID)) return;
 
-        GameObject poolParentObj = new GameObject($"Pool_{prefab.name}");
+        GameObject poolParentObj = new($"Pool_{prefab.name}");
         poolParentObj.transform.SetParent(this.transform);
         m_PoolParents[prefabID] = poolParentObj.transform;
 
@@ -129,7 +129,7 @@ public class PoolManager: RegularSingleton<PoolManager>
                 obj.SetActive(false);
                 return obj;
             },
-            actionOnGet: (obj) => { },
+            actionOnGet: _ => { },
             actionOnRelease: (obj) =>
             {
                 obj.SetActive(false);
@@ -138,7 +138,7 @@ public class PoolManager: RegularSingleton<PoolManager>
             },
 
 #if UNITY_EDITOR
-            actionOnDestroy: (obj) => DestroyImmediate(obj),
+            actionOnDestroy: DestroyImmediate,
 #else
             actionOnDestroy: (obj) => Destroy(obj),
 #endif

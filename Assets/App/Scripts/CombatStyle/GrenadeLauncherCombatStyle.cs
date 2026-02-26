@@ -98,8 +98,9 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     {
         if (m_PlayerController.Get().GetPlayerMana().CurrentMana < m_ShootCost) yield break;
         m_PlayerController.Get().GetPlayerMana().Remove(m_ShootCost);
-        
-        Grenade grenade = Instantiate(m_GrenadePrefab, m_AttackPoint.position, m_AttackPoint.rotation);
+
+        Grenade grenade = PoolManager.Instance.Spawn(m_GrenadePrefab, m_AttackPoint.position, m_AttackPoint.rotation);
+        // Grenade grenade = Instantiate(m_GrenadePrefab, m_AttackPoint.position, m_AttackPoint.rotation);
         grenade.Setup(m_AttackPoint.position, m_AimTarget.Get().position);
 
         grenade.Move();

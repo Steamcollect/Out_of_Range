@@ -23,6 +23,7 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
     public UnityEvent OnExplode;
 
     private bool m_IsExploding;
+    private readonly Collider[] m_ResultsBuffer = new Collider[32];
 
     private void Start()
     {
@@ -43,11 +44,11 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
 
     private void InflictDamage()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, m_ExplosionRadius, mask);
+        int size = Physics.OverlapSphereNonAlloc(transform.position, m_ExplosionRadius, m_ResultsBuffer, mask);
 
-        foreach (Collider collider in colliders)
+        for (int i = 0; i < size; i++)
         {
-            if(collider.TryGetComponent(out HurtBox hurtBox))
+            if(m_ResultsBuffer[i].TryGetComponent(out HurtBox hurtBox))
             {
                 hurtBox.TakeDamage(m_Damage);
             }

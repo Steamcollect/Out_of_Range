@@ -238,7 +238,7 @@ namespace MoreMountains.Feedbacks
 		protected virtual void ApplyTimeScale(float newValue)
 		{
 			// if the new timescale is the same as last time, we don't bother updating it
-			if (newValue == _timeScaleLastTime)
+			if (Mathf.Approximately(newValue, _timeScaleLastTime))
 			{
 				return;
 			}

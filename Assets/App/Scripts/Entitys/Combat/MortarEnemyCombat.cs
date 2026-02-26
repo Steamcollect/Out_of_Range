@@ -74,7 +74,9 @@ public class MortarEnemyCombat : EntityCombat
         targetPos.x += rnd.x;
         targetPos.z += rnd.y;
 
-        Grenade grenade = Instantiate(m_GrenadePrefab, m_AttackPoint.position, m_AttackPoint.rotation);
+        Grenade grenade = PoolManager.Instance.Spawn(m_GrenadePrefab, m_AttackPoint.position, m_AttackPoint.rotation);
+        
+        // Grenade grenade = Instantiate(m_GrenadePrefab, m_AttackPoint.position, m_AttackPoint.rotation);
         grenade.Setup(m_AttackPoint.position, targetPos);
 
         if (m_Controller.HaveStrenghtPowerUp) grenade.Move(m_StrenghtGrenadeSpeedMult, m_StrenghtExplosionRadiusMult);

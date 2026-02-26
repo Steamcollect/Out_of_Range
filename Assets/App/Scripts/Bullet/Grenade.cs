@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine.VFX;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Grenade : MonoBehaviour
 {
@@ -17,11 +18,13 @@ public class Grenade : MonoBehaviour
 
     [Header("References")]
     [SerializeField] VisualEffect m_WarningEffect;
-    [SerializeField] VisualEffect m_ExplosionEffect;
+    [FormerlySerializedAs("m_ExplosionEffect")]
+    [Space]
+    [SerializeField] GameObject m_ExplosionEffectPrefab;
 
     Vector3 m_StartingPos, m_TargetPos;
 
-    static Collider[] s_CollidHit = new Collider[100];
+    static readonly Collider[] s_CollidHit = new Collider[100];
 
     public void Setup(Vector3 initPos, Vector3 targetPos)
     {
@@ -65,9 +68,11 @@ public class Grenade : MonoBehaviour
     void Explode(float explodeRadiusMult)
     {
         m_WarningEffect.gameObject.SetActive(false);
+
+        PoolManager.Instance.Spawn(m_ExplosionEffectPrefab, transform.position, Quaternion.identity);
         
-        m_ExplosionEffect.transform.SetParent(null);
-        m_ExplosionEffect.gameObject.SetActive(true);
+        // m_ExplosionEffectPrefab.transform.SetParent(null);
+        // m_ExplosionEffectPrefab.gameObject.SetActive(true);
 
         int length = Physics.OverlapSphereNonAlloc(transform.position, m_ExplosionRadius * explodeRadiusMult, s_CollidHit, m_HurtBoxLayers);
 

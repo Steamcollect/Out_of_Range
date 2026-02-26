@@ -1,140 +1,101 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
 
-public class RangeOverloadCombatStyle : CombatStyle
+public class RangeOverloadCombatStyle : OverloadCombatStyle
 {
-    [Header("Settings")]
-    [SerializeField] private float m_MaxTemperature;
+    [Header("Combat Settings")]
+    [SerializeField] float m_AtkSpdPowerUpAttackCooldown;
+    [SerializeField] float m_ClonePowerUpBulletSpacing;
 
-    [SerializeField] private float m_ShootTemperature;
-    [SerializeField] private float m_TemperatureLostPerSec;
+    bool strength = false;
+    bool clone = false;
+    bool atkSpeed = false;
 
-    [Space(5)] 
-    [SerializeField] private float m_AttackCooldown;
+    [Header("Combat References")]
+    [SerializeField] Collider m_CollidToIgnore;
 
-    [SerializeField] private float m_OverloadCooldown;
-    [SerializeField] private float m_OverloadRecorverySpeed;
-    [SerializeField] private float m_TimeToCoolsAfterShoot;
+    [SerializeField] MeshRenderer m_MeshRenderer;
+    [SerializeField] Gradient m_ColorOverTemperature;
+    Material m_RendererMat;
 
-    [Space(10)] 
-    [SerializeField] private int m_BulletDamage;
+    [SerializeField] Transform m_AttackPoint;
 
-    [SerializeField] private float m_BulletSpeed;
-    [SerializeField] private float m_KnockBackForce;
+    [SerializeField] GameObject m_MuzzleFlashPrefab;
 
-    [Header("Visual")]
-    [SerializeField] private MeshRenderer m_MeshRenderer;
+    [Header("Bullets")]
+    [SerializeField] Bullet m_BulletPrefab;
+    [SerializeField] Bullet m_StrenghtPowerUpBulletPrefab;
+    [Space(5)]
+    [SerializeField] Bullet m_OverloadBulletPrefab;
+    [SerializeField] Bullet m_StrengthPowerUpOverloadBulletPrefab;
 
-    [SerializeField] private Gradient m_ColorOverTemperature;
-
-    [Header("References")]
-    [SerializeField] private Transform m_AttackPoint;
-
-    [SerializeField] private GameObject m_MuzzleFlashPrefab;
-    [SerializeField] private Bullet m_BulletPrefab;
-
-    private float m_CoolsTimer;
-    private float m_CurentTemperature;
-
-    private bool m_IsOverload;
-
-    private Material m_RendererMat;
+    [Space(10)]
+    [SerializeField] RSO_PlayerController m_CurrentPowerUp;
 
     //[Header("Input")]
     //[Header("Output")]
 
     private void Start()
     {
-        m_RendererMat = new Material(m_MeshRenderer.material);
-        m_MeshRenderer.material = m_RendererMat;
-        SetRendererColor();
-    }
-
-    private void Update()
-    {
-        m_CoolsTimer += Time.deltaTime;
-
-        if (m_CoolsTimer > m_TimeToCoolsAfterShoot && !m_IsOverload)
-        {
-            m_CurentTemperature =
-                Mathf.Clamp(m_CurentTemperature - m_TemperatureLostPerSec * Time.deltaTime, 0, m_MaxTemperature);
-            SetRendererColor();
-            OnAmmoChange?.Invoke(m_CurentTemperature, m_MaxTemperature);
-        }
+        //m_RendererMat = new Material(m_MeshRenderer.material);
+        //m_MeshRenderer.material = m_RendererMat;
+        //SetRendererColor();
     }
 
     public override IEnumerator Attack()
     {
-        if (m_CanAttack && !m_IsOverload)
+        if (m_CanAttack 
+            && (m_CurrentState == OverloadWeaponState.CanShoot || m_CurrentState == OverloadWeaponState.CoolBuffed))
         {
             OnAttack?.Invoke();
-            m_CoolsTimer = 0;
-            
-            Bullet bullet = PoolManager.Instance.Spawn(m_BulletPrefab, m_AttackPoint.position, m_AttackPoint.rotation);
-            bullet.Setup();
+   
+            strength = m_CurrentPowerUp.Value.GetPowerUp().ContainPowerUp(PowerUpType.Strength);
+            clone = m_CurrentPowerUp.Value.GetPowerUp().ContainPowerUp(PowerUpType.Clone);
+            atkSpeed = m_CurrentPowerUp.Value.GetPowerUp().ContainPowerUp(PowerUpType.AttackSpeed);
 
-            GameObject muzzleVFX = Instantiate(m_MuzzleFlashPrefab, m_AttackPoint);
-            Destroy(muzzleVFX, muzzleVFX.GetComponent<ParticleSystem>().main.duration);
+            Bullet bulletPrefab = m_CurrentPowerUp.Get() != null && strength ?
+                (m_CurrentState == OverloadWeaponState.CoolBuffed ?
+                    m_StrengthPowerUpOverloadBulletPrefab : m_StrenghtPowerUpBulletPrefab) :
+                (m_CurrentState == OverloadWeaponState.CoolBuffed ?
+                    m_OverloadBulletPrefab : m_BulletPrefab);
 
-            StartCoroutine(AttackCooldown());
+            if(m_CurrentPowerUp.Get() != null && clone)
+            {
+                float spacing = strength ? m_ClonePowerUpBulletSpacing * 2f : 1;
+
+                Vector3 pos = m_AttackPoint.position + m_AttackPoint.transform.right * (spacing * .5f);
+                Bullet bullet = PoolManager.Instance.Spawn(bulletPrefab, pos, m_AttackPoint.rotation);
+                bullet.Setup().AvoidCollider(m_CollidToIgnore);
+
+                pos = m_AttackPoint.position + -m_AttackPoint.transform.right * (spacing * .5f);
+                bullet = PoolManager.Instance.Spawn(bulletPrefab, pos, m_AttackPoint.rotation);
+                bullet.Setup().AvoidCollider(m_CollidToIgnore);
+            }
+            else
+            {
+                Bullet bullet = PoolManager.Instance.Spawn(bulletPrefab, m_AttackPoint.position, m_AttackPoint.rotation);
+                bullet.Setup().AvoidCollider(m_CollidToIgnore);
+            }
+
+            PoolManager.Instance.Spawn(m_MuzzleFlashPrefab, m_AttackPoint.position, m_AttackPoint.rotation);
+
+            StartCoroutine(AttackCooldown(
+                m_CurrentPowerUp.Get() != null
+                && atkSpeed ?
+                m_AtkSpdPowerUpAttackCooldown : m_AttackCooldown));
             
             m_OnAttackFeedback?.Invoke();
 
-            m_CurentTemperature += m_ShootTemperature;
-            if (m_CurentTemperature >= m_MaxTemperature)
-            {
-                m_CurentTemperature = m_MaxTemperature;
-                Overload();
-            }
-
-            SetRendererColor();
-            OnAmmoChange?.Invoke(m_CurentTemperature, m_MaxTemperature);
+            OnShootHeat();
+            //SetRendererColor();
 
             yield break;
         }
     }
 
-    public void Overload()
-    {
-        if (!m_IsOverload)
-        {
-            OnReload?.Invoke();
-
-            m_OnReloadFeedback?.Invoke();
-            StartCoroutine(OverloadCooldown());
-        }
-    }
-
-    private IEnumerator AttackCooldown()
-    {
-        m_CanAttack = false;
-        yield return new WaitForSeconds(m_AttackCooldown);
-        m_CanAttack = true;
-    }
-
-    private IEnumerator OverloadCooldown()
-    {
-        m_IsOverload = true;
-        yield return new WaitForSeconds(m_OverloadCooldown);
-
-        while (m_CurentTemperature > 0)
-        {
-            m_CurentTemperature -= m_OverloadRecorverySpeed * Time.deltaTime;
-            SetRendererColor();
-            OnAmmoChange?.Invoke(m_CurentTemperature, m_MaxTemperature);
-            yield return null;
-        }
-
-        m_CurentTemperature = 0;
-
-        m_IsOverload = false;
-    }
-
     private void SetRendererColor()
     {
-        float value = Mathf.Clamp01(m_CurentTemperature / m_MaxTemperature);
+        float value = Mathf.Clamp01(m_CurentTemperature * .001f);
         m_RendererMat.color = m_ColorOverTemperature.Evaluate(value);
     }
 }

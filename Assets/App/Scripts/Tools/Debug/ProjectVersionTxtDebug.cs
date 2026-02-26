@@ -11,6 +11,6 @@ public class ProjectVersionTxtDebug : MonoBehaviour
     {
         if (m_DebugTxt == null) return;
 
-        m_DebugTxt.text = $"version : {Application.version}";
+        m_DebugTxt.text = $"Version : {Application.version}";
     }
 }

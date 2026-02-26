@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using MVsToolkit.Dev;
 using UnityEngine;
@@ -60,11 +61,13 @@ struct MeshMatChanger
     public int MatIndex;
     public MeshRenderer Mesh;
 
+    private List<Material> m_MaterialsAssociated;
+    
     public void ChangeMat(Material mat)
     {
-        Material[] mats = Mesh.materials;
-        mats[MatIndex] = mat;
-
-        Mesh.SetMaterials(mats.ToList());
+        m_MaterialsAssociated ??= new List<Material>(capacity: 3);
+        Mesh.GetMaterials(m_MaterialsAssociated);
+        m_MaterialsAssociated[MatIndex] = mat;
+        Mesh.SetMaterials(m_MaterialsAssociated);
     }
 }

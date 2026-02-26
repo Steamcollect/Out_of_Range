@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class AutoReleaseParticle : MonoBehaviour
 {
+    
     [Header("References")]
     [SerializeField] private ParticleSystem m_ParticleSystem;
 
@@ -15,10 +16,6 @@ public class AutoReleaseParticle : MonoBehaviour
     private void OnParticleSystemStopped()
     {
         if(m_PoolTicket == null) m_PoolTicket = GetComponent<PooledObject>();
-
-        if(m_PoolTicket != null)
-        {
-            m_PoolTicket.Release();
-        }
+        m_PoolTicket?.Release();
     }
 }
