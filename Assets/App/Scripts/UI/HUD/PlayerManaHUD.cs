@@ -17,11 +17,12 @@ public class PlayerManaHUD : MonoBehaviour
     [Space]
     [SerializeField] RSO_PlayerController m_Player;
 
+    int lastValue;
+
     private void OnEnable()
     {
         m_Player.Get().GetPlayerCombat().OnSecondaryCombatStyleChange += UpdateUI;
         m_Player.Get().GetPlayerMana().OnManaChanged += UpdateUIIndicator;
-        m_Player.Get().GetPlayerMana().OnManaAddedOverTime += UpdateUIIndicatorOverTime;
         UpdateUIIndicator();
     }
     
@@ -29,7 +30,6 @@ public class PlayerManaHUD : MonoBehaviour
     {
         m_Player.Get().GetPlayerCombat().OnSecondaryCombatStyleChange -= UpdateUI;
         m_Player.Get().GetPlayerMana().OnManaChanged -= UpdateUIIndicator;
-        m_Player.Get().GetPlayerMana().OnManaAddedOverTime -= UpdateUIIndicatorOverTime;
     }
 
     private void Start()
@@ -48,20 +48,16 @@ public class PlayerManaHUD : MonoBehaviour
 
     private void UpdateUIIndicator()
     {
-        float value = (float)m_Player.Get().GetPlayerMana().CurrentMana / m_Player.Get().GetPlayerMana().MaxMana;
-
-        m_ManaFillImage.fillAmount = value * m_ManaBackgroundImage.fillAmount;
-        m_PercentageTxt.text = (value * 100).ToString("F0") + "%";
-
-        m_Content.transform.DOKill();
-        m_Content.transform.DOScale(1.1f, .07f).OnComplete(() =>
+        if(m_Player.Get().GetPlayerMana().GetManaGivenOverTime(lastValue) != m_Player.Get().GetPlayerMana().CurrentMana)
         {
-            m_Content.transform.DOScale(1, .1f);
-        });
-    }
+            m_Content.transform.DOKill();
+            m_Content.transform.DOScale(1.1f, .07f).OnComplete(() =>
+            {
+                m_Content.transform.DOScale(1, .1f);
+            });
+        }
 
-    private void UpdateUIIndicatorOverTime()
-    {
+        lastValue = m_Player.Get().GetPlayerMana().CurrentMana;
         float value = (float)m_Player.Get().GetPlayerMana().CurrentMana / m_Player.Get().GetPlayerMana().MaxMana;
 
         m_ManaFillImage.fillAmount = value * m_ManaBackgroundImage.fillAmount;

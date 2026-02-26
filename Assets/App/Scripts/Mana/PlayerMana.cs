@@ -13,7 +13,6 @@ public class PlayerMana : MonoBehaviour
     [SerializeField] int m_ManaGivenPerSec = 1;
 
     public event Action OnManaChanged;
-    public event Action OnManaAddedOverTime;
     public UnityEvent OnManaCollected;
     
     public int CurrentMana => m_CurrentMana;
@@ -32,8 +31,8 @@ public class PlayerMana : MonoBehaviour
             yield return new WaitUntil(() => m_CurrentMana < m_MaxMana);
 
             yield return new WaitForSeconds(1);
-            m_CurrentMana = Math.Clamp(m_CurrentMana + m_ManaGivenPerSec, 0, m_MaxMana);
-            OnManaAddedOverTime.Invoke();
+            m_CurrentMana = GetManaGivenOverTime(m_CurrentMana);
+            OnManaChanged.Invoke();
         }
     }
 
@@ -54,5 +53,10 @@ public class PlayerMana : MonoBehaviour
     {
         m_CurrentMana = m_MaxMana;
         OnManaChanged?.Invoke();
+    }
+
+    public int GetManaGivenOverTime(int value)
+    {
+        return Math.Clamp(value + m_ManaGivenPerSec, 0, m_MaxMana);
     }
 }
