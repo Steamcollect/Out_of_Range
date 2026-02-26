@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,6 +6,10 @@ public class PlayerOverloadHUD : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] float m_CircleRadius;
+
+    [SerializeField] float m_TimeBeforeHiding = 5;
+    float m_HidingTimer = 0;
+    bool m_IsHiding = true;
 
     [Header("Colors")]
     [SerializeField] Color m_ShootColor;
@@ -22,7 +27,7 @@ public class PlayerOverloadHUD : MonoBehaviour
     [SerializeField] GameObject m_ReloadTextGO;
 
     [Space(5)]
-    [SerializeField] RectTransform m_CursorRct;
+    [SerializeField] Image m_CursorImg;
     
     OverloadCombatStyle m_OverloadStyle;
     
@@ -44,6 +49,25 @@ public class PlayerOverloadHUD : MonoBehaviour
     {
         m_BlueImg.color = m_OverloadResetColor;
         m_YellowImg.color = m_OverloadBuffColor;
+    }
+
+    private void Update()
+    {
+        if (!m_IsHiding)
+        {
+            m_HidingTimer += Time.deltaTime;
+            
+            if(m_HidingTimer >= m_TimeBeforeHiding)
+            {
+                m_IsHiding = true;
+
+                m_BackgroundImg.DOKill();
+                m_CursorImg.DOKill();
+
+                m_BackgroundImg.DOFade(0, 1);
+                m_CursorImg.DOFade(0, 1);
+            }
+        }
     }
 
     private void InitBindings()
@@ -94,6 +118,22 @@ public class PlayerOverloadHUD : MonoBehaviour
 
     protected virtual void SetFillValue(float value, float max)
     {
+        if (value > 0)
+        {
+            m_HidingTimer = 0;
+
+            if (m_IsHiding)
+            {
+                m_IsHiding = false;
+
+                m_BackgroundImg.DOKill();
+                m_CursorImg.DOKill();
+
+                m_BackgroundImg.DOFade(.8f, .1f);
+                m_CursorImg.DOFade(1, .1f);
+            }
+        }
+
         float normalizedValue = Mathf.Clamp(value, 0, max) / max;
         float valueOnSlider = normalizedValue * m_BackgroundImg.fillAmount;
 
@@ -102,8 +142,8 @@ public class PlayerOverloadHUD : MonoBehaviour
         float tot = 360 * m_BackgroundImg.fillAmount;
         float angle = m_BackgroundImg.rectTransform.eulerAngles.z;
 
-        m_CursorRct.anchoredPosition = Quaternion.Euler(0, 0, angle - tot * normalizedValue) * Vector3.up * m_CircleRadius;
-        m_CursorRct.rotation = Quaternion.Euler(0, 0, angle - tot * normalizedValue);
+        m_CursorImg.rectTransform.anchoredPosition = Quaternion.Euler(0, 0, angle - tot * normalizedValue) * Vector3.up * m_CircleRadius;
+        m_CursorImg.rectTransform.rotation = Quaternion.Euler(0, 0, angle - tot * normalizedValue);
 
         if (!m_OverloadStyle) return;
 

@@ -877,7 +877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1697,13 +1697,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349291337}
-  m_LocalRotation: {x: 0, y: 0, z: 0.86602545, w: 0.49999994}
+  m_LocalRotation: {x: 0, y: 0, z: 0.60876137, w: 0.7933534}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1769770938}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 120}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 75}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -1722,7 +1722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.8}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1734,7 +1734,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0.45
+  m_FillAmount: 0.41
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
@@ -2039,6 +2039,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerOverloadHUD
   m_CircleRadius: 83
+  m_TimeBeforeHiding: 5
+  m_IsHiding: 1
   m_ShootColor: {r: 1, g: 1, b: 1, a: 1}
   m_ReloadColor: {r: 0.8490566, g: 0.1521893, b: 0.1521893, a: 1}
   m_OverloadBuffColor: {r: 0.93962264, g: 0.7706623, b: 0, a: 1}
@@ -2049,7 +2051,7 @@ MonoBehaviour:
   m_BlueImg: {fileID: 653871247}
   m_YellowImg: {fileID: 357182143}
   m_ReloadTextGO: {fileID: 263076193}
-  m_CursorRct: {fileID: 383098617}
+  m_CursorImg: {fileID: 383098618}
   m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
 --- !u!1001 &1988005153
 PrefabInstance:
@@ -2323,7 +2325,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7489982231375648830, guid: 86fb95719f852f743a5493c70a70e7e8, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7651878375376145927, guid: 86fb95719f852f743a5493c70a70e7e8, type: 3}
       propertyPath: m_Pivot.x
