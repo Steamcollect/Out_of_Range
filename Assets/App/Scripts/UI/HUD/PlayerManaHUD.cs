@@ -1,4 +1,5 @@
 using DG.Tweening;
+using TMPro;
 using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ public class PlayerManaHUD : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] GameObject m_Content;
+    [SerializeField] TMP_Text m_PercentageTxt;
 
     [Space]
     [SerializeField] Image m_ManaBackgroundImage;
@@ -19,6 +21,7 @@ public class PlayerManaHUD : MonoBehaviour
     {
         m_Player.Get().GetPlayerCombat().OnSecondaryCombatStyleChange += UpdateUI;
         m_Player.Get().GetPlayerMana().OnManaChanged += UpdateUIIndicator;
+        m_Player.Get().GetPlayerMana().OnManaAddedOverTime += UpdateUIIndicatorOverTime;
         UpdateUIIndicator();
     }
     
@@ -26,6 +29,7 @@ public class PlayerManaHUD : MonoBehaviour
     {
         m_Player.Get().GetPlayerCombat().OnSecondaryCombatStyleChange -= UpdateUI;
         m_Player.Get().GetPlayerMana().OnManaChanged -= UpdateUIIndicator;
+        m_Player.Get().GetPlayerMana().OnManaAddedOverTime -= UpdateUIIndicatorOverTime;
     }
 
     private void Start()
@@ -44,12 +48,23 @@ public class PlayerManaHUD : MonoBehaviour
 
     private void UpdateUIIndicator()
     {
-        m_ManaFillImage.fillAmount = (float)m_Player.Get().GetPlayerMana().CurrentMana / m_Player.Get().GetPlayerMana().MaxMana * m_ManaBackgroundImage.fillAmount;
+        float value = (float)m_Player.Get().GetPlayerMana().CurrentMana / m_Player.Get().GetPlayerMana().MaxMana;
+
+        m_ManaFillImage.fillAmount = value * m_ManaBackgroundImage.fillAmount;
+        m_PercentageTxt.text = (value * 100).ToString("F0") + "%";
 
         m_Content.transform.DOKill();
         m_Content.transform.DOScale(1.1f, .07f).OnComplete(() =>
         {
             m_Content.transform.DOScale(1, .1f);
         });
+    }
+
+    private void UpdateUIIndicatorOverTime()
+    {
+        float value = (float)m_Player.Get().GetPlayerMana().CurrentMana / m_Player.Get().GetPlayerMana().MaxMana;
+
+        m_ManaFillImage.fillAmount = value * m_ManaBackgroundImage.fillAmount;
+        m_PercentageTxt.text = (value * 100).ToString("F0") + "%";
     }
 }
