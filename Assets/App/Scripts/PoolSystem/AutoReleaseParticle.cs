@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class AutoReleaseParticle : MonoBehaviour
 {
+    
     [Header("References")]
     [SerializeField] private ParticleSystem m_ParticleSystem;
 
