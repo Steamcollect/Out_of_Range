@@ -1,6 +1,8 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
 
 public class GrenadeLauncherCombatStyle : CombatStyle
 {
@@ -17,15 +19,21 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     [Space(10)]
     [SerializeField] float m_PreShowRotateSpeed;
 
+    [Space]
+    [SerializeField] Color m_ValidColor;
+    [SerializeField] Color m_NotValidColor;
+
     bool m_InputPress;
     bool m_CanTouchTarget = false;
 
     [Header("References")]
     [SerializeField] MeshRenderer m_PreShowCircle;
     [SerializeField] MeshRenderer m_PreShowTriangle;
+    [SerializeField] TMP_Text m_PercentageTxt;
 
     [SerializeField] RSO_PlayerAimTarget m_AimTarget;
     [SerializeField] RSO_PlayerController m_PlayerController;
+    [SerializeField] RSO_PlayerCameraController m_Camera;
 
     [Space(10)]
     [SerializeField] InputActionReference m_CancelAttackIA;
@@ -100,24 +108,28 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     void DrawPreShow()
     {
+        if (!m_InputPress) return;
+
         m_PreShowCircle.transform.localScale = Vector3.one * (m_GrenadePrefab.GetRadius() * .2f);
+        m_PercentageTxt.text = ((float)m_PlayerController.Get().GetPlayerMana().CurrentMana / m_PlayerController.Get().GetPlayerMana().MaxMana * 100).ToString("F0") + "%";
 
         if (m_PlayerController.Get().GetPlayerMana().CurrentMana < m_ShootCost)
         {
-            m_PreShowCircle.material.color = Color.gray;
-            m_PreShowTriangle.material.color = Color.gray;
+            m_PreShowCircle.material.color = m_NotValidColor;
+            m_PreShowTriangle.material.color = m_NotValidColor;
+            m_PercentageTxt.color = m_NotValidColor;
         }
         else
         {
-            m_PreShowCircle.material.color = m_CanTouchTarget ? Color.green : Color.red;
-            m_PreShowTriangle.material.color = m_CanTouchTarget ? Color.green : Color.red;
+            m_PreShowCircle.material.color = m_CanTouchTarget ? m_ValidColor : m_NotValidColor;
+            m_PreShowTriangle.material.color = m_CanTouchTarget ? m_ValidColor : m_NotValidColor;
+            m_PercentageTxt.color = m_CanTouchTarget ? m_ValidColor : m_NotValidColor;
         }
         
-        
-
         m_PreShowCircle.transform.position = m_AimTarget.Get().position + Vector3.up * .1f;
 
         m_PreShowCircle.transform.localEulerAngles -= Vector3.up * (m_PreShowRotateSpeed * Time.deltaTime);
-        m_PreShowTriangle.transform.parent.localEulerAngles += Vector3.up * (m_PreShowRotateSpeed * 2 * Time.deltaTime);
+        m_PreShowTriangle.transform.localEulerAngles += Vector3.up * (m_PreShowRotateSpeed * 2 * Time.deltaTime);
+        m_PercentageTxt.transform.eulerAngles = new Vector3(90, m_Camera.Get().GetCamera().transform.eulerAngles.y, 0);
     }
 }
