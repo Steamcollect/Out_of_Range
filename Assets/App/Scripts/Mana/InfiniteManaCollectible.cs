@@ -18,7 +18,7 @@ public class InfiniteManaCollectible : MonoBehaviour, IHealth, ITargetable
 
     [Space(10)]
     [SerializeField] MeshRenderer m_Renderer;
-    [SerializeField] Collider m_Collid;
+    [SerializeField] Collider m_Collid, m_HealthCollid;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -34,12 +34,14 @@ public class InfiniteManaCollectible : MonoBehaviour, IHealth, ITargetable
         transform.localScale = Vector3.one;
 
         m_Collid.enabled = false;
+        m_HealthCollid.enabled = false;
         m_Renderer.enabled = false;
         m_ManaCreator.Create();
 
         this.Delay(() =>
         {
             m_Collid.enabled = true;
+            m_HealthCollid.enabled = true;
             m_Renderer.enabled = true;
 
             transform.DOScale(m_StartScale * 1.2f, .08f).OnComplete(() => { transform.DOScale(m_StartScale, .12f); }); ;
