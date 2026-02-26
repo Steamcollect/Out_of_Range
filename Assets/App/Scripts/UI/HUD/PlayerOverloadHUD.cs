@@ -7,6 +7,11 @@ public class PlayerOverloadHUD : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float m_CircleRadius;
 
+    [Space]
+    [SerializeField, Range(0, 1)] float m_WithoutManaFA = .41f;
+    [SerializeField, Range(0, 1)] float m_WithManaFA = .345f;
+
+    [Space]
     [SerializeField] float m_TimeBeforeHiding = 5;
     float m_HidingTimer = 0;
     bool m_IsHiding = true;
@@ -37,12 +42,14 @@ public class PlayerOverloadHUD : MonoBehaviour
     private void OnEnable()
     {
         m_Player.Get().GetPlayerCombat().OnPrimaryCombatStyleChange += InitBindings;
+        m_Player.Get().GetPlayerCombat().OnSecondaryCombatStyleChange += UpdateUI;
     }
 
     private void OnDisable()
     {
         Unbind();
         m_Player.Get().GetPlayerCombat().OnPrimaryCombatStyleChange -= InitBindings;
+        m_Player.Get().GetPlayerCombat().OnSecondaryCombatStyleChange -= UpdateUI;
     }
 
     private void Start()
@@ -88,9 +95,8 @@ public class PlayerOverloadHUD : MonoBehaviour
             m_OverloadStyle.OnAmmoChange += SetFillValue;
             m_OverloadStyle.OnOverloadStart += EnableReloadSkills;
             m_OverloadStyle.OnOverloadEnd += DisableReloadSkills;
-            m_OverloadStyle.OnOverloadStateChange += OnOverloadStateChange;
 
-            SetupFills();
+            UpdateUI();
         }
         else
         {
@@ -109,7 +115,6 @@ public class PlayerOverloadHUD : MonoBehaviour
         {
             m_OverloadStyle.OnOverloadStart -= EnableReloadSkills;
             m_OverloadStyle.OnOverloadEnd -= DisableReloadSkills;
-            m_OverloadStyle.OnOverloadStateChange -= OnOverloadStateChange;
         }
 
         m_OverloadStyle = null;
@@ -179,6 +184,20 @@ public class PlayerOverloadHUD : MonoBehaviour
         }
     }
 
+    private void UpdateUI()
+    {
+        if (!m_Player.Get().GetPlayerCombat().GetSecondaryCombatStyle())
+        {
+            m_BackgroundImg.fillAmount = m_WithoutManaFA;
+        }
+        else
+        {
+            m_BackgroundImg.fillAmount = m_WithManaFA;
+        }
+
+        SetupFills();
+    }
+
     protected virtual void SetupFills()
     {
         if (!m_OverloadStyle) return;
@@ -208,11 +227,6 @@ public class PlayerOverloadHUD : MonoBehaviour
     {
         m_BlueImg.gameObject.SetActive(false);
         m_YellowImg.gameObject.SetActive(false);
-    }
-
-    protected virtual void OnOverloadStateChange(OverloadWeaponState state)
-    {
-        
     }
 
     protected virtual void OnDestroy()

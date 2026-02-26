@@ -24,7 +24,6 @@ public class UI_TutorialCombatStyleHUD : PlayerOverloadHUD
         m_FakeOverloadStyle.OnAmmoChange += SetFillValue;
         m_FakeOverloadStyle.OnOverloadStart += EnableReloadSkills;
         m_FakeOverloadStyle.OnOverloadEnd += DisableReloadSkills;
-        m_FakeOverloadStyle.OnOverloadStateChange += OnOverloadStateChange;
 
         //SetReloadSkillsRectFromFake();
     }
@@ -34,7 +33,6 @@ public class UI_TutorialCombatStyleHUD : PlayerOverloadHUD
         m_FakeOverloadStyle.OnAmmoChange -= SetFillValue;
         m_FakeOverloadStyle.OnOverloadStart -= EnableReloadSkills;
         m_FakeOverloadStyle.OnOverloadEnd -= DisableReloadSkills;
-        m_FakeOverloadStyle.OnOverloadStateChange -= OnOverloadStateChange;
     }
 
     //private void SetReloadSkillsRectFromFake()
