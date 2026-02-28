@@ -18,6 +18,7 @@ public class InfiniteManaCollectible : MonoBehaviour, IHealth, ITargetable
 
     [Space(10)]
     [SerializeField] MeshRenderer m_Renderer;
+    [SerializeField] Animator m_Anim;
     [SerializeField] Collider m_Collid, m_HealthCollid;
 
     //[Header("Input")]
@@ -26,6 +27,7 @@ public class InfiniteManaCollectible : MonoBehaviour, IHealth, ITargetable
     void Start()
     {
         m_StartScale = transform.localScale.x;
+        m_Anim.speed = Random.Range(.5f, 1.5f);
     }
 
     public void TakeDamage(float damage)
