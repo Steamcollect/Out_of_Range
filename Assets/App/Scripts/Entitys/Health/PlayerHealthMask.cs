@@ -26,11 +26,12 @@ public class PlayerHealthMask : MonoBehaviour
 
     private void Start()
     {
-        m_PlayerController.Get().GetHealth().OnTakeDamage += OnTakeDamage;
-        OnTakeDamage();
+        m_PlayerController.Get().GetHealth().OnTakeDamage += UpdateEffect;
+        m_PlayerController.Get().GetHealth().OnHeal += UpdateEffect;
+        UpdateEffect();
     }
 
-    private void OnTakeDamage()
+    private void UpdateEffect()
     {
         EntityHealth healthComp = m_PlayerController.Get().GetHealth();
         
@@ -49,7 +50,8 @@ public class PlayerHealthMask : MonoBehaviour
 
     private void OnDestroy()
     {
-        m_PlayerController.Get().GetHealth().OnTakeDamage -= OnTakeDamage;
+        m_PlayerController.Get().GetHealth().OnHeal -= UpdateEffect;
+        m_PlayerController.Get().GetHealth().OnTakeDamage -= UpdateEffect;
     }
     
     [System.Serializable]
