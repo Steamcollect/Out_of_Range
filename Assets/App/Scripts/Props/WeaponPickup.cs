@@ -1,3 +1,4 @@
+using MVsToolkit.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,11 +18,17 @@ public class WeaponPickup : MonoBehaviour
     [SerializeField] private RSE_OnGrenadeLauncherPickedUp m_OnGrenadeLauncherPickedUp;
 
     public UnityEvent onWeaponPickedUp;
-    
+
+    bool m_PickedUp = false;
+
     private void OnTriggerEnter(Collider other)
     {
+        if (m_PickedUp) return;
+
         if (other.CompareTag("Player"))
         {
+            m_PickedUp = true;
+
             switch (m_WeaponType)
             {
                 case WeaponType.Rifle:
@@ -35,11 +42,11 @@ public class WeaponPickup : MonoBehaviour
                     break;
             }
 
-            onWeaponPickedUp.Invoke();
+            onWeaponPickedUp?.Invoke();
 
             if (m_DestroyAfterPickup)
             {
-                Destroy(gameObject);
+                this.Delay(() => { Destroy(gameObject); }, 2.0f);
             }
         }
     }
