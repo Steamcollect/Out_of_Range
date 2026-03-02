@@ -1,4 +1,5 @@
 using DG.Tweening;
+using MVsToolkit.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,6 +44,9 @@ public class PlayerOverloadHUD : MonoBehaviour
     {
         m_Player.Get().GetPlayerCombat().OnPrimaryCombatStyleChange += InitBindings;
         m_Player.Get().GetPlayerCombat().OnSecondaryCombatStyleChange += UpdateUI;
+
+        if(m_Player.Get().GetPlayerCombat().GetPrimaryCombatStyle() != null)
+            InitBindings();
     }
 
     private void OnDisable()
@@ -234,4 +238,3 @@ public class PlayerOverloadHUD : MonoBehaviour
         Unbind();
     }
 }
-
