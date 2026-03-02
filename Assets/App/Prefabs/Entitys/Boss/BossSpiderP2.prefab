@@ -126,8 +126,8 @@ MonoBehaviour:
   m_StartAngle: 40
   m_RotationTime: 4
   m_AttackPoint: {fileID: 430326667451270363}
-  m_BulletPrefab: {fileID: 4581899121895831684, guid: c1701630e3da4b34a8cd45b8ce9fcd78, type: 3}
-  m_StrenghtBulletPrefab: {fileID: 4581899121895831684, guid: de6044e4e40e1104b80d65c53d7e02fd, type: 3}
+  m_BulletPrefab: {fileID: 262772381331560811, guid: bad34a1ec6ba56849aa5c627774e24aa, type: 3}
+  m_StrenghtBulletPrefab: {fileID: 589792394337565377, guid: d99175c9aa773a14cb79c4d59c45bdef, type: 3}
   m_MuzzleFlashPrefab: {fileID: 4186470608034871016, guid: cc14274dfbcc19749af6ec9434cd4d02, type: 3}
   m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
   m_Controller: {fileID: 3316161964527602809}
@@ -434,8 +434,8 @@ MonoBehaviour:
   m_TurnWhileShooting: 1
   m_TurnSmoothTimeOnShoot: 0.1
   m_AttackPoint: {fileID: 430326667451270363}
-  m_BulletPrefab: {fileID: 4581899121895831684, guid: c1701630e3da4b34a8cd45b8ce9fcd78, type: 3}
-  m_StrenghtBulletPrefab: {fileID: 4581899121895831684, guid: de6044e4e40e1104b80d65c53d7e02fd, type: 3}
+  m_BulletPrefab: {fileID: 262772381331560811, guid: bad34a1ec6ba56849aa5c627774e24aa, type: 3}
+  m_StrenghtBulletPrefab: {fileID: 589792394337565377, guid: d99175c9aa773a14cb79c4d59c45bdef, type: 3}
   m_MuzzleFlashPrefab: {fileID: 4186470608034871016, guid: cc14274dfbcc19749af6ec9434cd4d02, type: 3}
   m_Player: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
   m_Controller: {fileID: 3316161964527602809}
@@ -498,7 +498,7 @@ MonoBehaviour:
     UseProbability: 30
   m_RifleWavePatern:
     Combat: {fileID: 623423269569300514}
-    UseProbability: 0
+    UseProbability: 30
   m_AddGrenade: {fileID: 11400000, guid: 18b0e2e79a017bd4b987c27363377ad0, type: 2}
   m_AddRifle: {fileID: 11400000, guid: 139e6ae25e7506b428fc2ae0e626de0e, type: 2}
   m_RemoveRifle: {fileID: 11400000, guid: 9ba77bc4dd9204c4abd1fe289e6be492, type: 2}
@@ -1583,7 +1583,7 @@ MonoBehaviour:
   HaveStrenghtPowerUp: 0
   CanHandlePaterns: 0
   m_HealthSteps:
-  - HealthRequire: 400
+  - HealthRequire: 300
     IsUsed: 0
     Callback:
       m_PersistentCalls:
@@ -1600,7 +1600,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
-  - HealthRequire: 300
+  - HealthRequire: 200
     IsUsed: 0
     Callback:
       m_PersistentCalls:
@@ -1617,7 +1617,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
-  - HealthRequire: 200
+  - HealthRequire: 100
     IsUsed: 0
     Callback:
       m_PersistentCalls:
@@ -2180,15 +2180,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossMovementController
   m_MoveSpeed: 15
   m_SpeedMult: 1
+  m_VerticalSpeedRatio: 0.2
+  m_TimeAterSpawn: 0
   m_MovementSpacing: {x: 3, y: 5}
   m_MovementTime: {x: 3, y: 5}
-  m_PivotPos: {x: -324.9211, y: 117, z: 1051.7}
-  m_Distance: 20
-  m_VerticalSpeedRatio: 0.2
-  m_MaxHorizontalAngle: 65
-  m_AngleOffset: 0
   m_CanMove: 0
-  m_TargetY: 117
   m_Body: {fileID: 2281128793066169461}
   m_Controller: {fileID: 3316161964527602809}
   m_SetCanMove: {fileID: 11400000, guid: 6f228de9a44a0224d910cbd3ecf7c2bb, type: 2}
@@ -3804,7 +3800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82303cb87d1dd4c4ebf8ada5c71ce2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealth
-  m_MaxHealth: 500
+  m_MaxHealth: 400
   m_CurrentHealth: 0
   m_ClampDamage: 0
   m_MaxDamage: 0
@@ -3850,7 +3846,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.75
+  m_Radius: 3
   m_Height: 5.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.55, z: 0.74}
