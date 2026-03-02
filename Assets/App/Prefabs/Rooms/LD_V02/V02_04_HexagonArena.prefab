@@ -1562,6 +1562,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6728308856996010525}
   - component: {fileID: 5604748540172347046}
+  - component: {fileID: 4654601576383378633}
   m_Layer: 0
   m_Name: V02_04_HexagonArena
   m_TagString: Untagged
@@ -1614,7 +1615,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 7551
+    m_Bits: 4096
   m_UseGeometry: 1
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -1625,8 +1626,25 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 970a7d8d3c2fa8f429b1a06d7557239a, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 6e8cce80ec49e5443852458601e9dddb, type: 2}
   m_BuildHeightMesh: 0
+--- !u!114 &4654601576383378633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7802554673780967378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dbdf7e17e7b7bb448d91d99a8bcac13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomBaker
+  navMeshObjects: []
+  wallsObjects: []
+  m_BakeOnlyRoom: 1
+  surface: {fileID: 5604748540172347046}
+  wallBaker: {fileID: 0}
 --- !u!1 &8312957947519580681
 GameObject:
   m_ObjectHideFlags: 0
