@@ -50,6 +50,14 @@ public class InfiniteManaCollectible : MonoBehaviour, IHealth, ITargetable
         }, m_TimeToRespawn);
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Player"))
+        {
+            TakeDamage(0);
+        }
+    }
+
     public void Die(){}
 
     public virtual Vector3 GetTargetPosition()
