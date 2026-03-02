@@ -31,12 +31,11 @@ public class WaveSpawner : MonoBehaviour
         if (content != null)
         {
             // SPAWN ENEMY
-            if(content.TryGetComponent<EntityController>(out EntityController entity))
+            if(content.TryGetComponent(out EntityController entity))
             {    
                 EntityController spawnedEntity = Instantiate(entity, transform.position, transform.rotation);
 
                 if (spawnedEntity.TryGetComponent(out ISpawnable spawnable)) spawnable.OnSpawn();
-
                 onSpawnCallback?.Invoke(spawnedEntity);
             }
             else //PLACEHOLDER POUR FAIRE SPAWN LES POWER UP, A CLEAN ? (Baptiste)
