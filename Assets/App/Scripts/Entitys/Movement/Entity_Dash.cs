@@ -3,6 +3,7 @@ using System.Collections;
 using MVsToolkit.Dev;
 using MVsToolkit.Utilities;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Entity_Dash : MonoBehaviour
 {
@@ -104,7 +105,10 @@ public class Entity_Dash : MonoBehaviour
             }
     }
 
-    public bool IsGrounded(Vector3 position) => Physics.Linecast(position + (Vector3.up * .5f), position + (Vector3.down * .5f), m_GroundMask);
+    public bool IsGrounded(Vector3 position)
+    {
+        return Physics.Linecast(position + (Vector3.up * .5f), position + (Vector3.down * .5f), m_GroundMask);
+    }
 
     private IEnumerator DashTime(bool disableBorderWall)
     {
