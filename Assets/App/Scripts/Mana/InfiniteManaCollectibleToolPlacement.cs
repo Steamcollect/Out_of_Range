@@ -1,4 +1,7 @@
 using Sirenix.OdinInspector;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 public class InfiniteManaCollectibleToolPlacement : MonoBehaviour
@@ -22,6 +25,7 @@ public class InfiniteManaCollectibleToolPlacement : MonoBehaviour
     [Button]
     public void Create()
     {
+#if UNITY_EDITOR
         // 1. Clear existing collectibles
         for (int i = transform.childCount - 1; i >= 0; i--)
         {
@@ -36,7 +40,8 @@ public class InfiniteManaCollectibleToolPlacement : MonoBehaviour
         // 3. Spawn collectibles
         for (int i = 0; i < count; i++)
         {
-            InfiniteManaCollectible newCol = Instantiate(m_Collectible, transform);
+            GameObject go = PrefabUtility.InstantiatePrefab(m_Collectible.gameObject, transform) as GameObject;
+            InfiniteManaCollectible newCol = go.GetComponent<InfiniteManaCollectible>();
 
             // Random local position inside spawn area
             Vector2 half = m_SpawnAreaSize * 0.5f;
@@ -62,6 +67,7 @@ public class InfiniteManaCollectibleToolPlacement : MonoBehaviour
             float scale = Random.Range(m_MinMaxSize.x, m_MinMaxSize.y);
             newCol.transform.localScale = Vector3.one * scale;
         }
+#endif
     }
 
     private void OnDrawGizmosSelected()
