@@ -4,10 +4,7 @@ using UnityEngine;
 
 public sealed class CameraTargetHandler : MonoBehaviour
 {
-    
-    [Header("Settings")]
-    [SerializeField] private float m_FreshRate = 0.1f;
-    
+    //[Header("Settings")]
     [Header("References")]
     [SerializeField] private InterfaceReference<ICameraTarget> m_CameraTargetAutoFocus;
     [SerializeField] private InterfaceReference<ICameraTarget> m_CameraTargetFreeLook;
@@ -25,7 +22,6 @@ public sealed class CameraTargetHandler : MonoBehaviour
     private ICameraTarget m_CameraTargetRunning;
     private Vector3? m_TargetPosition;
 
-    private float m_InternalTimer;
     private Vector3 m_Velocity;
 
     private void Awake()
@@ -69,18 +65,13 @@ public sealed class CameraTargetHandler : MonoBehaviour
     
     private void Update()
     {
-        m_InternalTimer += Time.deltaTime;
-        if (m_InternalTimer >= m_FreshRate)
-        {
-            m_InternalTimer = 0f;
-            m_TargetPosition = m_CameraTargetRunning.GetCameraTargetPosition();
-        }
+        m_TargetPosition = m_CameraTargetRunning.GetCameraTargetPosition();
         UpdateTargetPosition();
     }
     
     private void UpdateTargetPosition()
     {
-        transform.position = Vector3.SmoothDamp(transform.position, m_TargetPosition ?? transform.position, ref m_Velocity, m_FreshRate);
+        transform.position = m_TargetPosition ?? transform.position;
         m_TargetFocusVisual.HandleCameraTarget(m_CameraTargetRunning.GetCameraTarget());
     }
 }
