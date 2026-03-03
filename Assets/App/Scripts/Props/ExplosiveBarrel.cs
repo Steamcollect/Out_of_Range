@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using MoreMountains.Feedbacks;
 using MVsToolkit.Utilities;
@@ -28,20 +29,44 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
     private bool m_IsInvincible = true;
     private readonly Collider[] m_ResultsBuffer = new Collider[32];
 
+    private float m_DelayInvisibilityTimer;
+    
     private void Start()
     {
         m_LoadingEffect.gameObject.SetActive(false);
         m_ExplosionEffect.gameObject.SetActive(false);
 
         m_BarrelMesh.SetActive(true);
+    }
+
+    private void OnEnable()
+    {
+        StartCoroutine(nameof(Invincibility));
+    }
+
+    private IEnumerator Invincibility()
+    {
+        if (m_DelayInvisibilityTimer > m_SpawnDuration) yield break;
 
         m_IsInvincible = true;
-        this.Delay(() => m_IsInvincible = false, m_SpawnDuration);
+        
+        while (m_DelayInvisibilityTimer < m_SpawnDuration)
+        {
+            m_DelayInvisibilityTimer += Time.deltaTime;
+            yield return null;
+        }
+        
+        m_IsInvincible = false;
+    }
+    
+    private void OnDisable()
+    {
+        StopCoroutine(nameof(Invincibility));
     }
 
     public void Explode()
     {
-        if (m_IsInvincible == true) return;
+        if (m_IsInvincible) return;
 
         if(m_IsExploding) return;
 
