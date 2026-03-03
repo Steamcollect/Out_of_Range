@@ -38,7 +38,7 @@ public class PlayerCursor : MonoBehaviour
 
     private void HandleCursorChange()
     {
-        if (m_CurrentInputDeviceType.Value == InputDeviceType.KeyboardMouse || m_CameraTargetType.Value == CameraTargetType.FreeLook)
+        if (m_CurrentInputDeviceType.Value == InputDeviceType.KeyboardMouse || (m_CameraTargetType.Value == CameraTargetType.FreeLook && m_CurrentInputDeviceType.Value == InputDeviceType.KeyboardMouse))
         {
             ShowCursor();
         }
