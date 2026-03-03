@@ -85,7 +85,6 @@ public class TurretEnemyController : EntityController, ISpawnable
     {
         StartCoroutine(m_Combat.LockAttackOnSpawn());
         m_LoseSightTimer = 0;
-        m_SpawnVisual.PlaySpawnVisual();
 
         IsSpawning = true;
         m_Health.GainInvincibility(m_SpawnDuration);

@@ -41,10 +41,10 @@ public class SpawnVisual : MonoBehaviour
     [Sirenix.OdinInspector.Button("Play Spawn Visual")]
     public void PlaySpawnVisual()
     {
-        m_SpawnVFX.SendEvent("Spawn");
         m_SpawnVFX.SetFloat(s_VfxHeightID, m_Height);
         m_SpawnVFX.SetFloat(s_VfxSpawnDurationID, m_SpawnDuration);
         m_SpawnVFX.SetFloat(s_VfxPreSpawnDurationID, m_PreSpawnDuration);
+        m_SpawnVFX.SendEvent("Spawn");
 
         float startValue = transform.position.y;
         float endValue = startValue + m_Height;
@@ -56,7 +56,7 @@ public class SpawnVisual : MonoBehaviour
 
         this.Delay(() =>
         {
-            m_SpawnTween = DOVirtual.Float(startValue, endValue, m_SpawnDuration, ApplyHeight)
+            m_SpawnTween = DOVirtual.Float(startValue, endValue, m_SpawnDuration * 1.5f, ApplyHeight)
                 .SetEase(Ease.Linear)
                 .SetLink(gameObject);
         }, m_PreSpawnDuration);

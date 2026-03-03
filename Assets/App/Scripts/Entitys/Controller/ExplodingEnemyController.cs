@@ -127,7 +127,6 @@ public class ExplodingEnemyController : EntityController, ISpawnable
     public void OnSpawn()
     {
         m_CurrentState = EnemyStates.Chasing;
-        m_SpawnVisual.PlaySpawnVisual();
 
         IsSpawning = true;
         m_Health.GainInvincibility(m_SpawnDuration);
