@@ -28,7 +28,7 @@ public class SpawnVisual : MonoBehaviour
         m_Block = new MaterialPropertyBlock();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         PlaySpawnVisual();
     }
