@@ -32,7 +32,7 @@ public class PlayerMana : MonoBehaviour
 
             yield return new WaitForSeconds(1);
             m_CurrentMana = GetManaGivenOverTime(m_CurrentMana);
-            OnManaChanged.Invoke();
+            OnManaChanged?.Invoke();
         }
     }
 
