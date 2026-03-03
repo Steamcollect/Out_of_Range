@@ -1,8 +1,5 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
-using UnityEngine.Serialization;
 
 public class PlayerCursor : MonoBehaviour
 {

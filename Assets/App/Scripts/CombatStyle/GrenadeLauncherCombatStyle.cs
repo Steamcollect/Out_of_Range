@@ -40,7 +40,12 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     [Header("Output")]
     [SerializeField] RSO_CameraTargetType m_TargetType;
-    
+
+    [Space(10)]
+    [SerializeField] RSE_SetFreeLookCamTargetPos m_SetFreeLookCamTargetPos;
+    [SerializeField] InputActionReference m_MousePosIA;
+    [SerializeField] RSO_CurrentInputDeviceType m_CurrentInputDevice;
+
     public int Cost => m_ShootCost;
 
     private void OnEnable()
@@ -74,6 +79,13 @@ public class GrenadeLauncherCombatStyle : CombatStyle
         m_InputPress = true;
         m_PreShowCircle.gameObject.SetActive(true);
         m_TargetType.Set(CameraTargetType.FreeLook);
+
+        if (m_CurrentInputDevice.Value == InputDeviceType.KeyboardMouse)
+            m_SetFreeLookCamTargetPos.Call(m_MousePosIA.action.ReadValue<Vector2>() / new Vector2(Screen.width, Screen.height));
+        else if (m_CurrentInputDevice.Value == InputDeviceType.Gamepad)
+            m_SetFreeLookCamTargetPos.Call(
+                m_Camera.Get().GetCamera().WorldToViewportPoint(
+                    m_PlayerController.Get().transform.position));
     }
 
     public override void AttackEnd()
