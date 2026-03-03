@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -5,6 +6,7 @@ using UnityEngine.InputSystem;
 [DefaultExecutionOrder(-1)]
 public class PlayerController : EntityController
 {
+    private const float k_BufferTimeDash = 3f;
     [SerializeField] float m_MinYPos;
     [SerializeField] float gravityScale;
 
@@ -30,10 +32,18 @@ public class PlayerController : EntityController
     
     public Vector3 Velocity => m_Rb.linearVelocity;
 
-    private void OnEnable() => m_InputPlayerController.OnInputDashPressed += Dash;
+    private void OnEnable()
+    {
+        m_InputPlayerController.OnInputDashPressed += HandleDash;
+        m_InputPlayerController.OnInputDashReleased += ReleaseDash;
+    }
 
-    private void OnDisable() => m_InputPlayerController.OnInputDashPressed -= Dash;
-    
+    private void OnDisable()
+    {
+        m_InputPlayerController.OnInputDashReleased -= ReleaseDash;
+        m_InputPlayerController.OnInputDashPressed -= HandleDash;
+    }
+
     protected override void OnEntityDie()
     {
         m_PowerUp.OnPlayerDeath();
@@ -103,10 +113,36 @@ public class PlayerController : EntityController
         m_AnimVisual.OnMove(m_MoveDir);
     }
 
-    private void Dash(InputAction.CallbackContext ctx)
-    {
-        if (!m_IsMoving) return;
 
+    private void HandleDash(InputAction.CallbackContext _)
+    {
+        StartCoroutine(nameof(DashBuffer));
+    }
+
+    private IEnumerator DashBuffer()
+    {
+        float timer = 0f;
+        while (timer < k_BufferTimeDash)
+        {
+            
+            if (m_IsMoving && m_Dash.CanDash)
+            {
+                Dash();
+                yield break;
+            }
+            
+            yield return null;
+            timer += Time.deltaTime;
+        }
+    }
+
+    private void ReleaseDash(InputAction.CallbackContext _)
+    {
+        StopCoroutine(nameof(DashBuffer));
+    }
+    
+    private void Dash()
+    {
         Debug.DrawRay(transform.position, m_MoveDir, Color.red, 1);
         m_Dash.Dash(m_MoveDir);
     }

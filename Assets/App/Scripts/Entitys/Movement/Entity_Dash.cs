@@ -47,6 +47,8 @@ public class Entity_Dash : MonoBehaviour
     private float m_BeginDrag;
     private bool m_CanDash = true;
     [ReadOnly] public bool IsDashing = false;
+    
+    public bool CanDash => m_CanDash;
 
     public Action<float, float> OnDash;
     public Action OnDashInvincibilityEnd;
