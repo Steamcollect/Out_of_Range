@@ -27,6 +27,8 @@ public class InputPlayerController : MonoBehaviour
     }
     
     public event Action<InputAction.CallbackContext> OnInputDashPressed;
+    
+    public event Action<InputAction.CallbackContext> OnInputDashReleased;
 
     private void OnEnable()
     {
@@ -36,13 +38,16 @@ public class InputPlayerController : MonoBehaviour
         SecondaryAttackIa.action.Enable();
 
         m_DashIa.action.started += Callback_OnDashPressed;
+        m_DashIa.action.canceled += Callback_OnDashReleased;
     }
     
     private void Callback_OnDashPressed(InputAction.CallbackContext context) => OnInputDashPressed?.Invoke(context);
+    private void Callback_OnDashReleased(InputAction.CallbackContext context) => OnInputDashReleased?.Invoke(context);
     
     private void OnDisable()
     {
         m_DashIa.action.started -= Callback_OnDashPressed;
+        m_DashIa.action.canceled -= Callback_OnDashReleased;
         
         SecondaryAttackIa.action.Disable();
         PrimaryAttackIa.action.Disable();
