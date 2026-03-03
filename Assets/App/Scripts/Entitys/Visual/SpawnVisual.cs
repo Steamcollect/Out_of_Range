@@ -28,6 +28,11 @@ public class SpawnVisual : MonoBehaviour
         m_Block = new MaterialPropertyBlock();
     }
 
+    private void Start()
+    {
+        PlaySpawnVisual();
+    }
+
     private void OnDestroy()
     {
         m_SpawnTween?.Kill();
