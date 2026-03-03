@@ -1,5 +1,6 @@
 using System.Collections;
 using MoreMountains.Feedbacks;
+using MVsToolkit.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.VFX;
@@ -10,6 +11,7 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
     [SerializeField] private float m_ExplosionRadius;
     [SerializeField] private float m_LoadingDuration;
     [SerializeField] private float m_ExplosionDuration;
+    [SerializeField] private float m_SpawnDuration = 2.0f;
     [SerializeField] private int m_Damage;
 
     [Header("References")]
@@ -23,6 +25,7 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
     public UnityEvent OnExplode;
 
     private bool m_IsExploding;
+    private bool m_IsInvincible = true;
     private readonly Collider[] m_ResultsBuffer = new Collider[32];
 
     private void Start()
@@ -31,10 +34,15 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
         m_ExplosionEffect.gameObject.SetActive(false);
 
         m_BarrelMesh.SetActive(true);
+
+        m_IsInvincible = true;
+        this.Delay(() => m_IsInvincible = false, m_SpawnDuration);
     }
 
     public void Explode()
     {
+        if (m_IsInvincible == true) return;
+
         if(m_IsExploding) return;
 
         m_IsExploding = true;
