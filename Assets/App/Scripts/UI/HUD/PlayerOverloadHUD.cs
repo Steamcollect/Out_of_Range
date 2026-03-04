@@ -113,15 +113,10 @@ public class PlayerOverloadHUD : MonoBehaviour
         if (m_OverloadStyle)
         {
             m_OverloadStyle.OnAmmoChange -= SetFillValue;
-        }
-
-        if (m_OverloadStyle)
-        {
             m_OverloadStyle.OnOverloadStart -= EnableReloadSkills;
             m_OverloadStyle.OnOverloadEnd -= DisableReloadSkills;
         }
 
-        m_OverloadStyle = null;
         m_OverloadStyle = null;
     }
 
