@@ -143,4 +143,6 @@ public class BossMovementController : MonoBehaviour, IMovement
     public void Move(Vector3 input) { }
     public void ResetVelocity() { }
     public void SetSpeedMult(float mult) => m_SpeedMult = mult;
+
+    void IMovement.SetCanMove(bool canMove) { }
 }

@@ -23,6 +23,9 @@ public class PlayerController : EntityController
     [SerializeField] private PlayerMana m_Mana;
     [SerializeField] PlayerPowerUp m_PowerUp;
 
+    [Header("Input")]
+    [SerializeField] RSE_SetPlayerLockState m_SetLockState;
+
     [Header("Output")]
     [SerializeField] private RSE_OnPlayerDie m_OnPlayerDie;
     [SerializeField] private RSO_PlayerController m_Controller;
@@ -36,12 +39,14 @@ public class PlayerController : EntityController
     {
         m_InputPlayerController.OnInputDashPressed += HandleDash;
         m_InputPlayerController.OnInputDashReleased += ReleaseDash;
+        m_SetLockState.Action += SetLockState;
     }
 
     private void OnDisable()
     {
         m_InputPlayerController.OnInputDashReleased -= ReleaseDash;
         m_InputPlayerController.OnInputDashPressed -= HandleDash;
+        m_SetLockState.Action -= SetLockState;
     }
 
     protected override void OnEntityDie()
@@ -196,4 +201,11 @@ public class PlayerController : EntityController
     }
 
     public PlayerPowerUp GetPowerUp()=> m_PowerUp;
+
+    void SetLockState(bool locked)
+    {
+        m_Movement.Value.SetCanMove(locked);
+        m_Combat.SetCanAttack(locked);
+        m_Dash.SetCanDash(locked);
+    }
 }

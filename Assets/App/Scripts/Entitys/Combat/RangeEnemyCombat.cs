@@ -32,7 +32,7 @@ public class RangeEnemyCombat : EntityCombat
 
     public override IEnumerator Attack()
     {
-        if (!m_CanAttack) yield break;
+        if (!m_CanAttackOnSpawn) yield break;
 
         SetTurnSmoothTime(m_TurnWhileShooting ? m_TurnSmoothTimeOnShoot : 0f);
         m_IsAttacking = true;

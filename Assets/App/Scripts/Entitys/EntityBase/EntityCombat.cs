@@ -14,12 +14,13 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
 
     protected bool m_CanLookAt = true;
 
+    protected bool m_CanAttackOnSpawn = true;
     protected bool m_CanAttack = true;
     protected bool m_IsAttacking = false;
 
     private float m_CurrentTurnSmoothTime;
 
-    private Vector3 m_TurnSmoothHozirontalVelocity, m_TurnSmoothVerticalVelocity;
+    private Vector3 m_TurnSmoothHozirontalVelocity;
 
     public virtual void LookAt(Vector3 targetPos, LookAtAxis lookAtAxis = LookAtAxis.Both)
     {
@@ -46,9 +47,9 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
 
     public virtual IEnumerator LockAttackOnSpawn()
     {
-        m_CanAttack = false;
+        m_CanAttackOnSpawn = false;
         yield return new WaitForSeconds(m_StunTimeOnSpawn);
-        m_CanAttack = true;
+        m_CanAttackOnSpawn = true;
     }
 
     public virtual IEnumerator Attack() { yield break; }
@@ -59,5 +60,6 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
 
     public void SetActiveLookAt(bool canLookAt) => m_CanLookAt = canLookAt;
 
+    public void SetCanAttack(bool canAttack) => m_CanAttack = canAttack;
     public void SetTurnSmoothTime(float turnSmoothTime) => m_CurrentTurnSmoothTime = turnSmoothTime;
 }
