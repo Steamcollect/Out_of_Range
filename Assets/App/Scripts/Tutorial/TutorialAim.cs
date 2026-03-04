@@ -5,8 +5,6 @@ using UnityEngine.Events;
 [DisallowMultipleComponent]
 public class TutorialAim : MonoBehaviour
 {
-    #region Serialized Fields
-
     [Header("References")]
     [Tooltip("The auto-aim component on the camera rig.")]
     [SerializeField] private CameraTargetAutoFocus m_AutoFocus;
@@ -29,9 +27,6 @@ public class TutorialAim : MonoBehaviour
     [Tooltip("Fired each time a single target is validated (passes aimed target + its index).")]
     [SerializeField] private UnityEvent<int> m_OnTargetAimed;
 
-    #endregion
-
-    #region Private Fields
 
     // How long the player has been continuously aiming at each target.
     private readonly Dictionary<TutorialAimTarget, float> m_AimTimers = new();
@@ -45,10 +40,6 @@ public class TutorialAim : MonoBehaviour
     private bool m_IsCompleted;
     private bool m_IsActive;
 
-    #endregion
-
-    #region Properties
-
     public bool IsCompleted => m_IsCompleted;
 
     /// <summary>Number of required targets already validated.</summary>
@@ -57,10 +48,6 @@ public class TutorialAim : MonoBehaviour
     /// <summary>Total number of required targets.</summary>
     public int TotalCount => m_RequiredTargets.Count;
 
-
-    #endregion
-
-    #region Unity Lifecycle
 
     private void Awake()
     {
@@ -74,15 +61,10 @@ public class TutorialAim : MonoBehaviour
         m_LastKnownTarget = currentTarget;
     }
 
-    #endregion
-
-    #region Core Logic
-
     private void TrackAim(ITargetable currentTarget)
     {
         TutorialAimTarget aimedDummy = null;
 
-        // Check if the current auto-aim target is one of our required dummies.
         if (currentTarget != null)
         {
             Debug.Log($"[TutorialAimSequence] Currently aiming at: {currentTarget.GetTargetPosition()}");
@@ -92,7 +74,6 @@ public class TutorialAim : MonoBehaviour
             }
         }
 
-        // Update timers for all tracked dummies.
         foreach (var dummy in m_RequiredTargets)
         {
             if (m_ValidatedTargets.Contains(dummy)) continue;
@@ -109,7 +90,6 @@ public class TutorialAim : MonoBehaviour
             }
             else
             {
-                // Reset timer when aim leaves the target.
                 m_AimTimers[dummy] = 0f;
             }
         }
@@ -120,7 +100,7 @@ public class TutorialAim : MonoBehaviour
         if (m_ValidatedTargets.Contains(dummy)) return;
 
         m_ValidatedTargets.Add(dummy);
-        dummy.SetAimedState(true); // Keep it highlighted.
+        dummy.SetAimedState(true);
 
         int index = m_RequiredTargets.IndexOf(dummy);
         m_OnTargetAimed?.Invoke(index);
@@ -139,6 +119,4 @@ public class TutorialAim : MonoBehaviour
         Debug.Log("[TutorialAimSequence] All targets aimed at — sequence complete.");
         m_OnAllTargetsAimed?.Invoke();
     }
-
-    #endregion
 }
