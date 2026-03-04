@@ -1,3 +1,4 @@
+using FMODUnity;
 using MVsToolkit.Dev;
 using MVsToolkit.Utilities;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class PowerUpPickUp : MonoBehaviour
     [SerializeField] private bool m_DestroyAfterPickup = false;
     [SerializeField] float m_HandleTime;
     public UnityEvent onWeaponPickedUp;
+    [SerializeField] EventReference m_PickUpFx;
 
     private bool m_PickedUp = false;
 
@@ -24,6 +26,7 @@ public class PowerUpPickUp : MonoBehaviour
             if (!m_PowerUp) Debug.LogWarning($"{gameObject.name} : No PowerUp Data assigned!");
             m_AddPowerUp.Call(m_PowerUp, m_HandleTime);
             onWeaponPickedUp?.Invoke();
+            RuntimeManager.PlayOneShot(m_PickUpFx);
 
             m_PickedUp = true;
 

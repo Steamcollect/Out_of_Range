@@ -1,3 +1,4 @@
+using FMODUnity;
 using MoreMountains.Feedbacks;
 using MVsToolkit.Dev;
 using System;
@@ -22,6 +23,10 @@ public class RayRangeEnemyCombat : EntityCombat
     [Space(5)]
     [SerializeField] private RSO_PlayerController m_Player;
     [SerializeField] private GameObject m_ImpactFeedback;
+
+    [Space(10)]
+    [SerializeField] EventReference m_OnShootFx;
+
     [Header("Output")]
     [SerializeField] private UnityEvent m_OnShoot;
 
@@ -44,7 +49,9 @@ public class RayRangeEnemyCombat : EntityCombat
 
         OnShootLaunched?.Invoke(m_TimeBeforeAttack, m_TimeAfterAttack);
 
+        RuntimeManager.PlayOneShot(m_OnShootFx, transform.position);
         yield return new WaitForSeconds(m_TimeBeforeAttack);
+
 
         Ray ray = new Ray(m_AttackPoint.position, m_AttackPoint.forward);
 

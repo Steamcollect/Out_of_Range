@@ -1,9 +1,8 @@
-using System.Linq;
 using DG.Tweening;
 using MVsToolkit.Dev;
 using MVsToolkit.Utilities;
-using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class Door : MonoBehaviour
 {
@@ -24,6 +23,10 @@ public class Door : MonoBehaviour
     [SerializeField] GameObject m_DoorMesh;
     [SerializeField] Transform m_OpenPoint;
     [SerializeField] Transform m_ClosePoint;
+
+    [Space(10)]
+    [SerializeField] EventReference m_OpenFx;
+    [SerializeField] EventReference m_CloseFx;
 
     [Space(10)]
     [SerializeField, Inline] MeshMatChanger[] m_MeshChanger;
@@ -95,12 +98,15 @@ public class Door : MonoBehaviour
 
     void Open()
     {
+        RuntimeManager.PlayOneShot(m_OpenFx);
+
         m_DoorMesh.transform.DOKill();
         m_DoorMesh.transform.DOMove(m_OpenPos, m_OpenTime);
     }
 
     void Close()
     {
+        RuntimeManager.PlayOneShot(m_CloseFx);
         m_DoorMesh.transform.DOKill();
         m_DoorMesh.transform.DOMove(m_ClosePos, m_OpenTime);
     }
