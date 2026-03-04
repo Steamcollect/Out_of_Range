@@ -36,7 +36,7 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     [SerializeField] RSO_PlayerCameraController m_Camera;
 
     [Space(10)]
-    [SerializeField] InputActionReference m_CancelAttackIA;
+    [SerializeField] InputActionReference m_AttackIA;
 
     [Header("Output")]
     [SerializeField] RSO_CameraTargetType m_TargetType;
@@ -50,11 +50,11 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     private void OnEnable()
     {
-        m_CancelAttackIA.action.started += CancelAttack;
+        m_AttackIA.action.started += Attack;
     }
     private void OnDisable()
     {
-        m_CancelAttackIA.action.started -= CancelAttack;
+        m_AttackIA.action.started -= Attack;
     }
 
     private void FixedUpdate()
@@ -76,6 +76,8 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     public override void AttackStart()
     {
+        if (m_InputPress) return;
+
         m_InputPress = true;
         m_PreShowCircle.gameObject.SetActive(true);
         m_TargetType.Set(CameraTargetType.FreeLook);
@@ -91,19 +93,23 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     public override void AttackEnd()
     {
         if (!m_InputPress) return;
-
-        m_InputPress = false;
-        if(m_CanTouchTarget) StartCoroutine(Attack());
-
-        m_PreShowCircle.gameObject.SetActive(false);
-        m_TargetType.Set(CameraTargetType.AutoFocus);
+        CancelAttack();
     }
 
-    public void CancelAttack(InputAction.CallbackContext ctx)
+    public void CancelAttack()
     {
         m_InputPress = false;
         m_PreShowCircle.gameObject.SetActive(false);
         m_TargetType.Set(CameraTargetType.AutoFocus);
+    }
+
+    public void Attack(InputAction.CallbackContext ctx)
+    {
+        if (m_InputPress && m_CanTouchTarget)
+        {
+            StartCoroutine(Attack());
+            CancelAttack();
+        }
     }
 
     public override IEnumerator Attack()
