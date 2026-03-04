@@ -48,6 +48,7 @@ public class CombatStyleSelector : MonoBehaviour
 
     private void SetSecondaryCombatStyle(CombatStyle style)
     {
+        m_CanPickupMana.Set(style != null);
         m_PrimaryPlayerCombat.SetSecondaryCombatStyle(style);
     }
     
