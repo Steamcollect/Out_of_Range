@@ -3,6 +3,7 @@ using MVsToolkit.Dev;
 using MVsToolkit.Utilities;
 using UnityEngine;
 using FMODUnity;
+using MoreMountains.Feedbacks;
 
 public class Door : MonoBehaviour
 {
@@ -25,8 +26,8 @@ public class Door : MonoBehaviour
     [SerializeField] Transform m_ClosePoint;
 
     [Space(10)]
-    [SerializeField] EventReference m_OpenFx;
-    [SerializeField] EventReference m_CloseFx;
+    [SerializeField] MMF_Player m_OpenFeedback;
+    [SerializeField] MMF_Player m_CloseFeedback;
 
     [Space(10)]
     [SerializeField, Inline] MeshMatChanger[] m_MeshChanger;
@@ -98,7 +99,7 @@ public class Door : MonoBehaviour
 
     void Open()
     {
-        RuntimeManager.PlayOneShot(m_OpenFx);
+        m_OpenFeedback.PlayFeedbacks();
 
         m_DoorMesh.transform.DOKill();
         m_DoorMesh.transform.DOMove(m_OpenPos, m_OpenTime);
@@ -106,7 +107,8 @@ public class Door : MonoBehaviour
 
     void Close()
     {
-        RuntimeManager.PlayOneShot(m_CloseFx);
+        m_CloseFeedback.PlayFeedbacks();
+
         m_DoorMesh.transform.DOKill();
         m_DoorMesh.transform.DOMove(m_ClosePos, m_OpenTime);
     }
