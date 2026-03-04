@@ -134,6 +134,6 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
 
     public Vector3 GetTargetIndicatorPosition()
     {
-        return transform.position + Vector3.up * 1.5f;
+        return transform.position + Vector3.up * 5f;
     }
 }
