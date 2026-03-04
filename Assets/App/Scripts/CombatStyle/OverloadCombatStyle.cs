@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using FMODUnity;
 using MVsToolkit.Dev;
 using Sirenix.OdinInspector;
 using UnityEditor;
@@ -39,7 +40,13 @@ public abstract class OverloadCombatStyle : CombatStyle
     protected bool m_HaveFreeShoot = false;
     protected float m_AutoCoolTimer;
 
-    //[Header("References")]
+    [Header("Fmod References")]
+    [SerializeField] EventReference m_ReloadFx;
+    [SerializeField] EventReference m_OverloadFx;
+    [SerializeField] EventReference m_YellowOverloadFx;
+    [SerializeField] EventReference m_BlueOverloadFx;
+    [SerializeField] EventReference m_RedOverloadFx;
+    
     [Header("Input")]
     [SerializeField] protected InputActionReference m_HandleCoolsInput;
     [SerializeField] protected InputActionReference m_HandleCoolsSkillInput;
@@ -117,6 +124,7 @@ public abstract class OverloadCombatStyle : CombatStyle
 
         yield return new WaitForSeconds(m_StunDelayOnOverload);
 
+        RuntimeManager.PlayOneShot(m_OverloadFx);
         m_CurrentState = OverloadWeaponState.OverloadCool;
     }
 
@@ -125,6 +133,8 @@ public abstract class OverloadCombatStyle : CombatStyle
         switch (m_CurrentState)
         {
             case OverloadWeaponState.CanShoot:
+                RuntimeManager.PlayOneShot(m_ReloadFx);
+
                 m_CurrentState = OverloadWeaponState.DefaultCool;
                 OnReload?.Invoke();
                 break;
@@ -139,11 +149,14 @@ public abstract class OverloadCombatStyle : CombatStyle
         {
             OnPerfectHit?.Invoke();
             m_CurrentState = OverloadWeaponState.CoolBuffed;
+            RuntimeManager.PlayOneShot(m_YellowOverloadFx);
+
             m_CurentTemperature = 100;
         }
         else if (m_CurentTemperature.InRange(RangeToReset))
         {
             m_CurrentState = OverloadWeaponState.CanShoot;
+            RuntimeManager.PlayOneShot(m_BlueOverloadFx);
             m_CurentTemperature = 0;
             m_HaveFreeShoot = true;
             OnAmmoChange?.Invoke(m_CurentTemperature, 100);
@@ -151,6 +164,7 @@ public abstract class OverloadCombatStyle : CombatStyle
         else if (m_CurentTemperature.InRange(RangeToNerf))
         {
             m_CurrentState = OverloadWeaponState.CoolNerfed;
+            RuntimeManager.PlayOneShot(m_RedOverloadFx);
             m_CurentTemperature = 100;
         }
         else return;
