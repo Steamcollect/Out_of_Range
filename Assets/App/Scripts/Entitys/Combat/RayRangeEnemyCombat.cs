@@ -35,7 +35,7 @@ public class RayRangeEnemyCombat : EntityCombat
 
     public override IEnumerator Attack()
     {
-        if (!m_CanAttack) yield break;
+        if (!m_CanAttackOnSpawn) yield break;
         m_IsAttacking = true;
 
         yield return new WaitForSeconds(m_TimeBetweenAttacks);

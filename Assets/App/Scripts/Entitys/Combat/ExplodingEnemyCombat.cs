@@ -15,7 +15,7 @@ public class ExplodingEnemyCombat : EntityCombat
 
     public override IEnumerator Attack()
     {
-        if(!m_CanAttack) yield break;
+        if(!m_CanAttackOnSpawn) yield break;
 
         foreach (Collider hit in Physics.OverlapSphere(transform.position, m_ExplosionRadius, m_ExplosionMask))
             if (hit.TryGetComponent(out HurtBox hurtBox))

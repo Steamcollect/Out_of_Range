@@ -7,6 +7,7 @@ public interface IMovement
     void Move(Vector3 input);
 
     public void SetSpeedMult(float mult);
+    public void SetCanMove(bool canMove);
 }
 
 public enum LookAtAxis

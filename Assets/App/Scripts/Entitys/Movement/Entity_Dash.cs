@@ -45,17 +45,18 @@ public class Entity_Dash : MonoBehaviour
     [SerializeField] private EntityHealth m_EntityHealth;
 
     private float m_BeginDrag;
+    private bool m_CanDashCooldown = true;
     private bool m_CanDash = true;
     [ReadOnly] public bool IsDashing = false;
     
-    public bool CanDash => m_CanDash;
+    public bool CanDash => m_CanDashCooldown;
 
     public Action<float, float> OnDash;
     public Action OnDashInvincibilityEnd;
 
     public void Dash(Vector3 input)
     {
-        if (!m_CanDash) return;
+        if (!m_CanDashCooldown || !m_CanDash) return;
 
         CalculateDestination(input, out bool disableBorderWall);
 
@@ -140,9 +141,14 @@ public class Entity_Dash : MonoBehaviour
 
     private IEnumerator DashCooldown()
     {
-        m_CanDash = false;
+        m_CanDashCooldown = false;
         yield return new WaitForSeconds(m_DashCooldown);
-        m_CanDash = true;
+        m_CanDashCooldown = true;
+    }
+
+    public void SetCanDash(bool canDash)
+    {
+        m_CanDash = canDash;
     }
 
     private void OnDrawGizmosSelected()

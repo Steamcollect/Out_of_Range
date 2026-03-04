@@ -36,6 +36,8 @@ public class PlayerCombat : EntityCombat
 
     private void Update()
     {
+        if (!m_CanAttack) return;
+
         Vector3 targetPosition = m_AimTarget.Get().position;
         Vector3 currentPos = transform.position;
 
@@ -63,10 +65,26 @@ public class PlayerCombat : EntityCombat
         }
     }
 
-    void OnPrimaryAttackStart(InputAction.CallbackContext ctx) => m_PrimaryCombatStyle?.AttackStart();
-    void OnPrimaryAttackCanceled(InputAction.CallbackContext ctx) => m_PrimaryCombatStyle?.AttackEnd();
-    void OnSecondaryAttackStart(InputAction.CallbackContext ctx) => m_SecondaryCombatStyle?.AttackStart();
-    void OnSecondaryAttackCanceled(InputAction.CallbackContext ctx) => m_SecondaryCombatStyle?.AttackEnd();
+    void OnPrimaryAttackStart(InputAction.CallbackContext ctx)
+    {
+        if (!m_CanAttack) return;
+        m_PrimaryCombatStyle?.AttackStart();
+    }
+    void OnPrimaryAttackCanceled(InputAction.CallbackContext ctx)
+    {
+        if (!m_CanAttack) return;
+        m_PrimaryCombatStyle?.AttackEnd();
+    }
+    void OnSecondaryAttackStart(InputAction.CallbackContext ctx)
+    {
+        if (!m_CanAttack) return;
+        m_SecondaryCombatStyle?.AttackStart();
+    }
+    void OnSecondaryAttackCanceled(InputAction.CallbackContext ctx)
+    {
+        if (!m_CanAttack) return;
+        m_SecondaryCombatStyle?.AttackEnd();
+    }
 
     public void SetPrimaryCombatStyle(CombatStyle newStyle)
     {
