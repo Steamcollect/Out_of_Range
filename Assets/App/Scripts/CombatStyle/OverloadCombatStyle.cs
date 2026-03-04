@@ -46,6 +46,7 @@ public abstract class OverloadCombatStyle : CombatStyle
 
     //[Header("Output")]
     public Action OnOverloadStart, OnOverloadEnd;
+    public Action OnPerfectHit, OnPerfectHitEnd;
     public Action<OverloadWeaponState> OnOverloadStateChange;
 
     private void OnEnable()
@@ -99,6 +100,9 @@ public abstract class OverloadCombatStyle : CombatStyle
             if (m_CurrentState == OverloadWeaponState.OverloadCool)
                 OnOverloadEnd?.Invoke();
 
+            if(m_CurrentState == OverloadWeaponState.CoolBuffed)
+                OnPerfectHitEnd?.Invoke();
+
             m_CurrentState = OverloadWeaponState.CanShoot;
         }
 
@@ -133,6 +137,7 @@ public abstract class OverloadCombatStyle : CombatStyle
 
         if (m_CurentTemperature.InRange(RangeToBuff))
         {
+            OnPerfectHit?.Invoke();
             m_CurrentState = OverloadWeaponState.CoolBuffed;
             m_CurentTemperature = 100;
         }
