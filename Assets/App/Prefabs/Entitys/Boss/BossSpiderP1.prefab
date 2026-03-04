@@ -419,8 +419,8 @@ MonoBehaviour:
   m_SpawnVisual: {fileID: 0}
   m_Rb: {fileID: 0}
   IsSpawning: 0
-  m_DetectionRange: 30
-  m_AttackRange: 30
+  m_DetectionRange: 40
+  m_AttackRange: 40
   m_AngleRequireToAttack: 20
   m_TimeToLoseTarget: 2
   m_CurrentState: 0
@@ -833,7 +833,7 @@ GameObject:
   - component: {fileID: 8072195117480314739}
   - component: {fileID: 2012661524281572704}
   - component: {fileID: 7400567156524592676}
-  - component: {fileID: 2149081101153870343}
+  - component: {fileID: 4298502057083153870}
   m_Layer: 9
   m_Name: Health
   m_TagString: Untagged
@@ -911,8 +911,8 @@ MonoBehaviour:
   m_OnHealFeedback:
     m_PersistentCalls:
       m_Calls: []
---- !u!136 &2149081101153870343
-CapsuleCollider:
+--- !u!65 &4298502057083153870
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -929,11 +929,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.6081201
-  m_Height: 5.2168207
-  m_Direction: 1
-  m_Center: {x: 0, y: -0.2751384, z: 1.0546718}
+  serializedVersion: 3
+  m_Size: {x: 6.9016633, y: 8.390563, z: 2.4053743}
+  m_Center: {x: 0, y: 0.00000041464102, z: 0.7026871}
 --- !u!1001 &3343160449482954912
 PrefabInstance:
   m_ObjectHideFlags: 0
