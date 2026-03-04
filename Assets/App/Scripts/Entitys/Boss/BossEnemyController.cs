@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 using UnityEngine.Events;
 using MVsToolkit.Utilities;
 
-public class BossEnemyController : EntityController, ISpawnable
+public class BossEnemyController : EntityController, ISpawnable, ITargetable
 {
     [Header("Settings")]
     [SerializeField] float m_DetectionRange;
