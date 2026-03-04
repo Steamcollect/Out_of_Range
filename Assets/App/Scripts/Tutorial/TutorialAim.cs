@@ -63,34 +63,33 @@ public class TutorialAim : MonoBehaviour
 
     private void TrackAim(ITargetable currentTarget)
     {
+        // 1. Trouver si l'objet visé est l'une de nos cibles de tutoriel
         TutorialAimTarget aimedDummy = null;
-
         if (currentTarget != null)
         {
-            Debug.Log($"[TutorialAimSequence] Currently aiming at: {currentTarget.GetTargetPosition()}");
-            foreach (var dummy in m_RequiredTargets)
-            {
-                aimedDummy = dummy;
-            }
+            // On cherche dans la liste si l'un des composants correspond à l'ITargetable
+            aimedDummy = m_RequiredTargets.Find(t => t.GetComponent<ITargetable>() == currentTarget);
         }
 
+        // 2. Mettre à jour l'état de chaque cible
         foreach (var dummy in m_RequiredTargets)
         {
             if (m_ValidatedTargets.Contains(dummy)) continue;
 
-            bool isCurrentlyAimed = dummy == aimedDummy;
-            dummy.SetAimedState(isCurrentlyAimed);
+            bool isCurrentlyAimed = (dummy == aimedDummy);
+            dummy.SetAimedState(isCurrentlyAimed); //
 
             if (isCurrentlyAimed)
             {
-                m_AimTimers[dummy] += Time.deltaTime;
+                m_AimTimers[dummy] += Time.deltaTime; //
 
                 if (m_AimTimers[dummy] >= m_AimHoldDuration)
-                    ValidateTarget(dummy);
+                    ValidateTarget(dummy); //
             }
             else
             {
-                m_AimTimers[dummy] = 0f;
+                // Reset le timer si on lâche la cible
+                m_AimTimers[dummy] = 0f; //
             }
         }
     }
@@ -118,5 +117,15 @@ public class TutorialAim : MonoBehaviour
 
         Debug.Log("[TutorialAimSequence] All targets aimed at — sequence complete.");
         m_OnAllTargetsAimed?.Invoke();
+    }
+
+    public float GetTargetProgress(TutorialAimTarget target)
+    {
+        if (m_ValidatedTargets.Contains(target)) return 1f;
+        if (m_AimTimers.TryGetValue(target, out float time))
+        {
+            return Mathf.Clamp01(time / m_AimHoldDuration);
+        }
+        return 0f;
     }
 }

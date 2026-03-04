@@ -424,6 +424,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2901327893195231109, guid: 1f2031883266f2349a54bb4756fb9073, type: 3}
   m_PrefabInstance: {fileID: 169755584}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &341708731 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5838728102086572458, guid: 180302a7e3f281a438ff7be0e11e8b1e, type: 3}
+  m_PrefabInstance: {fileID: 845879136}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9d6ec21ab34fedba53b0d4ebb40b52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.CameraTargetAutoFocus
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,6 +611,17 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 7812542238518711623, guid: 180302a7e3f281a438ff7be0e11e8b1e, type: 3}
   m_PrefabInstance: {fileID: 845879136}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &727096822 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3684492444406781591, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
+  m_PrefabInstance: {fileID: 6543358079026282036}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945da7f97d5ce2d4b9e7ee7e74f020e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialAimTarget
 --- !u!1001 &739817451
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -842,6 +864,10 @@ PrefabInstance:
     - target: {fileID: 5305197814974200049, guid: 180302a7e3f281a438ff7be0e11e8b1e, type: 3}
       propertyPath: m_LocalPosition.z
       value: -134.98239
+      objectReference: {fileID: 0}
+    - target: {fileID: 5838728102086572458, guid: 180302a7e3f281a438ff7be0e11e8b1e, type: 3}
+      propertyPath: m_DetectionRangeSphereCastGamepad
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 6202381768020525115, guid: 180302a7e3f281a438ff7be0e11e8b1e, type: 3}
       propertyPath: CameraDistance
@@ -5180,6 +5206,34 @@ PrefabInstance:
       propertyPath: 'roomConnected.Array.data[2]'
       value: 
       objectReference: {fileID: 8810638210721359598}
+    - target: {fileID: 8920195356426489575, guid: 7f6a9ac27cfbf984b8f9ca3fc3ad463b, type: 3}
+      propertyPath: m_PropertySheet.m_Bool.m_Array.Array.data[0].m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920195356426489575, guid: 7f6a9ac27cfbf984b8f9ca3fc3ad463b, type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920195356426489575, guid: 7f6a9ac27cfbf984b8f9ca3fc3ad463b, type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920195356426489575, guid: 7f6a9ac27cfbf984b8f9ca3fc3ad463b, type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
+      value: -0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920195356426489575, guid: 7f6a9ac27cfbf984b8f9ca3fc3ad463b, type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.x
+      value: -53.659782
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920195356426489575, guid: 7f6a9ac27cfbf984b8f9ca3fc3ad463b, type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.y
+      value: 7.2527533
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920195356426489575, guid: 7f6a9ac27cfbf984b8f9ca3fc3ad463b, type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.z
+      value: 185.3897
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6674,7 +6728,7 @@ PrefabInstance:
       objectReference: {fileID: 1634195973}
     - target: {fileID: 6793128016143120571, guid: 92ad6af1d0ccb7441a417a1aa7952736, type: 3}
       propertyPath: m_VersionIndex
-      value: 1210
+      value: 1213
       objectReference: {fileID: 0}
     - target: {fileID: 7431486530335152321, guid: 92ad6af1d0ccb7441a417a1aa7952736, type: 3}
       propertyPath: m_Enabled
@@ -6746,7 +6800,7 @@ PrefabInstance:
       objectReference: {fileID: 92805762}
     - target: {fileID: 9180279496488972295, guid: 92ad6af1d0ccb7441a417a1aa7952736, type: 3}
       propertyPath: m_VersionIndex
-      value: 1189
+      value: 1192
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -7223,34 +7277,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1880423092}
     m_Modifications:
-    - target: {fileID: 721791311091225244, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
-      propertyPath: m_NavMeshData
-      value: 
-      objectReference: {fileID: 23800000, guid: 66e648e24197c0446919278668d4508c, type: 2}
-    - target: {fileID: 929453712276413815, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1893964738715411591, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2152072018221509223, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
-      propertyPath: m_ApplySpawnPosOnStart
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2152072018221509223, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
-      propertyPath: roomConnected.Array.size
+    - target: {fileID: 933654859608696251, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
+      propertyPath: m_Targets.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 933654859608696251, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
+      propertyPath: 'm_Targets.Array.data[1]'
+      value: 
+      objectReference: {fileID: 727096822}
     - target: {fileID: 2152072018221509223, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
       propertyPath: 'roomConnected.Array.data[0]'
       value: 
       objectReference: {fileID: 5107070510424393856}
-    - target: {fileID: 2152072018221509223, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
-      propertyPath: 'roomConnected.Array.data[1]'
-      value: 
-      objectReference: {fileID: 8600529381400092521}
     - target: {fileID: 3769034902798839653, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
       propertyPath: m_LocalPosition.x
       value: -55.470657
@@ -7295,26 +7333,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: 01_StartRoom
       objectReference: {fileID: 0}
-    - target: {fileID: 5535816376578689306, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 6592499146917231889, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
+      propertyPath: m_AutoFocus
+      value: 
+      objectReference: {fileID: 341708731}
+    - target: {fileID: 6592499146917231889, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
+      propertyPath: m_RequiredTargets.Array.size
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 7236250852149693270, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7914584508395189191, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8269435820324696742, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8897111144396507703, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 6592499146917231889, guid: f8040adb6a6f7c6438769bf38fb73b59, type: 3}
+      propertyPath: 'm_RequiredTargets.Array.data[1]'
+      value: 
+      objectReference: {fileID: 727096822}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8563,6 +8593,30 @@ PrefabInstance:
       propertyPath: 'roomConnected.Array.data[2]'
       value: 
       objectReference: {fileID: 959427445893516233}
+    - target: {fileID: 6803670527478202518, guid: 2bf5be8326b45174bb2c63a8cf136263, type: 3}
+      propertyPath: m_PropertySheet.m_Bool.m_Array.Array.data[0].m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6803670527478202518, guid: 2bf5be8326b45174bb2c63a8cf136263, type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6803670527478202518, guid: 2bf5be8326b45174bb2c63a8cf136263, type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6803670527478202518, guid: 2bf5be8326b45174bb2c63a8cf136263, type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6803670527478202518, guid: 2bf5be8326b45174bb2c63a8cf136263, type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6803670527478202518, guid: 2bf5be8326b45174bb2c63a8cf136263, type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7124156075338771914, guid: 2bf5be8326b45174bb2c63a8cf136263, type: 3}
       propertyPath: m_Enabled
       value: 1
