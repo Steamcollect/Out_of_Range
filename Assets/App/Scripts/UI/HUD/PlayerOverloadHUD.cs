@@ -161,23 +161,29 @@ public class PlayerOverloadHUD : MonoBehaviour
         switch (state)
         {
             case OverloadWeaponState.CanShoot:
+                m_ReloadTextGO?.SetActive(false);
                 m_FillImg.color = m_ShootColor;
-                m_ReloadTextGO?.SetActive(normalizedValue > .5f);
                 break;
 
             case OverloadWeaponState.DefaultCool:
+                m_ReloadTextGO?.SetActive(false);
                 m_FillImg.color = m_ReloadColor;
                 break;
 
             case OverloadWeaponState.CoolBuffed:
+                m_ReloadTextGO?.SetActive(false);
                 m_FillImg.color = m_OverloadBuffColor;
                 break;
 
             case OverloadWeaponState.CoolNerfed:
+                m_ReloadTextGO?.SetActive(false);
+
                 m_FillImg.color = m_OverloadNerfColor;
                 break;
 
             case OverloadWeaponState.OverloadCool:
+                m_ReloadTextGO?.SetActive(true);
+
                 m_FillImg.color = m_ReloadColor;
                 break;
         }
