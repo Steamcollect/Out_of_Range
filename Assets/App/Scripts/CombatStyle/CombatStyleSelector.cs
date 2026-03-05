@@ -9,8 +9,7 @@ public class CombatStyleSelector : MonoBehaviour
     [SerializeField] private CombatStyle m_GrenadeLauncherCombatStyle;
 
     [Space]
-    [SerializeField] GameObject m_Arms;
-    [SerializeField] private GameObject m_FlyingFX;
+    [SerializeField] PlayerArms m_Arms;
 
     [Space(10)]
     [SerializeField] RSO_CanPickupMana m_CanPickupMana;
@@ -44,8 +43,8 @@ public class CombatStyleSelector : MonoBehaviour
         SetPrimaryCombatStyle(m_DefaultCombatStyle);
         SetSecondaryCombatStyle(CombatStyleSelectorPersistant.HasLaunchGrenade() ? m_GrenadeLauncherCombatStyle : null);
 
-        m_Arms.SetActive(((RangeOverloadCombatStyle)m_DefaultCombatStyle).GetCanShoot());
-        m_FlyingFX.SetActive(!((RangeOverloadCombatStyle)m_DefaultCombatStyle).GetCanShoot());
+        //m_Arms.SetActive(((RangeOverloadCombatStyle)m_DefaultCombatStyle).GetCanShoot());
+        //m_FlyingFX.SetActive(!((RangeOverloadCombatStyle)m_DefaultCombatStyle).GetCanShoot());
     }
     
     private void SetPrimaryCombatStyle(CombatStyle style)
@@ -65,8 +64,9 @@ public class CombatStyleSelector : MonoBehaviour
         m_CanPickupMana.Set(true);
         m_Mana.SetToMax();
         SetSecondaryCombatStyle(m_GrenadeLauncherCombatStyle);
+        m_Arms.ShowGrenade();
     }
-    
+
     private void EnableShotgun()
     {
         //CombatStyleSelectorPersistant.SetHasShotgun();
@@ -76,7 +76,6 @@ public class CombatStyleSelector : MonoBehaviour
     private void EnableRifle()
     {
         ((RangeOverloadCombatStyle)m_DefaultCombatStyle).SetCanShoot(true);
-        m_FlyingFX.SetActive(false);
-        m_Arms.SetActive(true);
+        m_Arms.ShowRifle();
     }    
 }
