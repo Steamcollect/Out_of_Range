@@ -39,20 +39,11 @@ public class PlayerArms : MonoBehaviour
 
         if (!isTargettingSomething && !m_LastTargetNull && m_ShakeTimer >= m_AttackShakeDuration)
         {
-            m_LArm.DOKill();
-            m_LArm.DOLocalMove(m_LArmIdlePivot.localPosition, m_StateTransitionDuration);
-            m_LArm.DOLocalRotate(m_LArmIdlePivot.localEulerAngles, m_StateTransitionDuration);
-
-            m_ShakeTimer = 0;
-            m_LastTargetNull = true;
+            SetToIdle();
         }
         else if(isTargettingSomething && m_LastTargetNull)
         {
-            m_LArm.DOKill();
-            m_LArm.DOLocalMove(m_LArmAttackPivot.localPosition, m_StateTransitionDuration);
-            m_LArm.DOLocalRotate(m_LArmAttackPivot.localEulerAngles, m_StateTransitionDuration);
-
-            m_LastTargetNull = false;
+            SetToAttack();
         }
     }
 
@@ -79,8 +70,30 @@ public class PlayerArms : MonoBehaviour
         m_LArm.DOPunchRotation(
             Vector3.up * m_AttackShakeLinearForce,
             m_AttackShakeDuration,
-            20, 1);
+            20, 1).OnComplete(() =>
+            {
+                if(m_LastTargetNull) 
+                    SetToIdle();
+            });
 
         return m_LAttackPoint;
+    }
+
+    void SetToIdle()
+    {
+        m_LArm.DOKill();
+        m_LArm.DOLocalMove(m_LArmIdlePivot.localPosition, m_StateTransitionDuration);
+        m_LArm.DOLocalRotate(m_LArmIdlePivot.localEulerAngles, m_StateTransitionDuration);
+
+        m_ShakeTimer = 0;
+        m_LastTargetNull = true;
+    }
+    void SetToAttack()
+    {
+        m_LArm.DOKill();
+        m_LArm.DOLocalMove(m_LArmAttackPivot.localPosition, m_StateTransitionDuration);
+        m_LArm.DOLocalRotate(m_LArmAttackPivot.localEulerAngles, m_StateTransitionDuration);
+
+        m_LastTargetNull = false;
     }
 }
