@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class PlayerCursorFeedback : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float m_ShakeForce;
     [SerializeField] float m_ScaleMultPerKill;
+    [SerializeField] float m_ScaleMax = 4f;
     [SerializeField] float m_ShakeDuration;
     [SerializeField] float m_AnimDuration;
 
@@ -64,8 +66,8 @@ public class PlayerCursorFeedback : MonoBehaviour
         m_CooldownCoroutine = StartCoroutine(RunningCooldown());
 
         m_FeedbackCursor.transform.DOPunchRotation(Vector3.forward * m_ShakeForce, m_ShakeDuration, 20, 1);
-
-        m_CurrentScale *= m_ScaleMultPerKill;
+        
+        m_CurrentScale = Mathf.Min(m_CurrentScale * m_ScaleMultPerKill, m_ScaleMax);
         m_FeedbackCursor.transform.DOScale(m_CurrentScale, m_ShakeDuration);
 
         m_FeedbackCursor.DOFade(0, m_AnimDuration);
