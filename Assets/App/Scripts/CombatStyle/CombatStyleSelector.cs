@@ -50,6 +50,7 @@ public class CombatStyleSelector : MonoBehaviour
     private void SetPrimaryCombatStyle(CombatStyle style)
     {
         m_PrimaryPlayerCombat.SetPrimaryCombatStyle(style);
+        ((RangeOverloadCombatStyle)m_DefaultCombatStyle).SetCanShoot(CombatStyleSelectorPersistant.HasRifle());
     }
 
     private void SetSecondaryCombatStyle(CombatStyle style)
@@ -75,6 +76,7 @@ public class CombatStyleSelector : MonoBehaviour
     
     private void EnableRifle()
     {
+        CombatStyleSelectorPersistant.SetHasRifle();
         ((RangeOverloadCombatStyle)m_DefaultCombatStyle).SetCanShoot(true);
         m_Arms.ShowRifle();
     }    
