@@ -6,25 +6,17 @@ using UnityEngine.Events;
 public class TutorialAim : MonoBehaviour
 {
     [Header("References")]
-    [Tooltip("The auto-aim component on the camera rig.")]
     [SerializeField] private CameraTargetAutoFocus m_AutoFocus;
 
     [Header("Targets")]
-    [Tooltip("All dummies that must be aimed at to complete this tutorial step.")]
     [SerializeField] private List<TutorialAimTarget> m_RequiredTargets = new();
 
     [Header("Settings")]
-    [Tooltip("How long (seconds) the player must hold aim on each target before it counts.")]
     [SerializeField] private float m_AimHoldDuration = 0.5f;
-
-    [Tooltip("Once completed, the sequence does not reset even if re-enabled.")]
     [SerializeField] private bool m_CompleteOnce = true;
 
     [Header("Events")]
-    [Tooltip("Fired once every required target has been aimed at long enough.")]
     [SerializeField] private UnityEvent m_OnAllTargetsAimed;
-
-    [Tooltip("Fired each time a single target is validated (passes aimed target + its index).")]
     [SerializeField] private UnityEvent<int> m_OnTargetAimed;
 
 
@@ -34,11 +26,7 @@ public class TutorialAim : MonoBehaviour
     // Targets that have been fully validated.
     private readonly HashSet<TutorialAimTarget> m_ValidatedTargets = new();
 
-    // The target the auto-aim is currently locked onto.
-    private ITargetable m_LastKnownTarget;
-
     private bool m_IsCompleted;
-    private bool m_IsActive;
 
     public bool IsCompleted => m_IsCompleted;
 
@@ -58,7 +46,6 @@ public class TutorialAim : MonoBehaviour
     {
         ITargetable currentTarget = m_AutoFocus.GetCameraTarget();
         TrackAim(currentTarget);
-        m_LastKnownTarget = currentTarget;
     }
 
     private void TrackAim(ITargetable currentTarget)
@@ -100,6 +87,7 @@ public class TutorialAim : MonoBehaviour
 
         m_ValidatedTargets.Add(dummy);
         dummy.SetAimedState(true);
+        dummy.m_MaterialChanger.ChangeToBlue();
 
         int index = m_RequiredTargets.IndexOf(dummy);
         m_OnTargetAimed?.Invoke(index);
@@ -113,7 +101,6 @@ public class TutorialAim : MonoBehaviour
     private void CompleteSequence()
     {
         m_IsCompleted = true;
-        m_IsActive = false;
 
         Debug.Log("[TutorialAimSequence] All targets aimed at — sequence complete.");
         m_OnAllTargetsAimed?.Invoke();
