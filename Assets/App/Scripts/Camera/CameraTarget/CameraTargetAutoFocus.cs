@@ -76,14 +76,14 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
 
     #region ICameraTarget
 
-    public Vector3? GetCameraTargetPosition()
+    public Vector3? GetCameraTargetPosition(ref bool isTagettingSomething)
     {
         ResetDebug();
 
         return m_CurrentInputDevice.Value switch
         {
-            InputDeviceType.Gamepad => ResolveGamepadTarget(),
-            InputDeviceType.KeyboardMouse => ResolveMouseTarget(),
+            InputDeviceType.Gamepad => ResolveGamepadTarget(ref isTagettingSomething),
+            InputDeviceType.KeyboardMouse => ResolveMouseTarget(ref isTagettingSomething),
             _ => null
         };
     }
@@ -97,7 +97,7 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
 
     #region Mouse Logic
 
-    private Vector3? ResolveMouseTarget()
+    private Vector3? ResolveMouseTarget(ref bool isTagettingSomething)
     {
         Camera cam = m_CameraController.Get().GetCamera();
         Vector2 screenPos = m_MousePositionInput.action.ReadValue<Vector2>();
@@ -109,6 +109,7 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
                 m_HittableLayer,
                 m_QueryTriggerInteraction))
         {
+            isTagettingSomething = false;
             return null;
         }
 
@@ -146,20 +147,30 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
 
         UpdateTargetState(closest, closest != null ? 1f : 0f);
 
-        return closest?.GetTargetPosition() ?? hit.point;
+        if(closest != null)
+        {
+            isTagettingSomething = true;
+            return closest.GetTargetPosition();
+        }
+
+        isTagettingSomething = false;
+        return hit.point;
     }
 
     #endregion
 
     #region Gamepad Logic
 
-    private Vector3? ResolveGamepadTarget()
+    private Vector3? ResolveGamepadTarget(ref bool isTagettingSomething)
     {
         Vector3 playerPos = m_PlayerController.Get().GetTargetPosition();
         Vector3 inputDir = GetInputDirectionRelativeToCamera();
 
         if (inputDir.sqrMagnitude < .3f)
+        {
+            isTagettingSomething = false;
             return ComputeFallback(playerPos, Vector3.zero);
+        }
 
         m_DebugOrigin = playerPos;
         m_DebugInputDirection = inputDir;
@@ -207,10 +218,15 @@ public sealed class CameraTargetAutoFocus : MonoBehaviour, ICameraTarget
         if (IsValidTarget(best, bestScore))
         {
             UpdateTargetState(best, bestScore);
-            if (best != null) return best.GetTargetPosition();
+            if (best != null)
+            {
+                isTagettingSomething = true;
+                return best.GetTargetPosition();
+            }
         }
 
         ClearTargetState();
+        isTagettingSomething = false;
         return ComputeFallback(playerPos, inputDir);
     }
 
