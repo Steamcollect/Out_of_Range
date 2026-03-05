@@ -62,6 +62,9 @@
         },
         {
             "m_Id": "290a9e2818ce41fc9eb3aed972541237"
+        },
+        {
+            "m_Id": "3232236cf56e4946b68ce736aa131bb3"
         }
     ],
     "m_Keywords": [],
@@ -75,6 +78,9 @@
         },
         {
             "m_Id": "7cc04b83d9a547a7b99d7b8ed6967214"
+        },
+        {
+            "m_Id": "7947a69107c64018a2be7f1b2aa6dde3"
         }
     ],
     "m_Nodes": [
@@ -323,6 +329,9 @@
         },
         {
             "m_Id": "63761f07d1eb4ae99a8cff44879a548e"
+        },
+        {
+            "m_Id": "de093c209abe4276a7e44eaaa08245b5"
         }
     ],
     "m_GroupDatas": [],
@@ -2974,6 +2983,21 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "26fc4806818b47e5ac4c4e6a7d441428",
+    "m_Id": 2,
+    "m_DisplayName": "Power",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Power",
+    "m_StageCapability": 3,
+    "m_Value": 1.0,
+    "m_DefaultValue": 1.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "282614b724ea4b86b214d736381a2cdc",
     "m_Id": 0,
@@ -3308,6 +3332,46 @@
         "e32": 0.0,
         "e33": 1.0
     }
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "3232236cf56e4946b68ce736aa131bb3",
+    "m_Guid": {
+        "m_GuidSerialized": "5c5aed2e-0a34-4d31-a1f1-73f8debaf5f4"
+    },
+    "m_Name": "FresnelPower",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "FresnelPower",
+    "m_DefaultReferenceName": "_FresnelPower",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_PerRendererData": false,
+    "m_customAttributes": [],
+    "m_Value": 0.0,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
+    },
+    "m_SliderType": 0,
+    "m_SliderPower": 3.0,
+    "m_EnumType": 0,
+    "m_CSharpEnumString": "",
+    "m_EnumNames": [
+        "Default"
+    ],
+    "m_EnumValues": [
+        0
+    ]
 }
 
 {
@@ -3918,6 +3982,21 @@
         "e32": 0.0,
         "e33": 1.0
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "444ff4f74cc54ece8b0bb12b75b22f56",
+    "m_Id": 3,
+    "m_DisplayName": "Out",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
 }
 
 {
@@ -5744,6 +5823,18 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "7947a69107c64018a2be7f1b2aa6dde3",
+    "m_Name": "Fresnel",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "3232236cf56e4946b68ce736aa131bb3"
+        }
+    ]
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "7aa0805bcded4604a85ae5b73878846e",
     "m_Id": 0,
@@ -7030,6 +7121,30 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.NormalMaterialSlot",
+    "m_ObjectId": "9a1b8df769304f86bcf5143015ac7d6c",
+    "m_Id": 0,
+    "m_DisplayName": "Normal",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Normal",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_Labels": [],
+    "m_Space": 2
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.NegateNode",
     "m_ObjectId": "9a72049a6276422e9fbd7baec26d3d4b",
     "m_Group": {
@@ -7357,6 +7472,30 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.ViewDirectionMaterialSlot",
+    "m_ObjectId": "9fbb8ac5db4b421c84f79e2c552d5f0e",
+    "m_Id": 1,
+    "m_DisplayName": "View Dir",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "ViewDir",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_Labels": [],
+    "m_Space": 2
 }
 
 {
@@ -9659,6 +9798,48 @@
     "m_StageCapability": 3,
     "m_Value": false,
     "m_DefaultValue": false
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.FresnelNode",
+    "m_ObjectId": "de093c209abe4276a7e44eaaa08245b5",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Fresnel Effect",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 3481.0,
+            "y": 211.0,
+            "width": 208.0,
+            "height": 326.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "9a1b8df769304f86bcf5143015ac7d6c"
+        },
+        {
+            "m_Id": "9fbb8ac5db4b421c84f79e2c552d5f0e"
+        },
+        {
+            "m_Id": "26fc4806818b47e5ac4c4e6a7d441428"
+        },
+        {
+            "m_Id": "444ff4f74cc54ece8b0bb12b75b22f56"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 2,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    }
 }
 
 {
