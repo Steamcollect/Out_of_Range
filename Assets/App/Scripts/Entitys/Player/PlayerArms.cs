@@ -44,6 +44,12 @@ public class PlayerArms : MonoBehaviour
     [FoldoutGroup("Right Arm"), SerializeField] Transform m_RAttackPoint;
     [FoldoutGroup("Right Arm"), SerializeField] Transform m_RAttackPointPivot;
 
+    [Header("Arms visuals")]
+    [SerializeField] GameObject m_RDefaultArm;
+    [SerializeField] GameObject m_LDefaultArm;
+    [SerializeField] GameObject m_RifleArm;
+    [SerializeField] GameObject m_GrenadeArm;
+
     //[Header("Input")]
     //[Header("Output")]
 
@@ -70,8 +76,8 @@ public class PlayerArms : MonoBehaviour
         m_RifleShakeTimer = 0;
 
         m_LArm.localPosition = m_LArmAttackPivot.localPosition;
-                
-        if (m_TargetPos == null)
+
+        if (!m_Camera.Get().GetTargetHandler().IsTargetingSomething())
             m_LArm.localRotation = m_LArmAttackPivot.localRotation;
         else
             m_LArm.LookAt(m_TargetPos.Value);
@@ -166,5 +172,16 @@ public class PlayerArms : MonoBehaviour
             });
 
         return m_RAttackPoint;
+    }
+
+    public void ShowRifle()
+    {
+        m_RDefaultArm.SetActive(false);
+        m_RifleArm.SetActive(true);
+    }
+    public void ShowGrenade()
+    {
+        m_LDefaultArm.SetActive(false);
+        m_GrenadeArm.SetActive(true);
     }
 }
