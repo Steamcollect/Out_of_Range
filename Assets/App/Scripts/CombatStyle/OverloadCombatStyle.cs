@@ -61,13 +61,13 @@ public abstract class OverloadCombatStyle : CombatStyle
         m_HandleCoolsInput.action.Enable();
         m_HandleCoolsSkillInput.action.Enable();
 
-        m_HandleCoolsInput.action.started += Cool;
-        m_HandleCoolsSkillInput.action.started += TryBuffOnCool;
+        m_HandleCoolsInput.action.performed += Cool;
+        m_HandleCoolsSkillInput.action.performed += TryBuffOnCool;
     }
     public virtual void OnDisable()
     {
-        m_HandleCoolsInput.action.started -= Cool;
-        m_HandleCoolsSkillInput.action.started -= TryBuffOnCool;
+        m_HandleCoolsInput.action.performed -= Cool;
+        m_HandleCoolsSkillInput.action.performed -= TryBuffOnCool;
     }
 
     private void Update()
