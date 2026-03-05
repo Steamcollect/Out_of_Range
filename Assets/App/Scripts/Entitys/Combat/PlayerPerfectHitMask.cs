@@ -106,7 +106,7 @@ public class PlayerPerfectHitMask : MonoBehaviour
         public float SpeedWarning;
         public float Thickness;
         
-        private static readonly  int s_IntensityProp = Shader.PropertyToID("_Intensity");
+        private static readonly int s_IntensityProp = Shader.PropertyToID("_Intensity");
         private static readonly int s_SmoothnessProp = Shader.PropertyToID("_SmoothGradientBorder");
         private static readonly int s_PowerDitheringProp = Shader.PropertyToID("_PowerDithering");
         private static readonly int s_SpeedWarningProp = Shader.PropertyToID("_SpeedWarning");

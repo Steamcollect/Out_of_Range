@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.VFX;
 
 public class StepHandler : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class StepHandler : MonoBehaviour
 
     [Header("References")]
     [SerializeField] Transform m_IkTarget;
+    [SerializeField] private VisualEffect m_DustEffect;
 
     Transform m_BodyPivot;
     StepManager m_StepManager;
@@ -123,6 +125,7 @@ public class StepHandler : MonoBehaviour
         }
 
         m_IkTarget.position = endPos;
+        m_DustEffect.SendEvent("Play");
         m_CurrentIkPosition = m_IkTarget.position;
 
         m_CanHandleStep = true;
