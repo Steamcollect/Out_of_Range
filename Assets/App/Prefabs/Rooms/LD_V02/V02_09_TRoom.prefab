@@ -265,6 +265,7 @@ Transform:
   - {fileID: 4691111731019457876}
   - {fileID: 1071971878632727688}
   - {fileID: 499235043489606302}
+  - {fileID: 373805544250034982}
   - {fileID: 5090811042087024663}
   - {fileID: 2122435826622350183}
   m_Father: {fileID: 1456583366781849641}
@@ -623,6 +624,59 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &5615939972818632444
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 373805544250034982}
+  - component: {fileID: 5429605438223511657}
+  m_Layer: 13
+  m_Name: Hole_01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &373805544250034982
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5615939972818632444}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.0000015497205, z: -0, w: 1}
+  m_LocalPosition: {x: -30, y: -3, z: 5}
+  m_LocalScale: {x: 6, y: 6, z: 12}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1803397077826166359}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5429605438223511657
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5615939972818632444}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.83333296, z: 1}
+  m_Center: {x: 0, y: 0.75000066, z: 0}
 --- !u!1 &7127245685357424610
 GameObject:
   m_ObjectHideFlags: 0
@@ -829,8 +883,8 @@ GameObject:
   m_Component:
   - component: {fileID: 499235043489606302}
   - component: {fileID: 5333965996385983636}
-  m_Layer: 13
-  m_Name: Hole
+  m_Layer: 0
+  m_Name: SafeGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -845,7 +899,7 @@ Transform:
   m_GameObject: {fileID: 7756463801825935267}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.0000015497205, z: -0, w: 1}
-  m_LocalPosition: {x: -30, y: 3, z: 5}
+  m_LocalPosition: {x: -30, y: -3, z: 5}
   m_LocalScale: {x: 6, y: 6, z: 12}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -870,8 +924,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 5.1666675, y: 1, z: 4.083334}
+  m_Center: {x: -1.7500013, y: 0, z: 0.041666362}
 --- !u!1 &7902046838907363338
 GameObject:
   m_ObjectHideFlags: 0
@@ -2546,7 +2600,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.x
-      value: -78.43515
+      value: -77.43515
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.y
@@ -2554,7 +2608,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783009012997658797, guid: 96d291150eabc4744b2dc8ac81652121, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.z
-      value: 98.1339
+      value: 97.133896
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
