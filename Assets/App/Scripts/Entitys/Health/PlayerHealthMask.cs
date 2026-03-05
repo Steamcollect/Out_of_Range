@@ -1,4 +1,5 @@
 using DG.Tweening;
+using MVsToolkit.Utilities;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,19 +17,34 @@ public class PlayerHealthMask : MonoBehaviour
     [SerializeField] private RSO_PlayerController m_PlayerController;
 
     private Material m_BlurMaterial;
+
+    public bool IsHeal;
     
     private void Awake()
     {
-        // Create a new material instance, because image not support material property blocks
         m_BlurMaterial = new Material(m_MaskMaterial);
         m_BlurDamageImage.material = m_BlurMaterial;
     }
 
     private void Start()
     {
-        m_PlayerController.Get().GetHealth().OnTakeDamage += UpdateEffect;
-        m_PlayerController.Get().GetHealth().OnHeal += UpdateEffect;
-        UpdateEffect();
+        if (IsHeal)
+        {
+            m_PlayerController.Get().GetHealth().OnHeal += Heal;
+        }
+        else
+        {
+            m_PlayerController.Get().GetHealth().OnTakeDamage += UpdateEffect;
+            m_PlayerController.Get().GetHealth().OnHeal += UpdateEffect;
+            UpdateEffect();
+        }
+    }
+
+    private void Heal()
+    {
+        ApplyEffect(1);
+
+        this.Delay(() => ApplyEffect(0), 0.25f);
     }
 
     private void UpdateEffect()
@@ -50,8 +66,16 @@ public class PlayerHealthMask : MonoBehaviour
 
     private void OnDestroy()
     {
-        m_PlayerController.Get().GetHealth().OnHeal -= UpdateEffect;
-        m_PlayerController.Get().GetHealth().OnTakeDamage -= UpdateEffect;
+        if (IsHeal)
+        {
+            m_PlayerController.Get().GetHealth().OnHeal -= UpdateEffect;
+        }
+        else
+        {
+            m_PlayerController.Get().GetHealth().OnTakeDamage -= UpdateEffect;
+            m_PlayerController.Get().GetHealth().OnHeal -= UpdateEffect;
+            UpdateEffect();
+        }
     }
     
     [System.Serializable]
