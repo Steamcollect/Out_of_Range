@@ -1,9 +1,7 @@
 using System.Collections;
 using TMPro;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.Rendering.DebugUI;
 
 public class GrenadeLauncherCombatStyle : CombatStyle
 {
