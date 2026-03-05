@@ -21,8 +21,7 @@ public sealed class CameraTargetHandler : MonoBehaviour
     
     private ICameraTarget m_CameraTargetRunning;
     private Vector3? m_TargetPosition;
-
-    private Vector3 m_Velocity;
+    bool m_IsTargettingSomething = false;
 
     private void Awake()
     {
@@ -65,7 +64,7 @@ public sealed class CameraTargetHandler : MonoBehaviour
     
     private void Update()
     {
-        m_TargetPosition = m_CameraTargetRunning.GetCameraTargetPosition();
+        m_TargetPosition = m_CameraTargetRunning.GetCameraTargetPosition(ref m_IsTargettingSomething);
         UpdateTargetPosition();
     }
     
@@ -73,5 +72,15 @@ public sealed class CameraTargetHandler : MonoBehaviour
     {
         transform.position = m_TargetPosition ?? transform.position;
         m_TargetFocusVisual.HandleCameraTarget(m_CameraTargetRunning.GetCameraTarget());
+    }
+
+    public Vector3? GetTargetPosition()
+    {
+        return m_TargetPosition;
+    }
+
+    public bool IsTargetingSomething()
+    {
+        return m_IsTargettingSomething;
     }
 }

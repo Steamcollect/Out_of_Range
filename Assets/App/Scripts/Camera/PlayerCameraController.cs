@@ -29,6 +29,7 @@ public sealed class PlayerCameraController : MonoBehaviour
     }
 
     public Camera GetCamera() => m_Camera;
+    public CameraTargetHandler GetTargetHandler() => m_CameraTargetHandler;
 
     
     private Vector3 m_LastTargetPosition;

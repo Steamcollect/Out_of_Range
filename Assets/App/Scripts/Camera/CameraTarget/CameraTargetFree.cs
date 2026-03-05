@@ -39,8 +39,10 @@ public sealed class CameraTargetFree : MonoBehaviour, ICameraTarget
         m_SetTargetPos.Action -= SetTargetPos;
     }
 
-    public Vector3? GetCameraTargetPosition()
+    public Vector3? GetCameraTargetPosition(ref bool isTagettingSomething)
     {
+        isTagettingSomething = false;
+
         if(m_CurrentInputDevice.Value == InputDeviceType.Gamepad)
         {
             m_NormalizedPoint += m_LookIA.action.ReadValue<Vector2>()
