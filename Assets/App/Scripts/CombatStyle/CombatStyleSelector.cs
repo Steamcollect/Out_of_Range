@@ -51,14 +51,20 @@ public class CombatStyleSelector : MonoBehaviour
     {
         m_PrimaryPlayerCombat.SetPrimaryCombatStyle(style);
         ((RangeOverloadCombatStyle)m_DefaultCombatStyle).SetCanShoot(CombatStyleSelectorPersistant.HasRifle());
+        if(CombatStyleSelectorPersistant.HasRifle()) m_Arms.ShowRifle();
     }
 
     private void SetSecondaryCombatStyle(CombatStyle style)
     {
         m_CanPickupMana.Set(style != null);
         m_PrimaryPlayerCombat.SetSecondaryCombatStyle(style);
+        if(style != null)
+        {
+            m_Arms.ShowGrenade();
+            m_Mana.SetToMax();
+        }
     }
-    
+
     private void EnableGrenadeLauncher()
     {
         CombatStyleSelectorPersistant.SetHasLaunchGrenade();
