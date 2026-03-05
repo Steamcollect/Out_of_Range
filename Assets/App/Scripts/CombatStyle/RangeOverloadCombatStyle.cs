@@ -112,6 +112,7 @@ public class RangeOverloadCombatStyle : OverloadCombatStyle
         m_RendererMat.color = m_ColorOverTemperature.Evaluate(value);
     }
 
+    public bool GetCanShoot() => m_CanShoot;
     public void SetCanShoot(bool canShoot)
     {
         m_CanShoot = canShoot;

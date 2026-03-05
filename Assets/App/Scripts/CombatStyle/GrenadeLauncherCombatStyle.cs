@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.Rendering.DebugUI;
@@ -11,10 +12,6 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     [Space(10)]
     [SerializeField] Grenade m_GrenadePrefab;
-    [SerializeField] Transform m_AttackPoint;
-
-    [Space(5)]
-    [SerializeField] LayerMask m_UnpassingWallMask;
 
     [Space(10)]
     [SerializeField] float m_PreShowRotateSpeed;
@@ -24,9 +21,11 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     [SerializeField] Color m_NotValidColor;
 
     bool m_InputPress;
-    bool m_CanTouchTarget = false;
 
     [Header("References")]
+    [SerializeField] PlayerArms m_Arms;
+
+    [Space]
     [SerializeField] MeshRenderer m_PreShowCircle;
     [SerializeField] MeshRenderer m_PreShowTriangle;
     [SerializeField] TMP_Text m_PercentageTxt;
@@ -56,18 +55,6 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     {
         m_AttackIA.action.started -= Attack;
     }
-
-    private void FixedUpdate()
-    {
-        if (m_InputPress)
-        {
-            Vector3 s = m_AttackPoint.position;
-            Vector3 e = m_AimTarget.Get().position;
-
-            Debug.DrawLine(s, e, Color.blue);
-            m_CanTouchTarget = !Physics.Linecast(s, e, m_UnpassingWallMask);
-        }
-    }
     
     private void LateUpdate()
     {
@@ -78,6 +65,7 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     {
         if (m_InputPress) return;
 
+        m_Arms.SetGrenadeAttackPos();
         m_InputPress = true;
         m_PreShowCircle.gameObject.SetActive(true);
         m_TargetType.Set(CameraTargetType.FreeLook);
@@ -100,12 +88,13 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     {
         m_InputPress = false;
         m_PreShowCircle.gameObject.SetActive(false);
+        m_Arms.SetGrenadeIdlePos();
         m_TargetType.Set(CameraTargetType.AutoFocus);
     }
 
     public void Attack(InputAction.CallbackContext ctx)
     {
-        if (m_InputPress && m_CanTouchTarget)
+        if (m_InputPress)
         {
             StartCoroutine(Attack());
             CancelAttack();
@@ -116,10 +105,10 @@ public class GrenadeLauncherCombatStyle : CombatStyle
     {
         if (m_PlayerController.Get().GetPlayerMana().CurrentMana < m_ShootCost) yield break;
         m_PlayerController.Get().GetPlayerMana().Remove(m_ShootCost);
+        Transform attackPos = m_Arms.RightArmAttack();
 
-        Grenade grenade = PoolManager.Instance.Spawn(m_GrenadePrefab, m_AttackPoint.position, m_AttackPoint.rotation);
-        // Grenade grenade = Instantiate(m_GrenadePrefab, m_AttackPoint.position, m_AttackPoint.rotation);
-        grenade.Setup(m_AttackPoint.position, m_AimTarget.Get().position);
+        Grenade grenade = PoolManager.Instance.Spawn(m_GrenadePrefab, attackPos.position, Quaternion.identity);
+        grenade.Setup(attackPos.position, m_AimTarget.Get().position);
 
         grenade.Move();
     }
@@ -139,9 +128,9 @@ public class GrenadeLauncherCombatStyle : CombatStyle
         }
         else
         {
-            m_PreShowCircle.material.color = m_CanTouchTarget ? m_ValidColor : m_NotValidColor;
-            m_PreShowTriangle.material.color = m_CanTouchTarget ? m_ValidColor : m_NotValidColor;
-            m_PercentageTxt.color = m_CanTouchTarget ? m_ValidColor : m_NotValidColor;
+            m_PreShowCircle.material.color = m_ValidColor;
+            m_PreShowTriangle.material.color = m_ValidColor;
+            m_PercentageTxt.color = m_ValidColor;
         }
         
         m_PreShowCircle.transform.position = m_AimTarget.Get().position + Vector3.up * .1f;
