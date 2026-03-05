@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using MVsToolkit.Utilities;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,14 +22,18 @@ public class EntityHealth : MonoBehaviour, IHealth
 
     Coroutine m_InvincibilityCoroutine;
 
+    public float dieDuration = 0.0f;
+
     [Header("REFERENCES")]
     [SerializeField] protected UnityEvent m_OnTakeDamageFeedback;
     [SerializeField] protected UnityEvent m_OnDeathFeedback;
     [SerializeField] protected UnityEvent m_OnHealFeedback;
-
+    [SerializeField] private GameObject m_ExplosionFX;
     protected float m_CurrentInvincibilityTimer;
 
     public Action OnTakeDamage, OnHeal, OnDeath;
+
+    private bool IsDying = false;
 
     private void FakeTakeDamage()
     {
@@ -79,8 +84,16 @@ public class EntityHealth : MonoBehaviour, IHealth
 
     public void Die()
     {
+        if (IsDying) return;
+
+        IsDying = true;
+
         m_OnDeathFeedback.Invoke();
-        OnDeath?.Invoke();
+
+        this.Delay(() => {
+            if (m_ExplosionFX != null) Instantiate(m_ExplosionFX, transform.position, Quaternion.identity);
+            OnDeath?.Invoke();
+        }, dieDuration);
     }
 
     public void GainInvincibility()
