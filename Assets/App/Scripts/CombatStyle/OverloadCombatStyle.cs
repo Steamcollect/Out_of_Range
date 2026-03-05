@@ -56,7 +56,7 @@ public abstract class OverloadCombatStyle : CombatStyle
     public Action OnPerfectHit, OnPerfectHitEnd;
     public Action<OverloadWeaponState> OnOverloadStateChange;
 
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         m_HandleCoolsInput.action.Enable();
         m_HandleCoolsSkillInput.action.Enable();
@@ -64,7 +64,7 @@ public abstract class OverloadCombatStyle : CombatStyle
         m_HandleCoolsInput.action.started += Cool;
         m_HandleCoolsSkillInput.action.started += TryBuffOnCool;
     }
-    private void OnDisable()
+    public virtual void OnDisable()
     {
         m_HandleCoolsInput.action.started -= Cool;
         m_HandleCoolsSkillInput.action.started -= TryBuffOnCool;

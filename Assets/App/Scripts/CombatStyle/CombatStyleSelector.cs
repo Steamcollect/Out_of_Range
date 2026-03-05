@@ -8,6 +8,9 @@ public class CombatStyleSelector : MonoBehaviour
     [SerializeField] private CombatStyle m_DefaultCombatStyle;
     [SerializeField] private CombatStyle m_GrenadeLauncherCombatStyle;
 
+    [Space]
+    [SerializeField] GameObject m_Arms;
+
     [Space(10)]
     [SerializeField] RSO_CanPickupMana m_CanPickupMana;
 
@@ -68,7 +71,7 @@ public class CombatStyleSelector : MonoBehaviour
     
     private void EnableRifle()
     {
-        //CombatStyleSelectorPersistant.SetHasRifle();
-        //SetPrimaryCombatStyle(m_RifleCombatStyle);
+        ((RangeOverloadCombatStyle)m_DefaultCombatStyle).SetCanShoot(true);
+        m_Arms.SetActive(true);
     }    
 }
