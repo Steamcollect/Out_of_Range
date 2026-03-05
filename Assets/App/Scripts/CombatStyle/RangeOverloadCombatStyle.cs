@@ -1,4 +1,5 @@
 using System.Collections;
+using MVsToolkit.Dev;
 using UnityEngine;
 
 public class RangeOverloadCombatStyle : OverloadCombatStyle
@@ -6,6 +7,8 @@ public class RangeOverloadCombatStyle : OverloadCombatStyle
     [Header("Combat Settings")]
     [SerializeField] float m_AtkSpdPowerUpAttackCooldown;
     [SerializeField] float m_ClonePowerUpBulletSpacing;
+
+    [SerializeField] bool m_CanShoot = true;
 
     bool strength = false;
     bool clone = false;
@@ -32,8 +35,22 @@ public class RangeOverloadCombatStyle : OverloadCombatStyle
     [Space(10)]
     [SerializeField] RSO_PlayerController m_CurrentPowerUp;
 
-    //[Header("Input")]
+    [Header("Input")]
+    [SerializeField] RSE_SetRifleCanShoot m_SetCanShoot;
+
     //[Header("Output")]
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        m_SetCanShoot.Action += SetCanShoot;
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        m_SetCanShoot.Action -= SetCanShoot;
+    }
 
     private void Start()
     {
@@ -44,7 +61,7 @@ public class RangeOverloadCombatStyle : OverloadCombatStyle
 
     public override IEnumerator Attack()
     {
-        if (m_CanAttack 
+        if (m_CanAttack && m_CanShoot
             && (m_CurrentState == OverloadWeaponState.CanShoot || m_CurrentState == OverloadWeaponState.CoolBuffed))
         {
             OnAttack?.Invoke();
@@ -97,5 +114,10 @@ public class RangeOverloadCombatStyle : OverloadCombatStyle
     {
         float value = Mathf.Clamp01(m_CurentTemperature * .001f);
         m_RendererMat.color = m_ColorOverTemperature.Evaluate(value);
+    }
+
+    public void SetCanShoot(bool canShoot)
+    {
+        m_CanShoot = canShoot;
     }
 }
