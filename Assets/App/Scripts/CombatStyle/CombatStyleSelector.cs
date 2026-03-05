@@ -42,6 +42,8 @@ public class CombatStyleSelector : MonoBehaviour
     {
         SetPrimaryCombatStyle(m_DefaultCombatStyle);
         SetSecondaryCombatStyle(CombatStyleSelectorPersistant.HasLaunchGrenade() ? m_GrenadeLauncherCombatStyle : null);
+
+        m_Arms.SetActive(((RangeOverloadCombatStyle)m_DefaultCombatStyle).GetCanShoot());
     }
     
     private void SetPrimaryCombatStyle(CombatStyle style)

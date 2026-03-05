@@ -2155,24 +2155,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1129812706102528412, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
-      propertyPath: m_OnAttackFeedback.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1129812706102528412, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
-      propertyPath: m_OnAttackFeedback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1129812706102528412, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
-      propertyPath: m_OnAttackFeedback.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 945279399}
-    - target: {fileID: 1129812706102528412, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
-      propertyPath: m_OnAttackFeedback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1129812706102528412, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
-      propertyPath: m_OnAttackFeedback.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: MoreMountains.Feedbacks.MMF_Player, MoreMountains.Tools
+      propertyPath: m_CanShoot
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1409431294601431814, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2223,11 +2207,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
---- !u!1 &945279399 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6753782298226353365, guid: 2aebfa12f14e2f34e91e75d4f77fd2d9, type: 3}
-  m_PrefabInstance: {fileID: 945279398}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &958860880
 GameObject:
   m_ObjectHideFlags: 0
@@ -3400,7 +3379,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4074538960181214968, guid: f0dc551980ec1b541bdcbbf9d38737ff, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.8999977
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4074538960181214968, guid: f0dc551980ec1b541bdcbbf9d38737ff, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9973,6 +9952,7 @@ MonoBehaviour:
   m_MaxDamage: 0
   m_InvincibilityRegainDuration: 0
   m_IsInvincible: 0
+  dieDuration: 0
   m_OnTakeDamageFeedback:
     m_PersistentCalls:
       m_Calls: []
@@ -9994,6 +9974,7 @@ MonoBehaviour:
   m_OnHealFeedback:
     m_PersistentCalls:
       m_Calls: []
+  m_ExplosionFX: {fileID: 0}
 --- !u!114 &7437937669140409305
 MonoBehaviour:
   m_ObjectHideFlags: 0
