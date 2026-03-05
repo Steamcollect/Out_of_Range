@@ -2,6 +2,7 @@ using DG.Tweening;
 using MVsToolkit.Dev;
 using MVsToolkit.Utilities;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Elevator : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class Elevator : MonoBehaviour
     [Space(8)]
     [SerializeField] ColliderCallback m_ColliderDetector;
 
+    public UnityEvent onDestinationReached;
+
     float m_OffsetY;
     PlayerController m_Player;
 
@@ -32,7 +35,7 @@ public class Elevator : MonoBehaviour
 
     private void OnEnable()
     {
-        m_ColliderDetector.OnTriggerEnterCallback += OnEnter;
+        if (m_ColliderDetector != null) m_ColliderDetector.OnTriggerEnterCallback += OnEnter;
     }
 
     private void Start()
@@ -42,12 +45,12 @@ public class Elevator : MonoBehaviour
         else m_Movable.transform.position = m_ButtomPos.position;
     }
 
-    private void OnEnter(Collider collid)
+    public void OnEnter(Collider collid)
     {
         if (!m_HasMoved && collid.CompareTag("Player"))
         {
             m_HasMoved = true;
-            m_LockCollids.SetActive(true);
+            m_LockCollids?.SetActive(true);
 
             m_Player = collid.GetComponent<PlayerController>();
             m_OffsetY = m_Player.GetRigidbody().position.y - m_Movable.position.y;
@@ -74,7 +77,8 @@ public class Elevator : MonoBehaviour
             m_IsMoving = false;
             m_State = ElevatorState.Top;
             m_Player = null;
-            m_LockCollids.SetActive(false);
+            onDestinationReached?.Invoke();
+            m_LockCollids?.SetActive(false);
         });
     }
 
@@ -88,6 +92,7 @@ public class Elevator : MonoBehaviour
         {
             m_IsMoving = false;
             m_State = ElevatorState.Buttom;
+            onDestinationReached?.Invoke();
         });
     }
 }
