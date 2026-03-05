@@ -49,11 +49,11 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     private void OnEnable()
     {
-        m_AttackIA.action.started += Attack;
+        m_AttackIA.action.performed += Attack;
     }
     private void OnDisable()
     {
-        m_AttackIA.action.started -= Attack;
+        m_AttackIA.action.performed -= Attack;
     }
     
     private void LateUpdate()
