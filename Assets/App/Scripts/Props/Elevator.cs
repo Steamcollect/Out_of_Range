@@ -69,17 +69,26 @@ public class Elevator : MonoBehaviour
     void MoveToTop()
     {
         m_IsMoving = true;
-        
+
         m_Movable.DOKill();
-        m_Player.transform.DOMoveY(m_TopPos.position.y + m_OffsetY, m_MovementTime).SetEase(m_MovementEase);
-        m_Movable.DOMove(m_TopPos.position, m_MovementTime).SetEase(m_MovementEase).OnComplete(() =>
-        {
-            m_IsMoving = false;
-            m_State = ElevatorState.Top;
-            m_Player = null;
-            onDestinationReached?.Invoke();
-            m_LockCollids?.SetActive(false);
-        });
+        m_Player.GetRigidbody().DOKill();
+
+        var rb = m_Player.GetRigidbody();
+
+        rb.DOMoveY(m_TopPos.position.y + m_OffsetY, m_MovementTime)
+          .SetEase(m_MovementEase);
+
+        m_Movable.DOMove(m_TopPos.position, m_MovementTime)
+          .SetEase(m_MovementEase)
+          .OnComplete(() =>
+          {
+              m_IsMoving = false;
+              m_State = ElevatorState.Top;
+              m_LockCollids?.SetActive(false);
+
+              m_Player = null;
+              onDestinationReached?.Invoke();
+          });
     }
 
     void MoveToButtom()
