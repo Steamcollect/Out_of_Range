@@ -7,7 +7,9 @@ using UnityEngine.InputSystem;
 public class PlayerController : EntityController
 {
     private const float k_BufferTimeDash = 3f;
-    [SerializeField] float m_MinYPos;
+    [SerializeField] float m_MinYPosOffset = -2;
+    float m_MinYPos;
+
     [SerializeField] float gravityScale;
 
     Vector3 m_LastGroundPos;
@@ -65,11 +67,6 @@ public class PlayerController : EntityController
     
     private void Start() => Teleport(PlayerSpawnPoint.S_Position);
 
-    private void Update()
-    {
-        if (transform.position.y <= m_MinYPos) m_Rb.position = m_LastGroundPos;
-    }
-
     private void FixedUpdate()
     {
         if (m_Dash.IsGrounded(transform.position))
@@ -80,6 +77,8 @@ public class PlayerController : EntityController
         else
         {
             m_Rb.AddForce(Vector3.down * gravityScale);
+
+            if (m_Rb.position.y <= m_MinYPos) m_Rb.position = m_LastGroundPos;
         }
 
         HandleMovement();
@@ -173,6 +172,8 @@ public class PlayerController : EntityController
         // La plus ancienne position restante = position d'il y a ~1 seconde
         if (m_PositionHistory.Count > 0)
             m_LastGroundPos = m_PositionHistory.Peek().pos;
+
+        m_MinYPos = m_Rb.position.y + m_MinYPosOffset;
     }
 
 
@@ -182,7 +183,7 @@ public class PlayerController : EntityController
         Gizmos.DrawSphere(GetTargetPosition(), .2f);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawCube(new Vector3(transform.position.x, m_MinYPos, transform.position.z), new Vector3(1, .05f, 1) * 10);
+        Gizmos.DrawCube(new Vector3(transform.position.x, m_Rb.position.y + m_MinYPosOffset, transform.position.z), new Vector3(1, .05f, 1) * 10);
     }
 
     public PlayerCombat GetPlayerCombat()
