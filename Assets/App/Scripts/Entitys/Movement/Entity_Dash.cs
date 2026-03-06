@@ -3,7 +3,6 @@ using System.Collections;
 using MVsToolkit.Dev;
 using MVsToolkit.Utilities;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Entity_Dash : MonoBehaviour
 {
@@ -106,9 +105,12 @@ public class Entity_Dash : MonoBehaviour
 
                 MVsDebug.DrawCircle(backedPos, 0.5f, Vector3.up, groundedAfterBackstep ? Color.green : Color.red, 1);            }
             }
+
+        MVsDebug.DrawCircle(transform.position + input * m_MaxDashCalculationDistance, 0.5f, Vector3.up, Color.green, 1);
+        MVsDebug.DrawCircle(transform.position + input * m_DashCalculationDistance, 0.5f, Vector3.up, Color.green, 1);
     }
 
-    public bool IsGrounded(Vector3 position)
+public bool IsGrounded(Vector3 position)
     {
         return Physics.Linecast(position + (Vector3.up * .5f), position + (Vector3.down * .5f), m_GroundMask);
     }
