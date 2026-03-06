@@ -1,13 +1,16 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.VFX;
 
 public class StepHandler : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] float m_StepDuration = 0.25f;
-
-    [Space(10)]
     [SerializeField] float m_StepLength = 0.5f;
+
+    [Space]
+    [SerializeField, Tooltip("Temps sans bouger avant de reprendre sa position initial")] float m_TimeToReset;
+    float m_TimeBeforeResetTimer;
 
     Vector3 m_StartLocalPosition;
     Vector3 m_CurrentIkPosition;
@@ -19,9 +22,28 @@ public class StepHandler : MonoBehaviour
 
     [Header("References")]
     [SerializeField] Transform m_IkTarget;
+    [SerializeField] private VisualEffect m_DustEffect;
 
     Transform m_BodyPivot;
     StepManager m_StepManager;
+
+    private void Update()
+    {
+        if (!m_CanHandleStep
+            || m_IsDoingStep
+            || !m_BodyPivot
+            || !m_IkTarget)
+            return;
+
+        m_TimeBeforeResetTimer += Time.deltaTime;
+
+        if (m_TimeBeforeResetTimer > m_TimeToReset)
+        {
+            m_CanHandleStep = false;
+            m_StepManager.AddStep(HandleStep);
+            m_TimeBeforeResetTimer = 0;
+        }
+    }
 
     public void Setup(Transform bodyPivot, StepManager stepManager)
     {
@@ -59,6 +81,7 @@ public class StepHandler : MonoBehaviour
         {
             m_CanHandleStep = false;
             m_StepManager.AddStep(HandleStep);
+            m_TimeBeforeResetTimer = 0;
         }
     }
 
@@ -102,6 +125,7 @@ public class StepHandler : MonoBehaviour
         }
 
         m_IkTarget.position = endPos;
+        m_DustEffect.SendEvent("Play");
         m_CurrentIkPosition = m_IkTarget.position;
 
         m_CanHandleStep = true;

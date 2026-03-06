@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1743177669425214954}
   serializedVersion: 2
   m_LocalRotation: {x: 0.35355338, y: -0.35355338, z: 0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: 134.98233, y: 190.94374, z: -134.98239}
+  m_LocalPosition: {x: 134.98233, y: 190.94374, z: -134.9824}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,7 +45,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.055391148, g: 0.05090779, b: 0.122641504, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -67,7 +67,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 200
-  far clip plane: 300
+  far clip plane: 600
   field of view: 6
   orthographic: 0
   orthographic size: 15
@@ -301,10 +301,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_QueryTriggerInteraction: 1
-  m_DetectionRadiusGamepad: 12
+  m_DetectionRadiusGamepad: 15
   m_DetectionRadiusSphereCastGamepad: 5
-  m_DetectionRangeSphereCastGamepad: 15
-  m_DetectionRadiusMouse: 5
+  m_DetectionRangeSphereCastGamepad: 35
+  m_DetectionRadiusMouse: 8
   m_WeightDistance: 1
   m_WeightInputAlignment: 2
   m_WeightPersistence: 0
@@ -328,13 +328,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0144397fa3a80544d8d385a9b01ee6db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.CameraTargetFree
+  m_GamepadSensitivity: 3
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 16384
   m_QueryTriggerInteraction: 1
-  m_MousePositionIa: {fileID: -1654692200621890270, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_MousePosIA: {fileID: -1654692200621890270, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_LookIA: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_PlayerController: {fileID: 11400000, guid: 889c55170c3d485408a368282da46058, type: 2}
   m_CamController: {fileID: 11400000, guid: 452bdeba678d33f45929b40fb180f382, type: 2}
+  m_CurrentInputDevice: {fileID: 11400000, guid: 966504faacf828b4881b47282c5143cb, type: 2}
+  m_SetTargetPos: {fileID: 11400000, guid: a0ee9d097bd18e74eb817e7bb543e4a6, type: 2}
 --- !u!1 &6430292755315460749
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,7 +402,7 @@ MonoBehaviour:
     FieldOfView: 6
     OrthographicSize: 15
     NearClipPlane: 200
-    FarClipPlane: 300
+    FarClipPlane: 600
     Dutch: 0
     ModeOverride: 2
     PhysicalProperties:

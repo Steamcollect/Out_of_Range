@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 using UnityEngine.Events;
 using MVsToolkit.Utilities;
 
-public class BossEnemyController : EntityController, ISpawnable
+public class BossEnemyController : EntityController, ISpawnable, ITargetable
 {
     [Header("Settings")]
     [SerializeField] float m_DetectionRange;
@@ -17,6 +17,7 @@ public class BossEnemyController : EntityController, ISpawnable
     [Header("Internal References")]
     [SerializeField] PlayerDetector m_Detector;
     [SerializeField, ReadOnly] List<CombatPatern> m_CombatPaterns;
+    [SerializeField] private BossPowerupVisual m_PowerupVisual;
     CombatPatern m_CurrentPatern;
 
     [ReadOnly] public bool HaveAtkSpeedPowerUp;
@@ -118,7 +119,6 @@ public class BossEnemyController : EntityController, ISpawnable
         StartCoroutine(m_Combat.LockAttackOnSpawn());
         SetState(EnemyStates.Chasing);
         m_LoseSightTimer = 0;
-        m_SpawnVisual?.PlaySpawnVisual();
 
         IsSpawning = true;
         m_Health.GainInvincibility(m_SpawnDuration);
@@ -178,9 +178,23 @@ public class BossEnemyController : EntityController, ISpawnable
     public void AddPatern(CombatPatern patern) =>m_CombatPaterns.Add(patern);
     public void RemovePatern(CombatPatern patern) =>m_CombatPaterns.Remove(patern);
 
-    public void SetAtkSpeedPowerUp(bool value) => HaveAtkSpeedPowerUp = value;
-    public void SetClonePowerUp(bool value) => HaveClonePowerUp = value;
-    public void SetStrengthPowerUp(bool value) => HaveStrenghtPowerUp = value;
+    public void SetAtkSpeedPowerUp(bool value)
+    {
+        m_PowerupVisual.SetPowerUpVisual(0);
+        HaveAtkSpeedPowerUp = value;
+    }
+
+    public void SetStrengthPowerUp(bool value)
+    {
+        m_PowerupVisual.SetPowerUpVisual(1);
+        HaveStrenghtPowerUp = value;
+    }
+
+    public void SetClonePowerUp(bool value)
+    {
+        m_PowerupVisual.SetPowerUpVisual(2);
+        HaveClonePowerUp = value;
+    }
 
     #region Gizmos
 

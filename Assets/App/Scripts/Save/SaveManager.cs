@@ -13,6 +13,7 @@ public class SaveManager : RegularSingleton<SaveManager>
     private void OnEnable()
     {
         CombatStyleSelectorPersistant.Initialize();
+        PlayerSpawnPoint.Initialize();
     }
 
     private void Update()

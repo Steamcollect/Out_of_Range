@@ -1,6 +1,7 @@
 using System;
 using MVsToolkit.Utilities;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerTargetLookVisual : MonoBehaviour
 {
@@ -11,36 +12,17 @@ public class PlayerTargetLookVisual : MonoBehaviour
     [SerializeField] private GameObject m_RenderContainer;
     [Space]
     [SerializeField] private RSO_CurrentInputDeviceType m_CurrentInputDeviceType;
+    [SerializeField] InputActionReference m_LookAtInput;
+    Vector3 m_RenderRotationVelocity;
 
-    private Vector3 m_RenderRotationVelocity;
-
-    private void OnEnable()
+    private void Update()
     {
-        m_CurrentInputDeviceType.OnChanged += HandleInputDeviceChange;
-        HandleInputDeviceChange(m_CurrentInputDeviceType.Get());
+        m_RenderContainer.SetActive(m_CurrentInputDeviceType.Get() == InputDeviceType.Gamepad
+                && m_LookAtInput.action.ReadValue<Vector2>().sqrMagnitude > .1f);
     }
-        
-    private void OnDisable() => m_CurrentInputDeviceType.OnChanged -= HandleInputDeviceChange;
 
-    private void HandleInputDeviceChange(InputDeviceType type)
-    {
-        switch (type)
-        {
-            case InputDeviceType.Gamepad:
-                m_RenderContainer.SetActive(true);
-                break;
-            case InputDeviceType.KeyboardMouse:
-                m_RenderContainer.SetActive(false);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(type), type, null);
-        }
-    }
-        
     public void RotateToward(Vector3 target)
-    {
-        
-        // m_RenderContainer.transform.LookAt(target);
+    {        
         m_RenderContainer.transform.LookAtSmoothDamp(target, ref m_RenderRotationVelocity, m_RenderRotationTime);
     }
 }

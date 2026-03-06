@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using MoreMountains.Feedbacks;
+using MVsToolkit.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.VFX;
@@ -10,6 +12,7 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
     [SerializeField] private float m_ExplosionRadius;
     [SerializeField] private float m_LoadingDuration;
     [SerializeField] private float m_ExplosionDuration;
+    [SerializeField] private float m_SpawnDuration = 2.0f;
     [SerializeField] private int m_Damage;
 
     [Header("References")]
@@ -23,8 +26,11 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
     public UnityEvent OnExplode;
 
     private bool m_IsExploding;
+    private bool m_IsInvincible = true;
     private readonly Collider[] m_ResultsBuffer = new Collider[32];
 
+    private float m_DelayInvisibilityTimer;
+    
     private void Start()
     {
         m_LoadingEffect.gameObject.SetActive(false);
@@ -33,8 +39,35 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
         m_BarrelMesh.SetActive(true);
     }
 
+    private void OnEnable()
+    {
+        StartCoroutine(nameof(Invincibility));
+    }
+
+    private IEnumerator Invincibility()
+    {
+        if (m_DelayInvisibilityTimer > m_SpawnDuration) yield break;
+
+        m_IsInvincible = true;
+        
+        while (m_DelayInvisibilityTimer < m_SpawnDuration)
+        {
+            m_DelayInvisibilityTimer += Time.deltaTime;
+            yield return null;
+        }
+        
+        m_IsInvincible = false;
+    }
+    
+    private void OnDisable()
+    {
+        StopCoroutine(nameof(Invincibility));
+    }
+
     public void Explode()
     {
+        if (m_IsInvincible) return;
+
         if(m_IsExploding) return;
 
         m_IsExploding = true;
@@ -101,6 +134,6 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
 
     public Vector3 GetTargetIndicatorPosition()
     {
-        return transform.position + Vector3.up * 1.5f;
+        return transform.position + Vector3.up * 5f;
     }
 }

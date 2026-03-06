@@ -1,14 +1,13 @@
+using MVsToolkit.Dev;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Entity_HorizontalLinearMovement : MonoBehaviour, IMovement
 {
-    [FormerlySerializedAs("moveSpeed")]
     [Header("Settings")]
     [SerializeField] private float m_MoveSpeed;
     [SerializeField] float m_MoveSpeedMultiplier = 1;
+    [SerializeField, ReadOnly] bool m_CanMove = true;
 
-    [FormerlySerializedAs("rb")]
     [Header("References")]
     [SerializeField] private Rigidbody m_Rb;
 
@@ -17,7 +16,7 @@ public class Entity_HorizontalLinearMovement : MonoBehaviour, IMovement
 
     public void Move(Vector3 input)
     {
-        if (m_MoveSpeed <= 0) return;
+        if (!m_CanMove || m_MoveSpeed <= 0) return;
         m_Rb.AddForce(input * m_MoveSpeed * m_MoveSpeedMultiplier);
     }
 
@@ -27,5 +26,10 @@ public class Entity_HorizontalLinearMovement : MonoBehaviour, IMovement
     {
         m_Rb.linearVelocity = Vector3.zero;
         m_Rb.angularVelocity = Vector3.zero;
+    }
+
+    public void SetCanMove(bool canMove)
+    {
+        m_CanMove = canMove;
     }
 }

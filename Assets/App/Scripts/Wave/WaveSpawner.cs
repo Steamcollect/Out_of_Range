@@ -1,9 +1,8 @@
 using System.Collections;
-using Sirenix.OdinInspector;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UIElements;
-using MVsToolkit.Utilities;
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -32,15 +31,15 @@ public class WaveSpawner : MonoBehaviour
         {
             // SPAWN ENEMY
             if(content.TryGetComponent(out EntityController entity))
-            {    
-                EntityController spawnedEntity = Instantiate(entity, transform.position, transform.rotation);
+            {
+                EntityController spawnedEntity = PoolManager.Instance.Spawn(entity, transform.position, transform.rotation);
 
                 if (spawnedEntity.TryGetComponent(out ISpawnable spawnable)) spawnable.OnSpawn();
                 onSpawnCallback?.Invoke(spawnedEntity);
             }
-            else //PLACEHOLDER POUR FAIRE SPAWN LES POWER UP, A CLEAN ? (Baptiste)
+            else
             {
-                Instantiate(content, transform.position, transform.rotation);
+                PoolManager.Instance.Spawn(content, transform.position, transform.rotation);
             }
         }
     }

@@ -1,9 +1,9 @@
-using System.Linq;
 using DG.Tweening;
 using MVsToolkit.Dev;
 using MVsToolkit.Utilities;
-using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
+using MoreMountains.Feedbacks;
 
 public class Door : MonoBehaviour
 {
@@ -24,6 +24,10 @@ public class Door : MonoBehaviour
     [SerializeField] GameObject m_DoorMesh;
     [SerializeField] Transform m_OpenPoint;
     [SerializeField] Transform m_ClosePoint;
+
+    [Space(10)]
+    [SerializeField] MMF_Player m_OpenFeedback;
+    [SerializeField] MMF_Player m_CloseFeedback;
 
     [Space(10)]
     [SerializeField, Inline] MeshMatChanger[] m_MeshChanger;
@@ -95,12 +99,16 @@ public class Door : MonoBehaviour
 
     void Open()
     {
+        m_OpenFeedback.PlayFeedbacks();
+
         m_DoorMesh.transform.DOKill();
         m_DoorMesh.transform.DOMove(m_OpenPos, m_OpenTime);
     }
 
     void Close()
     {
+        m_CloseFeedback.PlayFeedbacks();
+
         m_DoorMesh.transform.DOKill();
         m_DoorMesh.transform.DOMove(m_ClosePos, m_OpenTime);
     }
