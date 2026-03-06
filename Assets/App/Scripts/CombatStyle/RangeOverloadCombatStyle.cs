@@ -99,7 +99,7 @@ public class RangeOverloadCombatStyle : OverloadCombatStyle
             
             m_OnAttackFeedback?.Invoke();
 
-            OnShootHeat();
+            OnShootHeat(m_ShootTemperature * (atkSpeed ? .6f : 1));
             //SetRendererColor();
 
             yield break;

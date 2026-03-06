@@ -173,14 +173,14 @@ public abstract class OverloadCombatStyle : CombatStyle
         OnOverloadEnd?.Invoke();
     }
 
-    protected void OnShootHeat()
+    protected void OnShootHeat(float shootTemperature)
     {
         if (m_CurrentState != OverloadWeaponState.CoolBuffed)
         {
             if (m_HaveFreeShoot) m_HaveFreeShoot = false;
             else
             {
-                m_CurentTemperature += m_ShootTemperature;
+                m_CurentTemperature += shootTemperature;
                 if (m_CurentTemperature >= 100) StartCoroutine(OnOverload());
 
                 OnAmmoChange?.Invoke(m_CurentTemperature, 100);
