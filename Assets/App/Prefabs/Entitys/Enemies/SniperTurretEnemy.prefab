@@ -49,7 +49,7 @@ MonoBehaviour:
   m_StunTimeOnSpawn: 1
   m_HorizontalPivot: {fileID: 418496125244188350}
   m_Damage: 5
-  m_TimeBeforeAttack: 1.2
+  m_TimeBeforeAttack: {x: 1.2, y: 2}
   m_TimeAfterAttack: 1
   m_TimeBetweenAttacks: 2
   m_AttackMask:
@@ -374,6 +374,7 @@ MonoBehaviour:
   m_MaxDamage: 0
   m_InvincibilityRegainDuration: 0
   m_IsInvincible: 0
+  dieDuration: 0
   m_OnTakeDamageFeedback:
     m_PersistentCalls:
       m_Calls:
@@ -431,6 +432,7 @@ MonoBehaviour:
   m_OnHealFeedback:
     m_PersistentCalls:
       m_Calls: []
+  m_ExplosionFX: {fileID: 0}
 --- !u!136 &933780352205531283
 CapsuleCollider:
   m_ObjectHideFlags: 0

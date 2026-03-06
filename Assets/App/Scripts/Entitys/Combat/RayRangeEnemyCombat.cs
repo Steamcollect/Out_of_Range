@@ -11,7 +11,7 @@ public class RayRangeEnemyCombat : EntityCombat
     [Header("Settings")]
     [SerializeField] private int m_Damage;
     [Space(5)]
-    [SerializeField] private float m_TimeBeforeAttack;
+    [SerializeField] private Vector2 m_TimeBeforeAttack;
     [SerializeField] private float m_TimeAfterAttack;
     [SerializeField] private float m_TimeBetweenAttacks;
     [Space(5)]
@@ -47,10 +47,12 @@ public class RayRangeEnemyCombat : EntityCombat
 
         SetActiveLookAt(false);
 
-        OnShootLaunched?.Invoke(m_TimeBeforeAttack, m_TimeAfterAttack);
+        float timeBeforeAttack = UnityEngine.Random.Range(Mathf.Clamp(m_TimeBeforeAttack.x, 1.2f, m_TimeBeforeAttack.x), m_TimeBeforeAttack.y);
+        OnShootLaunched?.Invoke(timeBeforeAttack, m_TimeAfterAttack);
 
+        yield return new WaitForSeconds(timeBeforeAttack - 1.2f);
         RuntimeManager.PlayOneShot(m_OnShootFx, transform.position);
-        yield return new WaitForSeconds(m_TimeBeforeAttack);
+        yield return new WaitForSeconds(1.2f);
 
 
         Ray ray = new Ray(m_AttackPoint.position, m_AttackPoint.forward);
