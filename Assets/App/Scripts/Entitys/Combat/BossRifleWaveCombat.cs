@@ -71,7 +71,7 @@ public class BossRifleWaveCombat : EntityCombat
 
             m_OnShoot.Invoke();
 
-            yield return new WaitForSeconds(m_RotationTime / (m_Controller.HaveAtkSpeedPowerUp ? m_BulletCountAtkSpeedPowerUp : m_BulletCount));
+            yield return new WaitForSeconds(m_RotationTime * .9f / (m_Controller.HaveAtkSpeedPowerUp ? m_BulletCountAtkSpeedPowerUp : m_BulletCount));
         }
 
         yield return new WaitForSeconds(m_TimeAfterAttack);
