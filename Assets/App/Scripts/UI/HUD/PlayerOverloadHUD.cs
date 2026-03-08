@@ -210,6 +210,7 @@ public class PlayerOverloadHUD : MonoBehaviour
         Vector2 buffValues = m_OverloadStyle.GetRangeToBuff();
         Vector2 resetValues = m_OverloadStyle.GetRangeToReset();
 
+        float normalizedValue = Mathf.Clamp(m_OverloadStyle.GetCurrentTemperature(), 0, 100) / 100;
         float tot = 360 * m_BackgroundImg.fillAmount;
         float angle = m_BackgroundImg.rectTransform.eulerAngles.z;
 
@@ -221,6 +222,11 @@ public class PlayerOverloadHUD : MonoBehaviour
 
         m_YellowImg.rectTransform.eulerAngles = new Vector3(0, 0, angle - tot * (buffValues.x * .01f));
         m_YellowImg.fillAmount = (buffValues.y - buffValues.x) * .01f * m_BackgroundImg.fillAmount;
+
+        m_CursorImg.rectTransform.anchoredPosition = Quaternion.Euler(0, 0, angle - tot * normalizedValue) * Vector3.up * m_CircleRadius;
+        m_CursorImg.rectTransform.rotation = Quaternion.Euler(0, 0, angle - tot * normalizedValue);
+
+        if (m_OverloadStyle.GetState() != OverloadWeaponState.Overload) DisableReloadSkills();
     }
 
     protected virtual void EnableReloadSkills()
