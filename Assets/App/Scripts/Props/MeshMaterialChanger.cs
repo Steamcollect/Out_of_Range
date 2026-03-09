@@ -1,6 +1,6 @@
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
-using MVsToolkit.Dev;
 using UnityEngine;
 
 public class MeshMaterialChanger : MonoBehaviour
@@ -52,6 +52,14 @@ public class MeshMaterialChanger : MonoBehaviour
     {
         if (!m_ChangeToBlueOnPlayerDetection) return;
         Gizmos.DrawWireSphere(transform.position, m_PlayerDetectionRadius);
+    }
+
+    [Button]
+    public void SetMeshs()
+    {
+        m_MeshsChanger = GetComponentsInChildren<MeshRenderer>()
+            .Select(mesh => new MeshMatChanger { Mesh = mesh, MatIndex = 0 })
+            .ToArray();
     }
 }
 
