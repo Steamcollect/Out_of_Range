@@ -2,12 +2,15 @@ using System.Collections;
 using UnityEngine.VFX;
 using UnityEngine;
 using UnityEngine.Serialization;
+using MVsToolkit.Dev;
 
 public class Grenade : MonoBehaviour
 {
     [Header("Combat")]
     [SerializeField] float m_ExplosionRadius = 5;
     [SerializeField] int m_Damage = 1;
+    [SerializeField] bool m_IsPlayerGrenade = false;
+    [SerializeField,ShowIf("m_IsPlayerGrenade", true)] float m_BossStunTime;
 
     [SerializeField] LayerMask m_HurtBoxLayers;
 
@@ -83,6 +86,13 @@ public class Grenade : MonoBehaviour
                 if (s_CollidHit[i].TryGetComponent(out HurtBox hurtBox))
                 {
                     hurtBox.TakeDamage(m_Damage);
+
+                    if (m_IsPlayerGrenade
+                        && hurtBox.transform.parent.parent.parent.TryGetComponent(out BossEnemyController boss)
+                        && boss.GetMovement() is BossMovementController movement)
+                        {
+                            movement.Stun(m_BossStunTime);
+                        }
                 }
             }
         }
