@@ -101,9 +101,10 @@ public class BossMovementController : MonoBehaviour, IMovement
         yield return new WaitForSeconds(m_TimeAterSpawn);
 
         m_Controller.CanHandlePaterns = true;
-        StartCoroutine(Movement());
+        m_MovementCor = StartCoroutine(Movement());
     }
 
+    Coroutine m_MovementCor;
     IEnumerator Movement()
     {
         yield return new WaitUntil(() => m_CanMove);
@@ -130,12 +131,12 @@ public class BossMovementController : MonoBehaviour, IMovement
 
             if (m_IsOvertakingLeft || m_IsOvertakingRight)
             {
-                StartCoroutine(Movement());
+                m_MovementCor = StartCoroutine(Movement());
                 yield break;
             }
         }
 
-        StartCoroutine(Movement());
+        m_MovementCor = StartCoroutine(Movement());
     }
 
     void SetCanMove(bool value) => m_CanMove = value;
@@ -145,4 +146,17 @@ public class BossMovementController : MonoBehaviour, IMovement
     public void SetSpeedMult(float mult) => m_SpeedMult = mult;
 
     void IMovement.SetCanMove(bool canMove) { }
+
+    Coroutine m_StunCoroutine;
+    public void Stun(float stunTime)
+    {
+        if(m_StunCoroutine != null) StopCoroutine(m_StunCoroutine);
+        m_StunCoroutine = StartCoroutine(StunTime(stunTime));
+    }
+    IEnumerator StunTime(float time)
+    {
+        if(m_MovementCor != null) StopCoroutine(m_MovementCor);
+        yield return new WaitForSeconds(time);
+        m_MovementCor = StartCoroutine(Movement());
+    }
 }

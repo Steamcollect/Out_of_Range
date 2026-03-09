@@ -1,8 +1,9 @@
+using MVsToolkit.Dev;
 using System;
 using System.Collections;
-using MVsToolkit.Dev;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.VFX;
 
 public class BossRifleCombat : EntityCombat
 {
@@ -29,12 +30,19 @@ public class BossRifleCombat : EntityCombat
     [Space(5)]
     [SerializeField] private RSO_PlayerController m_Player;
     [SerializeField] BossEnemyController m_Controller;
+    [Space(5)]
+    [SerializeField] private VisualEffect m_ShootVFX;
 
     [Header("Output")]
     [SerializeField] private UnityEvent m_OnShoot;
 
     public event Action<float /*DelayBeforeShoot*/, float /*DelayAfterShoot*/> OnShootLaunched;
     public event Action OnShootCompleted;
+
+    private void Start()
+    {
+        m_ShootVFX.gameObject.SetActive(true);
+    }
 
     public override IEnumerator Attack()
     {
@@ -43,6 +51,14 @@ public class BossRifleCombat : EntityCombat
         SetTurnSmoothTime(m_TurnWhileShooting ? m_TurnSmoothTimeOnShoot : 0f);
         m_IsAttacking = true;
         OnShootLaunched?.Invoke(m_TimeBeforeAttack, m_TimeAfterAttack);
+
+        float bulletCount = m_Controller.HaveAtkSpeedPowerUp ? m_BulletCountAtkSpeedPowerUp : m_BulletCount;
+
+        float loopDuration = bulletCount * (m_Controller.HaveAtkSpeedPowerUp ? m_TimeBetweenBulletsAtkSpeedPowerUp : m_TimeBetweenBullets);
+
+        m_ShootVFX.SetFloat("EffectDuration", m_TimeBeforeAttack + loopDuration);
+        m_ShootVFX.SetFloat("SpawnDuration", m_TimeBeforeAttack);
+        m_ShootVFX.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(m_TimeBeforeAttack);
 
@@ -79,6 +95,7 @@ public class BossRifleCombat : EntityCombat
         OnShootCompleted?.Invoke();
 
         yield return new WaitForSeconds(m_TimeBetweenAttacks);
+        m_ShootVFX.gameObject.SetActive(false);
         m_IsAttacking = false;
     }
 }
