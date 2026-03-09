@@ -3,8 +3,10 @@ using UnityEngine;
 public class Checkpoint : MonoBehaviour
 {
     [Header("Outputs")]
-    [SerializeField] private RSE_OnCheckpointRegistered m_OnCheckpointRegistered;
-    
+    [SerializeField] RSE_OnCheckpointRegistered m_OnCheckpointRegistered;
+    [SerializeField] RSE_OnRiflePickedUp m_RifleEvent;
+    [SerializeField] RSE_OnGrenadeLauncherPickedUp m_GrenadeEvent;
+
     [Header("Settings")]
     [SerializeField] private bool m_ApplySpawnPosOnStart;
     bool m_IsActivated = false;
@@ -56,6 +58,9 @@ public class Checkpoint : MonoBehaviour
     public void TpPlayer()
     {
         m_SetActiveRooms.Call(roomConnected);
+        
+        m_RifleEvent.Call();
+        m_GrenadeEvent.Call();
 
         m_Player.Get().Teleport(m_SpawnPoint.position);
     }
