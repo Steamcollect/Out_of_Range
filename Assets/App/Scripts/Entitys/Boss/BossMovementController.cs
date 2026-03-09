@@ -109,7 +109,7 @@ public class BossMovementController : MonoBehaviour, IMovement
         yield return new WaitUntil(() => m_CanMove);
         yield return new WaitForSeconds(Random.Range(m_MovementSpacing.x, m_MovementSpacing.y));
 
-        float xDir = (m_IsOvertakingLeft ? 1 : m_IsOvertakingRight ? -1 : Random.Range(-1f, 1f));
+        float xDir = m_IsOvertakingLeft ? 1 : m_IsOvertakingRight ? -1 : Mathf.Sign(Random.Range(-1f, 1f));
 
         float duration = Random.Range(m_MovementTime.x, m_MovementTime.y);
         float t = 0f;
