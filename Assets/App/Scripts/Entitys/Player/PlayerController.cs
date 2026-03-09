@@ -157,6 +157,8 @@ public class PlayerController : EntityController
         transform.position = position;
         m_Rb.position = position;
         m_CamController.Get().TeleportCamera();
+        m_LastGroundPos = position;
+        m_MinYPos = position.y - m_MinYPosOffset;
     }
 
     private void UpdateLastGroundPosBuffer()
