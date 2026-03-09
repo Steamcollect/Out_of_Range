@@ -414,6 +414,7 @@ MonoBehaviour:
   m_ValidColor: {r: 0.9019608, g: 0.63065994, b: 0, a: 1}
   m_NotValidColor: {r: 0.39607844, g: 0.344237, b: 0.08235294, a: 1}
   m_Arms: {fileID: 8219420272325017652}
+  m_GrenadeStartPos: {fileID: 6245786638564769536}
   m_PreShowCircle: {fileID: 7788710854176471938}
   m_PreShowTriangle: {fileID: 2220434683827776581}
   m_PercentageTxt: {fileID: 138670231747046141}
@@ -1077,6 +1078,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 100, y: 1, z: 100}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &3818587744752485991
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6245786638564769536}
+  m_Layer: 6
+  m_Name: GrenadeStartPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6245786638564769536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3818587744752485991}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2265655696967565375}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4584675429347133628
 GameObject:
   m_ObjectHideFlags: 0
@@ -5646,6 +5678,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4199909735923839260, guid: d078c163391a59f48a7820af11122c9b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1315004261978758909}
+    - targetCorrespondingSourceObject: {fileID: 7024439137611952150, guid: d078c163391a59f48a7820af11122c9b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6245786638564769536}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d078c163391a59f48a7820af11122c9b, type: 3}
 --- !u!114 &89447973270754334 stripped
@@ -5662,6 +5697,11 @@ MonoBehaviour:
 --- !u!23 &1742270432415192014 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 7360889833229100007, guid: d078c163391a59f48a7820af11122c9b, type: 3}
+  m_PrefabInstance: {fileID: 9082331047028437033}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2265655696967565375 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7024439137611952150, guid: d078c163391a59f48a7820af11122c9b, type: 3}
   m_PrefabInstance: {fileID: 9082331047028437033}
   m_PrefabAsset: {fileID: 0}
 --- !u!23 &2328678135081285165 stripped

@@ -22,6 +22,7 @@ public class GrenadeLauncherCombatStyle : CombatStyle
 
     [Header("References")]
     [SerializeField] PlayerArms m_Arms;
+    [SerializeField] Transform m_GrenadeStartPos;
 
     [Space]
     [SerializeField] MeshRenderer m_PreShowCircle;
@@ -73,7 +74,7 @@ public class GrenadeLauncherCombatStyle : CombatStyle
         else if (m_CurrentInputDevice.Value == InputDeviceType.Gamepad)
             m_SetFreeLookCamTargetPos.Call(
                 m_Camera.Get().GetCamera().WorldToViewportPoint(
-                    m_PlayerController.Get().transform.position));
+                    m_GrenadeStartPos.position));
     }
 
     public override void AttackEnd()
