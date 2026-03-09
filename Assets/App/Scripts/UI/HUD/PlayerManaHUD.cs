@@ -47,14 +47,11 @@ public class PlayerManaHUD : MonoBehaviour
 
     private void UpdateUIIndicator()
     {
-        if(m_Player.Get().GetPlayerMana().GetManaGivenOverTime(lastValue) != m_Player.Get().GetPlayerMana().CurrentMana)
+        m_Content.transform.DOKill();
+        m_Content.transform.DOScale(1.2f, .07f).OnComplete(() =>
         {
-            m_Content.transform.DOKill();
-            m_Content.transform.DOScale(1.1f, .07f).OnComplete(() =>
-            {
-                m_Content.transform.DOScale(1, .1f);
-            });
-        }
+            m_Content.transform.DOScale(1, .1f);
+        });
 
         lastValue = m_Player.Get().GetPlayerMana().CurrentMana;
         float value = (float)m_Player.Get().GetPlayerMana().CurrentMana / m_Player.Get().GetPlayerMana().MaxMana;
