@@ -131,30 +131,24 @@ public class KillStreakManager : MonoBehaviour
         if (string.IsNullOrWhiteSpace(m_DebugCombosNames))
             return;
 
-        // Sépare par virgule et nettoie les espaces
         string[] names = m_DebugCombosNames
             .Split(',')
             .Select(n => n.Trim())
             .Where(n => !string.IsNullOrEmpty(n))
             .ToArray();
 
-        // Crée un tableau de steps correspondant
         m_Steps = new KillStreakStep[names.Length];
 
         for (int i = 0; i < names.Length; i++)
         {
             m_Steps[i] = new KillStreakStep
             {
-                StepName = names[i],
-                SpeedMult = 1f,          // Valeur par défaut
-                StepColor = Color.white  // Valeur par défaut
+                SpeedMult = 1f            
             };
         }
     }
 
-    public KillStreakStep GetKillStreakStep() =>m_Steps[m_CurrentStep];
-
-   
+    public KillStreakStep GetKillStreakStep() =>m_Steps[m_CurrentStep];   
 }
 
 [System.Serializable]
@@ -164,14 +158,13 @@ public class KillStreakStep
     public int KillStreakRequire;
 
     [Space(10)]
-    public string StepName;
+    public float TrailLifetime;
     public Color StepColor;
 
     public KillStreakStep()
     {
         KillStreakRequire = 0;
         SpeedMult = 1;
-        StepName = "";
-        StepColor = Color.white;
+        StepColor = new();
     }
 }
