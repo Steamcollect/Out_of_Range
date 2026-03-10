@@ -90,6 +90,81 @@ MonoBehaviour:
     Panel: {fileID: 4783849601969849100}
   m_OpenPanel: {fileID: 11400000, guid: 477b42d91050b374abf8e0fe5ea0bc1d, type: 2}
   m_CurrentPanelIndex: 0
+--- !u!1 &2624949467311831590
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4788242979409642805}
+  - component: {fileID: 1500014827848302335}
+  - component: {fileID: 220865111678424860}
+  m_Layer: 5
+  m_Name: FeedbackFill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &4788242979409642805
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2624949467311831590}
+  m_LocalRotation: {x: 0, y: 0, z: 0.59130967, w: 0.8064446}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6488753856517767986}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 72.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1500014827848302335
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2624949467311831590}
+  m_CullTransparentMesh: 1
+--- !u!114 &220865111678424860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2624949467311831590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.8}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: e4e46f9cc6009b94bb675738985ce92f, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 0
+  m_FillClockwise: 1
+  m_FillOrigin: 2
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4701166885740128007
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,6 +839,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Panel_Game
       objectReference: {fileID: 0}
+    - target: {fileID: 2636015442689185727, guid: 24530c3e1480440429e629557b9ecff8, type: 3}
+      propertyPath: m_FeedbackImg
+      value: 
+      objectReference: {fileID: 220865111678424860}
     - target: {fileID: 4042961524630968288, guid: 24530c3e1480440429e629557b9ecff8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -861,11 +940,19 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8242170496650931053, guid: 24530c3e1480440429e629557b9ecff8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7302749092287387804}
+    - targetCorrespondingSourceObject: {fileID: 4541365371961475753, guid: 24530c3e1480440429e629557b9ecff8, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 4788242979409642805}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24530c3e1480440429e629557b9ecff8, type: 3}
 --- !u!224 &1686763655676521206 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8242170496650931053, guid: 24530c3e1480440429e629557b9ecff8, type: 3}
+  m_PrefabInstance: {fileID: 7280777975995695515}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &6488753856517767986 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4541365371961475753, guid: 24530c3e1480440429e629557b9ecff8, type: 3}
   m_PrefabInstance: {fileID: 7280777975995695515}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &6706414997586925179 stripped

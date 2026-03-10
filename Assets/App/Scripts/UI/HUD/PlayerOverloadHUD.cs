@@ -29,6 +29,7 @@ public class PlayerOverloadHUD : MonoBehaviour
     [SerializeField] Image m_FillImg;
     [SerializeField] Image m_BlueImg;
     [SerializeField] Image m_YellowImg;
+    [SerializeField] Image m_FeedbackImg;
 
     [SerializeField] GameObject m_ReloadTextGO;
 
@@ -99,6 +100,7 @@ public class PlayerOverloadHUD : MonoBehaviour
             m_OverloadStyle.OnAmmoChange += SetFillValue;
             m_OverloadStyle.OnOverloadStart += EnableReloadSkills;
             m_OverloadStyle.OnOverloadEnd += DisableReloadSkills;
+            m_OverloadStyle.OnOverloadStateChange += OnOverloadChange;
 
             UpdateUI();
         }
@@ -227,6 +229,40 @@ public class PlayerOverloadHUD : MonoBehaviour
         m_CursorImg.rectTransform.rotation = Quaternion.Euler(0, 0, angle - tot * normalizedValue);
 
         if (m_OverloadStyle.GetState() != OverloadWeaponState.Overload) DisableReloadSkills();
+    }
+
+    void OnOverloadChange(OverloadWeaponState state)
+    {
+        m_FeedbackImg.DOKill();
+
+        m_FeedbackImg.rectTransform.eulerAngles = m_BackgroundImg.rectTransform.eulerAngles;
+        m_FeedbackImg.transform.localScale = Vector3.one;
+        m_FeedbackImg.fillAmount = m_BackgroundImg.fillAmount;
+
+        switch (state)
+        {
+            case OverloadWeaponState.CoolNerfed:
+                m_FeedbackImg.color = m_OverloadNerfColor;
+                break;
+            
+            case OverloadWeaponState.CoolBuffed:
+                m_FeedbackImg.color = m_OverloadBuffColor;
+                break;
+
+            case OverloadWeaponState.CanShoot:
+                m_FeedbackImg.color = m_OverloadResetColor;
+                break;
+
+            default:
+                return;
+        }
+
+        m_FeedbackImg.gameObject.SetActive(true);
+        m_FeedbackImg.DOFade(0, .6f);
+        m_FeedbackImg.transform.DOScale(1.15f, .6f).OnComplete(() =>
+        {
+            m_FeedbackImg.gameObject.SetActive(false);
+        });
     }
 
     protected virtual void EnableReloadSkills()
