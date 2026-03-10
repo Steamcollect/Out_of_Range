@@ -14,6 +14,7 @@ public class Checkpoint : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform m_SpawnPoint;
     [SerializeField] RSO_PlayerController m_Player;
+    [SerializeField] GameObject m_Visual;
 
     [Space(10)]
     [SerializeField] GameObject[] roomConnected;
@@ -43,6 +44,8 @@ public class Checkpoint : MonoBehaviour
         {
             m_IsActivated = true;
             m_SetActiveRooms.Call(roomConnected);
+
+            m_Visual.SetActive(false);
 
             if (PlayerSpawnPoint.S_Position != m_SpawnPoint.position)
             {
