@@ -20,6 +20,7 @@ public class InfiniteManaCollectible : MonoBehaviour, IHealth, ITargetable
     [SerializeField] MeshRenderer m_Renderer;
     [SerializeField] Animator m_Anim;
     [SerializeField] Collider m_Collid, m_HealthCollid;
+    [SerializeField] RSO_PlayerController m_Player;
 
     //[Header("Input")]
     //[Header("Output")]
@@ -30,8 +31,27 @@ public class InfiniteManaCollectible : MonoBehaviour, IHealth, ITargetable
         m_Anim.speed = Random.Range(.5f, 1.5f);
     }
 
+
+    private static readonly float k_DamageRadiusSqr = 9f;
+    void Update()
+    {
+        Vector3 a = GetTargetPosition();
+        Vector3 b = m_Player.Get().transform.position;
+
+        float dx = a.x - b.x;
+        float dz = a.z - b.z;   // on ignore Y
+
+        float distSqr = dx * dx + dz * dz;
+
+        if (distSqr < k_DamageRadiusSqr)
+            TakeDamage(0);
+    }
+
+
     public void TakeDamage(float damage)
     {
+        if (!m_Collid.enabled) return;
+
         transform.DOKill();
         transform.localScale = Vector3.one;
 
