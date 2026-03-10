@@ -649,9 +649,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de76488d8917a584192e0f882f76bfbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_Panel
-  m_FirstSelected: {fileID: 499654366617946355}
   m_CanvasGroup: {fileID: 4816649440409895225}
   m_Animator: {fileID: 7718798305891303176}
+  m_FirstSelected: {fileID: 499654366617946355}
   m_Buttons:
   - ButtonName: Play
     Button: {fileID: 499654366617946355}
@@ -713,7 +713,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: Credit
+            m_StringArgument: Credits
             m_BoolArgument: 0
           m_CallState: 2
   - ButtonName: Quit
@@ -733,6 +733,12 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  m_OnPanelFocused:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnPanelUnfocused:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &7718798305891303176
 Animator:
   serializedVersion: 7
@@ -794,11 +800,11 @@ RectTransform:
   - {fileID: 1850140762086055198}
   m_Father: {fileID: 1667261647144585183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -2}
-  m_SizeDelta: {x: -12, y: 0}
-  m_Pivot: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 4, y: 5.2999997}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2467012774026383271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,7 +947,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6858464884479758331, guid: 7f4215ba45deabb489188c3f7a0c48d2, type: 3}
       propertyPath: m_text
-      value: Credit
+      value: Credits
       objectReference: {fileID: 0}
     - target: {fileID: 6858464884479758331, guid: 7f4215ba45deabb489188c3f7a0c48d2, type: 3}
       propertyPath: m_fontSize
