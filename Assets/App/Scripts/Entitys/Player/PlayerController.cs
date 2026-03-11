@@ -78,7 +78,10 @@ public class PlayerController : EntityController
         {
             m_Rb.AddForce(Vector3.down * gravityScale);
 
-            if (m_Rb.position.y <= m_MinYPos) m_Rb.position = m_LastGroundPos;
+            if (m_Rb.position.y <= m_MinYPos)
+            {
+                Teleport(m_LastGroundPos);
+            }
         }
 
         HandleMovement();
@@ -158,24 +161,21 @@ public class PlayerController : EntityController
         m_Rb.position = position;
         m_CamController.Get().TeleportCamera();
         m_LastGroundPos = position;
-        m_MinYPos = position.y - m_MinYPosOffset;
+        m_MinYPos = m_Rb.position.y + m_MinYPosOffset;
     }
 
     private void UpdateLastGroundPosBuffer()
     {
         float now = Time.time;
+        m_MinYPos = m_Rb.position.y + m_MinYPosOffset;
 
         m_PositionHistory.Enqueue((now, transform.position));
 
-        // Supprimer les positions trop anciennes (> 1 seconde)
         while (m_PositionHistory.Count > 0 && now - m_PositionHistory.Peek().time > 1f)
             m_PositionHistory.Dequeue();
 
-        // La plus ancienne position restante = position d'il y a ~1 seconde
         if (m_PositionHistory.Count > 0)
             m_LastGroundPos = m_PositionHistory.Peek().pos;
-
-        m_MinYPos = m_Rb.position.y + m_MinYPosOffset;
     }
 
 
