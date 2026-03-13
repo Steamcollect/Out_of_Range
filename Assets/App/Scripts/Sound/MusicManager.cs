@@ -1,4 +1,3 @@
-using System;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
@@ -6,19 +5,24 @@ using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class MusicManager : MonoBehaviour
 {
-    private const float k_ExplorationPhase = 0f;
-    private const float k_BattlePhase = 1f;
+    private const float k_MenuPhase = 0f;
+    private const float k_FightPhase = 1f;
+    private const float k_ArenaPhase = 2f;
+    private const float k_BossAPhase = 3f;
+    private const float k_BossBPhase = 4f;
 
     [SerializeField] private EventReference m_Music;
 
+    // TODO: Replace these events with one for each phase
     [SerializeField] private RSE_OnFightStarted m_FightStarted;
     [SerializeField] private RSE_OnFightEnded m_FightEnded;
+    
+    
     private EventInstance m_MusicInstance;
 
     private void Start()
     {
         m_MusicInstance = RuntimeManager.CreateInstance(m_Music);
-        //SwitchToExploration();
         m_MusicInstance.start();
     }
 
@@ -50,13 +54,28 @@ public class MusicManager : MonoBehaviour
         m_MusicInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
 
-    private void SwitchToBattle()
+    private void SwitchToFight()
     {
-        m_MusicInstance.setParameterByName("Phase", k_BattlePhase);
+        m_MusicInstance.setParameterByName("Phase", k_FightPhase);
     }
 
-    private void SwitchToExploration()
+    private void SwitchToMenu()
     {
-        m_MusicInstance.setParameterByName("Phase", k_ExplorationPhase);
+        m_MusicInstance.setParameterByName("Phase", k_MenuPhase);
+    }
+    
+    private void SwitchToArena()
+    {
+        m_MusicInstance.setParameterByName("Phase", k_ArenaPhase);
+    }
+    
+    private void SwitchToBossA()
+    {
+        m_MusicInstance.setParameterByName("Phase", k_BossAPhase);
+    }
+    
+    private void SwitchToBossB()
+    {
+        m_MusicInstance.setParameterByName("Phase", k_BossBPhase);
     }
 }
