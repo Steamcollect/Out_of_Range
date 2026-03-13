@@ -360,8 +360,16 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1615038701979852332, guid: 64ed1d949243a244192698bcd602c427, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1271094593}
   m_SourcePrefab: {fileID: 100100000, guid: 64ed1d949243a244192698bcd602c427, type: 3}
+--- !u!1 &99569207 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1615038701979852332, guid: 64ed1d949243a244192698bcd602c427, type: 3}
+  m_PrefabInstance: {fileID: 99569206}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &159675181
 GameObject:
   m_ObjectHideFlags: 0
@@ -2574,6 +2582,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6356334956929495082, guid: 64ed1d949243a244192698bcd602c427, type: 3}
   m_PrefabInstance: {fileID: 99569206}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1271094593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99569207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 965b3dc888239024a9ec5fa4b86b3f15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventLauncher
+  m_OnStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: e4a6db082f472a14785392d61e47e3e0, type: 2}
+        m_TargetAssemblyTypeName: RSE_SetMusicToCalm, Assembly-CSharp
+        m_MethodName: Call
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!43 &1359873035
 Mesh:
   m_ObjectHideFlags: 0

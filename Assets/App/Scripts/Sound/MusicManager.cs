@@ -5,20 +5,39 @@ using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class MusicManager : MonoBehaviour
 {
-    private const float k_MenuPhase = 0f;
-    private const float k_FightPhase = 1f;
-    private const float k_ArenaPhase = 2f;
-    private const float k_BossAPhase = 3f;
-    private const float k_BossBPhase = 4f;
+    const float k_MenuPhase = 0f;
+    const float k_CalmPhase = 1f;
+    const float k_ArenaPhase = 2f;
+    const float k_BossAPhase = 3f;
+    const float k_BossBPhase = 4f;
 
-    [SerializeField] private EventReference m_Music;
+    [SerializeField] EventReference m_Music;
+    EventInstance m_MusicInstance;
 
-    // TODO: Replace these events with one for each phase
-    [SerializeField] private RSE_OnFightStarted m_FightStarted;
-    [SerializeField] private RSE_OnFightEnded m_FightEnded;
-    
-    
-    private EventInstance m_MusicInstance;
+    [Space]
+    [SerializeField] RSE_SetMusicToMenu m_SetMusicToMenu;
+    [SerializeField] RSE_SetMusicToCalm m_SetMusicToCalm;
+    [SerializeField] RSE_SetMusicToArena m_SetMusicToArena;
+    [SerializeField] RSE_SetMusicToBossP1 m_SetMusicToBossP1;
+    [SerializeField] RSE_SetMusicToBossP2 m_SetMusicToBossP2;
+
+    private void OnEnable()
+    {
+        m_SetMusicToMenu.Action += SwitchToMenu;
+        m_SetMusicToCalm.Action += SwitchToFight;
+        m_SetMusicToArena.Action += SwitchToArena;
+        m_SetMusicToBossP1.Action += SwitchToBossA;
+        m_SetMusicToBossP2.Action += SwitchToBossB;
+    }
+
+    private void OnDisable()
+    {
+        m_SetMusicToMenu.Action -= SwitchToMenu;
+        m_SetMusicToCalm.Action -= SwitchToFight;
+        m_SetMusicToArena.Action -= SwitchToArena;
+        m_SetMusicToBossP1.Action -= SwitchToBossA;
+        m_SetMusicToBossP2.Action -= SwitchToBossB;
+    }
 
     private void Start()
     {
@@ -32,18 +51,6 @@ public class MusicManager : MonoBehaviour
         m_MusicInstance.release();
     }
 
-    private void OnEnable()
-    {
-        //m_FightStarted.Action += SwitchToBattle;
-        //m_FightEnded.Action += SwitchToExploration;
-    }
-
-    private void OnDisable()
-    {
-        //m_FightStarted.Action -= SwitchToBattle;
-        //m_FightEnded.Action -= SwitchToExploration;
-    }
-
     public void Play()
     {
         m_MusicInstance.start();
@@ -54,14 +61,14 @@ public class MusicManager : MonoBehaviour
         m_MusicInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
 
-    private void SwitchToFight()
-    {
-        m_MusicInstance.setParameterByName("Phase", k_FightPhase);
-    }
-
     private void SwitchToMenu()
     {
         m_MusicInstance.setParameterByName("Phase", k_MenuPhase);
+    }
+
+    private void SwitchToFight()
+    {
+        m_MusicInstance.setParameterByName("Phase", k_CalmPhase);
     }
     
     private void SwitchToArena()
