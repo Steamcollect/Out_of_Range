@@ -6226,7 +6226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8245360325299887722, guid: a11b5ab1b401c654db199a4b5011808b, type: 3}
       propertyPath: m_OnCombatCompleted.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8245360325299887722, guid: a11b5ab1b401c654db199a4b5011808b, type: 3}
       propertyPath: m_OnCombatStart.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -6243,7 +6243,7 @@ PrefabInstance:
     - target: {fileID: 8245360325299887722, guid: a11b5ab1b401c654db199a4b5011808b, type: 3}
       propertyPath: m_OnCombatCompleted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 7430281801051893581}
+      objectReference: {fileID: 11400000, guid: e4a6db082f472a14785392d61e47e3e0, type: 2}
     - target: {fileID: 8245360325299887722, guid: a11b5ab1b401c654db199a4b5011808b, type: 3}
       propertyPath: m_OnCombatStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: CloseDoor
@@ -6254,7 +6254,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8245360325299887722, guid: a11b5ab1b401c654db199a4b5011808b, type: 3}
       propertyPath: m_OnCombatCompleted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: OpenDoor
+      value: Call
       objectReference: {fileID: 0}
     - target: {fileID: 8245360325299887722, guid: a11b5ab1b401c654db199a4b5011808b, type: 3}
       propertyPath: m_OnCombatStart.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -6262,7 +6262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8245360325299887722, guid: a11b5ab1b401c654db199a4b5011808b, type: 3}
       propertyPath: m_OnCombatCompleted.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Door, Assembly-CSharp
+      value: RSE_SetMusicToCalm, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8245360325299887722, guid: a11b5ab1b401c654db199a4b5011808b, type: 3}
       propertyPath: m_OnCombatStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -7653,7 +7653,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: _OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -7668,6 +7668,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
+      propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: _OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 0}
@@ -7675,6 +7679,10 @@ PrefabInstance:
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 5107714771028566766}
+    - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
+      propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c85af104d9540943a18cc333ae98f17, type: 2}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: _OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -7696,8 +7704,16 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
+      propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: StartCombat
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
+      propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Call
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: _OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -7710,6 +7726,10 @@ PrefabInstance:
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: WaveSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
+      propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: RSE_SetMusicToArena, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
@@ -7726,6 +7746,10 @@ PrefabInstance:
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: RadioAntennaController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
+      propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6689999428837330713, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_PlayerTag

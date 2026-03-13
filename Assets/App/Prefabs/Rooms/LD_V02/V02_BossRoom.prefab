@@ -1479,6 +1479,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 1649bb2ee4366434193e0a3e81157ea6, type: 2}
+        m_TargetAssemblyTypeName: RSE_SetBossCanMove, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   m_CurrentEntitiesAlive: []
   m_CurrentWaveIndex: 0
   m_MaxWaveCount: 5
@@ -1836,6 +1848,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: e4a6db082f472a14785392d61e47e3e0, type: 2}
+        m_TargetAssemblyTypeName: RSE_SetMusicToCalm, Assembly-CSharp
+        m_MethodName: Call
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   m_OnWaveEnd:
     m_PersistentCalls:
       m_Calls: []
@@ -2046,6 +2070,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 19829e8c4c081534c9e3eef455700f10, type: 2}
+        m_TargetAssemblyTypeName: RSE_SetMusicToBossP1, Assembly-CSharp
+        m_MethodName: Call
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7582,7 +7618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -7602,7 +7638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[5].m_Mode
@@ -7631,7 +7667,7 @@ PrefabInstance:
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[4].m_Target
       value: 
-      objectReference: {fileID: 139099055809444987}
+      objectReference: {fileID: 11400000, guid: 19829e8c4c081534c9e3eef455700f10, type: 2}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[5].m_Target
       value: 
@@ -7686,7 +7722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
-      value: SetActive
+      value: Call
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[5].m_MethodName
@@ -7714,7 +7750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: RSE_SetMusicToBossP1, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5532927521816519968, guid: 0ad6e063a76f7b148829e5a9c10c2e96, type: 3}
       propertyPath: m_OnPlayerInteract.m_PersistentCalls.m_Calls.Array.data[5].m_TargetAssemblyTypeName
@@ -7913,6 +7949,34 @@ PrefabInstance:
       propertyPath: 'roomConnected.Array.data[0]'
       value: 
       objectReference: {fileID: 9075154812264633588}
+    - target: {fileID: 289281949231502752, guid: af26124c55fa0034b963c13478c07364, type: 3}
+      propertyPath: m_OnContact.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 289281949231502752, guid: af26124c55fa0034b963c13478c07364, type: 3}
+      propertyPath: m_OnContact.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 289281949231502752, guid: af26124c55fa0034b963c13478c07364, type: 3}
+      propertyPath: m_OnContact.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 11400000, guid: e4a6db082f472a14785392d61e47e3e0, type: 2}
+    - target: {fileID: 289281949231502752, guid: af26124c55fa0034b963c13478c07364, type: 3}
+      propertyPath: m_OnContact.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 289281949231502752, guid: af26124c55fa0034b963c13478c07364, type: 3}
+      propertyPath: m_OnContact.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Call
+      objectReference: {fileID: 0}
+    - target: {fileID: 289281949231502752, guid: af26124c55fa0034b963c13478c07364, type: 3}
+      propertyPath: m_OnContact.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RSE_SetMusicToCalm, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 289281949231502752, guid: af26124c55fa0034b963c13478c07364, type: 3}
+      propertyPath: m_OnContact.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 711569852501985700, guid: af26124c55fa0034b963c13478c07364, type: 3}
       propertyPath: m_Layer
       value: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Checkpoint : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class Checkpoint : MonoBehaviour
     [Space(10)]
     [SerializeField] GameObject[] roomConnected;
     [SerializeField] RSE_SetActiveRooms m_SetActiveRooms;
+
+    [Space]
+    [SerializeField] UnityEvent m_OnContact;
 
     //[Header("Input")]
     
@@ -55,6 +59,8 @@ public class Checkpoint : MonoBehaviour
             
             if (other.TryGetComponent(out EntityController controller))
                controller.GetHealth().Heal(controller.GetHealth().GetMaxHealth());
+
+            m_OnContact?.Invoke();
         }
     }
 
