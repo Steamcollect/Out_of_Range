@@ -8,6 +8,11 @@ public class RangeOverloadCombatStyle : OverloadCombatStyle
     [SerializeField] float m_AtkSpdPowerUpAttackCooldown;
     [SerializeField] float m_ClonePowerUpBulletSpacing;
 
+    [Space]
+    [SerializeField, Range(0, 1)] float m_ShootMaxAigueSfx = .3f;
+    float m_ShootCurrentAigueSfx = 1f;
+
+    [Space]
     [SerializeField] bool m_CanShoot = true;
 
     bool strength = false;
@@ -97,10 +102,12 @@ public class RangeOverloadCombatStyle : OverloadCombatStyle
                 && atkSpeed ?
                 m_AtkSpdPowerUpAttackCooldown : m_AttackCooldown));
             
-            m_OnAttackFeedback?.Invoke();
-
             OnShootHeat(m_ShootTemperature * (atkSpeed ? .6f : 1));
-            //SetRendererColor();
+            
+            m_ShootCurrentAigueSfx = Mathf.Lerp(m_ShootMaxAigueSfx, 1, m_CurentTemperature * .01f);
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("WeaponLoad", m_CurentTemperature);
+
+            m_OnAttackFeedback?.Invoke();
 
             yield break;
         }
