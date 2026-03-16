@@ -1,8 +1,8 @@
-using DG.Tweening;
-using MVsToolkit.Dev;
-using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 using UnityEngine.VFX;
+using System.Collections;
+using Sirenix.OdinInspector;
 
 public class ElectricArea : MonoBehaviour
 {
@@ -62,6 +62,7 @@ public class ElectricArea : MonoBehaviour
         if (m_CurrentLoop != null) StopCoroutine(m_CurrentLoop);
     }
 
+    [Button("HandleLoop")]
     public void HandleLoop()
     {
         SetState(ElectricAreaState.Warning);
