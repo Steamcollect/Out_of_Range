@@ -20,8 +20,8 @@ public class PlayerAnimationVisual : MonoBehaviour
     [FoldoutGroup("Look At Rotation"), SerializeField] float m_ArmsRotationTime;
     [FoldoutGroup("Look At Rotation"), SerializeField] float m_HeadRotationTime;
 
-    Vector3 m_ArmsRotationVelocity;
-    Vector3 m_HeadRotationVelocity;
+    Quaternion m_ArmsRotationVelocity;
+    Quaternion m_HeadRotationVelocity;
 
     [Space(10)]
     [FoldoutGroup("Dash Anim"), SerializeField] GameObject[] m_PlayerMeshs;

@@ -20,7 +20,7 @@ public class EntityCombat : MonoBehaviour, ILookAtTarget
 
     private float m_CurrentTurnSmoothTime;
 
-    private Vector3 m_TurnSmoothHozirontalVelocity;
+    Quaternion m_TurnSmoothHozirontalVelocity;
 
     public virtual void LookAt(Vector3 targetPos, LookAtAxis lookAtAxis = LookAtAxis.Both)
     {

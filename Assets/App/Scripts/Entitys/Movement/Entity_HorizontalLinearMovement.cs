@@ -30,6 +30,7 @@ public class Entity_HorizontalLinearMovement : MonoBehaviour, IMovement
 
     public void SetCanMove(bool canMove)
     {
+        print(gameObject.name + " Can move = " + canMove);
         m_CanMove = canMove;
     }
 }

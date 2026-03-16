@@ -13,7 +13,7 @@ public class PlayerTargetLookVisual : MonoBehaviour
     [Space]
     [SerializeField] private RSO_CurrentInputDeviceType m_CurrentInputDeviceType;
     [SerializeField] InputActionReference m_LookAtInput;
-    Vector3 m_RenderRotationVelocity;
+    Quaternion m_RenderRotationVelocity;
 
     private void Update()
     {

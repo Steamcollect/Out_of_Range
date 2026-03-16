@@ -18,26 +18,49 @@ namespace MVsToolkit.Utilities
             );
         }
 
-        public static void LookAtSmoothDamp(this Transform transform, Vector3 targetPosition, ref Vector3 refVelocity, float smoothTime)
+        public static void LookAtSmoothDamp(this Transform transform, Vector3 targetPosition, ref Quaternion velocity, float smoothTime)
         {
-            // Direction vers la cible
             Vector3 direction = (targetPosition - transform.position).normalized;
-
             if (direction.sqrMagnitude < 0.0001f)
                 return;
 
-            // Rotation désirée
             Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-            // Convertir en euler pour appliquer SmoothDampAngle
-            Vector3 targetEuler = targetRotation.eulerAngles;
-            Vector3 currentEuler = transform.rotation.eulerAngles;
-
-            currentEuler.x = Mathf.SmoothDampAngle(currentEuler.x, targetEuler.x, ref refVelocity.x, smoothTime);
-            currentEuler.y = Mathf.SmoothDampAngle(currentEuler.y, targetEuler.y, ref refVelocity.y, smoothTime);
-            currentEuler.z = Mathf.SmoothDampAngle(currentEuler.z, targetEuler.z, ref refVelocity.z, smoothTime);
-
-            transform.rotation = Quaternion.Euler(currentEuler);
+            // SmoothDamp for quaternions (critically damped)
+            transform.rotation = SmoothDampQuaternion(transform.rotation, targetRotation, ref velocity, smoothTime);
         }
+
+        public static Quaternion SmoothDampQuaternion(Quaternion current, Quaternion target, ref Quaternion deriv, float smoothTime)
+        {
+            // Ensure shortest path
+            if (Quaternion.Dot(current, target) < 0f)
+            {
+                target.x = -target.x;
+                target.y = -target.y;
+                target.z = -target.z;
+                target.w = -target.w;
+            }
+
+            // Smooth damp each component
+            Vector4 result = new Vector4(
+                Mathf.SmoothDamp(current.x, target.x, ref deriv.x, smoothTime),
+                Mathf.SmoothDamp(current.y, target.y, ref deriv.y, smoothTime),
+                Mathf.SmoothDamp(current.z, target.z, ref deriv.z, smoothTime),
+                Mathf.SmoothDamp(current.w, target.w, ref deriv.w, smoothTime)
+            );
+
+            // Normalize to avoid Unity assertion
+            return NormalizeQuaternion(result);
+        }
+
+        private static Quaternion NormalizeQuaternion(Vector4 q)
+        {
+            float mag = Mathf.Sqrt(q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
+            if (mag < 1e-6f)
+                return Quaternion.identity;
+
+            return new Quaternion(q.x / mag, q.y / mag, q.z / mag, q.w / mag);
+        }
+
     }
 }
