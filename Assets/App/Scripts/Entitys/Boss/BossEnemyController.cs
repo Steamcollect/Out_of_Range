@@ -29,6 +29,9 @@ public class BossEnemyController : EntityController, ISpawnable, ITargetable
 
     [Space(10)]
     [SerializeField] private RSO_PlayerController m_Player;
+    [SerializeField] RSE_BossPowerUpBig rseBossPowerUpBig;
+    [SerializeField] RSE_BossPowerUpSpeed rseBossPowerUpSpeed;
+    [SerializeField] RSE_BossPowerUpDouble rseBossPowerUpDouble;
 
     private float m_LoseSightTimer;
     public event System.Action<EnemyStates> OnStateChanged;
