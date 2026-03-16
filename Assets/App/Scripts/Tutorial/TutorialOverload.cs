@@ -1,12 +1,22 @@
 using Sirenix.OdinInspector;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class TutorialOverload : MonoBehaviour
 {
     [SerializeField] WaveSystem m_WaveConnected;
-    [SerializeField] TMP_Text m_WaveCountTxt;
+    [SerializeField] RSO_PlayerController m_Player;
+    [SerializeField] GameObject m_primmaryTxt;
+    [SerializeField] GameObject m_SecondTxtGO;
+
+    private void OnEnable()
+    {
+        (m_Player.Value.GetPlayerCombat().GetPrimaryCombatStyle() as OverloadCombatStyle).OnOverloadStart += OnPlayerOverload;
+    }
+    private void OnDisable()
+    {
+        (m_Player.Value.GetPlayerCombat().GetPrimaryCombatStyle() as OverloadCombatStyle).OnOverloadStart -= OnPlayerOverload;
+    }
 
     private void Start()
     {
@@ -16,8 +26,6 @@ public class TutorialOverload : MonoBehaviour
             e.AddListener(() => { UpdateWave(); });
             m_WaveConnected.m_OnWaveStartEvents.Add(e);
         }
-
-        m_WaveConnected.AddOnCombatCompleteListener(() => { OnWaveComplete(); });
     }
 
     [Button]
@@ -29,12 +37,11 @@ public class TutorialOverload : MonoBehaviour
     public void UpdateWave()
     {
         int i = m_WaveConnected.m_CurrentWaveIndex;
-
-        m_WaveCountTxt.text = $"{i}/{m_WaveConnected.m_MaxWaveCount}";
     }
 
-    public void OnWaveComplete()
+    public void OnPlayerOverload()
     {
-        m_WaveCountTxt.text = $"{m_WaveConnected.m_MaxWaveCount}/{m_WaveConnected.m_MaxWaveCount}";
+        m_primmaryTxt.SetActive(false);
+        m_SecondTxtGO.SetActive(true);
     }
 }
