@@ -1761,8 +1761,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 259922914}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19813928, y: -0.5152109, z: 0.12379692, w: 0.8246047}
-  m_LocalPosition: {x: -4.77, y: 2.05, z: 3.77}
+  m_LocalRotation: {x: 0.13761063, y: 0.8539829, z: -0.2841631, w: 0.41355515}
+  m_LocalPosition: {x: -4.77, y: 6.05, z: 3.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12898,6 +12898,7 @@ GameObject:
   - component: {fileID: 1994164311}
   - component: {fileID: 1994164312}
   - component: {fileID: 1994164313}
+  - component: {fileID: 1994164314}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -12913,8 +12914,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1994164310}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19813928, y: -0.51521087, z: 0.1237969, w: 0.82460475}
-  m_LocalPosition: {x: -4.77, y: 2.05, z: 3.77}
+  m_LocalRotation: {x: 0.13761063, y: 0.8539829, z: -0.2841631, w: 0.41355515}
+  m_LocalPosition: {x: -4.77, y: 6.05, z: 3.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12940,7 +12941,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 0}
+    TrackingTarget: {fileID: 202900015}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
@@ -12979,24 +12980,39 @@ MonoBehaviour:
     Spline: {fileID: 134944497}
     Position: 0
     Units: 1
-  SplineOffset: {x: 0, y: 0, z: 0}
+  SplineOffset: {x: 0, y: 4, z: 0}
   CameraRotation: 0
   Damping:
     Enabled: 0
     Position: {x: 0, y: 0, z: 0}
     Angular: 0
   AutomaticDolly:
-    Enabled: 0
+    Enabled: 1
     Method:
-      rid: -2
+      rid: 8811659965121429508
   m_LegacyPosition: -1
   m_LegacyUnits: 0
   m_LegacySpline: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 8811659965121429508
+      type: {class: SplineAutoDolly/FixedSpeed, ns: Unity.Cinemachine, asm: Unity.Cinemachine}
+      data:
+        Speed: 0.1
+--- !u!114 &1994164314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994164310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e8b78ac948f05a46a6d8339a503172b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineHardLookAt
+  LookAtOffset: {x: 0, y: 1.5, z: 0}
 --- !u!1 &2018976034
 GameObject:
   m_ObjectHideFlags: 0
@@ -18581,7 +18597,11 @@ PrefabInstance:
       value: 0.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7125961430638486276, guid: 1cfb3f722f28404469e9d13b4effaaea, type: 3}
+    - {fileID: 4429735096817876277, guid: 1cfb3f722f28404469e9d13b4effaaea, type: 3}
+    - {fileID: 3480887031629661001, guid: 1cfb3f722f28404469e9d13b4effaaea, type: 3}
+    - {fileID: 9118129012384200133, guid: 1cfb3f722f28404469e9d13b4effaaea, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cfb3f722f28404469e9d13b4effaaea, type: 3}
