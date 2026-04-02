@@ -11,6 +11,12 @@ public class AudioManager : RegularSingleton<AudioManager>
     [SerializeField] private SSO_UniversalSettings m_MasterVolumeSetting;
     [SerializeField] private SSO_UniversalSettings m_MusicVolumeSetting;
 
+    [Title("FADING PARAMETERS")]
+    private float m_MusicVolumeFadeStartValue;
+    private float m_MusicVolumeFadeDuration;
+    private float m_MusicVolumeFadeElapsedTime;
+    private bool m_IsMusicVolumeFading;
+
     protected override void Awake()
     {
         base.Awake();
@@ -22,6 +28,26 @@ public class AudioManager : RegularSingleton<AudioManager>
 
         m_MasterVolumeSetting.LoadSavedValue();
         m_MusicVolumeSetting.LoadSavedValue();
+    }
+
+    private void Update()
+    {
+        if (m_IsMusicVolumeFading)
+        {
+            m_MusicVolumeFadeElapsedTime += Time.deltaTime;
+
+            if (m_MusicVolumeFadeElapsedTime >= m_MusicVolumeFadeDuration)
+            {
+                m_MusicBus.Bus.setVolume(0f);
+                m_IsMusicVolumeFading = false;
+            }
+            else
+            {
+                float progress = m_MusicVolumeFadeElapsedTime / m_MusicVolumeFadeDuration;
+                float currentVolume = Mathf.Lerp(m_MusicVolumeFadeStartValue, 0f, progress);
+                m_MusicBus.Bus.setVolume(currentVolume);
+            }
+        }
     }
 
     private void InitializeAudio()
@@ -39,5 +65,14 @@ public class AudioManager : RegularSingleton<AudioManager>
     public void VolumeSetMusic(float volume)
     {
         m_MusicBus.Bus.setVolume(volume);
+    }
+
+    public void FadeMusicVolume(float fadeDurationInSeconds)
+    {
+        m_MusicBus.Bus.getVolume(out float currentVolume);
+        m_MusicVolumeFadeStartValue = currentVolume;
+        m_MusicVolumeFadeDuration = fadeDurationInSeconds;
+        m_MusicVolumeFadeElapsedTime = 0f;
+        m_IsMusicVolumeFading = true;
     }
 }
