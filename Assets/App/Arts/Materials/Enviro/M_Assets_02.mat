@@ -26,6 +26,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AO_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Albedo_Map:
         m_Texture: {fileID: 2800000, guid: 81226a9a0b84c084bb5abab5b0553fe9, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -62,7 +66,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: 81226a9a0b84c084bb5abab5b0553fe9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Metalic_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -71,6 +83,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Smoothness_Map:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -92,6 +108,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AO: 0
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 1
     - _AlphaToMask: 1
@@ -110,11 +127,16 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EdgeWidth: 0.05
+    - _Enable_AO: 0
     - _Enable_Emission: 1
+    - _Enable_Metalic: 0
+    - _Enable_Normal: 0
+    - _Enable_Smoothness: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Metalic: 0
     - _Metallic: 0
     - _NoiseScale: 60
     - _NoiseStrength: 0.3
@@ -137,7 +159,7 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BaseColor: {r: 0.65, g: 0.65, b: 0.65, a: 1}
+    - _BaseColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
     - _Color: {r: 0.65, g: 0.65, b: 0.65, a: 1}
     - _DissolveColor: {r: 8, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 2.9734955, b: 32, a: 1}
