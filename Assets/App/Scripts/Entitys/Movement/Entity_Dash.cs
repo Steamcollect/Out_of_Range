@@ -3,6 +3,7 @@ using System.Collections;
 using MVsToolkit.Dev;
 using MVsToolkit.Utilities;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Entity_Dash : MonoBehaviour
 {
@@ -42,6 +43,7 @@ public class Entity_Dash : MonoBehaviour
     [SerializeField] private Rigidbody m_Rb;
     [SerializeField] PlayerAnimationVisual m_PlayerAnimationVisual;
     [SerializeField] private EntityHealth m_EntityHealth;
+    public UnityEvent onDashEvent;
 
     private float m_BeginDrag;
     private bool m_CanDashCooldown = true;
@@ -71,7 +73,8 @@ public class Entity_Dash : MonoBehaviour
         m_Rb.AddForce(input * (m_UseMaxDash ? m_MaxDashForce : m_DashForce), m_DashForceMode);
         
         OnDash?.Invoke(m_DashTime, m_DashCooldown);
-        
+        onDashEvent?.Invoke();
+
         StartCoroutine(m_PlayerAnimationVisual.OnDash(m_DashTime));
         StartCoroutine(DashTime(disableBorderWall));
         StartCoroutine(DashCooldown());
