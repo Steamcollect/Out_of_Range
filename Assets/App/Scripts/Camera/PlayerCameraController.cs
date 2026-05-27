@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using MVsToolkit.Utilities;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -41,6 +42,12 @@ public sealed class PlayerCameraController : MonoBehaviour
     
     public void TeleportCamera()
     {
+        //Wait next frame, avoid called during fixed update.
+        this.Delay(TeleportCameraInternal, 0.0f);
+    }
+
+    private void TeleportCameraInternal()
+    {
         CinemachineBrain activeBrain = CinemachineBrain.GetActiveBrain(0);
         
         CinemachineBrain.UpdateMethods baseUpdateMode = activeBrain.UpdateMethod;
@@ -55,6 +62,5 @@ public sealed class PlayerCameraController : MonoBehaviour
         
         activeBrain.ManualUpdate();
         activeBrain.UpdateMethod = baseUpdateMode;
-        
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,8 +10,9 @@ public class TutorialOverload : MonoBehaviour
     [SerializeField] GameObject m_primmaryTxt;
     [SerializeField] GameObject m_SecondTxtGO;
 
-    private void OnEnable()
+    private async void OnEnable()
     {
+        await Task.Yield();
         (m_Player.Value.GetPlayerCombat().GetPrimaryCombatStyle() as OverloadCombatStyle).OnOverloadStart += OnPlayerOverload;
     }
     private void OnDisable()
