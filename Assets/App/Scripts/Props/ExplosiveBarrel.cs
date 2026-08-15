@@ -66,9 +66,10 @@ public class ExplosiveBarrel : MonoBehaviour, ITargetable
 
     public void Explode()
     {
-        if (m_IsInvincible) return;
+        if (m_IsInvincible)
+            return;
 
-        if(m_IsExploding) return;
+        if (m_IsExploding) return;
 
         m_IsExploding = true;
 

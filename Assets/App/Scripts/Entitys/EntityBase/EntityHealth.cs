@@ -11,6 +11,7 @@ public class EntityHealth : MonoBehaviour, IHealth
     [SerializeField] protected float m_MaxHealth;
     [SerializeField] protected float m_CurrentHealth;
 
+    public bool byPassIsDying = false;
     [SerializeField] bool m_ClampDamage;
     [SerializeField, ShowIf("m_ClampDamage", true)] int m_MaxDamage;
 
@@ -84,7 +85,7 @@ public class EntityHealth : MonoBehaviour, IHealth
 
     public void Die()
     {
-        if (IsDying) return;
+        if (!byPassIsDying && IsDying) return;
 
         IsDying = true;
 
