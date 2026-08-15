@@ -19110,6 +19110,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 655540968}
   m_Mesh: {fileID: 6703926611942963979, guid: cdb81bfa1be7cf64ebfa2c8fc9928218, type: 3}
+--- !u!114 &657555986 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6586750825909095544, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
+  m_PrefabInstance: {fileID: 924726931}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &661175802
 GameObject:
   m_ObjectHideFlags: 0
@@ -27230,23 +27241,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8850239658782117762, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
       propertyPath: m_Buttons.Array.data[0].OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8850239658782117762, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
       propertyPath: m_Buttons.Array.data[0].OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8850239658782117762, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
+      propertyPath: m_Buttons.Array.data[0].OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8850239658782117762, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
       propertyPath: m_Buttons.Array.data[0].OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 239671863}
+    - target: {fileID: 8850239658782117762, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
+      propertyPath: m_Buttons.Array.data[0].OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 657555986}
+    - target: {fileID: 8850239658782117762, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
+      propertyPath: m_Buttons.Array.data[0].OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8850239658782117762, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
       propertyPath: m_Buttons.Array.data[0].OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: PlayFeedbacks
       objectReference: {fileID: 0}
     - target: {fileID: 8850239658782117762, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
+      propertyPath: m_Buttons.Array.data[0].OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: set_interactable
+      objectReference: {fileID: 0}
+    - target: {fileID: 8850239658782117762, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
       propertyPath: m_Buttons.Array.data[0].OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: MoreMountains.Feedbacks.MMF_Player, MoreMountains.Tools
+      objectReference: {fileID: 0}
+    - target: {fileID: 8850239658782117762, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
+      propertyPath: m_Buttons.Array.data[0].OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: UnityEngine.UI.Button, UnityEngine.UI
       objectReference: {fileID: 0}
     - target: {fileID: 8850239658782117762, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
       propertyPath: m_Buttons.Array.data[0].OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
@@ -27254,6 +27285,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8850239658782117762, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
       propertyPath: m_Buttons.Array.data[0].OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8850239658782117762, guid: 0407e952543f1dd49a84ed1d6f2ad519, type: 3}
+      propertyPath: m_Buttons.Array.data[0].OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []

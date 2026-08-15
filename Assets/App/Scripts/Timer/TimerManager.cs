@@ -13,6 +13,7 @@ public class TimerManager : MonoBehaviour
     {
         m_Timer.Set(0);
         Time.timeScale = 1;
+        SteamManager.canCountGameTime = true;
     }
 
     private void Update()
