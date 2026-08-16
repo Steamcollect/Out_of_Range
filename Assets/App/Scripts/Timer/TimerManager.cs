@@ -13,6 +13,8 @@ public class TimerManager : MonoBehaviour
     {
         m_Timer.Set(0);
         Time.timeScale = 1;
+
+        SteamManager.ResetGameTime();
         SteamManager.canCountGameTime = true;
     }
 

@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class SteamManager : MonoBehaviour
@@ -14,6 +15,8 @@ public class SteamManager : MonoBehaviour
     [SerializeField] RSO_PlayerController m_PlayerController;
 
     //[Header("Output")]
+
+    public static SteamManager instance;
 
     private void OnEnable()
     {
@@ -50,6 +53,8 @@ public class SteamManager : MonoBehaviour
         Steamworks.SteamClient.Shutdown();
     }
 
+    public static void ResetGameTime() => instance.m_GameTime = 0;
+
     public void UnlockAchievment(string id)
     {
         print(m_GameTime);
@@ -58,11 +63,17 @@ public class SteamManager : MonoBehaviour
 
         if(id == "TheEnd")
         {
-            if(m_GameTime <= m_MaxTimeForRobotKiller && !haveTakeDamage)
-            {
-                ach = new Steamworks.Data.Achievement("RobotKiller");
-                ach.Trigger();
-            }
+            TryUnlockRobotKiller();
+        }
+    }
+
+    [Button]
+    void TryUnlockRobotKiller()
+    {
+        if (m_GameTime <= m_MaxTimeForRobotKiller && !haveTakeDamage)
+        {
+            var ach = new Steamworks.Data.Achievement("RobotKiller");
+            ach.Trigger();
         }
     }
 }
